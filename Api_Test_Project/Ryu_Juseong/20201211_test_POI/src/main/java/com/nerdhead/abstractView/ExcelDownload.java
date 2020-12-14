@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.view.AbstractView;
 
 import com.nerdhead.dto.ExcelDto;
+import com.nerdhead.util.ApachePOIHelper;
 
 public class ExcelDownload extends AbstractView {
 	public ExcelDownload() {
@@ -22,7 +23,13 @@ public class ExcelDownload extends AbstractView {
 	protected void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 			ExcelDto dto = (ExcelDto)model.get("excelDto");
-			//나중에 @Autowired 처리 할것
+			ApachePOIHelper helper=new ApachePOIHelper(dto);
+			
+			setContentType(helper.getContentType());
+			response.setContentType(getContentType());
+			
+			
+			helper.downloadExel(request, response);
 			
 			
 	}
