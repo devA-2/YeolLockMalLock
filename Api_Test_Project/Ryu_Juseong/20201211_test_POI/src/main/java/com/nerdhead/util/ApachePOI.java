@@ -57,7 +57,6 @@ public class ApachePOI {
 		for (String key : keys) {
 			cell=getCell(getRow(sheet, row_num), cell_num);
 			cell.setCellValue(key);
-			sheet.autoSizeColumn(cell_num);
 			cell_num++;
 		}
 		
@@ -72,6 +71,7 @@ public class ApachePOI {
 				cell_num++;
 				//TODO : 작성중
 			}
+			row_num++;
 		}
 	}
 	
