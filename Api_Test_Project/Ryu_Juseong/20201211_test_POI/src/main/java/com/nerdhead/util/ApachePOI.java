@@ -25,7 +25,7 @@ public class ApachePOI {
 							String sheet_name, 
 							String file_name, 
 							String[] keys,
-							List<HashMap<String, Object>> data_list
+							List<HashMap<String, String>> data_list
 							) {
 		
 		//Excel 객체 생성
@@ -49,16 +49,29 @@ public class ApachePOI {
 		}
 	}
 	
-	private void setDataList(Sheet sheet, String[] keys, List<HashMap<String, Object>> data_list) {
+	private void setDataList(Sheet sheet, String[] keys, List<HashMap<String, String>> data_list) {
 		int row_num=0;
 		int cell_num=0;
-		Row row;
 		Cell cell;
-		
+		//첫줄은 key값 나열
 		for (String key : keys) {
-			row=getRow(sheet, row_num);
-			
-			//TODO : 작성중
+			cell=getCell(getRow(sheet, row_num), cell_num);
+			cell.setCellValue(key);
+			sheet.autoSizeColumn(cell_num);
+			cell_num++;
+		}
+		
+		row_num++;
+		
+		//두번째 줄 부터 값 나열
+		for (int i = 0; i < data_list.size(); i++) {
+			cell_num=0;
+			for (String key : keys) {
+				cell=getCell(getRow(sheet, row_num), cell_num);
+				cell.setCellValue(data_list.get(i).get(key));
+				cell_num++;
+				//TODO : 작성중
+			}
 		}
 	}
 	
