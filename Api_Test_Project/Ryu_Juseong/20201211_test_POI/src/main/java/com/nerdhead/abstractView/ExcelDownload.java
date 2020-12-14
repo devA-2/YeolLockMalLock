@@ -31,7 +31,8 @@ public class ExcelDownload extends AbstractView {
 			
 			helper.downloadExel(request, response);
 			
-			
+			// Don't close the stream - we didn't open it, so let the container handle it.
+	        // http://stackoverflow.com/questions/1829784/should-i-close-the-servlet-outputstream
 	}
 
 }

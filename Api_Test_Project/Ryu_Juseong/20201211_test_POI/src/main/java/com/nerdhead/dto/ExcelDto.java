@@ -11,7 +11,7 @@ public class ExcelDto {
 	private String file_name;
 	private String sheet_name = "Sheet1";
 	private String[] keys;
-	private List<HashMap<String, Object>> data_list;
+	private List<HashMap<String, String>> data_list;
 	
 	public void setVersion_XLS() {
 		version="xls";

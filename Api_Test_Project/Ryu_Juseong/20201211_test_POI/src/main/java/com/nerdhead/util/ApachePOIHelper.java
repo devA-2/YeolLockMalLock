@@ -4,6 +4,7 @@ package com.nerdhead.util;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -70,7 +71,10 @@ public class ApachePOIHelper {
             response.setHeader("Content-Disposition","attachment;filename=\""+sFilename + "."+dto.getVersion()+";\"");
         }
 		
-		
+		ServletOutputStream out = response.getOutputStream();
+		out.flush();
+		workbook.write(out);
+		out.flush();
 		
 	}
 
