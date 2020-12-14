@@ -1,8 +1,6 @@
 package com.nerdhead.util;
 
-import java.io.FileOutputStream;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.poi.hssf.usermodel.*;
@@ -81,19 +79,4 @@ public class ApachePOI {
 			}
 			return cell;
 		}
-	
-	
-	
-	
-	
-	//파일 저장
-	//TODO : 추후 예외 처리 할 것
-	private void writeExcel(Workbook workbook, String filepath) {
-		try (FileOutputStream stream = new FileOutputStream(filepath)) {
-			workbook.write(stream);
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-	}
-
 }
