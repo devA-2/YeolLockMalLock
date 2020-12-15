@@ -1,5 +1,12 @@
 package com.nerdhead.util;
 
+
+import java.net.URLEncoder;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.poi.ss.usermodel.Workbook;
 
 import com.nerdhead.dto.ExcelDto;
@@ -14,16 +21,17 @@ public class ApachePOIHelper {
 
 	private ExcelDto dto;
 
-	public ApachePOIHelper() {
+	public ApachePOIHelper(ExcelDto dto) {
 		// 버전 설정 -> 디폴트 = xls
 		// 파일 이름 설정
 		// 저장 경로 설정
 		// 시트 이름 설정 -> 디폴트 = Sheet1
 		// 데이터 -> String[] keys, List<Hashmap<String, Object>>
 		// Object에는 String, Integer, Calendar 등이 가능함
+		setExcelDto(dto);
 	}
 
-	public void setExcelDto(ExcelDto dto) {
+	private void setExcelDto(ExcelDto dto) {
 		if (checkDto(dto)) {
 			this.dto = dto;
 		} else {
@@ -39,11 +47,39 @@ public class ApachePOIHelper {
 				&& dto.getData_list() != null;
 	}
 
-	public Workbook getExcel() {
-		return new ApachePOI().getExcel(dto);
+	public void downloadExel(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Workbook workbook = new ApachePOI().getExcel(dto);
+		
+		String sFilename = "";
+        if(dto.getFile_name() != null){
+            sFilename = dto.getFile_name();
+        }else{
+            sFilename = "download";
+         }
+		
+		
+		String header = request.getHeader("User-Agent");
+        sFilename = sFilename.replaceAll("\r","").replaceAll("\n","");
+        if(header.contains("MSIE") || header.contains("Trident") || header.contains("Chrome")){
+            sFilename = URLEncoder.encode(sFilename,"UTF-8").replaceAll("\\+","%20");
+            response.setHeader("Content-Disposition","attachment;filename="+sFilename+"."+dto.getVersion()+";");
+        }else{
+            sFilename = new String(sFilename.getBytes("UTF-8"),"ISO-8859-1");
+            response.setHeader("Content-Disposition","attachment;filename=\""+sFilename + "."+dto.getVersion()+";\"");
+        }
+		
+		ServletOutputStream out = response.getOutputStream();
+		out.flush();
+		workbook.write(out);
+		out.flush();
+		
 	}
 
-	public String getFileName() {
-		return dto.getFile_name() + "." + dto.getVersion();
+	public String getContentType() {
+		if ("xls".equals(dto.getVersion())) {
+			return "application/vnd.ms-excel";
+		} else {
+			return "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+		}
 	}
 }
