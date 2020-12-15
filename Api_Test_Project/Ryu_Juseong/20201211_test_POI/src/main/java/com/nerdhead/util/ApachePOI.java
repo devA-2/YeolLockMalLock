@@ -69,7 +69,6 @@ public class ApachePOI {
 				cell=getCell(getRow(sheet, row_num), cell_num);
 				cell.setCellValue(data_list.get(i).get(key));
 				cell_num++;
-				//TODO : 작성중
 			}
 			row_num++;
 		}
