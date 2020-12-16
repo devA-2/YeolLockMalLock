@@ -20,11 +20,12 @@ public class NaverLoginBO {
 	
 	private final static String CLIENT_SECRET = "0HVdlpYjFR";
 
-	private final static String REDIRECT_URI = "http://localhost:8085/naverLoginAPI/callback.do";
+	private final static String REDIRECT_URI = "http://localhost:8085/socialLoginAPI/naverCallback.do";
 
 	private final static String SESSION_STATE = "oauth_state";
 	/* 프로필 조회 API URL */
 	private final static String PROFILE_API_URL = "https://openapi.naver.com/v1/nid/me";
+	
 	public String getAuthorizationUrl(HttpSession session) {
 		
 		String state = generateRandomString();

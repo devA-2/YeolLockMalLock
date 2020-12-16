@@ -2,10 +2,10 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.min.edu</groupId>
-  <artifactId>naverLoginAPI</artifactId>
+  <artifactId>socialLoginAPI</artifactId>
   <packaging>war</packaging>
   <version>0.0.1-SNAPSHOT</version>
-  <name>naverLoginAPI Maven Webapp</name>
+  <name>socialLoginAPI Maven Webapp</name>
   <url>http://maven.apache.org</url>
 
 	<repositories>
@@ -78,7 +78,8 @@
 			<artifactId>commons-dbcp</artifactId>
 			<version>1.4</version>
 		</dependency>
-
+	
+		<!-- Naver -->
 		<dependency>
 			<groupId>com.github.scribejava</groupId>
 			<artifactId>scribejava-core</artifactId>
@@ -89,10 +90,16 @@
 			<artifactId>json-simple</artifactId>
 			<version>1.1.1</version>
 		</dependency>
+		<!-- Google -->
+		<dependency>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-google</artifactId>
+			<version>1.0.0.RELEASE</version>
+		</dependency>
 	</dependencies>
   
   <build>
-    <finalName>naverLoginAPI</finalName>
+    <finalName>socialLoginAPI</finalName>
     <plugins>
     	<plugin>
     		<artifactId>maven-compiler-plugin</artifactId>

@@ -73,7 +73,8 @@
 	<hr>
 	
 	<div>
-	<a href="${url}">네이버 아이디로 로그인</a>
+	<a href="${naverUrl}">네이버 아이디로 로그인</a>
+	<a href="${googleUrl}">구글 아이디로 로그인</a>
 	</div>
 
 <script type="text/javascript">

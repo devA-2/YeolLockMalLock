@@ -12,12 +12,7 @@ public class LogoutController {
 	@RequestMapping(value = "/logout.do", method = RequestMethod.GET)
 	public String logout(HttpSession session){
 	session.invalidate();
-	return "redirect:/index.do";
-	}
-	
-	@RequestMapping(value = "/logout2.do", method = RequestMethod.GET)
-	public String logout2(HttpSession session){
-	return "redirect:/index.do";
+	return "redirect:/";
 	}
 	
 }
