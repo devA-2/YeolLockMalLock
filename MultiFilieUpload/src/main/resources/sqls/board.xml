@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.min.edu.dao.IBoardDao">
+
+	<select id="boardList" resultType="com.min.edu.vo.BoardVO">
+		SELECT SEQ, ID, TITLE, CONTENT, REFER, STEP, "DEPTH", READCOUNT, DELFLAG, REGDATE
+		FROM FILE_BOARD
+	</select>
+	
+	<!-- 파일 업로드  -->  
+	<insert id="insertFile" parameterType="com.min.edu.vo.FileVO" >
+		<selectKey keyProperty="b_seq" resultType="int" order="BEFORE">
+			SELECT MAX(SEQ) AS B_SEQ FROM FILE_BOARD
+		</selectKey>
+		INSERT INTO FILE_PHOTO
+		(SEQ, B_SEQ, IMG_UUID, IMG_ORI, IMG_URL) 
+		VALUES(FILE_PHOTO_SEQ.NEXTVAL, #{b_seq}, #{img_uuid}, #{img_ori}, #{img_url})
+	</insert>
+
+	<insert id="writeBoard" parameterType="com.min.edu.vo.BoardVO">
+		<selectKey keyProperty="seq" resultType="int" order="BEFORE">
+			SELECT FILE_BOARD_SEQ.NEXTVAL AS SEQ FROM DUAL
+		</selectKey>
+		INSERT INTO FILE_BOARD
+		(SEQ, ID, TITLE, CONTENT, REFER, STEP, "DEPTH", READCOUNT, DELFLAG, REGDATE)
+		VALUES(#{seq}, 'USER01', #{title},
+		#{content}, (SELECT NVL(MAX(REFER),0)+1 FROM FILE_BOARD), 0,
+		0, 0, 'N',
+		SYSDATE)
+	</insert>
+	
+	<select id="getOneBoard" parameterType="java.lang.String" resultType="com.min.edu.vo.BoardVO">
+		SELECT SEQ, ID, TITLE, CONTENT, READCOUNT, DELFLAG, REGDATE
+		FROM FILE_BOARD
+		WHERE SEQ = #{seq}
+	</select>
+
+</mapper>
