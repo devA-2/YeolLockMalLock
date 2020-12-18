@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.min.edu.model.dao.UserIDao">
+
+	<select id="memberList" resultType="com.min.edu.dto.UserDto">
+		SELECT EMAIL, PHONE, NAME, RFID, SNS, REGDATE
+		FROM NAVER
+	</select>
+
+	<insert id="signupMember" parameterType="com.min.edu.dto.UserDto">
+		INSERT INTO NAVER (EMAIL, PHONE, NAME, RFID, PASSWORD, SNS, REGDATE)
+		VALUES(#{email},#{phone},#{name},'1234','#{password}', '0', SYSDATE)
+	</insert>
+	
+	<insert id="signupNaver" parameterType="com.min.edu.dto.UserDto">
+		INSERT INTO NAVER (EMAIL, PHONE, NAME, RFID, PASSWORD, SNS, REGDATE)
+		VALUES(#{email},#{phone},#{name},'1234','1234', 'N', SYSDATE)
+	</insert>
+
+	<select id="emailCheck" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT COUNT(EMAIL) EMAIL
+		FROM NAVER
+		WHERE EMAIL = #{email}
+	</select>
+
+	<select id="loginMember" parameterType="java.util.Map" resultType="com.min.edu.dto.UserDto">
+		SELECT EMAIL, NAME, REGDATE
+		FROM NAVER
+		WHERE EMAIL = #{email}
+		AND PW = #{pw}
+	</select>
+	
+</mapper>
