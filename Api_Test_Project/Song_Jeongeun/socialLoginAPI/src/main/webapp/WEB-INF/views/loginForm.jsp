@@ -5,10 +5,10 @@
 <head>
 <meta charset="UTF-8">
 <title>로그인</title>
-<link rel="stylesheet" type="text/css" href="./css/sweetalert.css">
+<!-- <link rel="stylesheet" type="text/css" href="./css/sweetalert.css"> -->
 
-<script type="text/javascript" src="./js/jquery-3.5.1.js"></script>
-<script type="text/javascript" src="./js/sweetalert.min.js"></script>
+<!-- <script type="text/javascript" src="./js/jquery-3.5.1.js"></script> -->
+<!-- <script type="text/javascript" src="./js/sweetalert.min.js"></script> -->
 <script type="text/javascript">
 	window.onload = function(){
 		document.getElementById('SignUp').onclick = function(){
@@ -73,8 +73,8 @@
 	<hr>
 	
 	<div>
-	<a href="${naverUrl}">네이버 아이디로 로그인</a>
-	<a href="${googleUrl}">구글 아이디로 로그인</a>
+		<a href="${naverUrl}">네이버 아이디로 로그인</a>
+		<a href="${googleUrl}">구글 아이디로 로그인</a>
 	</div>
 
 <script type="text/javascript">
