@@ -1,6 +1,10 @@
 package com.min.edu.ctrl;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -9,11 +13,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.connect.Connection;
-import org.springframework.social.google.api.Google;
-import org.springframework.social.google.api.impl.GoogleTemplate;
-import org.springframework.social.google.api.plus.Person;
-import org.springframework.social.google.api.plus.PlusOperations;
 import org.springframework.social.google.connect.GoogleConnectionFactory;
 import org.springframework.social.oauth2.AccessGrant;
 import org.springframework.social.oauth2.GrantType;
@@ -29,7 +28,6 @@ import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.min.edu.dto.UserDto;
 import com.min.edu.model.service.UserIService;
 import com.min.edu.naver.NaverLoginBO;
-
 
 @Controller
 public class LoginController {
@@ -90,33 +88,50 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value = "/googleCallback.do", method = RequestMethod.GET)
-	public String googleCallback(HttpServletRequest request, Model model) throws IOException {
-		
+	public String googleCallback(HttpServletRequest request, Model model) throws IOException, Exception {
 		String code = request.getParameter("code");
-
 		OAuth2Operations oauthOperations = googleConnectionFactory.getOAuthOperations();
 		AccessGrant accessGrant = oauthOperations.exchangeForAccess(code, googleOAuth2Parameters.getRedirectUri(), null);
-
 		String accessToken = accessGrant.getAccessToken();
-		  
-		Connection<Google> connection = googleConnectionFactory.createConnection(accessGrant);
-		Google google = connection == null ? new GoogleTemplate(accessToken) : connection.getApi();
+		String reqURL = "https://www.googleapis.com/userinfo/v2/me?access_token="+accessToken; 
 
-		PlusOperations plusOperations = google.plusOperations();
-		Person profile = plusOperations.getGoogleProfile();
+		try { 
+			URL url = new URL(reqURL); 
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestProperty("Authorization", "Bearer " + accessToken);
+			
+			int responseCode = conn.getResponseCode(); 
+			if(responseCode == 200){ 
+				BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+				
+				String line = ""; 
+				String result = ""; 
+				
+				while ((line = br.readLine()) != null) {
+					result += line;
+				}
+				
+				JSONParser parser = new JSONParser();
+				System.out.println("result : "+result);
+				JSONObject obj = (JSONObject) parser.parse(result);
 
-		String email = profile.getAccountEmail();
-		String name = profile.getDisplayName();
-		
-		boolean emailChk = service.emailCheck(email);
-		
-		if(emailChk != true) {
-			model.addAttribute("name",name);
-			model.addAttribute("email",email);
-			return "extraForm";
-		}else {
-			return "callback";
+//				String name = obj.get("name").toString();
+				String email = obj.get("email").toString();
+				
+				boolean emailChk = service.emailCheck(email);
+				
+				if(emailChk != true) {
+//					model.addAttribute("name",name);
+					model.addAttribute("email",email);
+					return "extraForm";
+				}else {
+					return "callback";
+				}
+			}
+		}catch (IOException e) {
+			e.printStackTrace();
 		}
+		return null;
 	}
 	
 	@RequestMapping(value = "/extraInfo.do", method = RequestMethod.POST)

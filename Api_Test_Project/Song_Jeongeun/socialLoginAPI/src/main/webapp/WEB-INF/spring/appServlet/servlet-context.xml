@@ -17,12 +17,12 @@
 	
 	<bean id="naverLoginBO" class="com.min.edu.naver.NaverLoginBO"/>
 	<bean id="googleConnectionFactory" class="org.springframework.social.google.connect.GoogleConnectionFactory">
-		<constructor-arg value="938238236484-rpaci2u91qdhkkjejhjbmr39u1fq6s26.apps.googleusercontent.com" />
-		<constructor-arg value="vbG9jO2rCpEg57GDZvUSw-T9" />
+		<constructor-arg value="186529583000-45c6i6l6j6d9lb36o6fctvgvotr11nnr.apps.googleusercontent.com"/>
+		<constructor-arg value="jR29u-E2RmyHFaITZHq82i8q"/>
 	</bean>
 	<bean id="googleOAuth2Parameters" class="org.springframework.social.oauth2.OAuth2Parameters">
-		<property name="scope" value="https://www.googleapis.com/auth/plus.login" />
-		<property name="redirectUri" value="http://localhost:8085/socialLoginAPI/googleCallback.do" />
+		<property name="scope" value="https://www.googleapis.com/auth/userinfo.email"/>
+		<property name="redirectUri" value="http://localhost:8085/socialLoginAPI/googleCallback.do"/>
 	</bean>
 	
 </beans>
