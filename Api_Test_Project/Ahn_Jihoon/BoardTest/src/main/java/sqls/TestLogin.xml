@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.min.edu.model.TestLogin">
+
+	<select id="loginMember" parameterType="java.util.Map"
+		resultType="MemberDto">
+		SELECT EMAIL, NAME, AUTH
+		FROM "MEMBER" m
+		WHERE
+		EMAIL = #{email} AND PW=#{pw}
+		
+	</select>
+
+</mapper>

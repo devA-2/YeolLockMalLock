@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.min.edu.model.IReportDao">
+
+<insert id="insertReport" parameterType="ReportDto">
+		<selectKey keyProperty="seq" resultType="java.lang.String"
+			order="BEFORE">
+			SELECT REPORT_SEQ.NEXTVAL AS SEQ FROM DUAL
+		</selectKey>
+	INSERT INTO REPORT
+	(SEQ, EMAIL, TITLE, CONTENT, REGDATE, CATEGORY, IMAGE, DELFLAG, PROCESS_STATUS, REFER, STEP, ""DEPTH"")
+	VALUES(REPORT_SEQ.NEXTVAL, #{email}, #{title}, #{content}, SYSDATE, #{category}, #{image}, 'N', 'N', (SELECT NVL(MAX(REFER),0)+1 FROM REPORT), 0, 0)
+</insert>
+
+<insert id="replyReport" parameterType="ReportDto">
+	INSERT INTO REPORT (SEQ, EMAIL, TITLE, CONTENT, REGDATE, CATEGORY, IMAGE, DELFLAG, PROCESS_STATUS, REFER, STEP, ""DEPTH"")
+	VALUES(
+	#{seq}, #{email}, #{title}, #{content}, SYSDATE, '1', '', 'N', 'Y', 
+	(SELECT REFER FROM REPORT r WHERE SEQ='3'),
+	(SELECT STEP FROM REPORT r WHERE SEQ='3')+1,
+	(SELECT ""DEPTH"" FROM REPORT r WHERE SEQ='3')+1
+	)
+</insert>
+
+<update id="modifyReport" parameterType="ReportDto">
+	UPDATE REPORT
+	SET TITLE = #{title}, CONTENT = #{content}, REGDATE = SYSDATE
+<!-- 	, IMAGE = #{image} -->
+	WHERE SEQ = #{seq}
+</update>
+
+<select id="selectAllReport" resultType="ReportDto">
+	SELECT SEQ, EMAIL, TITLE, REGDATE, PROCESS_STATUS
+	FROM REPORT
+	WHERE DELFLAG = 'N' AND STEP = 0
+	ORDER BY REFER DESC, STEP
+</select>
+
+<select id="selectOneReport" parameterType="java.lang.String" resultType="ReportDto">
+	SELECT SEQ, EMAIL, TITLE, CONTENT, REGDATE, CATEGORY, IMAGE, PROCESS_STATUS, DELFLAG
+	FROM REPORT r
+	WHERE REFER = (SELECT REFER FROM REPORT r WHERE SEQ=#{seq})
+</select>
+
+<select id="searchReport" parameterType="java.lang.String" resultType="ReportDto">
+	SELECT SEQ, EMAIL, TITLE, REGDATE, PROCESS_STATUS
+	FROM REPORT r 
+	WHERE EMAIL =# {email}
+</select>
+
+<update id="updateProcessStatus" parameterType="java.lang.String">
+	UPDATE REPORT
+	SET PROCESS_STATUS = #{process_status}
+</update>
+
+</mapper>
