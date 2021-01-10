@@ -23,7 +23,11 @@
 			</div>
 			<div>
 				<button>교환</button>
+<<<<<<< HEAD
 				<button onclick="./delivery">배송</button>
+=======
+				<button>배송</button>
+>>>>>>> branch 'SONGJEONGEUN' of https://github.com/devA-2/YeolLockMalLock.git
 			</div>
 			<hr>
 		</c:if>
