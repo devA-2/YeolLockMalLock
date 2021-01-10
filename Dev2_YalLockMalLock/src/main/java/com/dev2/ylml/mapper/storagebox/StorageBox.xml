@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="storageBox">
+
+	<resultMap type="com.dev2.ylml.dto.UserStorageListDto" id="UserStorageList">
+		<result column="BOX_SEQ" property="boxSeq"/>
+		<result column="STORAGE_ID" property="storageId"/>
+		<result column="STORAGE_NAME" property="storageName"/>
+		<result column="SUBWAY" property="subway"/>
+		<result column="DETAIL" property="detail"/>
+		<result column="IN_USER" property="inUser"/>
+		<result column="OUT_USER" property="outUser"/>
+		<result column="COST_CODE" property="costCode"/>
+		<result column="COST" property="cost"/>
+		<result column="IN_TIME" property="inTime"/>
+		<result column="EX_TIME" property="exTime"/>
+		<result column="OVERTIME" property="overTime"/>
+		<result column="CATEGORY_CODE" property="categoryCode"/>
+		<result column="EXTEND_CNT" property="extendCnt"/>
+	</resultMap>
+	
+	<resultMap type="com.dev2.ylml.dto.UserDeliveryListDto" id="UserDeliveryList">
+		<result column="BOX_SEQ" property="boxSeq"/>
+		<result column="STORAGE_NAME" property="storageName"/>
+		<result column="SUBWAY" property="subway"/>
+		<result column="DETAIL" property="detail"/>
+		<result column="DELIVERYMAN_ID" property="deliverymanId"/>
+		<result column="DELIVERY_ARRIVE" property="deliveryArrive"/>
+	</resultMap>
+	
+	<!-- 보관 내역(사용자) -->
+	<select id="selectUserStorageList" parameterType="java.lang.String" resultMap="UserStorageList">
+		SELECT sg.BOX_SEQ, sl.STORAGE_NAME, sl.SUBWAY, sl.DETAIL,
+		sg.IN_USER, sg.OUT_USER,
+		TO_CHAR(sg.IN_TIME, 'YYYY-MM-DD HH:MI:SS') AS IN_TIME, TO_CHAR(sg.EX_TIME,'YYYY-MM-DD HH24:MI:SS') AS EX_TIME,
+		sg.COST_CODE, sg.CATEGORY_CODE, sg.EXTEND_CNT,
+		CASE WHEN sg.EX_TIME &gt;= SYSDATE THEN 0 
+		WHEN sg.EX_TIME &lt; SYSDATE THEN ROUND((SYSDATE - sg.EX_TIME)*24) END AS OVERTIME
+		FROM STORAGE_GOODS sg JOIN STORAGEBOX_LIST sl ON sg.STORAGE_ID = sl.STORAGE_ID
+		WHERE IN_USER = #{email} OR OUT_USER = #{email}
+	</select>
+	
+	<select id="selectCost" parameterType="java.lang.String" resultType="com.dev2.ylml.dto.CostDto">
+		SELECT c.COST_CODE as costCode, c.COST as cost FROM COST c LEFT JOIN STORAGE_GOODS sg ON c.COST_CODE = sg.COST_CODE
+		WHERE sg.OUT_USER = #{email}
+	</select>
+	
+	<!-- 전체 배송원 EMAIL 조회 -->
+	<select id="selectDeliveryMan" resultType="java.lang.String">
+		SELECT EMAIL, NAME FROM "MEMBER" WHERE AUTH = 80
+	</select>
+	
+	<!-- 배송원 현재 위치 조회 -->
+	<select id="selectCurrnetLoc" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT SUBWAY FROM STORAGEBOX_LIST WHERE STORAGE_ID = (
+		SELECT CURRENT_LOC FROM DELIVERYMAN WHERE DELIVERYMAN_ID = #{deliverymanId})
+	</select>
+	
+	<!-- 배송 물량 확인 -->
+	<select id="selectDeliveryQty" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM DELIVERY WHERE DELIVERYMAN_ID = (SELECT DELIVERYMAN_ID FROM DELIVERYMAN WHERE CURRENT_LOC = #{currnetLoc})
+	</select>
+
+	<!-- 배송 소요 시간 계산 -->
+	<select id="selectDeliveryTime" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT SUM(DURATION) FROM TIME_TABLE WHERE TIME_TABLE_SEQ 
+		BETWEEN (SELECT TIME_TABLE_SEQ FROM TIME_TABLE WHERE START_STATION = #{startStation})
+		AND (SELECT TIME_TABLE_SEQ FROM TIME_TABLE WHERE ARRIVE_STATION = #{arriveStation})
+	</select>
+	
+	<!-- 배송 비용 계산 -->
+	<select id="selectStationCost" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT COUNT(*) * 200 FROM TIME_TABLE WHERE TIME_TABLE_SEQ 
+		BETWEEN (SELECT TIME_TABLE_SEQ FROM TIME_TABLE WHERE START_STATION = #{startStation})
+		AND (SELECT TIME_TABLE_SEQ FROM TIME_TABLE WHERE ARRIVE_STATION = #{arriveStation})
+	</select>
+	
+	<!-- 배송 내역(사용자) -->
+	<select id="selectUserDeliveryList" parameterType="java.lang.String" resultMap="UserDeliveryList">
+		SELECT STORAGE_GOODS.BOX_SEQ, STORAGEBOX_LIST.STORAGE_NAME, STORAGEBOX_LIST.SUBWAY, STORAGEBOX_LIST.DETAIL,
+		DELIVERY.DELIVERYMAN_ID, TO_CHAR(DELIVERY.DELIVERY_ARRIVE,'YYYY-MM-DD HH24:MI:SS')
+		FROM DELIVERY JOIN STORAGE_GOODS ON DELIVERY.DELIVERY_CODE = STORAGE_GOODS.DELIVERY_CODE
+		JOIN STORAGEBOX_LIST ON DELIVERY.OUTBOX_ID = STORAGEBOX_LIST.STORAGE_ID
+		WHERE IN_USER = #{email} OR OUT_USER = #{email}
+	</select>
+
+</mapper>
