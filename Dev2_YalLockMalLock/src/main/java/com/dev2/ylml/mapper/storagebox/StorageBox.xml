@@ -27,8 +27,7 @@
 		<result column="DELIVERYMAN_ID" property="deliverymanId"/>
 		<result column="DELIVERY_ARRIVE" property="deliveryArrive"/>
 	</resultMap>
-	
-<<<<<<< HEAD
+
 	<!-- 보관 내역(사용자) -->
 	<select id="selectUserStorageList" parameterType="java.lang.String" resultMap="UserStorageList">
 		SELECT sg.BOX_SEQ, sl.STORAGE_NAME, sl.SUBWAY, sl.DETAIL,
@@ -77,28 +76,6 @@
 	</select>
 	
 	<!-- 배송 내역(사용자) -->
-=======
-	<select id="selectUserStorageList" parameterType="java.lang.String" resultMap="UserStorageList">
-		SELECT sg.BOX_SEQ, sl.STORAGE_NAME, sl.SUBWAY, sl.DETAIL,
-		sg.IN_USER, sg.OUT_USER,
-		TO_CHAR(sg.IN_TIME, 'YYYY-MM-DD HH:MI:SS') AS IN_TIME, TO_CHAR(sg.EX_TIME,'YYYY-MM-DD HH24:MI:SS') AS EX_TIME,
-		sg.COST_CODE, sg.CATEGORY_CODE, sg.EXTEND_CNT,
-		CASE WHEN sg.EX_TIME &gt;= SYSDATE THEN 0 
-		WHEN sg.EX_TIME &lt; SYSDATE THEN ROUND((SYSDATE - sg.EX_TIME)*24) END AS OVERTIME
-		FROM STORAGE_GOODS sg JOIN STORAGEBOX_LIST sl ON sg.STORAGE_ID = sl.STORAGE_ID
-		WHERE IN_USER = #{email} OR OUT_USER = #{email}
-	</select>
-	
-	<select id="selectCost" parameterType="java.lang.String" resultType="com.dev2.ylml.dto.CostDto">
-		SELECT c.COST_CODE as costCode, c.COST as cost FROM COST c LEFT JOIN STORAGE_GOODS sg ON c.COST_CODE = sg.COST_CODE
-		WHERE sg.OUT_USER = #{email}
-	</select>
-	
-	<select id="selectDeliveryGoods" parameterType="java.lang.String" resultType="java.lang.Integer">
-		SELECT COUNT(*) FROM DELIVERY WHERE DELIVERYMAN_ID = (SELECT DELIVERYMAN_ID FROM DELIVERYMAN WHERE CURRENT_LOC = #{storageId})
-	</select>
-	
->>>>>>> branch 'SONGJEONGEUN' of https://github.com/devA-2/YeolLockMalLock.git
 	<select id="selectUserDeliveryList" parameterType="java.lang.String" resultMap="UserDeliveryList">
 		SELECT STORAGE_GOODS.BOX_SEQ, STORAGEBOX_LIST.STORAGE_NAME, STORAGEBOX_LIST.SUBWAY, STORAGEBOX_LIST.DETAIL,
 		DELIVERY.DELIVERYMAN_ID, TO_CHAR(DELIVERY.DELIVERY_ARRIVE,'YYYY-MM-DD HH24:MI:SS')
