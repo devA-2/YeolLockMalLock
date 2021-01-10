@@ -5,7 +5,7 @@
 	<typeAliases>
 		<!--<typeAlias type="com.min.edu.dtos.Member_DTO" alias="MemberDto"/>-->
 	</typeAliases>
-	
+
 	<mappers>
 		<!--<mapper resource="/sqls/Statement_Member.xml"/>-->
 	</mappers>

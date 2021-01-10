@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="storages">
+
+	<select id="selectMap" resultType="java.util.HashMap">
+		select storage_id as id, lng||','||lat as latlng from storagebox_list
+	</select>
+
+	<select id="selectStorageList" resultType="com.dev2.ylml.dto.StorageListDto">
+		select storage_id,storage_name,address,subway from storagebox_list
+	</select>
+
+	<select id="ajaxCountStorage" resultType="com.dev2.ylml.dto.StorageListDto">
+		SELECT l.storage_id,l.storage_name,l.subway,l.address,l.detail,e.cnt
+		FROM storagebox_list L,(SELECT COUNT(*) cnt FROM ${id} WHERE
+		box_status='O')e
+		WHERE l.storage_id = #{id}
+	</select>
+
+	<select id="selectStorageStatus" parameterType="java.lang.String" resultType="com.dev2.ylml.dto.StorageBoxDto">
+		select box_seq,box_status from ${id}
+	</select>
+
+	<!-- <insert id="insertGoods" parameterType="java.util.HashMap"> -->
+	<!-- insert into storage_goods(box_seq,storage_id,in_user,out_user)VALUES(#{boxSeq},#{id},#{email},#{email}) -->
+	<!-- </insert> -->
+
+	<!-- <insert id="insertCost"> -->
+	<!-- INSERT INTO COST(COST_CODE) VALUES('YMC'||TO_CHAR(COST_CODE_SEQ.NEXTVAL)) -->
+	<!-- </insert> -->
+
+	<!-- <update id="updateCostCode" parameterType="java.util.HashMap"> -->
+	<!-- UPDATE storage_goods SET cost_code='YMC004' WHERE storage_id=#{id} 
+		AND box_seq=#{boxSeq} -->
+	<!-- </update> -->
+
+	<!-- <update id="updateExtend" parameterType="java.util.HashMap"> -->
+	<!-- UPDATE STORAGE_GOODS SET EX_TIME = EX_TIME + 2/24,EXTEND_CNT=EXTEND_CNT+1 
+		WHERE storage_id=#{id} AND box_seq=#{boxSeq} -->
+	<!-- </update> -->
+
+	<!-- <update id="updateExtendCost" parameterType="java.util.HashMap"> -->
+	<!-- UPDATE cost SET cost=COST+1500 WHERE cost_code = (SELECT COST_CODE 
+		FROM storage_goods WHERE storage_id=#{id} AND box_seq=#{boxSeq}) -->
+	<!-- </update> -->
+
+	<!-- <update id="updateAllStatus"> -->
+	<!-- UPDATE CITYHALL_A SET BOX_STATUS = CASE WHEN BOX_STATUS = 'I' THEN 
+		'O' WHEN BOX_STATUS = 'W' THEN 'X' END WHERE box_status='I' -->
+	<!-- </update> -->
+
+	<!-- <select id="compareKey" parameterType="java.lang.String"> -->
+	<!-- SELECT cost_code,out_user FROM storage_goods WHERE key=#{key} -->
+	<!-- </select> -->
+
+
+	<!-- <update id="updateExtraCost"> -->
+	<!-- UPDATE cost SET cost=cost+(SELECT ceil((sysdate-g.ex_time)*24)*1000 -->
+	<!-- FROM storage_goods g, cost c where c.cost_code=g.cost_code and g.box_seq=#{boxSeq} 
+		and g.storage_id=#{id}) -->
+	<!-- WHERE cost_code=(select cost_code from storage_goods where box_seq=#{boxSeq} 
+		and storage_id=#{id}) -->
+	<!-- </update> -->
+	<!-- <update id="updateStatusCheck"> -->
+	<!-- UPDATE ${id} SET BOX_STATUS = CASE WHEN BOX_STATUS = 'I' THEN 'O' WHEN 
+		BOX_STATUS = 'W' THEN 'X' END WHERE BOX_SEQ = #{boxSeq} -->
+	<!-- </update> -->
+
+	<!-- <delete id="deleteGoods"> -->
+	<!-- DELETE FROM storage_goods WHERE cost_code='' -->
+	<!-- </delete> -->
+
+	<!-- <select id="checkOutEmail" parameterType="java.lang.String" resultType="java.lang.String"> -->
+	<!-- SELECT EMAIL FROM MEMBER WHERE email=#{email} -->
+	<!-- </select> -->
+
+	<!-- <insert id="insertReturn" parameterType="보관물품Dto"> -->
+	<!-- insert into storage_goods(box_seq,storage_id,in_user,out_user,category_code,message) -->
+	<!-- VALUES(#{boxSeq},#{id},#{inEmail},#{outEmail},'R',#{message}) -->
+	<!-- </insert> -->
+
+</mapper>
+
