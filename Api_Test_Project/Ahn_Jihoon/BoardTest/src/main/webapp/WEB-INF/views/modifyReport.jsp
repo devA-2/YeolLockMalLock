@@ -12,6 +12,10 @@
 		frm.action = "./modify.do";
 		frm.submit();
 	}
+	
+	function goHome(){
+		location.href="./goReportList.do";
+	}
 </script>
 <body>
 	<form name="frm" method="get">
@@ -40,6 +44,7 @@
 <!-- 				</tr> -->
 				<tr>
 					<td><input type="submit" value="확인" onclick="update()"></td>
+					<td><input type="submit" value="뒤로가기" onclick="goHome()"></td>
 				</tr>
 			</table>
 	</form>

@@ -33,6 +33,12 @@ public class ReportController {
 		return "index";
 	}
 	
+	@RequestMapping(value="/goReportList.do", method=RequestMethod.GET)
+	public String goReportList() {
+		log.info("------------------ 신고글 목록 ------------------");
+		return "reportList";
+	}
+	
 	@RequestMapping(value="/reportList.do", method=RequestMethod.GET)
 	public String reportList(Model model) {
 		log.info("------------------ 신고글 목록 ------------------");
@@ -85,6 +91,13 @@ public class ReportController {
 		
 		return "redirect:/reportList.do";
 	}
+	
+//	@RequestMapping(value = "/backPage.do", method=RequestMethod.POST)
+//	public String backPage(HttpSession session, @RequestParam Map<String, Object> map) {
+//		MemberDto mDto = service2.loginMember(map);
+//		session.setAttribute("mem", mDto); // session에서 로그인 정보 가지고 reportList로 보내는 용도.
+//		return "reportList";
+//	}
 	
 	// 테스트용 login
 	@Autowired

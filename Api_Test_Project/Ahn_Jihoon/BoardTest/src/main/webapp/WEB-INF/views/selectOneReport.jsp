@@ -18,7 +18,7 @@
 </style>
 <script type="text/javascript">
 	function historys(){
-		history.back();
+		location.href="./reportList.do";
 	}
 </script>
 

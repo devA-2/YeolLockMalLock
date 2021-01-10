@@ -3,12 +3,8 @@
 <mapper namespace="com.min.edu.model.IReportDao">
 
 <insert id="insertReport" parameterType="ReportDto">
-		<selectKey keyProperty="seq" resultType="java.lang.String"
-			order="BEFORE">
-			SELECT REPORT_SEQ.NEXTVAL AS SEQ FROM DUAL
-		</selectKey>
 	INSERT INTO REPORT
-	(SEQ, EMAIL, TITLE, CONTENT, REGDATE, CATEGORY, IMAGE, DELFLAG, PROCESS_STATUS, REFER, STEP, ""DEPTH"")
+	(SEQ, EMAIL, TITLE, CONTENT, REGDATE, CATEGORY, IMAGE, DELFLAG, PROCESS_STATUS, REFER, STEP, "DEPTH")
 	VALUES(REPORT_SEQ.NEXTVAL, #{email}, #{title}, #{content}, SYSDATE, #{category}, #{image}, 'N', 'N', (SELECT NVL(MAX(REFER),0)+1 FROM REPORT), 0, 0)
 </insert>
 
