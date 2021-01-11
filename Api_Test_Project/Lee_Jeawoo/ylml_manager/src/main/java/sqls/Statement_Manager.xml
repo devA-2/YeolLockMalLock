@@ -13,7 +13,7 @@
 	
 	<!-- 상세 정보조회 -->
 	<!-- 테스트중 -->
-	<select id="selectDetail" parameterType="" 
+	<select id="selectDetail" parameterType="java.lang.String" 
 	resultType="ManagerDto">
 	SELECT EMAIL, NAME, PHONE_NUM, REG_DATE , LEAVE_DATE, AUTH
 	FROM "MEMBER" m
@@ -22,7 +22,8 @@
 	
 	<!-- 배송 정보조회 -->
 	<!-- 테스트중 -->
-	<select id="">
+	<select id="DeliveryInfo" parameterType="java.lang.String"
+	resultType="ManagerDto">
 	SELECT DELIVERY_CODE,
 	(SELECT CURRENT_LOC FROM DELIVERYMAN d WHERE DELIVERYMAN_ID =
 	#{email}) AS CURRENT_LOC ,
@@ -30,6 +31,9 @@
 	FROM DELIVERY d2
 	WHERE DELIVERYMAN_ID = #{email}
 	</select>
+	
+	
+	
 	
 	<!-- 임시권한 담당자 및 배송원 정보조회 -->
 	<!-- 수정중 -->

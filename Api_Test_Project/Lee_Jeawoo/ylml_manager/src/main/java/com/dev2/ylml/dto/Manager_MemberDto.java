@@ -15,13 +15,16 @@ public class Manager_MemberDto implements Serializable{
 	public String current_loc;
 	public String reg_date;
 	public String leave_date;
+	public String delivery_start;
+	public String delivery_arrive;
 	
 	public Manager_MemberDto() {
 		super();
 	}
 
 	public Manager_MemberDto(String email, String name, String phone_num, String auth, String deliveryman_id,
-			String delivery_code, String current_loc, String reg_date, String leave_date) {
+			String delivery_code, String current_loc, String reg_date, String leave_date, String delivery_start,
+			String delivery_arrive) {
 		super();
 		this.email = email;
 		this.name = name;
@@ -32,13 +35,16 @@ public class Manager_MemberDto implements Serializable{
 		this.current_loc = current_loc;
 		this.reg_date = reg_date;
 		this.leave_date = leave_date;
+		this.delivery_start = delivery_start;
+		this.delivery_arrive = delivery_arrive;
 	}
 
 	@Override
 	public String toString() {
 		return "Manager_MemberDto [email=" + email + ", name=" + name + ", phone_num=" + phone_num + ", auth=" + auth
 				+ ", deliveryman_id=" + deliveryman_id + ", delivery_code=" + delivery_code + ", current_loc="
-				+ current_loc + ", reg_date=" + reg_date + ", leave_date=" + leave_date + "]";
+				+ current_loc + ", reg_date=" + reg_date + ", leave_date=" + leave_date + ", delivery_start="
+				+ delivery_start + ", delivery_arrive=" + delivery_arrive + "]";
 	}
 
 	public String getEmail() {
@@ -112,6 +118,24 @@ public class Manager_MemberDto implements Serializable{
 	public void setLeave_date(String leave_date) {
 		this.leave_date = leave_date;
 	}
+
+	public String getDelivery_start() {
+		return delivery_start;
+	}
+
+	public void setDelivery_start(String delivery_start) {
+		this.delivery_start = delivery_start;
+	}
+
+	public String getDelivery_arrive() {
+		return delivery_arrive;
+	}
+
+	public void setDelivery_arrive(String delivery_arrive) {
+		this.delivery_arrive = delivery_arrive;
+	}
+	
+	
 	
 	
 	

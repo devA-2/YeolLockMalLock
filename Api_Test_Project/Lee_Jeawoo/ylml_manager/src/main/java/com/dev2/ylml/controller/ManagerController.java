@@ -17,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.dev2.ylml.abstractView.ExcelDownload;
 import com.dev2.ylml.dto.ExcelDto;
 import com.dev2.ylml.dto.Manager_MemberDto;
-import com.dev2.ylml.model.Manager_IService;
+import com.dev2.ylml.model.Manager_MemberIService;
 
 
 @Controller
@@ -26,7 +26,7 @@ public class ManagerController {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired 
-	private Manager_IService service;
+	private Manager_MemberIService service;
 
 	@RequestMapping(value = "index.do")
 	public String index() {
@@ -34,14 +34,22 @@ public class ManagerController {
 	}
 	
 	
-	// 관리자 메인으로 managerMain.do
+	/** 관리자 메인으로 managerMain.do 
+	 * 
+	 * @return managerMain.jsp 이동
+	 */
 	@RequestMapping(value = "managerMain.do")
 	public String managerMain() {
 		logger.info("managerMain.do : 메인페이지로 이동");
 		return "managerMain";
 	}
 	
-	// 담당자 및 배송원의 전체 정보조회 allDeleveryList.do
+	/** 담당자 및 배송원의 전체 정보조회 allDeleveryList.do
+	 * 전체정보 "list"에 담아서 
+	 * model로 DeliverymemberList.jsp에 전송 
+	 * @param model
+	 * @return DeliverymemberList.jsp 이동
+	 */
 	@RequestMapping(value = "allDeleveryList.do", method = RequestMethod.GET)
 	public String allDeleveryList(Model model) {
 		logger.info("allDeleveryList.do : 담당자 및 배송원 전체 정보조회 이동");
@@ -51,21 +59,37 @@ public class ManagerController {
 		return "DeliverymemberList";
 	}
 	
-	// 상세조회 deliveryDetail.do
+	/** 상세조회 + 배송정보  deliveryDetail.do
+	 * 상세조회 "list1", 배송정보 "list2"에 담아서 
+	 * model로 deliveryDetail.jsp에 전송
+	 * @param model
+	 * @param email
+	 * @return deliveryDetail.jsp 이동
+	 */
 	@RequestMapping(value = "deliveryDetail.do", method = RequestMethod.GET)
 	public String deliveryDetail(Model model, @RequestParam String email) {
 		logger.info("allDeleveryList.do : 상세조회 이동 : "+ email);
 		
+		//TODO : 상세조회 및 배송정보 불러왔으나 한 dto에 필요없는 null값이 포함됨.
 		
+		Manager_MemberDto list1 = service.selectDetail(email);
+		Manager_MemberDto list2 = service.DeliveryInfo(email);
+		model.addAttribute("list1", list1);
+		model.addAttribute("list2", list2);
 		
-		return "";
+		logger.info("allDeleveryList.do : 상세조회 -> list1 : "+ list1);
+		logger.info("allDeleveryList.do : 배송정보 -> list2 : "+ list2);
+		return "deliveryDetail";
 	}
 	
 	
 	
 	
-	
-	// id로 담당자 및 배송원 조회 searchId.do
+	//TODO : id로 담당자 및 배송원 조회 구현하기
+	/** id로 담당자 및 배송원 조회 searchId.do
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "searchId.do", method = RequestMethod.POST)
 	public String searchId(Model model) {
 		logger.info("allDeleveryList.do : id로 담당자 및 배송원 조회 이동");

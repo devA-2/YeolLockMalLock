@@ -23,15 +23,34 @@ public class Manager_MemberDao implements Manager_MemberIDao {
 	// 담당자 및 배송원 전체 정보조회 id="selectDelivery" 
 	@Override
 	public List<Manager_MemberDto> selectallDelivery() {
-		//TODO logger 찍기
+		logger.info("Daoimpl + selectallDelivery");
 		List<Manager_MemberDto> lists = null;
 		lists = sqlSession.selectList(NS+"selectallDelivery");
 		return lists;
 	}
 	
+	// 상세 정보조회 id="selectDetail"
+	@Override
+	public Manager_MemberDto selectDetail(String email) {
+		logger.info("Daoimpl + selectDetail");
+		Manager_MemberDto dto = sqlSession.selectOne(NS+"selectDetail", email); 
+		return dto;
+	}
+	// 배송 정보조회 id="DeliveryInfo"
+	@Override
+	public Manager_MemberDto DeliveryInfo(String email) {
+		logger.info("Daoimpl + DeliveryInfo");
+		Manager_MemberDto dto = sqlSession.selectOne(NS+"DeliveryInfo", email);
+		return dto;
+	}
+	
+	
+	
+	
 	// 임시권한 담당자 및 배송원 정보조회 id="selectTempDelivery"
 	@Override
 	public List<Manager_MemberDto> selectTempDelivery() {
+		logger.info("Daoimpl + selectTempDelivery");
 		List<Manager_MemberDto> lists = null;
 		lists = sqlSession.selectList(NS+"selectTempDelivery");
 		return lists;
@@ -40,6 +59,7 @@ public class Manager_MemberDao implements Manager_MemberIDao {
 	// 담당자 및 배송원 권한 부여 id="modifyAuth"
 	@Override
 	public boolean modifyAuth(Manager_MemberDto dto) {
+		logger.info("Daoimpl + modifyAuth");
 		int cnt = sqlSession.update(NS+"modifyAuth", dto);
 		return cnt>0?true:false;
 	}
@@ -48,9 +68,12 @@ public class Manager_MemberDao implements Manager_MemberIDao {
 	// (이메일, 이름, 핸드폰번호, 권한, 배송코드, 현재위치)
 	@Override
 	public Manager_MemberDto selectIdDelivery(String email) {
+		logger.info("Daoimpl + selectIdDelivery");
 		Manager_MemberDto dto = sqlSession.selectOne(NS+"selectIdDelivery", email);
 		return dto;
 	}
+
+	
 
 	
 	
