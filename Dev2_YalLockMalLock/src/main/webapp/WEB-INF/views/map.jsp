@@ -15,11 +15,16 @@
 
 	<!-- 지도 표시하는 div -->
 	<div class="container" id="map" style="width:500px;height:500px;"></div>
-<!-- 	<input type="button" onclick="getCount('CITYHALL_A')"> -->
-<!-- <input type="button" onclick="location.href='./selectStorageStatus.do?id=CITYHALL_A'"> -->
+	
+	<form method="post" action="./insertGoods.do">
+	<input type="hidden" name="boxSeq" value="2">
+	<input type="hidden" name="id" value="CITYHALL_A">
+	<input type="hidden" name="email" value="user01@naver.com">
+	<input type="submit">	
+	</form>
 	<script>
 
-	console.log(JSON.parse(JSON.stringify(${positions})));
+// 	console.log(JSON.parse(JSON.stringify(${positions})));
 	
 	var container = document.getElementById('map');
 	var options = {

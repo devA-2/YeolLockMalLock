@@ -24,4 +24,10 @@ public interface StorageIService {
 	 * id로 개별보관함 상태정보 가져오기
 	 */
 	public List<StorageBoxDto> selectStorageStatus(String id);
+	/*
+	 * 보관함번호, id, 보관email 받아서 보관 등록(해당보관함 사용중처리 + 결제코드 입력 + 결제코드 업데이트)
+	 */
+	public boolean insertGoods(Map<String, Object> map);
+
+
 }

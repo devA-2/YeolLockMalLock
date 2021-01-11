@@ -24,4 +24,22 @@ public interface StorageIDao {
 	 * id로 개별보관함 상태정보 가져오기
 	 */
 	public List<StorageBoxDto> selectStorageStatus(String id);
+	/*
+	 * 보관함번호, id, 보관email 받아서 보관 등록 
+	 */
+	public boolean insertGoods(Map<String, Object> map);
+	/*
+	 * 해당 보관함 사용가능->사용중 처리
+	 */
+	public boolean updateStatus(Map<String, Object> map);
+	/*
+	 * 결제코드 등록
+	 */
+	public boolean insertCost(Map<String, Object> map);
+	/*
+	 * 셀렉트 키로 받아온 결제코드 업데이트
+	 */
+	public boolean updateCostCode(Map<String, Object> map);
+	
+	
 }

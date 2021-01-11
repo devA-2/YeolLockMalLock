@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="storages">
+<mapper namespace="storage">
 
 	<select id="selectMap" resultType="java.util.HashMap">
 		select storage_id as id, lng||','||lat as latlng from storagebox_list
@@ -21,18 +21,27 @@
 		select box_seq,box_status from ${id}
 	</select>
 
-	<!-- <insert id="insertGoods" parameterType="java.util.HashMap"> -->
-	<!-- insert into storage_goods(box_seq,storage_id,in_user,out_user)VALUES(#{boxSeq},#{id},#{email},#{email}) -->
-	<!-- </insert> -->
+	<insert id="insertGoods" parameterType="java.util.HashMap">
+		insert into storage_goods(box_seq,storage_id,in_user,out_user)
+		VALUES(#{boxSeq},#{id},#{email},#{email})
+	</insert>
 
-	<!-- <insert id="insertCost"> -->
-	<!-- INSERT INTO COST(COST_CODE) VALUES('YMC'||TO_CHAR(COST_CODE_SEQ.NEXTVAL)) -->
-	<!-- </insert> -->
+	<update id="updateStatus" parameterType="java.util.HashMap">
+		update ${id} set box_status='I' where box_seq=#{boxSeq};
+	</update>	
+	
+	<insert id="insertCost" parameterType="java.util.HashMap">
+		INSERT INTO COST(COST_CODE)
+		VALUES('YMC'||TO_CHAR(COST_CODE_SEQ.NEXTVAL))
+		<selectKey resultType="string" keyProperty="costCode" order="AFTER">
+			select 'YMC'||TO_CHAR(COST_CODE_SEQ.currval) as cost_code from dual
+    	</selectKey> 
+	</insert>
 
-	<!-- <update id="updateCostCode" parameterType="java.util.HashMap"> -->
-	<!-- UPDATE storage_goods SET cost_code='YMC004' WHERE storage_id=#{id} 
-		AND box_seq=#{boxSeq} -->
-	<!-- </update> -->
+	<update id="updateCostCode" parameterType="java.util.HashMap"> -->
+		UPDATE storage_goods SET cost_code=#{costCode}
+		WHERE storage_id=#{id} AND box_seq=#{boxSeq}
+	</update> 
 
 	<!-- <update id="updateExtend" parameterType="java.util.HashMap"> -->
 	<!-- UPDATE STORAGE_GOODS SET EX_TIME = EX_TIME + 2/24,EXTEND_CNT=EXTEND_CNT+1 
@@ -44,10 +53,12 @@
 		FROM storage_goods WHERE storage_id=#{id} AND box_seq=#{boxSeq}) -->
 	<!-- </update> -->
 
-	<!-- <update id="updateAllStatus"> -->
-	<!-- UPDATE CITYHALL_A SET BOX_STATUS = CASE WHEN BOX_STATUS = 'I' THEN 
-		'O' WHEN BOX_STATUS = 'W' THEN 'X' END WHERE box_status='I' -->
-	<!-- </update> -->
+<!-- 	<update id="updateAllStatus" > -->
+<!-- 		UPDATE ${id} SET  -->
+<!-- 		BOX_STATUS = CASE WHEN BOX_STATUS = 'I' THEN 'O'  -->
+<!-- 						WHEN BOX_STATUS = 'W' THEN 'X' END  -->
+<!-- 		WHERE box_status='I' -->
+<!-- 	</update> -->
 
 	<!-- <select id="compareKey" parameterType="java.lang.String"> -->
 	<!-- SELECT cost_code,out_user FROM storage_goods WHERE key=#{key} -->

@@ -18,23 +18,44 @@ public class StorageDao implements StorageIDao {
 
 	@Override
 	public List<Map<String, Object>> selectMap() {
-		return sqlSession.selectList("storages.selectMap");
+		return sqlSession.selectList("storage.selectMap");
 	}
 
 	@Override
 	public List<StorageListDto> selectStorageList() {
-		return sqlSession.selectList("storages.selectStorageList");
+		return sqlSession.selectList("storage.selectStorageList");
 	}
 
 	@Override
 	public StorageListDto ajaxCountStorage(String id) {
-		return sqlSession.selectOne("storages.ajaxCountStorage",id);
+		return sqlSession.selectOne("storage.ajaxCountStorage",id);
 	}
 
 	@Override
 	public List<StorageBoxDto> selectStorageStatus(String id) {
-		return sqlSession.selectList("storages.selectStorageStatus",id);
+		return sqlSession.selectList("storage.selectStorageStatus",id);
 	}
+
+	@Override
+	public boolean insertGoods(Map<String, Object> map) {
+		return sqlSession.insert("storage.insertGoods",map)>0?true:false;
+	}
+	@Override
+	public boolean updateStatus(Map<String, Object> map) {
+		return sqlSession.update("storage.updateStatus",map)>0?true:false;
+	}
+	@Override
+	public boolean insertCost(Map<String, Object> map) {
+		return sqlSession.insert("storage.insertCost",map)>0?true:false;
+	}
+
+	@Override
+	public boolean updateCostCode(Map<String, Object> map) {
+		return sqlSession.update("storage.updateCostCode",map)>0?true:false;
+	}
+
+	
+	
 	
 	
 }

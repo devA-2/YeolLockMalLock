@@ -1,5 +1,6 @@
 package com.dev2.ylml.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -79,6 +80,18 @@ public class StorageController {
 		return "map";
 	}
 	
+	@RequestMapping(value = "/insertGoods.do",method = RequestMethod.POST)
+	public String insertGoods(int boxSeq, String id, String email) {
+		log.info(boxSeq+","+id+" "+email);
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("boxSeq", boxSeq);
+		map.put("id", id);
+		map.put("email", email);
+		log.info("map은 ?" + map);
+		boolean isc = service.insertGoods(map);
+		log.info("insertGoods 결과는 ? "+ isc);
+		return "index";
+	}
 	
 	
 }
