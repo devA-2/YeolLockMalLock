@@ -10,8 +10,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 </head>
 <body>
-<div>
-<div></div>
+<div style="width: 360px; height: 600px; border: 1px solid black; margin:auto;">
 <table class="table table-hover">
 	<tr>
 		<th>SEQ</th>
@@ -28,13 +27,13 @@
 		</tr>
 	</c:forEach>
 </table>
-</div>
-<div>
+
 	<div>
 		<button onclick="location.href = './insertReport.do'">신고 글 작성</button><br>
 	</div>
 	<div>
 		<form action="./searchId.do" method="post">
+			<input type="text" value="USER02@NAVER.COM" name="email">
 			<input type="submit" value="검색">
 		</form>
 	</div>

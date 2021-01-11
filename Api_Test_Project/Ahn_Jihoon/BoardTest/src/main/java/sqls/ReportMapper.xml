@@ -38,11 +38,6 @@
 	WHERE REFER = (SELECT REFER FROM REPORT r WHERE SEQ=#{seq})
 </select>
 
-<select id="searchReport" parameterType="java.lang.String" resultType="ReportDto">
-	SELECT SEQ, EMAIL, TITLE, REGDATE, PROCESS_STATUS
-	FROM REPORT r 
-	WHERE EMAIL =# {email}
-</select>
 
 <update id="updateProcessStatus" parameterType="java.lang.String">
 	UPDATE REPORT
