@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.dev2.ylml.abstractView.ExcelDownload;
@@ -40,7 +41,7 @@ public class ManagerController {
 		return "managerMain";
 	}
 	
-	// 담당자 및 배송원 전체 정보조회 allDeleveryList.do
+	// 담당자 및 배송원의 전체 정보조회 allDeleveryList.do
 	@RequestMapping(value = "allDeleveryList.do", method = RequestMethod.GET)
 	public String allDeleveryList(Model model) {
 		logger.info("allDeleveryList.do : 담당자 및 배송원 전체 정보조회 이동");
@@ -49,6 +50,35 @@ public class ManagerController {
 		model.addAttribute("lists", lists);
 		return "DeliverymemberList";
 	}
+	
+	// 상세조회 deliveryDetail.do
+	@RequestMapping(value = "deliveryDetail.do", method = RequestMethod.GET)
+	public String deliveryDetail(Model model, @RequestParam String email) {
+		logger.info("allDeleveryList.do : 상세조회 이동 : "+ email);
+		
+		
+		
+		return "";
+	}
+	
+	
+	
+	
+	
+	// id로 담당자 및 배송원 조회 searchId.do
+	@RequestMapping(value = "searchId.do", method = RequestMethod.POST)
+	public String searchId(Model model) {
+		logger.info("allDeleveryList.do : id로 담당자 및 배송원 조회 이동");
+		
+		return "";
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	/* 엑셀 다운로드 예제 */

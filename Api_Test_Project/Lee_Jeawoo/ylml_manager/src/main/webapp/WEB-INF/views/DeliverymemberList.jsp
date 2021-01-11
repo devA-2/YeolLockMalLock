@@ -11,31 +11,34 @@
 </head>
 <body>
 allDeleveryList.do<br>
-담당자 및 배송원 전체 정보조회
+담당자 및 배송원 전체 정보조회<br>
+<h1><a href="./managerMain.do">관리자메인페이지로</a></h1>
+
+	<div>
+		<form action="./searchId.do" method="post">
+		<input type="text"  placeholder="검색할 ID를 입력하세요">
+		<input type="button"  value="ID검색" >
+		</form> 
+	</div>
 
 	<table border="1">
 		<tr>
-<!-- 			<th><input type="checkbox"  id="allCheck" onclick="checkAll(this.checked)"> </th> -->
-			<th>이 름</th>
+			<th>이메일</th>
+			<th>이름</th>
 			<th>전화번호</th>
-			<th>배송코드</th>
-			<th>현재위치</th>
+			<th>권한</th>
 		</tr>
 		<c:forEach varStatus="vs" items="${lists}" var="dto">
 			<tr>
-<%-- 				<td><input type="checkbox" name="ch" value="${dto.getSeq()}"> </td> --%>
+				<td><a title="${dto.email}" href="./deliveryDetail.do?email=${dto.email}">${dto.email}</a></td>
 				<td>${dto.name}</td>
 				<td>${dto.phone_num}</td>
-				<td>${dto.delivery_code}</td>
-				<td>${dto.current_loc}</td>
+				<td>${dto.auth}</td>
 			</tr>
 		</c:forEach>
 	</table>
 	<hr>
-	<div>
-		<input type="button" class="insert" value="글쓰기" onclick="location.href='./insertboard.do'"> 
-		<input class="del" type="submit" value="다중삭제">
-	</div>
+	
 	
 
 </body>

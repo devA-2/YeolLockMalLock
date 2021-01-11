@@ -14,7 +14,6 @@ public class Manager_ServiceImpl implements Manager_IService {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	
 	@Autowired
 	private Manager_MemberIDao service;
 	

@@ -3,6 +3,8 @@ package com.dev2.ylml.model;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -11,6 +13,8 @@ import com.dev2.ylml.dto.Manager_MemberDto;
 @Repository
 public class Manager_MemberDao implements Manager_MemberIDao {
 
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	private final String NS = "com.dev2.ylml.model.Manager_MemberIDao.";
 	
 	@Autowired
@@ -19,6 +23,7 @@ public class Manager_MemberDao implements Manager_MemberIDao {
 	// 담당자 및 배송원 전체 정보조회 id="selectDelivery" 
 	@Override
 	public List<Manager_MemberDto> selectallDelivery() {
+		//TODO logger 찍기
 		List<Manager_MemberDto> lists = null;
 		lists = sqlSession.selectList(NS+"selectallDelivery");
 		return lists;
