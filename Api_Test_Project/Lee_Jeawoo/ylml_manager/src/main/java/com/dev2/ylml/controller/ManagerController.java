@@ -8,16 +8,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.dev2.ylml.abstractView.ExcelDownload;
 import com.dev2.ylml.dto.ExcelDto;
+import com.dev2.ylml.dto.Manager_MemberDto;
+import com.dev2.ylml.model.Manager_IService;
 
 
 @Controller
-public class SampleController {
+public class ManagerController {
+	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	
+	@Autowired 
+	private Manager_IService service;
 
 	@RequestMapping(value = "index.do")
 	public String index() {
@@ -25,6 +33,22 @@ public class SampleController {
 	}
 	
 	
+	// 관리자 메인으로 managerMain.do
+	@RequestMapping(value = "managerMain.do")
+	public String managerMain() {
+		logger.info("managerMain.do : 메인페이지로 이동");
+		return "managerMain";
+	}
+	
+	// 담당자 및 배송원 전체 정보조회 allDeleveryList.do
+	@RequestMapping(value = "allDeleveryList.do", method = RequestMethod.GET)
+	public String allDeleveryList(Model model) {
+		logger.info("allDeleveryList.do : 담당자 및 배송원 전체 정보조회 이동");
+		
+		List<Manager_MemberDto> lists = service.selectallDelivery();
+		model.addAttribute("lists", lists);
+		return "DeliverymemberList";
+	}
 	
 	
 	/* 엑셀 다운로드 예제 */
