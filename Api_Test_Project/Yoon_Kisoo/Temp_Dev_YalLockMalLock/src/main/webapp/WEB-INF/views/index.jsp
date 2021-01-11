@@ -23,7 +23,7 @@
    	<c:if test="${mem != null }">
 		<p>${mem.name }님 안녕하세요.</p>
 		<p><a href="./logout.do">로그아웃</a></p>
-		<p><a href="./myPageCheck.do">마이페이지</a>
+		<p><a href="./myPage.do">마이페이지</a>
 	</c:if>				
    <!-- 여기서부터 필요한 화면은 각자 작성 및 테스트 하시면 됩니다 -->
    <hr>

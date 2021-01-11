@@ -42,7 +42,7 @@
 				<input type="text" id="inputCertifiedNumber" value='인증번호' size="5">
 				<input type="button" id="checkBtn" value="확인">
 			<div class="time"></div>
-			<input type="submit" value="회원가입완료">	
+			<input type="submit" value="회원가입완료" id="success">	
 		</form>
 	</div>
 		<script>
@@ -64,7 +64,10 @@ var isRunning = false;
         		
         	}
 
-            var docum = document.getElementById("checkBtn").disabled;
+            var success = document.getElementById("success");
+//             	success.disabled='disabled'; // 회원가입 용이하게 하기 위해 막아둠
+            
+            
             $.ajax({
                 type: "POST",
                 url: "./sendSMS.do",
@@ -75,9 +78,11 @@ var isRunning = false;
                     		alert('값을 입력하세요.');
                     	} else if(isRunning && $.trim(res) ==$('#inputCertifiedNumber').val()){
                             // 타이머가 활성화 되어있고 값이 정확히 입력되었을 때
-                    		alert('인증성공!'+'휴대폰 인증이 정상적으로 완료되었습니다.'+'success');
+                    		alert('휴대폰 인증이 정상적으로 완료되었습니다.');
 							clearInterval(timer);
 			        		display.html("");
+			        		success.disabled=false;
+			        		
                         }else{
                         	if(isRunning) {
                         		// 타이머가 활성화 되어있고 인증번호가 틀렸을때

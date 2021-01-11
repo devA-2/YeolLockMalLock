@@ -17,24 +17,12 @@
 </head>
 <body>
 	<div id="container">
-	<h1>마이페이지</h1>
-		<form action="./modifyInfoForm.do" method="post">
+	<h1>마이페이지 수정</h1>
+		<form action="./updateMember.do" method="post">
 			<table border="1">
 				<tr>
-					<td>아이디 :</td>
-					<td><div class="email">${mem.email }</div></td>
-				</tr>	
-				<tr>
-					<td>이름 :</td>
-					<td><div class="email">${mem.name }</div></td>
-				</tr>	
-				<tr>
 					<td>핸드폰번호 :</td>
-					<td><div class="email">${mem.phone_num }</div></td>
-				</tr>	
-				<tr>
-					<td>가입일 :</td>
-					<td><div class="email">${mem.reg_date }</div></td>
+					<td><input type="text" id="phone_num" name="phone_num"/>${mem.phone_num }</td>
 				</tr>	
 			</table>
 			<input type="submit" value="개인정보 수정">

@@ -14,11 +14,24 @@
    margin: auto;
 }
 </style>
+<script type="text/javascript">
+	function updateInfo(){
+		location.href='./updateInfoForm.do'
+		
+	}
+	
+	function updatePhone(){
+		location.href=''
+		
+	}
+	
+	
+</script>
 </head>
 <body>
 	<div id="container">
 	<h1>마이페이지</h1>
-		<form action="./modifyInfoForm.do" method="post">
+		<form action="./modifyInfoForm.do">
 			<table border="1">
 				<tr>
 					<td>아이디 :</td>
@@ -37,7 +50,8 @@
 					<td><div class="email">${mem.reg_date }</div></td>
 				</tr>	
 			</table>
-			<input type="submit" value="개인정보 수정">
+			<input type="button" value="개인정보 수정" onclick="updateInfo()">
+			<input type="button" value="휴대폰 번호수정" onclick="updatePhone()">
 		</form>
 		<!-- 보관함 페이지의 보관내역 여기에 인클루드 할 예정 -->
 	</div>

@@ -16,6 +16,7 @@
 }
 </style>
 <script type="text/javascript">	
+
 function loginChk(){
 	var email = document.getElementById("InputEmail").value;
 	var pw = document.getElementById("InputPw").value;
@@ -60,8 +61,8 @@ function loginChk(){
 			<div id="id">아이디</div>
 				<input type="text" name="email" id="InputEmail" required="required" value="user01@naver.com"/>
 			<div id="pw">비밀번호</div>
-				<input type="password" name="pw" id="InputPw" required="required" value="User010101"><br>
-			<a href="./infoAgree.do">아이디 찾기</a> &nbsp;&nbsp;
+				<input type="password" name="pw" id="InputPw" required="required" value="User010101" maxlength="20" size="20"><br>
+			<a href="./idSearchForm.do">아이디 찾기</a> &nbsp;&nbsp;
 			<a href="./infoAgree.do">비밀번호 찾기</a><br><br>
 			
 			<input type="button" id="login" name="login" class="btn btn-success" value="로그인" onclick="loginChk()">&nbsp;&nbsp;

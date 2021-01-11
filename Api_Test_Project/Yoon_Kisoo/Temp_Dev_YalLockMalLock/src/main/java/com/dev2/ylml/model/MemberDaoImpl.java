@@ -63,6 +63,12 @@ public class MemberDaoImpl implements MemberIDao {
 		}
 		return dto;
 	}
+
+	@Override
+	public MemberDto IdSearch(Map<String, Object> map) {
+		log.info("MemberDaoImpl IdSearch : " + map);
+		return sqlSession.selectOne("member.IdSearch", map);
+	}
 	
 	
 	

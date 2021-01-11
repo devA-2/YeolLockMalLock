@@ -25,5 +25,10 @@ public interface MemberIService {
 	 *  회원가입(일반회원)
 	 */
 	public MemberDto login(Map<String, Object> map);
+	
+	/*
+	 *  아이디 찾기
+	 */
+	public MemberDto IdSearch(Map<String, Object> map);
 
 }

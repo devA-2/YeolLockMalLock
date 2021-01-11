@@ -1,4 +1,6 @@
 
+//TODO : 유효성검사 지금 블러로 진행중인데, keyup으로 특정 자릿수를 입력했을때 동작하는게 괜찮아보임 
+
 //유효성검사
 //모든 공백 체크 정규식 
 var empJ = /\s/g;
@@ -13,6 +15,10 @@ var pwJ = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
 var phoneJ = /(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/g;
 
 $(document).ready(function(){
+	
+	var sendPhone_Num = document.getElementById("sendPhone_Num");
+	sendPhone_Num.disabled='disabled';
+
 
 	// 아이디(이메일) 중복확인
 	$("#email").blur(function(){ 
@@ -76,7 +82,7 @@ $(document).ready(function(){
 		}else if($('#phone_num').val() != ''){
 
 			var phone_num = $('#phone_num').val();
-
+			
 				$.ajax({
 						async: true,
 						type: 'POST',
@@ -97,6 +103,7 @@ $(document).ready(function(){
 								$('#phoneChk').text('사용가능한 휴대폰 번호 입니다.');
 								$('#phoneChk').css('color', 'blue');
 								$("#joincheck").attr("disabled", false);
+								sendPhone_Num.disabled=false;
 							}
 							else if(phone_num == ''){
 								$('#phoneChk').text('휴대폰 번호를 입력해주세요.');
@@ -161,7 +168,7 @@ $(document).ready(function(){
 			inval_Arr[1] = true;
 			alert('휴대폰 번호를 확인하세요.');
 			return false;
-		}
+		} else {}
 		
 		// 전체 유효성 검사
 		var validAll = true;

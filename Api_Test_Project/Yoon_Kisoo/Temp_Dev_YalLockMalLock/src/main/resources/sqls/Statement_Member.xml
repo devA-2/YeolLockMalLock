@@ -5,7 +5,7 @@
 <!--  회원가입 (임시 : id_num 가져올수 없어서 테스트용으로 씀) -->
 <insert id="insertMember" parameterType="com.dev2.ylml.dto.MemberDto">
 INSERT INTO MEMBER(ID_NUM, EMAIL, PW, NAME, PHONE_NUM)
-VALUES ('1251251255', #{email}, #{pw}, #{name},#{phone_num})
+VALUES ('11251255', #{email}, #{pw}, #{name},#{phone_num})
 </insert>
 
 <!-- 회원가입 (자동으로 id_num 가져 올때 -->
@@ -35,15 +35,6 @@ FROM MEMBER
 WHERE PHONE_NUM = #{phone_num}
 </select>
 
-<!-- 로그인 -->
-<!-- <select id="loginMember" parameterType="java.util.Map" resultType="com.dev2.ylml.dto.MemberDto"> -->
-<!-- SELECT EMAIL, NAME, AUTH, REG_DATE -->
-<!-- FROM MEMBER -->
-<!-- WHERE EMAIL = #{email} -->
-<!-- AND PW = #{pw} -->
-<!-- AND AUTH = '10' OR AUTH = '19' -->
-<!-- AND DEL_FLAG = 'N' -->
-<!-- </select> -->
 
 <!-- 암호화 로그인 -->
 <select id="enLogin" parameterType="java.util.Map" resultType="com.dev2.ylml.dto.MemberDto">
@@ -61,10 +52,12 @@ FROM MEMBER
 WHERE EMAIL = #{email}
 </select>
 
-<!-- 마이페이지 비밀번호 재확인 -->
-<!-- <select id="pwCheck" parameterType="java.lang.String" resultType="java.lang.Inteager"> -->
-<!-- SELECT COUNT(*) FROM MEMBER -->
-<!-- WHERE EMAIL= #{email} AND PW = #{pw}; -->
-<!-- </select> -->
+<!-- 아이디 찾기 -->
+<select id="IdSearch" resultType="java.lang.String">
+SELECT EMAIL 
+FROM MEMBER
+WHERE NAME = #{name}
+AND PHONE_NUM = #{phone_num}
+</select>
 
 </mapper>
