@@ -70,31 +70,11 @@ public class MemberController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value = "/main.do", method = RequestMethod.GET)
-	public String main() {	
-		System.out.println("move to : loginForm");
-		return "main";
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
 	@RequestMapping(value = "/myPageCheck.do", method = RequestMethod.GET)
 	public String myPageCheck(HttpSession session) {	
 		System.out.println("move to : myPageCheck");
 		session.setAttribute("allowed", false);
 		return "myPageCheck";
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	@RequestMapping(value = "/modifyInfoForm.do", method = RequestMethod.GET)
-	public String modifyInfoForm() {	
-		System.out.println("move to : myPage");
-		return "modifyInfoForm";
 	}
 	
 	@RequestMapping(value = "/idSearchForm.do", method = RequestMethod.GET)
@@ -103,6 +83,31 @@ public class MemberController {
 		return "idSearchForm";
 	}
 
+//	/**
+//	 * 마이페이지 정보 수정<br>
+//	 * 휴대폰번호 수정
+//	 * @param dto
+//	 * @return
+//	 */
+	@RequestMapping(value= "/updateInfoForm.do", method = RequestMethod.GET)
+	public String updatePw(MemberDto dto) {
+		System.out.println(dto);
+		log.info("memberController updateInfoForm" + dto);
+		return "updateInfoForm";
+	}
+	
+	/**
+	 * 마이페이지 비밀번호 변경<br>
+	 * 비밀번호 변경
+	 * @param dto
+	 * @return
+	 */
+	@RequestMapping(value= "/updatePwForm.do", method = RequestMethod.GET)
+	public String updatePwForm(MemberDto dto) {
+		System.out.println(dto);
+		log.info("memberController updatePwForm" + dto);
+		return "updatePwForm";
+	}
 	/**
 	 * 마이페이지 진입 세션 여부 확인<br>
 	 * 세션 여부(myPageAllowed)확인하여 마이페이지 진입 혹은 다시 리다이렉트로 보냄 (하지만 한번 들어가면 세션 정보가 남아 있는거 같음 이건 따로 세션 없애는거를 구현해야 할거 같음)
@@ -130,31 +135,14 @@ public class MemberController {
 		return isc ? "redirect:/loginForm.do" : "redirect:/signUpForm.do";
 	}
 	
-//	/**
-//	 * 마이페이지 휴대폰 번호수정<br>
-//	 * 휴대폰번호 수정
-//	 * @param dto
-//	 * @return
-//	 */
-//	@RequestMapping(value= "/updateInfoForm.do", method = RequestMethod.POST)
-//	public String updatePw(MemberDto dto) {
-//		System.out.println(dto);
-//		log.info("memberController updateInfoForm" + dto);
-//		return updateInfoForm;
-//	}
-//	
-//	/**
-//	 * 마이페이지 비밀번호 변경<br>
-//	 * 비밀번호 변경
-//	 * @param dto
-//	 * @return
-//	 */
-//	@RequestMapping(value= "/updatePw.do", method = RequestMethod.POST)
-//	public String updateMember1(MemberDto dto) {
-//		System.out.println(dto);
-//		log.info("memberController updatePhone" + dto);
-//		return null;
-//	}
+	@RequestMapping(value = "/updateInfo.do", method = RequestMethod.POST)
+	public String updateInfo(String email, String phone_num, HttpSession session, Model model) {
+		String mail = (String)session.getAttribute(email);
+		String phone = (String)session.getAttribute(phone_num);
+		
+		
+		return "myPage.do";
+	}
 	
 	/**
 	 * 로그인<br>

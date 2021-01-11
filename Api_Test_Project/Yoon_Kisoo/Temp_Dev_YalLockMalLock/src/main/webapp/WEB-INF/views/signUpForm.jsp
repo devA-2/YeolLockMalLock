@@ -46,6 +46,8 @@
 		</form>
 	</div>
 		<script>
+var success = document.getElementById("success");
+success.disabled='disabled'; // 회원가입 용이하게 하기 위해 막아둠		
 var timer = null;
 var isRunning = false;
         $('#sendPhone_Num').click(function(){
@@ -64,10 +66,6 @@ var isRunning = false;
         		
         	}
 
-            var success = document.getElementById("success");
-//             	success.disabled='disabled'; // 회원가입 용이하게 하기 위해 막아둠
-            
-            
             $.ajax({
                 type: "POST",
                 url: "./sendSMS.do",

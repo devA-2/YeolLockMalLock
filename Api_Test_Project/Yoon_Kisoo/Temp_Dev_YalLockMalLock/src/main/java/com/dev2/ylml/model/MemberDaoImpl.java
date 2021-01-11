@@ -31,7 +31,6 @@ public class MemberDaoImpl implements MemberIDao {
 		int cnt= sqlSession.insert("member.insertMember", dto);
 		System.out.println(cnt);
 		return (cnt>0)? true:false;
-//		return sqlSession.insert("member.insertMember", dto)>0 ? true:false;
 
 	}
 
@@ -41,7 +40,6 @@ public class MemberDaoImpl implements MemberIDao {
 		int result = sqlSession.selectOne("member.idCheck", email);
 		System.out.println(result);
 		return result;
-//		return sqlSession.selectOne("member.idCheck", email);
 	}
 
 	@Override
@@ -68,6 +66,12 @@ public class MemberDaoImpl implements MemberIDao {
 	public MemberDto IdSearch(Map<String, Object> map) {
 		log.info("MemberDaoImpl IdSearch : " + map);
 		return sqlSession.selectOne("member.IdSearch", map);
+	}
+
+	@Override
+	public boolean updateInfo(Map<String, Object> map) {
+		int cnt = sqlSession.update("member.updateInfo", map);
+		return (cnt>0)? true:false;
 	}
 	
 	

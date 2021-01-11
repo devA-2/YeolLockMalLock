@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +22,9 @@ public class SampleController {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@RequestMapping(value = "index.do")
-	public String index() {
+	public String index(HttpSession session) {
+		// TODO : 추후에 로그인 폼과 관련된 페이지를 제외하고 다른 페이지에 접근 할 경우에는 세션이 false가 되도록 적용할것 
+		session.setAttribute("allowed", false);
 		return "index";
 	}
 	

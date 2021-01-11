@@ -38,5 +38,10 @@ public class MemberServiceImpl implements MemberIService {
 	public MemberDto IdSearch(Map<String, Object> map) {
 		return iDao.IdSearch(map);
 	}
+
+	@Override
+	public boolean updateInfo(Map<String, Object> map) {
+		return iDao.updateInfo(map);
+	}
 	
 }

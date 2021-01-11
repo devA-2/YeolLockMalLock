@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script type="text/javascript" src="./js/jquery-3.5.1.js"></script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
 <style type="text/css">
 #container{
    width : 300px;
@@ -14,20 +14,160 @@
    margin: auto;
 }
 </style>
+<script type="text/javascript">
+//휴대폰 번호 정규식
+var phoneJ = /(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/g;
+
+$(document).ready(function(){
+	
+	var sendPhone_Num = document.getElementById("sendPhone_Num");
+	sendPhone_Num.disabled='disabled';
+	
+	// 휴대폰 번호 중복확인
+	$("#phone_num").blur(function(){ 
+	
+		if($('#phone_num').val() == ''){
+			$('#phoneChk').text('휴대폰 번호를 입력하세요.');
+			$('#phoneChk').css('color', 'red');
+
+		}else if($('#phone_num').val() != ''){
+
+			var phone_num = $('#phone_num').val();
+			
+				$.ajax({
+						async: true,
+						type: 'POST',
+						data: {
+						"phone" : phone_num
+						},
+						url : './phoneCheck.do',
+						dateType: 'json',
+						success: function(data){
+						console.log('Ajax for phoneCheck :' + data);	
+						
+						if(data > 0){
+							$('#phoneChk').text('중복된 휴대폰 번호 입니다.');
+							$('#phoneChk').css('color','red');
+							$("#joincheck").attr("disabled", false);
+						} else {
+							if(phoneJ.test(phone_num)){
+								$('#phoneChk').text('사용가능한 휴대폰 번호 입니다.');
+								$('#phoneChk').css('color', 'blue');
+								$("#joincheck").attr("disabled", false);
+								sendPhone_Num.disabled=false;
+							}
+							else if(phone_num == ''){
+								$('#phoneChk').text('휴대폰 번호를 입력해주세요.');
+								$('#phoneChk').css('color', 'red');
+								$("#joincheck").attr("disabled", true);
+	
+							} else if(! phoneJ.test(phone_num)){
+								$('#phoneChk').text("휴대폰 번호 형식이 맞지 않습니다 '-'을 제외하고 입력해주세요.");
+								$('#phoneChk').css('color', 'red');
+								$("#joincheck").attr("disabled", true); 
+							}
+						}  
+						
+						}
+
+				}); // ajax
+		} // else if
+
+		}); // blur
+});
+</script>
 </head>
 <body>
 	<div id="container">
 	<h1>마이페이지 수정</h1>
-		<form action="./updateMember.do" method="post">
-			<table border="1">
-				<tr>
-					<td>핸드폰번호 :</td>
-					<td><input type="text" id="phone_num" name="phone_num"/>${mem.phone_num }</td>
-				</tr>	
-			</table>
-			<input type="submit" value="개인정보 수정">
+		<form action="./updateInfo.do" method="post">
+			<label>변경 할 핸드폰 번호 : </label>
+				<input type="text" name="phone_num" id="phone_num" maxlength="11" size="15">
+			<div class="check_font" id="phoneChk"></div>
+				<input type="button" id="sendPhone_Num" value="인증번호 전송"><br>
+				<input type="text" id="inputCertifiedNumber" value='인증번호' size="5">
+				<input type="button" id="checkBtn" value="확인">
+			<div class="time"></div>
+			<input type="submit" value="개인정보 수정" id="success">	
 		</form>
-		<!-- 보관함 페이지의 보관내역 여기에 인클루드 할 예정 -->
 	</div>
+<script>
+var timer = null;
+var isRunning = false;
+var success = document.getElementById("success");
+// success.disabled='disabled'; // 회원가입 용이하게 하기 위해 막아둠
+
+        $('#sendPhone_Num').click(function(){
+            let phoneNumber = $('#phone_num').val();
+            alert('인증번호 발송 완료!');
+            var display = $('.time');
+        	var leftSec = 120;
+        	// 남은 시간
+        	// 이미 타이머가 작동중이면 중지
+        	if (isRunning){
+        		clearInterval(timer);
+        		display.html("");
+        		startTimer(leftSec, display);
+        	}else{
+        		startTimer(leftSec, display);
+        		
+        	}
+
+            
+            
+            $.ajax({
+                type: "POST",
+                url: "./sendSMS.do",
+                data: {"phoneNumber" : phoneNumber}, // 핸드폰 값이 넘어감
+                success: function(res){ // 인증번호 값이 넘어옴
+                    $('#checkBtn').click(function(){
+                    	if($('#inputCertifiedNumber').val()=='') {
+                    		alert('값을 입력하세요.');
+                    	} else if(isRunning && $.trim(res) ==$('#inputCertifiedNumber').val()){
+                            // 타이머가 활성화 되어있고 값이 정확히 입력되었을 때
+                    		alert('휴대폰 인증이 정상적으로 완료되었습니다.');
+							clearInterval(timer);
+			        		display.html("");
+			        		success.disabled=false;
+			        		
+                        }else{
+                        	if(isRunning) {
+                        		// 타이머가 활성화 되어있고 인증번호가 틀렸을때
+	                        	alert('인증번호가 맞지 않습니다.');
+                        	} else {
+                        		// 타이머가 활성화 되어 있지 않을때
+	                        	alert('시간이 초과되었습니다.');
+                        	}
+                        }
+                    })
+                }
+            })
+        });
+//--------------------타이머
+            
+        function startTimer(count, display) {
+            		var minutes, seconds;
+                    timer = setInterval(
+        function () {
+                    minutes = parseInt(count / 60, 10);
+                    seconds = parseInt(count % 60, 10);
+             
+                    minutes = minutes < 10 ? "0" + minutes : minutes;
+                    seconds = seconds < 10 ? "0" + seconds : seconds;
+             
+                    display.html(minutes + ":" + seconds);
+             
+                    // 타이머 끝
+                    if (--count < 0) {
+            	     clearInterval(timer);
+            	     alert("시간초과");
+            	     display.html("시간초과");
+            	     $('#checkBtn').attr("disabled","disabled");
+            	     isRunning = false;
+                    }
+                }, 1000);
+                     isRunning = true;
+        }
+</script>
 </body>
 </html>

@@ -53,11 +53,18 @@ WHERE EMAIL = #{email}
 </select>
 
 <!-- 아이디 찾기 -->
-<select id="IdSearch" resultType="java.lang.String">
+<select id="IdSearch" parameterType="java.util.Map" resultType="com.dev2.ylml.dto.MemberDto">
 SELECT EMAIL 
 FROM MEMBER
 WHERE NAME = #{name}
 AND PHONE_NUM = #{phone_num}
 </select>
+
+<!-- 개인정보 변경(휴대폰 변경이지만 후에 추가 될 수 있으므로 DTO로 처리함) -->
+<update id="updateInfo" parameterType="java.util.Map">
+UPDATE MEMBER SET 
+PHONE_NUM = #{phone_num}
+WHERE EMAIL= #{email}
+</update>
 
 </mapper>
