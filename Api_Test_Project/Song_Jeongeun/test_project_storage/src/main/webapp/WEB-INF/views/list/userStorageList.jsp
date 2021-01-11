@@ -6,12 +6,34 @@
 <head>
 <meta charset="UTF-8">
 <title>보관 내역</title>
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript">
+	function deliveryForm() {
+		var storageId = document.getElementById("storageId").value
+		var boxSeq = document.getElementById("boxSeq").value
+		
+		$.ajax({
+			url: "./idSeq.do",
+			data: {"storageId":storageId, "boxSeq":boxSeq},
+			type: "POST",
+			success : function(msg){
+				console.log("성공")
+				location.href = "./deliveryForm.do"
+			},
+			error : function(){
+				alert("서비스에 문제가 생겼습니다.")		
+			}
+		});
+	}
+</script>
 </head>
 <body>
 	<c:forEach var="list" items="${list}">
 		<c:if test="${list.inUser eq 'user01@naver.com'}">
 			<div>
 				<span>보관 /</span>
+				<input type="hidden" id="storageId" value="${list.storageId}">
+				<input type="hidden" id="boxSeq" value="${list.boxSeq}">
 				<span>${list.storageName}-${list.boxSeq} /</span>
 				<span>${list.subway} ${list.detail} /</span>
 				<span>보관 시작 시간 ${list.inTime} /</span>
@@ -23,13 +45,15 @@
 			</div>
 			<div>
 				<button>교환</button>
-				<button onclick="./delivery">배송</button>
+				<button onclick="deliveryForm()">배송</button>
 			</div>
 			<hr>
 		</c:if>
 		<c:if test="${list.outUser eq 'user01@naver.com'}">
 			<div>
 				<span>수령 /</span>
+				<input type="hidden" name="storageId" value="${list.storageId}">
+				<input type="hidden" name="boxSeq" value="${list.boxSeq}">
 				<span>${list.storageName}-${list.boxSeq} /</span>
 				<span>${list.subway} ${list.detail} /</span>
 				<span>보관 사용자 ${list.inUser} /</span>

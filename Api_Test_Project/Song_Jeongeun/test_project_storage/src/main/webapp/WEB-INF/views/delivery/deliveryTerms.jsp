@@ -8,7 +8,6 @@
 </head>
 <body>
 	<form action="./searchDeliveryStation.do">
-		<input type="hidden" name="subway" value="을지로4가역">
 		<input type="submit" value="배송 약관 동의">
 	</form>
 </body>

@@ -4,56 +4,93 @@ import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.dev2.ylml.dto.CostDto;
+import com.dev2.ylml.dto.DeliveryDto;
+import com.dev2.ylml.dto.MemberDto;
+import com.dev2.ylml.dto.StorageBoxListDto;
+import com.dev2.ylml.dto.StorageGoodsDto;
 import com.dev2.ylml.dto.UserDeliveryListDto;
 import com.dev2.ylml.dto.UserStorageListDto;
 
 @Repository
 public class StorageGoodsDao implements StorageGoodsIDao {
 	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 
 	@Override
-	public List<UserStorageListDto> selectUserStorageList(String email) {
-		return sqlSession.selectList("storageBox.selectUserStorageList", email);
+	public List<UserStorageListDto> selectUserStorageList(Map<String, String> map) {
+		logger.info("Dao_selectUserStorageList 실행");
+		return sqlSession.selectList("storageBox.selectUserStorageList", map);
 	}
 
 	@Override
 	public List<CostDto> selectCost(String email) {
+		logger.info("Dao_selectCost 실행");
 		return sqlSession.selectList("storageBox.selectCost", email);
 	}
 	
 	@Override
 	public int selectDeliveryQty(String storageId) {
+		logger.info("Dao_selectDeliveryQty 실행");
 		return sqlSession.selectOne("storageBox.selectDeliveryQty", storageId);
 	}
 	
+
 	@Override
-	public List<String> selectDeliveryMan() {
+	public List<StorageBoxListDto> selectStorageBoxList(String storageId) {
+		logger.info("Dao_selectStorageBoxList 실행");
+		return sqlSession.selectList("storageBox.selectStorageBoxList", storageId);
+	}
+	
+	@Override
+	public List<MemberDto> selectDeliveryMan() {
+		logger.info("Dao_selectDeliveryMan 실행");
 		return sqlSession.selectList("storageBox.selectDeliveryMan");
 	}
 	
 	@Override
 	public String selectCurrnetLoc(String deliverymanId) {
+		logger.info("Dao_selectCurrnetLoc 실행");
 		return sqlSession.selectOne("storageBox.selectCurrnetLoc", deliverymanId);
 	}
 	
 	@Override
 	public int selectDeliveryTime(Map<String, String> stations) {
+		logger.info("Dao_selectDeliveryTime 실행");
 		return sqlSession.selectOne("storageBox.selectDeliveryTime", stations);
 	}
 
 	@Override
 	public int selectStationCost(Map<String, String> stations) {
+		logger.info("Dao_selectStationCost 실행");
 		return sqlSession.selectOne("storageBox.selectStationCost", stations);
 	}
 
 	@Override
+	public boolean insertDelivery(DeliveryDto dto) {
+		int cnt = sqlSession.insert("storageBox.insertDelivery", dto);
+		logger.info("Dao_insertDelivery 실행");
+		return cnt > 0? true:false;
+	}
+	
+	@Override
+	public boolean updateDeliveryCode(StorageGoodsDto dto) {
+		int cnt = sqlSession.update("storageBox.updateDeliveryCode", dto);
+		logger.info("Dao_updateDeliveryCode 실행");
+		return cnt > 0? true:false;
+	}
+
+	@Override
 	public List<UserDeliveryListDto> selectUserDeliveryList(String email) {
+		logger.info("Dao_selectUserDeliveryList 실행");
 		return sqlSession.selectList("storageBox.selectUserDeliveryList", email);
 	}
 

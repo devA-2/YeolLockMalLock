@@ -7,6 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-	index.jsp 입니다
+	<form action="./userStorageList.do">
+		<input type="hidden" name="email" value="user01@naver.com">
+		<input type="submit" value="보관 내역 조회">
+	</form>
 </body>
 </html>

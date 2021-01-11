@@ -30,7 +30,7 @@
 	
 	<!-- 보관 내역(사용자) -->
 	<select id="selectUserStorageList" parameterType="java.lang.String" resultMap="UserStorageList">
-		SELECT sg.BOX_SEQ, sl.STORAGE_NAME, sl.SUBWAY, sl.DETAIL,
+		SELECT sg.BOX_SEQ, sl.STORAGE_ID, sl.STORAGE_NAME, sl.SUBWAY, sl.DETAIL,
 		sg.IN_USER, sg.OUT_USER,
 		TO_CHAR(sg.IN_TIME, 'YYYY-MM-DD HH:MI:SS') AS IN_TIME, TO_CHAR(sg.EX_TIME,'YYYY-MM-DD HH24:MI:SS') AS EX_TIME,
 		sg.COST_CODE, sg.CATEGORY_CODE, sg.EXTEND_CNT,
@@ -46,8 +46,13 @@
 		WHERE sg.OUT_USER = #{email}
 	</select>
 	
-	<!-- 전체 배송원 EMAIL 조회 -->
-	<select id="selectDeliveryMan" resultType="java.lang.String">
+	<!-- 보관함ID로 내용 조회 -->
+	<select id="selectStorageBoxList" parameterType="java.lang.String" resultType="com.dev2.ylml.dto.StorageBoxListDto">
+		SELECT STORAGE_NAME, ADDRESS, SUBWAY, DETAIL, MANAGER FROM STORAGEBOX_LIST WHERE STORAGE_ID= #{storageId}
+	</select>
+	
+	<!-- 전체 배송원 EMAIL, NAME 조회 -->
+	<select id="selectDeliveryMan" resultType="com.dev2.ylml.dto.MemberDto">
 		SELECT EMAIL, NAME FROM "MEMBER" WHERE AUTH = 80
 	</select>
 	
@@ -67,6 +72,15 @@
 		SELECT SUM(DURATION) FROM TIME_TABLE WHERE TIME_TABLE_SEQ 
 		BETWEEN (SELECT TIME_TABLE_SEQ FROM TIME_TABLE WHERE START_STATION = #{startStation})
 		AND (SELECT TIME_TABLE_SEQ FROM TIME_TABLE WHERE ARRIVE_STATION = #{arriveStation})
+<!-- 		SELECT SUM(DURATION) FROM TIME_TABLE WHERE TIME_TABLE_SEQ  -->
+<!-- 		BETWEEN (CASE WHEN ((SELECT TIME_TABLE_SEQ FROM TIME_TABLE WHERE START_STATION = #{startStation})&lt;(SELECT TIME_TABLE_SEQ FROM TIME_TABLE WHERE ARRIVE_STATION = #{arriveStation})) -->
+<!-- 		THEN (SELECT TIME_TABLE_SEQ FROM TIME_TABLE WHERE START_STATION = #{startStation}) -->
+<!-- 		WHEN ((SELECT TIME_TABLE_SEQ FROM TIME_TABLE WHERE START_STATION = #{startStation})&gt;(SELECT TIME_TABLE_SEQ FROM TIME_TABLE WHERE ARRIVE_STATION = #{arriveStation})) -->
+<!-- 		THEN (SELECT TIME_TABLE_SEQ FROM TIME_TABLE WHERE ARRIVE_STATION = #{arriveStation}) END) -->
+<!-- 		AND (CASE WHEN ((SELECT TIME_TABLE_SEQ FROM TIME_TABLE WHERE START_STATION = #{startStation})&lt;(SELECT TIME_TABLE_SEQ FROM TIME_TABLE WHERE ARRIVE_STATION = #{arriveStation})) -->
+<!-- 		THEN (SELECT TIME_TABLE_SEQ FROM TIME_TABLE WHERE START_STATION = #{arriveStation}) -->
+<!-- 		WHEN ((SELECT TIME_TABLE_SEQ FROM TIME_TABLE WHERE START_STATION = #{startStation})&gt;(SELECT TIME_TABLE_SEQ FROM TIME_TABLE WHERE ARRIVE_STATION = #{arriveStation})) -->
+<!-- 		THEN (SELECT TIME_TABLE_SEQ FROM TIME_TABLE WHERE ARRIVE_STATION = #{startStation}) END) -->
 	</select>
 	
 	<!-- 배송 비용 계산 -->
@@ -77,9 +91,18 @@
 	</select>
 	
 	<!-- 배송 등록 -->
-	<insert id="">
-		INSERT INTO DELIVERY VALUES('YMD', #{deliveryCost}, #{deliverymanId}, #{outboxId}, null)
+	<insert id="insertDelivery">
+		INSERT INTO DELIVERY VALUES('YMD', #{deliveryCost}, #{deliverymanId}, #{outboxId}, null, null)
 	</insert>
+	<update id="updateDeliveryCode">
+		UPDATE STORAGE_GOODS SET DELIVERY_CODE = 'YMD001', CATEGORY_CODE = 'D', MESSAGE = #{message} WHERE BOX_SEQ = 1 AND STORAGE_ID = 'CITYHALL_A'
+	</update>
+	<update id="updateDeliveryCost">
+		UPDATE COST SET COST = COST + (
+		SELECT DELIVERY_COST FROM DELIVERY WHERE DELIVERY_CODE = (
+		SELECT DELIVERY_CODE FROM STORAGE_GOODS WHERE BOX_SEQ = 1 AND STORAGE_ID = 'CITYHALL_A'))
+		WHERE COST_CODE = (SELECT COST_CODE FROM STORAGE_GOODS WHERE BOX_SEQ = 1 AND STORAGE_ID = 'CITYHALL_A')
+	</update>
 	
 	<!-- 배송 내역(사용자) -->
 	<select id="selectUserDeliveryList" parameterType="java.lang.String" resultMap="UserDeliveryList">
