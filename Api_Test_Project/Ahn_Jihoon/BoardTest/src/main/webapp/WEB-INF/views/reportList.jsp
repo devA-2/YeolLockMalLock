@@ -30,7 +30,14 @@
 </table>
 </div>
 <div>
-	<button onclick="location.href = './insertReport.do'">신고 글 작성</button>
+	<div>
+		<button onclick="location.href = './insertReport.do'">신고 글 작성</button><br>
+	</div>
+	<div>
+		<form action="./searchId.do" method="post">
+			<input type="submit" value="검색">
+		</form>
+	</div>
 </div>
 </body>
 </html>
