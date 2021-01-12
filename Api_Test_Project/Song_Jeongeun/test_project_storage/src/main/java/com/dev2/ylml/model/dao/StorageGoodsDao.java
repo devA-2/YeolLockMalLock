@@ -38,16 +38,15 @@ public class StorageGoodsDao implements StorageGoodsIDao {
 	}
 	
 	@Override
-	public int selectDeliveryQty(String storageId) {
-		logger.info("Dao_selectDeliveryQty 실행");
-		return sqlSession.selectOne("storageBox.selectDeliveryQty", storageId);
-	}
-	
-
-	@Override
 	public List<StorageBoxListDto> selectStorageBoxList(String storageId) {
 		logger.info("Dao_selectStorageBoxList 실행");
 		return sqlSession.selectList("storageBox.selectStorageBoxList", storageId);
+	}
+	
+	@Override
+	public int selectTimeTableSeq(String subway) {
+		logger.info("selectTimeTableSeq 실행");
+		return sqlSession.selectOne("storageBox.selectTimeTableSeq", subway);
 	}
 	
 	@Override
@@ -57,21 +56,34 @@ public class StorageGoodsDao implements StorageGoodsIDao {
 	}
 	
 	@Override
-	public String selectCurrnetLoc(String deliverymanId) {
-		logger.info("Dao_selectCurrnetLoc 실행");
-		return sqlSession.selectOne("storageBox.selectCurrnetLoc", deliverymanId);
+	public String selectDeliveryLoc(String deliverymanId) {
+		logger.info("Dao_selectDeliveryLoc 실행");
+		return sqlSession.selectOne("storageBox.selectDeliveryLoc", deliverymanId);
 	}
 	
 	@Override
-	public int selectDeliveryTime(Map<String, String> stations) {
-		logger.info("Dao_selectDeliveryTime 실행");
-		return sqlSession.selectOne("storageBox.selectDeliveryTime", stations);
+	public int selectDeliveryQty(String deliverymanId) {
+		logger.info("Dao_selectDeliveryQty 실행");
+		return sqlSession.selectOne("storageBox.selectDeliveryQty", deliverymanId);
 	}
-
+	
 	@Override
-	public int selectStationCost(Map<String, String> stations) {
-		logger.info("Dao_selectStationCost 실행");
-		return sqlSession.selectOne("storageBox.selectStationCost", stations);
+	public int selectDeliveryTime(Map<String, Integer> subwaySeqs) {
+		logger.info("Dao_selectDeliveryTime 실행");
+		return sqlSession.selectOne("storageBox.selectDeliveryTime", subwaySeqs);
+	}
+	
+	@Override
+	public boolean updateDeliveryCode(StorageGoodsDto dto) {
+		int cnt = sqlSession.update("storageBox.updateDeliveryCode", dto);
+		logger.info("Dao_updateDeliveryCode 실행");
+		return cnt > 0? true:false;
+	}
+	
+	@Override
+	public String selectDeliveryCode(StorageGoodsDto dto) {
+		logger.info("Dao_selectDeliveryCode 실행");
+		return sqlSession.selectOne("storageBox.selectDeliveryCode", dto);
 	}
 
 	@Override
@@ -82,9 +94,9 @@ public class StorageGoodsDao implements StorageGoodsIDao {
 	}
 	
 	@Override
-	public boolean updateDeliveryCode(StorageGoodsDto dto) {
-		int cnt = sqlSession.update("storageBox.updateDeliveryCode", dto);
-		logger.info("Dao_updateDeliveryCode 실행");
+	public boolean updateDeliveryCost(StorageGoodsDto dto) {
+		int cnt = sqlSession.insert("storageBox.updateDeliveryCost", dto);
+		logger.info("Dao_updateDeliveryCost 실행");
 		return cnt > 0? true:false;
 	}
 

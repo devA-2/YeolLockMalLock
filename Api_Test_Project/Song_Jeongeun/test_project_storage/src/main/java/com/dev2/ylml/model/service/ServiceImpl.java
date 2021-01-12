@@ -1,6 +1,5 @@
 package com.dev2.ylml.model.service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dev2.ylml.dto.CostDto;
+import com.dev2.ylml.dto.DeliveryDto;
 import com.dev2.ylml.dto.MemberDto;
 import com.dev2.ylml.dto.StorageBoxListDto;
+import com.dev2.ylml.dto.StorageGoodsDto;
 import com.dev2.ylml.dto.UserDeliveryListDto;
 import com.dev2.ylml.dto.UserStorageListDto;
 import com.dev2.ylml.model.dao.StorageGoodsIDao;
@@ -38,11 +39,11 @@ public class ServiceImpl implements IService {
 		logger.info("Service_selectUserStorageList 실행");
 		return list;
 	}
-	
+
 	@Override
-	public int selectDeliveryQty(String storageId) {
-		logger.info("Service_selectDeliveryQty 실행");
-		return sgDao.selectDeliveryQty(storageId);
+	public int selectTimeTableSeq(String subway) {
+		logger.info("Service_selectTimeTableSeq 실행");
+		return sgDao.selectTimeTableSeq(subway);
 	}
 	
 	@Override
@@ -56,44 +57,38 @@ public class ServiceImpl implements IService {
 		logger.info("Service_selectDeliveryMan 실행");
 		return sgDao.selectDeliveryMan();
 	}
-
+	
 	@Override
-	public int selectCurrnetLoc(Map<String, String> deliverManLoc) {
-		String currnetLoc = sgDao.selectCurrnetLoc(deliverManLoc.get("deliverymanId"));
-		int cnt = sgDao.selectDeliveryQty(currnetLoc);
-		int time = 0;
-		if(!currnetLoc.equals(deliverManLoc.get("userLoc"))) {
-			if(cnt < 7) {
-				Map<String, String> stations = new HashMap<String, String>();
-				stations.put("startStation", currnetLoc);
-				stations.put("arriveStation", deliverManLoc.get("userLoc"));
-				time = sgDao.selectDeliveryTime(stations);
-			}else {
-				time = -1;
-			}
-		}
-		logger.info("Service_selectCurrnetLoc 실행");
-		return time;
-	}
-
-	@Override
-	public Map<String, Integer> selectDeliveryInfo(Map<String, String> stations) {
-		Map<String, Integer> info = new HashMap<String, Integer>();
-		int time = sgDao.selectDeliveryTime(stations);
-		int cost = sgDao.selectStationCost(stations);
-		info.put("time", time);
-		info.put("cost", cost);
-		logger.info("Service_selectDeliveryInfo 실행");
-		return info;
+	public String selectDeliveryLoc(String deliverymanId) {
+		logger.info("ServiceselectDeliveryLoc 실행");
+		return sgDao.selectDeliveryLoc(deliverymanId);
 	}
 	
-//	@Override
-//	public boolean insertDelivery(DeliveryDto delDto, StorageGoodsDto goodsDto) {
-//		boolean isc1 = sgDao.insertDelivery(delDto);
-//		boolean isc2 = sgDao.updateDeliveryCode(goodsDto);
-//		logger.info("Service_insertDelivery 실행");
-//		return (isc1 || isc2)? true:false;
-//	}
+	@Override
+	public int selectDeliveryQty(String deliverymanId) {
+		logger.info("Service_selectDeliveryQty 실행");
+		return sgDao.selectDeliveryQty(deliverymanId);
+	}
+
+	@Override
+	public int selectDeliveryTime(Map<String, Integer> subwaySeqs) {
+		logger.info("Service_selectDeliveryTime 실행");
+		return sgDao.selectDeliveryTime(subwaySeqs);
+	}
+	
+	@Override
+	public boolean insertDelivery(DeliveryDto delDto, StorageGoodsDto goodsDto) {
+		boolean isc1 = sgDao.updateDeliveryCode(goodsDto);
+		String deliveryCode = sgDao.selectDeliveryCode(goodsDto);
+		System.out.println("업데이트된 배송코드!! "+deliveryCode);
+		delDto.setDeliveryCode(deliveryCode);
+		System.out.println("DeliveryDto 확인!! "+delDto);
+		boolean isc2 = sgDao.insertDelivery(delDto);
+		// TODO : 결제 업데이트에서 오류 발생! 확인하기!!
+		boolean isc3 = sgDao.updateDeliveryCost(goodsDto);
+		logger.info("Service_insertDelivery 실행");
+		return (isc1 || isc2 || isc3)? true:false;
+	}
 
 	@Override
 	public List<UserDeliveryListDto> selectUserDeliveryList(String email) {

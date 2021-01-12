@@ -3,8 +3,10 @@ package com.dev2.ylml.model.service;
 import java.util.List;
 import java.util.Map;
 
+import com.dev2.ylml.dto.DeliveryDto;
 import com.dev2.ylml.dto.MemberDto;
 import com.dev2.ylml.dto.StorageBoxListDto;
+import com.dev2.ylml.dto.StorageGoodsDto;
 import com.dev2.ylml.dto.UserDeliveryListDto;
 import com.dev2.ylml.dto.UserStorageListDto;
 
@@ -16,30 +18,39 @@ public interface IService {
 	public List<UserStorageListDto> selectUserStorageList(Map<String, String> map);
 	
 	/**
-	 * 배송 물량 확인
-	 */
-	public int selectDeliveryQty(String storageId);
-	
-	/**
 	 * 보관함ID로 보관함 정보 조회
 	 */
 	public List<StorageBoxListDto> selectStorageBoxList(String storageId);
 
 	/**
-	 * 배송원 정보 조회
+	 * 타임테이블 SEQ 조회
 	 */
-	public List<MemberDto> selectDeliveryMan();
-	public int selectCurrnetLoc(Map<String, String> deliverManLoc);
+	public int selectTimeTableSeq(String subway);
 	
 	/**
-	 * 배송 소요 시간 및 비용 계산
+	 * 전체 배송원 조회
 	 */
-	public Map<String, Integer> selectDeliveryInfo(Map<String, String> stations);
+	public List<MemberDto> selectDeliveryMan();
+	
+	/**
+	 * 배송원 현재 위치 조회
+	 */
+	public String selectDeliveryLoc(String deliverymanId);
+	
+	/**
+	 * 배송 물량 확인
+	 */
+	public int selectDeliveryQty(String deliverymanId);
+	
+	/**
+	 * 배송 소요 시간 계산
+	 */
+	public int selectDeliveryTime(Map<String, Integer> subwaySeqs);
 	
 	/**
 	 * 배송 등록
 	 */
-//	public boolean insertDelivery(DeliveryDto delDto, StorageGoodsDto goodsDto);
+	public boolean insertDelivery(DeliveryDto delDto, StorageGoodsDto goodsDto);
 	
 	/**
 	 * 배송 정보 조회(사용자)

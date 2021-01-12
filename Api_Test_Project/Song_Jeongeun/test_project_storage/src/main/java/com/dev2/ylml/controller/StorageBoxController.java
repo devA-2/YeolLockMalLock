@@ -6,15 +6,14 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dev2.ylml.dto.DeliveryDto;
@@ -62,8 +61,10 @@ public class StorageBoxController {
 	
 	@RequestMapping(value = "/idSeq.do", method = RequestMethod.POST)
 	@ResponseBody
-	public String idSeq(@RequestBody String param, HttpSession session) {
-		logger.info("Controller_idSeq.do 실행");
+	public String idSeq(@RequestParam("storageId") String storageId ,@RequestParam("boxSeq") int boxSeq, HttpSession session) {
+		session.setAttribute("storageId", storageId);
+		session.setAttribute("boxSeq", boxSeq);
+		logger.info("Controller_idSeq.do 실행 : {}",storageId,boxSeq);
 		return "success";
 	}
 	
@@ -74,9 +75,7 @@ public class StorageBoxController {
 	}
 	
 	@RequestMapping(value = "/searchDeliveryStation.do", method = RequestMethod.GET)
-	public String searchDeliveryStation(Model model, HttpSession session) {
-		model.addAttribute("storageId", session.getAttribute("storageId"));
-		System.out.println("확인확인!!!!! "+model);
+	public String searchDeliveryStation() {
 		logger.info("Controller_searchDeliveryStation.do 실행");
 		return "delivery/searchDeliveryStation";
 	}
@@ -89,64 +88,157 @@ public class StorageBoxController {
 	 */
 	@RequestMapping(value = "/checkDeliveryInfo.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> checkdeliveryTime(String start, String arrive) {
-		List<StorageBoxListDto> sbListDto = service.selectStorageBoxList(start);
-		String startStation= sbListDto.get(0).getSubway();
-		System.out.println("확인!!!!!!!!!!"+startStation);
+	public Map<String, Object> checkdeliveryTime(@RequestParam("arriveStation") String arriveStation, HttpSession session) {
+		// 사용자 현재 보관함 위치
+		String userStorageId = (String) session.getAttribute("storageId");
+		List<StorageBoxListDto> userSBListDto = service.selectStorageBoxList(userStorageId);
+		String userStorageSubway = userSBListDto.get(0).getSubway();
 		
-		// 전체 배송원 조회
-		List<MemberDto> deliveryMan = service.selectDeliveryMan();
-		int time = 0;
-		int num = 100000;
-		Map<String, String> delManInfo = new HashMap<String, String>();
+		// 배송역 정보
+		List<StorageBoxListDto> deliverySBListDto = service.selectStorageBoxList(arriveStation);
+		String deliveryStorageSubway = deliverySBListDto.get(0).getSubway();
 		
-		// 현재 보관함에서 가까운 배송원 탐색
-		for (int i = 0; i < deliveryMan.size(); i++) {
-			String deliverymanId = deliveryMan.get(i).getEmail();
-			String deliverymanName = deliveryMan.get(i).getName();
-			Map<String, String> deliverManLoc = new HashMap<String, String>();
-			deliverManLoc.put("deliverymanId", deliverymanId);
-			deliverManLoc.put("userLoc", startStation);
-			time = service.selectCurrnetLoc(deliverManLoc);
-			if(time != -1) {
-				if(time < num) {
-					num = time;
+		// 타임테이블 seq
+		int userLocSeq = (int) session.getAttribute("boxSeq");
+		int deliveryLocSeq = service.selectTimeTableSeq(deliveryStorageSubway);
+		
+		// 1. 배송원 현재 위치 > 사용자 보관함 거리 계산
+		//  1) 전체 배송원 조회
+		List<MemberDto> deliveryMans = service.selectDeliveryMan();
+		//  2) 사용자 보관함과 가까운 배송원 탐색
+		int deliverymanCnt = 0;
+		int num = 1000;
+		Map<String, Object> delManInfo = new HashMap<String, Object>();
+		for (int i = 0; i < deliveryMans.size(); i++) {
+			//  2-1) 배송원 ID, 이름 탐색
+			String deliverymanId = deliveryMans.get(i).getEmail();
+			String deliverymanName = deliveryMans.get(i).getName();
+			// 2-2) 배송원 위치 탐색
+			String deliverymanSubway = service.selectDeliveryLoc(deliverymanId);
+			int deliverymanLocSeq = service.selectTimeTableSeq(deliverymanSubway);
+			// 2-3) 사용자 위치와 배송원 위치 비교 후 가장 가까운 위치의 배송원 찾기
+			if(userLocSeq != deliverymanLocSeq) {
+				if(userLocSeq > deliverymanLocSeq) {
+					deliverymanCnt = userLocSeq - deliverymanLocSeq;
+				}else {
+					deliverymanCnt = (10-deliverymanLocSeq)+(0+userLocSeq);	// 전체 역 10개일 경우를 가정
 				}
-				if(time == num) {
-					delManInfo.put("delManId", deliverymanId);
-					delManInfo.put("delManName", deliverymanName);
+				if(deliverymanCnt < num) {
+					if(deliverymanCnt > 0) {
+						num = deliverymanCnt;
+					}
+				}
+				if(deliverymanCnt == num) {
+					delManInfo.put("deliverymanId", deliverymanId);
+					delManInfo.put("deliverymanName", deliverymanName);
+					delManInfo.put("deliverymanSubway", deliverymanSubway);
+					delManInfo.put("deliverymanLocSeq", deliverymanLocSeq);
+					System.out.println("숫자는..? "+deliverymanCnt);
 				}
 			}
 		}
+		System.out.println("배송원 정보 확인!! "+delManInfo);
+		//  3) 배송원 물량 확인
+		int deliveryQty = service.selectDeliveryQty((String)delManInfo.get("deliverymanId"));
+		System.out.println("배송 물량 확인!! "+deliveryQty);
+		//  4) 배송원 현재 위치 > 사용자 보관함 시간 계산
+		int delManTime;
+		if(deliveryQty < 7) {
+			Map<String, Integer> userDelMan = new HashMap<String, Integer>();
+			if(userLocSeq > (Integer)delManInfo.get("deliverymanLocSeq")) {
+				userDelMan.put("startSeq", (Integer)delManInfo.get("deliverymanLocSeq"));
+				userDelMan.put("arriveSeq", userLocSeq-1);
+				delManTime = service.selectDeliveryTime(userDelMan);
+				System.out.println("지하철 번호 확인!! "+userDelMan);
+				System.out.println("배송원 도착 시간 확인!! "+delManTime);
+			}else {
+				userDelMan.put("startSeq", (Integer)delManInfo.get("deliverymanLocSeq")-1);
+				userDelMan.put("arriveSeq", 9);											// 전체 역 10개일 경우를 가정
+				int arroundTime1 = service.selectDeliveryTime(userDelMan);
+				Map<String, Integer> userDelMan1 = new HashMap<String, Integer>();
+				int arroundTime2;
+				if(userLocSeq != 1) {
+					userDelMan1.put("startSeq", 1);
+					userDelMan1.put("arriveSeq", userLocSeq-1);
+					arroundTime2 = service.selectDeliveryTime(userDelMan);
+				}else {
+					arroundTime2 = 0;
+				}
+				delManTime = arroundTime1+arroundTime2;
+				System.out.println("배송원 도착 시간 확인!! "+delManTime);
+			}
+		}else {
+			delManTime = -1;
+		}
 		
-		// 배송 시간/비용 조회
-		Map<String, String> stations = new HashMap<String, String>();
-		stations.put("startStation", startStation);
-		stations.put("arriveStation", arrive);
-		Map<String, Integer> cost = service.selectDeliveryInfo(stations);
+		// 2. 사용자 보관함 > 배송 보관함 시간/비용 계산
+		Map<String, Integer> userDelLoc = new HashMap<String, Integer>();
+		int userDelTime;
+		int deliveryCost;
+		if(userLocSeq < deliveryLocSeq) {
+			userDelLoc.put("startSeq", userLocSeq);
+			userDelLoc.put("arriveSeq", deliveryLocSeq-1);
+			userDelTime = service.selectDeliveryTime(userDelLoc);
+			deliveryCost = (deliveryLocSeq - userLocSeq) * 200;					// 배송비용 = 정거장 수 * 200원
+			System.out.println("지하철 번호 확인!! "+userDelLoc);
+			System.out.println("배송 시간 확인!! "+userDelTime);
+			System.out.println("배송 비용 확인!! "+deliveryCost);
+		}else {
+			userDelLoc.put("startSeq", userLocSeq-1);
+			userDelLoc.put("arriveSeq", 10);									// 전체 역 10개일 경우를 가정
+			int arroundTime1 = service.selectDeliveryTime(userDelLoc);
+			int arroundCost1 = (10 - userLocSeq) * 200;
+			Map<String, Integer> userDelLoc1 = new HashMap<String, Integer>();
+			int arroundTime2;
+			int arroundCost2;
+			if(userLocSeq != 1) {
+				userDelLoc1.put("startSeq", 1);
+				userDelLoc1.put("arriveSeq", deliveryLocSeq-1);
+				arroundTime2 = service.selectDeliveryTime(userDelLoc1);
+				arroundCost2 = (deliveryLocSeq - 1) * 200;
+			}else {
+				arroundTime2 = 0;
+				arroundCost2 = 0;
+			}
+			userDelTime = arroundTime1+arroundTime2;
+			deliveryCost = arroundCost1 + arroundCost2;
+			System.out.println("배송 시간 확인!! "+userDelTime);
+			System.out.println("배송 비용 확인!! "+deliveryCost);
+		}
 		
-		// 화면으로 전달할 값 저장
+		// 3. 배송원 현재 위치 > 사용자 보관함 > 배송 보관함 시간 합산
+		int deliveryTime = delManTime + userDelTime;
+		
+		// 4. 화면에 전달할 값 저장
 		Map<String, Object> info = new HashMap<String, Object>();
-		if(time != -1) {
-			time += cost.get("time");
-			cost.put("time", time);
-			info.put("cost", cost);
+		if(delManTime != -1) {
+			info.put("boxSeq", userLocSeq);
+			info.put("storageId", userStorageId);
+			info.put("userStorageSubway", userStorageSubway);
+			info.put("deliveryStorageSubway", deliveryStorageSubway);
+			info.put("outboxId", arriveStation);
+			info.put("deliveryTime", deliveryTime);
+			info.put("deliveryCost", deliveryCost);
 			info.put("delManInfo", delManInfo);
 			info.put("isc", "success");
-			logger.info("Controller_checkDeliveryInfo.do 실행");
-			return info;
 		}else {
 			info.put("isc", "false");
-			logger.info("Controller_checkDeliveryInfo.do 실행");
-			return info;
 		}
+		logger.info("Controller_checkDeliveryInfo.do 실행");
+		return info;
 	}
 	
+	/**
+	 * 배송 등록
+	 * @param delDto
+	 * @param goodsDto
+	 * @return
+	 */
 	@RequestMapping(value = "/delivery.do", method = RequestMethod.POST)
 	public String delivery(DeliveryDto delDto, StorageGoodsDto goodsDto) {
 		System.out.println("@@@@@@DeliveryDto@@@@@"+delDto);
 		System.out.println("@@@@@@StorageGoodsDto@@@@@"+goodsDto);
-//		boolean isc = service.insertDelivery(delDto, goodsDto);
+		boolean isc = service.insertDelivery(delDto, goodsDto);
 		logger.info("Controller_delivery.do 실행");
 		return "delivery/deliverySuccess";
 //		return isc?"redirect:/deliverySuccess.do":"redirect:/userStorageList.do";

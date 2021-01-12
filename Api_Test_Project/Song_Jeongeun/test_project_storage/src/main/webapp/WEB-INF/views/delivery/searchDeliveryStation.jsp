@@ -8,23 +8,22 @@
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
 	function calTime(arrive) {
-		var start = document.getElementById("start").value
-		console.log(start)
-		console.log(arrive)
+		var start = document.getElementById ("start").value
 		if(start != arrive){
 			$.ajax({
 				type:"post",
 				url:"./checkDeliveryInfo.do",
-				data:"start="+start+"&arrive="+arrive,
+				data:{"arriveStation":arrive},
 				success: function(info){
 					if(info.isc == "success"){
 						$('#result').empty()
 						$('#msg').empty()
-						$('#result').append('<tr><td>출발역</td><td><input type="text" value="'+start+'" readonly></td></tr>')
-						$('#result').append('<tr><td>도착역</td><td><input type="text" value="'+arrive+'" readonly></td></tr>')
-						$('#result').append('<tr><td>소요 시간</td><td><input type="text" value="'+info.cost.time+'" readonly>분</td></tr>')
-						$('#result').append('<tr><td>배송 비용</td><td><input type="text" name="deliveryCost" value="'+info.cost.cost+'" readonly>원</td></tr>')
-						$('#result').append('<tr><td>담당 배달원</td><td><input type="text" value="'+info.delManInfo.delManName+'" readonly>배달원<input type="hidden" name="deliverymanId" value="'+info.delManInfo.delManId+'"></td></tr>')
+						$('#result').append('<tr><td colspan="2"><input type="hidden" name="boxSeq" value="'+info.boxSeq+'"><input type="hidden" name="storageId" value="'+info.storageId+'"></td></tr>')
+						$('#result').append('<tr><td>출발역</td><td><input type="text" value="'+info.userStorageSubway+'" readonly></td></tr>')
+						$('#result').append('<tr><td>도착역</td><td><input type="text" value="'+info.deliveryStorageSubway+'" readonly><input type="hidden" name="outboxId" value="'+info.outboxId+'"></td></tr>')
+						$('#result').append('<tr><td>소요 시간</td><td><input type="text" value="'+info.deliveryTime+'" readonly>분</td></tr>')
+						$('#result').append('<tr><td>배송 비용</td><td><input type="text" name="deliveryCost" value="'+info.deliveryCost+'" readonly>원</td></tr>')
+						$('#result').append('<tr><td>담당 배달원</td><td><input type="text" value="'+info.delManInfo.deliverymanName+'" readonly>배달원<input type="hidden" name="deliverymanId" value="'+info.delManInfo.deliverymanId+'"></td></tr>')
 						$('#result').append('<tr><td>배송 메시지</td><td><input type="text" name="message" placeholder="배달 메시지를 적어주세요"></td></tr>')
 						$('#result').append('<tr><td colspan="2"><input type="submit" value="배송하기"></td></tr>')
 						
@@ -39,7 +38,7 @@
 				}
 			});
 		}else{
-			console.log("현재 역을 선택하셨습니다.")
+			console.log("동일 역을 선택했습니다.")
 		}
 	}
 	
@@ -49,19 +48,30 @@
 </script>
 </head>
 <body>
-	<form action="">
-		<input type="hidden" id="start" value="${storageId.storageId}">
-		<input type="button" name="arrive" value="시청역" onclick="calTime(value)">
-		<input type="button" name="arrive" value="을지로입구역" onclick="calTime(value)">
-		<input type="button" name="arrive" value="을지로3가역" onclick="calTime(value)">
-		<input type="button" name="arrive" value="을지로4가역" onclick="calTime(value)">
-		<input type="button" name="arrive" value="동대문역사문화공원역" onclick="calTime(value)">
-		<input type="button" name="arrive" value="신당역" onclick="calTime(value)">
-		<input type="button" name="arrive" value="상왕십리역" onclick="calTime(value)">
-		<input type="button" name="arrive" value="왕십리역" onclick="calTime(value)">
-		<input type="button" name="arrive" value="한양대역" onclick="calTime(value)">
-		<input type="button" name="arrive" value="뚝섬역" onclick="calTime(value)">
-	</form>
+	<div>
+		<input type="hidden" id="start" value="${sessionScope.storageId}">
+		<button name="outboxId" value="CITYHALL_A" onclick="calTime(value)">시청역</button>
+		<button name="outboxId" value="EULJIROENTRANCE_A" onclick="calTime(value)">을지로입구역</button>
+		<button name="outboxId" value="EULJIRO3_A" onclick="calTime(value)">을지로3가역</button>
+		<button name="outboxId" value="EULJIRO4_A" onclick="calTime(value)">을지로4가역</button>
+		<button name="outboxId" value="DDP_A" onclick="calTime(value)">동대문역사문화공원역</button>
+		<button name="outboxId" value="SINDANG_A" onclick="calTime(value)">신당역</button>
+		<button name="outboxId" value="SANGWANGSIMNI_A" onclick="calTime(value)">상왕십리역</button>
+		<button name="outboxId" value="WANGSIMNI_A" onclick="calTime(value)">왕십리역</button>
+		<button name="outboxId" value="HANYANGUNIVERSITY_A" onclick="calTime(value)">한양대역</button>
+		<button name="outboxId" value="TTUKSEOM_A" onclick="calTime(value)">뚝섬역</button>
+		
+<!-- 		<input type="button" name="arrive" value="CITYHALL_A" onclick="calTime(value)"> -->
+<!-- 		<input type="button" name="arrive" value="EULJIROENTRANCE_A" onclick="calTime(value)"> -->
+<!-- 		<input type="button" name="arrive" value="EULJIRO3_A" onclick="calTime(value)"> -->
+<!-- 		<input type="button" name="arrive" value="EULJIRO4_A" onclick="calTime(value)"> -->
+<!-- 		<input type="button" name="arrive" value="DDP_A" onclick="calTime(value)"> -->
+<!-- 		<input type="button" name="arrive" value="SINDANG_A" onclick="calTime(value)"> -->
+<!-- 		<input type="button" name="arrive" value="SANGWANGSIMNI_A" onclick="calTime(value)"> -->
+<!-- 		<input type="button" name="arrive" value="WANGSIMNI_A" onclick="calTime(value)"> -->
+<!-- 		<input type="button" name="arrive" value="HANYANGUNIVERSITY_A" onclick="calTime(value)"> -->
+<!-- 		<input type="button" name="arrive" value="TTUKSEOM_A" onclick="calTime(value)"> -->
+	</div>
 
 	<div>
 		<form action="./delivery.do" method="post">

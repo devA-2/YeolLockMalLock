@@ -29,6 +29,11 @@ public interface StorageGoodsIDao {
 	public List<StorageBoxListDto> selectStorageBoxList(String storageId);
 	
 	/**
+	 * 타임테이블 SEQ 조회
+	 */
+	public int selectTimeTableSeq(String subway);
+	
+	/**
 	 * 전체 배송원 조회
 	 */
 	public List<MemberDto> selectDeliveryMan();
@@ -36,28 +41,37 @@ public interface StorageGoodsIDao {
 	/**
 	 * 배송원 현재 위치 조회
 	 */
-	public String selectCurrnetLoc(String deliverymanId);
+	public String selectDeliveryLoc(String deliverymanId);
 	
 	/**
 	 * 배송 물량 확인
 	 */
-	public int selectDeliveryQty(String storageId);
+	public int selectDeliveryQty(String deliverymanId);
 	
 	/**
 	 * 배송 소요 시간 계산
 	 */
-	public int selectDeliveryTime(Map<String, String> stations);
+	public int selectDeliveryTime(Map<String, Integer> subwaySeqs);
 	
 	/**
-	 * 배송 비용 계산
+	 * 보관 정보 업데이트
 	 */
-	public int selectStationCost(Map<String, String> stations);
+	public boolean updateDeliveryCode(StorageGoodsDto dto);
+	
+	/**
+	 * 배송 코드 조회
+	 */
+	public String selectDeliveryCode(StorageGoodsDto dto);
 	
 	/**
 	 * 배송 등록
 	 */
 	public boolean insertDelivery(DeliveryDto dto);
-	public boolean updateDeliveryCode(StorageGoodsDto dto);
+	
+	/**
+	 * 결제 금액 업데이트
+	 */
+	public boolean updateDeliveryCost(StorageGoodsDto dto);
 	
 	/**
 	 * 배송 정보 조회(사용자)

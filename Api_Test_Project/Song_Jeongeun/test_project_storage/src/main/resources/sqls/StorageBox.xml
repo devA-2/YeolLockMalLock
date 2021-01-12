@@ -50,6 +50,11 @@
 	<select id="selectStorageBoxList" parameterType="java.lang.String" resultType="com.dev2.ylml.dto.StorageBoxListDto">
 		SELECT STORAGE_NAME, ADDRESS, SUBWAY, DETAIL, MANAGER FROM STORAGEBOX_LIST WHERE STORAGE_ID= #{storageId}
 	</select>
+
+	<!-- 타임테이블 SEQ 조회 -->
+	<select id="selectTimeTableSeq" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT TIME_TABLE_SEQ FROM TIME_TABLE WHERE START_STATION = #{subway}
+	</select>
 	
 	<!-- 전체 배송원 EMAIL, NAME 조회 -->
 	<select id="selectDeliveryMan" resultType="com.dev2.ylml.dto.MemberDto">
@@ -57,51 +62,44 @@
 	</select>
 	
 	<!-- 배송원 현재 위치 조회 -->
-	<select id="selectCurrnetLoc" parameterType="java.lang.String" resultType="java.lang.String">
+	<select id="selectDeliveryLoc" parameterType="java.lang.String" resultType="java.lang.String">
 		SELECT SUBWAY FROM STORAGEBOX_LIST WHERE STORAGE_ID = (
 		SELECT CURRENT_LOC FROM DELIVERYMAN WHERE DELIVERYMAN_ID = #{deliverymanId})
 	</select>
 	
 	<!-- 배송 물량 확인 -->
 	<select id="selectDeliveryQty" parameterType="java.lang.String" resultType="java.lang.Integer">
-		SELECT COUNT(*) FROM DELIVERY WHERE DELIVERYMAN_ID = (SELECT DELIVERYMAN_ID FROM DELIVERYMAN WHERE CURRENT_LOC = #{currnetLoc})
+		SELECT COUNT(*) FROM DELIVERY WHERE DELIVERYMAN_ID = #{deliverymanId}
+	</select>
+	
+	<!-- 배송 소요 시간 계산 -->
+	<select id="selectDeliveryTime" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+		SELECT SUM(DURATION) FROM TIME_TABLE WHERE TIME_TABLE_SEQ BETWEEN #{startSeq} AND #{arriveSeq}
+	</select>
+	
+	<!-- 보관 정보 업데이트 -->
+	<update id="updateDeliveryCode" parameterType="com.dev2.ylml.dto.StorageGoodsDto">
+		UPDATE STORAGE_GOODS SET DELIVERY_CODE = 'YMD'||TO_CHAR(DELIVERY_CODE_SEQ.NEXTVAL), CATEGORY_CODE = 'D', MESSAGE = #{message}
+		WHERE BOX_SEQ = #{boxSeq} AND STORAGE_ID = #{storageId}
+	</update>
+	
+	<!-- 배송 코드 조회 -->
+	<select id="selectDeliveryCode" parameterType="com.dev2.ylml.dto.StorageGoodsDto" resultType="java.lang.String">
+		SELECT DELIVERY_CODE FROM STORAGE_GOODS
+		WHERE BOX_SEQ = #{boxSeq} AND STORAGE_ID = #{storageId}
 	</select>
 
-	<!-- 배송 소요 시간 계산 -->
-	<select id="selectDeliveryTime" parameterType="java.lang.String" resultType="java.lang.Integer">
-		SELECT SUM(DURATION) FROM TIME_TABLE WHERE TIME_TABLE_SEQ 
-		BETWEEN (SELECT TIME_TABLE_SEQ FROM TIME_TABLE WHERE START_STATION = #{startStation})
-		AND (SELECT TIME_TABLE_SEQ FROM TIME_TABLE WHERE ARRIVE_STATION = #{arriveStation})
-<!-- 		SELECT SUM(DURATION) FROM TIME_TABLE WHERE TIME_TABLE_SEQ  -->
-<!-- 		BETWEEN (CASE WHEN ((SELECT TIME_TABLE_SEQ FROM TIME_TABLE WHERE START_STATION = #{startStation})&lt;(SELECT TIME_TABLE_SEQ FROM TIME_TABLE WHERE ARRIVE_STATION = #{arriveStation})) -->
-<!-- 		THEN (SELECT TIME_TABLE_SEQ FROM TIME_TABLE WHERE START_STATION = #{startStation}) -->
-<!-- 		WHEN ((SELECT TIME_TABLE_SEQ FROM TIME_TABLE WHERE START_STATION = #{startStation})&gt;(SELECT TIME_TABLE_SEQ FROM TIME_TABLE WHERE ARRIVE_STATION = #{arriveStation})) -->
-<!-- 		THEN (SELECT TIME_TABLE_SEQ FROM TIME_TABLE WHERE ARRIVE_STATION = #{arriveStation}) END) -->
-<!-- 		AND (CASE WHEN ((SELECT TIME_TABLE_SEQ FROM TIME_TABLE WHERE START_STATION = #{startStation})&lt;(SELECT TIME_TABLE_SEQ FROM TIME_TABLE WHERE ARRIVE_STATION = #{arriveStation})) -->
-<!-- 		THEN (SELECT TIME_TABLE_SEQ FROM TIME_TABLE WHERE START_STATION = #{arriveStation}) -->
-<!-- 		WHEN ((SELECT TIME_TABLE_SEQ FROM TIME_TABLE WHERE START_STATION = #{startStation})&gt;(SELECT TIME_TABLE_SEQ FROM TIME_TABLE WHERE ARRIVE_STATION = #{arriveStation})) -->
-<!-- 		THEN (SELECT TIME_TABLE_SEQ FROM TIME_TABLE WHERE ARRIVE_STATION = #{startStation}) END) -->
-	</select>
-	
-	<!-- 배송 비용 계산 -->
-	<select id="selectStationCost" parameterType="java.lang.String" resultType="java.lang.Integer">
-		SELECT COUNT(*) * 200 FROM TIME_TABLE WHERE TIME_TABLE_SEQ 
-		BETWEEN (SELECT TIME_TABLE_SEQ FROM TIME_TABLE WHERE START_STATION = #{startStation})
-		AND (SELECT TIME_TABLE_SEQ FROM TIME_TABLE WHERE ARRIVE_STATION = #{arriveStation})
-	</select>
-	
 	<!-- 배송 등록 -->
-	<insert id="insertDelivery">
-		INSERT INTO DELIVERY VALUES('YMD', #{deliveryCost}, #{deliverymanId}, #{outboxId}, null, null)
+	<insert id="insertDelivery" parameterType="com.dev2.ylml.dto.DeliveryDto">
+		INSERT INTO DELIVERY VALUES('YMD'||TO_CHAR(DELIVERY_CODE_SEQ.NEXTVAL), #{deliveryCost}, #{deliverymanId}, #{outboxId}, SYSDATE, null)
 	</insert>
-	<update id="updateDeliveryCode">
-		UPDATE STORAGE_GOODS SET DELIVERY_CODE = 'YMD001', CATEGORY_CODE = 'D', MESSAGE = #{message} WHERE BOX_SEQ = 1 AND STORAGE_ID = 'CITYHALL_A'
-	</update>
-	<update id="updateDeliveryCost">
+	
+	<!-- 결제 금액 업데이트 -->
+	<update id="updateDeliveryCost" parameterType="com.dev2.ylml.dto.DeliveryDto">
 		UPDATE COST SET COST = COST + (
 		SELECT DELIVERY_COST FROM DELIVERY WHERE DELIVERY_CODE = (
-		SELECT DELIVERY_CODE FROM STORAGE_GOODS WHERE BOX_SEQ = 1 AND STORAGE_ID = 'CITYHALL_A'))
-		WHERE COST_CODE = (SELECT COST_CODE FROM STORAGE_GOODS WHERE BOX_SEQ = 1 AND STORAGE_ID = 'CITYHALL_A')
+		SELECT DELIVERY_CODE FROM STORAGE_GOODS WHERE BOX_SEQ = #{boxSeq} AND STORAGE_ID = #{storageId}))
+		WHERE COST_CODE = (SELECT COST_CODE FROM STORAGE_GOODS WHERE BOX_SEQ = #{boxSeq} AND STORAGE_ID = #{storageId})
 	</update>
 	
 	<!-- 배송 내역(사용자) -->
