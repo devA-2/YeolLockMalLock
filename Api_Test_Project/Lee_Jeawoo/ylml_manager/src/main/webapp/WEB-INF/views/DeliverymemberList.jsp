@@ -12,12 +12,13 @@
 <body>
 allDeleveryList.do<br>
 담당자 및 배송원 전체 정보조회<br>
+<div id="container">
 <h1><a href="./managerMain.do">관리자메인페이지로</a></h1>
 
 	<div>
 		<form action="./searchId.do" method="post">
-		<input type="text"  placeholder="검색할 ID를 입력하세요">
-		<input type="button"  value="ID검색" >
+		<input type="text" name="searchWord"  placeholder="검색할 ID를 입력하세요">
+		<input type="submit"  value="ID검색" >
 		</form> 
 	</div>
 
@@ -40,6 +41,6 @@ allDeleveryList.do<br>
 	<hr>
 	
 	
-
+</div>
 </body>
 </html>

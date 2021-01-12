@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.dev2.ylml.abstractView.ExcelDownload;
@@ -86,15 +87,18 @@ public class ManagerController {
 	
 	
 	//TODO : id로 담당자 및 배송원 조회 구현하기
-	/** id로 담당자 및 배송원 조회 searchId.do
+	/** 전체조회에서 id로 담당자 및 배송원 조회 searchId.do
+	 *  검색 결과를 list로 model객체에 담아서 idseachResult.jsp로 이동
 	 * @param model
 	 * @return
 	 */
 	@RequestMapping(value = "searchId.do", method = RequestMethod.POST)
-	public String searchId(Model model) {
-		logger.info("allDeleveryList.do : id로 담당자 및 배송원 조회 이동");
+	public String searchId(String searchWord,Model model) {
+		logger.info("allDeleveryList.do : id로 담당자 및 배송원 조회 이동 + 검색어 : " + searchWord);
 		
-		return "";
+		Manager_MemberDto searchResult = service.selectIdDelivery(searchWord);
+		model.addAttribute("searchResult", searchResult);
+		return "idseachResult";
 	}
 	
 	

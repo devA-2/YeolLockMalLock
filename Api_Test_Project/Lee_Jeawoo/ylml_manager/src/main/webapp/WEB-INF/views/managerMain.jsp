@@ -11,6 +11,7 @@
 </head>
 <body>
 	managerMain.jsp<br>
+	<div id="container">
 	<a href="./index.do">처음으로</a><br><br>
 	
 	
@@ -41,6 +42,6 @@
   <h1><p>관리자메인페이지 입니다.</p></h1>
 </div>
 	
-
+</div>
 </body>
 </html>

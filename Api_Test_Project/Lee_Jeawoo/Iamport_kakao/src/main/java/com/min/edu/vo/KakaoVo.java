@@ -9,7 +9,6 @@ public class KakaoVo {
    private String address;
    public KakaoVo() {
       super();
-      // TODO Auto-generated constructor stub
    }
    public KakaoVo(String name, String email, int price, String phone, String address) {
       super();

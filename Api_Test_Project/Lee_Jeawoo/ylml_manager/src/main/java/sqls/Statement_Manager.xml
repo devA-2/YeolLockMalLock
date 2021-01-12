@@ -40,7 +40,7 @@
 	<select id="selectTempDelivery" parameterType="java.util.Map"
 	resultType="ManagerDto">
 	SELECT M.NAME, M.PHONE_NUM, D.DELIVERY_CODE, DM.CURRENT_LOC
-	FROM MEM M, DELIVERY D, DELIVERYMAN DM
+	FROM MEMBER M, DELIVERY D, DELIVERYMAN DM
 	WHERE D.DELIVERYMAN_ID
 	IN (SELECT EMAIL FROM MEM WHERE AUTH IN (88,99)) AND D.DELIVERYMAN_ID =
 	DM.DELIVERYMAN_ID
@@ -48,7 +48,7 @@
   	
   	<!-- 담당자 및 배송원 권한 부여 -->
   	<select id="modifyAuth" parameterType="ManagerDto">
-	UPDATE MEM
+	UPDATE MEMBER
 	SET AUTH = #{auth}
 	WHERE EMAIL = #{email}
 	</select>
@@ -60,10 +60,10 @@
 	resultType="ManagerDto">
 	SELECT EMAIL, NAME, PHONE_NUM, AUTH,
 	(SELECT CURRENT_LOC FROM DELIVERYMAN D WHERE DELIVERYMAN_ID =
-	#{deliveryman_id}) AS CURRENT_LOC,
+	#{email}) AS CURRENT_LOC,
 	(SELECT DELIVERY_CODE FROM DELIVERY D2 WHERE DELIVERYMAN_ID = 
-	#{deliveryman_id}) AS DELIVERY_CODE
-	FROM MEM
+	#{email}) AS DELIVERY_CODE
+	FROM MEMBER
 	WHERE EMAIL = #{email}
 	</select>
   	
