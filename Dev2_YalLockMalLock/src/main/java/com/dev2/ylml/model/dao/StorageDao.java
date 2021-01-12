@@ -54,6 +54,21 @@ public class StorageDao implements StorageIDao {
 		return sqlSession.update("storage.updateCostCode",map)>0?true:false;
 	}
 
+	@Override
+	public int updateAllStatus(List<String> list) {
+		return sqlSession.update("storage.updateAllStatus",list);
+	}
+
+	@Override
+	public boolean updateExtend(Map<String, Object> map) {
+		return sqlSession.update("storage.updateExtend",map)>0?true:false;
+	}
+
+	@Override
+	public boolean updateExtendCost(Map<String, Object> map) {
+		return sqlSession.update("storage.updateExtendCost",map)>0?true:false;
+	}
+
 	
 	
 	

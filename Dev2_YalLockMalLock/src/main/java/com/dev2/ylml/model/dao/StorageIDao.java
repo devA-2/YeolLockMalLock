@@ -8,38 +8,68 @@ import com.dev2.ylml.dto.StorageListDto;
 
 public interface StorageIDao {
 
-	/*
-	 * 전체 보관함 지도 출력
+	/**
+	 * 전체 보관함 정보 출력해서 마커표시
+	 * @return List<Map<String, Object>>
 	 */
 	public List<Map<String, Object>> selectMap();
-	/*
-	 * 자동완성 위한 리스트 받아오기
+	/**
+	 * 검색창 자동완성 위한 보관함 리스트 정보 받아오기
+	 * @return List<StorageListDto>
 	 */
 	public List<StorageListDto> selectStorageList();
-	/*
-	 * ajax로 현재 보관함 정보, 사용가능 갯수 받아오기
+	/**
+	 * ajax로 해당 보관함 정보, 사용가능한 갯수 가져오기
+	 * @param id
+	 * @return 
 	 */
 	public StorageListDto ajaxCountStorage(String id);
-	/*
-	 * id로 개별보관함 상태정보 가져오기
+	/**
+	 * 해당 보관함의 사용여부 가져오기
+	 * @param id
+	 * @return 
 	 */
 	public List<StorageBoxDto> selectStorageStatus(String id);
-	/*
-	 * 보관함번호, id, 보관email 받아서 보관 등록 
+	/**
+	 * seq, id, email로 보관 등록
+	 * @param map
+	 * @return 
 	 */
 	public boolean insertGoods(Map<String, Object> map);
-	/*
-	 * 해당 보관함 사용가능->사용중 처리
+	/**
+	 * 사용가능 -> 사용중 상태변경
+	 * @param map
+	 * @return
 	 */
 	public boolean updateStatus(Map<String, Object> map);
-	/*
-	 * 결제코드 등록
+	/**
+	 * 결제 코드 등록
+	 * @param map
+	 * @return
 	 */
 	public boolean insertCost(Map<String, Object> map);
-	/*
-	 * 셀렉트 키로 받아온 결제코드 업데이트
+	/**
+	 * 보관 정보에 selectKey로 받아온 결제 코드 수정
+	 * @param map
+	 * @return
 	 */
 	public boolean updateCostCode(Map<String, Object> map);
-	
-	
+	/**
+	 * 0시 기준 모든 보관함 사용중,사용대기->사용가능,사용불가로 변경
+	 * @param id
+	 * @return int
+	 */
+	public int updateAllStatus(List<String> list);
+	/**
+	 * 연장시간, 연장횟수 수정
+	 * @param map
+	 * @return boolean
+	 */
+	public boolean updateExtend(Map<String, Object> map);
+	/**
+	 * 연장 금액 수정
+	 * @param map
+	 * @return boolean
+	 */
+	public boolean updateExtendCost(Map<String, Object> map);
 }

@@ -3,7 +3,7 @@
 <mapper namespace="storage">
 
 	<select id="selectMap" resultType="java.util.HashMap">
-		select storage_id as id, lng||','||lat as latlng from storagebox_list
+		select storage_id as id, lng,lat from storagebox_list
 	</select>
 
 	<select id="selectStorageList" resultType="com.dev2.ylml.dto.StorageListDto">
@@ -18,7 +18,8 @@
 	</select>
 
 	<select id="selectStorageStatus" parameterType="java.lang.String" resultType="com.dev2.ylml.dto.StorageBoxDto">
-		select box_seq,box_status from ${id}
+		select box_seq , box_status from ${id} ORDER by box_seq
+<!-- 	select box_seq , trim(box_status) as box_status from ${id} ORDER by box_seq -->
 	</select>
 
 	<insert id="insertGoods" parameterType="java.util.HashMap">
@@ -27,7 +28,7 @@
 	</insert>
 
 	<update id="updateStatus" parameterType="java.util.HashMap">
-		update ${id} set box_status='I' where box_seq=#{boxSeq};
+		update ${id} set box_status='I' where box_seq=#{boxSeq}
 	</update>	
 	
 	<insert id="insertCost" parameterType="java.util.HashMap">
@@ -38,40 +39,43 @@
     	</selectKey> 
 	</insert>
 
-	<update id="updateCostCode" parameterType="java.util.HashMap"> -->
+	<update id="updateCostCode" parameterType="java.util.HashMap">
 		UPDATE storage_goods SET cost_code=#{costCode}
 		WHERE storage_id=#{id} AND box_seq=#{boxSeq}
-	</update> 
+	</update>
 
-	<!-- <update id="updateExtend" parameterType="java.util.HashMap"> -->
-	<!-- UPDATE STORAGE_GOODS SET EX_TIME = EX_TIME + 2/24,EXTEND_CNT=EXTEND_CNT+1 
-		WHERE storage_id=#{id} AND box_seq=#{boxSeq} -->
-	<!-- </update> -->
+	<update id="updateExtend" parameterType="java.util.HashMap">
+		UPDATE STORAGE_GOODS SET EX_TIME = EX_TIME + 2/24,EXTEND_CNT=EXTEND_CNT+1
+		WHERE storage_id=#{id} AND box_seq=#{boxSeq}
+	</update>
 
-	<!-- <update id="updateExtendCost" parameterType="java.util.HashMap"> -->
-	<!-- UPDATE cost SET cost=COST+1500 WHERE cost_code = (SELECT COST_CODE 
-		FROM storage_goods WHERE storage_id=#{id} AND box_seq=#{boxSeq}) -->
-	<!-- </update> -->
+	<update id="updateExtendCost" parameterType="java.util.HashMap">
+		UPDATE cost SET cost=COST+1500 WHERE cost_code = (SELECT COST_CODE
+		FROM storage_goods WHERE storage_id=#{id} AND box_seq=#{boxSeq})
+	</update>
 
-<!-- 	<update id="updateAllStatus" > -->
-<!-- 		UPDATE ${id} SET  -->
-<!-- 		BOX_STATUS = CASE WHEN BOX_STATUS = 'I' THEN 'O'  -->
-<!-- 						WHEN BOX_STATUS = 'W' THEN 'X' END  -->
-<!-- 		WHERE box_status='I' -->
+	<update id="updateAllStatus" parameterType="java.util.List">
+		<foreach item="item" collection="list">
+		UPDATE ${item.id} SET 
+		BOX_STATUS = CASE WHEN BOX_STATUS = 'I' THEN 'O' 
+						WHEN BOX_STATUS = 'W' THEN 'X' END 
+		WHERE box_status IN ('I','W')
+	  </foreach>
+	</update>
+
+<!-- 	<select id="compareKey" parameterType="java.lang.String"> -->
+<!-- 		SELECT cost_code,out_user FROM storage_goods WHERE key=#{key} -->
+<!-- 	</select> -->
+
+
+<!-- 	<update id="updateExtraCost"> -->
+<!-- 		UPDATE cost SET cost=cost+ -->
+<!-- 		(SELECT ceil((sysdate-g.ex_time)*24)*1000 -->
+<!-- 		FROM storage_goods g, cost c  -->
+<!-- 		where c.cost_code=g.cost_code and g.box_seq=#{boxSeq} and g.storage_id=#{id}) -->
+<!-- 		WHERE cost_code= -->
+<!-- 		(select cost_code from storage_goods where box_seq=#{boxSeq} and storage_id=#{id}) -->
 <!-- 	</update> -->
-
-	<!-- <select id="compareKey" parameterType="java.lang.String"> -->
-	<!-- SELECT cost_code,out_user FROM storage_goods WHERE key=#{key} -->
-	<!-- </select> -->
-
-
-	<!-- <update id="updateExtraCost"> -->
-	<!-- UPDATE cost SET cost=cost+(SELECT ceil((sysdate-g.ex_time)*24)*1000 -->
-	<!-- FROM storage_goods g, cost c where c.cost_code=g.cost_code and g.box_seq=#{boxSeq} 
-		and g.storage_id=#{id}) -->
-	<!-- WHERE cost_code=(select cost_code from storage_goods where box_seq=#{boxSeq} 
-		and storage_id=#{id}) -->
-	<!-- </update> -->
 	<!-- <update id="updateStatusCheck"> -->
 	<!-- UPDATE ${id} SET BOX_STATUS = CASE WHEN BOX_STATUS = 'I' THEN 'O' WHEN 
 		BOX_STATUS = 'W' THEN 'X' END WHERE BOX_SEQ = #{boxSeq} -->

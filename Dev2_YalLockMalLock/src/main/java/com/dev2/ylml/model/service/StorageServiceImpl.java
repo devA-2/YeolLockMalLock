@@ -53,6 +53,20 @@ public class StorageServiceImpl implements StorageIService {
 		log.info("결제코드 수정 : "+isc4+" - map :"+ map);
 		return isc1 && isc2 && isc3 && isc4;
 	}
+
+	@Override
+	public int updateAllStatus(List<String> list) {
+		return dao.updateAllStatus(list);
+	}
+
+	@Override
+	public boolean updateExtend(Map<String, Object> map) {
+		boolean isc1 = dao.updateExtend(map);
+		log.info("연장 시간, 횟수 수정 결과 : " +isc1);
+		boolean isc2 = dao.updateExtendCost(map);
+		log.info("연장 금액 수정 결과 : " +isc2);
+		return isc1 && isc2;
+	}
 	
 	
 }

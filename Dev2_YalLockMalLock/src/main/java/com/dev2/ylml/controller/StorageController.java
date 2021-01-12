@@ -26,45 +26,24 @@ public class StorageController {
 	@Autowired
 	private StorageIService service;
 	
-//	지도에 보관함 위치 마커표시하기  + 검색창에 자동완성 구현하기
+
+	// 검색창에 자동완성 위한 전체보관함 list 받아오기
 	@RequestMapping(value = "/map.do")
 	public String showMap(Model model) {
-		
-		List<Map<String,Object>> positions = service.selectMap();
-		//지도 표시
-		System.out.println(positions);
-		JSONArray jsonArray = new JSONArray();
-		for (int i = 0; i < positions.size(); i++) {
-	            JSONObject data = new JSONObject();
-	            data.put("id",positions.get(i).get("ID"));
-	            data.put("latlng", "new kakao.maps.LatLng("+positions.get(i).get("LATLNG")+")");
-	            jsonArray.add(i, data);    
-		 }
-		
-		
-//		JSONArray jsonArray = new JSONArray();
-//		for(Map<String,Object> map:positions) {
-//			jsonArray.add(getJsonStringFromMap(map));
-//		}
-		
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        String positionJson="";
-//		try {
-//			positionJson = objectMapper.writeValueAsString(positions);
-//		} catch (JsonProcessingException e) {
-//			e.printStackTrace();
-//		}
-//		log.info(positionJson);
-        
-//        JSONArray positionJson = new JSONArray(positions);
-		model.addAttribute("positions",jsonArray);
-		
-		// 검색창에 자동완성 위한 list 받아오기
 		List<StorageListDto> list = service.selectStorageList();
 		model.addAttribute("list",list);
 		return "map";
 	}
 	
+	//지도 표시하기위한 ajax 
+	@RequestMapping(value = "/selectMap.do")
+	@ResponseBody
+	public List<Map<String,Object>> selectMap(){
+		List<Map<String,Object>> position = service.selectMap();
+		return position;
+	}
+	
+	//보관함 마커 클릭시 정보 + 사용가능한 갯수 출력
 	@ResponseBody
 	@RequestMapping(value = "/ajaxCountStorage.do")
 	public StorageListDto ajaxCountStorage(String id) {
@@ -73,13 +52,15 @@ public class StorageController {
 		return LDto;
 	}
 	
+	//해당 보관함 현재 사용 여부 가져오기
 	@RequestMapping(value = "/selectStorageStatus.do",method = RequestMethod.GET)
 	public String selectStorageStatus(String id,Model model) {
 		List<StorageBoxDto> statusList = service.selectStorageStatus(id);
+		model.addAttribute("id",id);
 		model.addAttribute("statusList",statusList);
-		return "map";
+		return "storageStatus";
 	}
-	
+	//보관함 등록(나중에 키 update필요함)
 	@RequestMapping(value = "/insertGoods.do",method = RequestMethod.POST)
 	public String insertGoods(int boxSeq, String id, String email) {
 		log.info(boxSeq+","+id+" "+email);
@@ -90,6 +71,17 @@ public class StorageController {
 		log.info("map은 ?" + map);
 		boolean isc = service.insertGoods(map);
 		log.info("insertGoods 결과는 ? "+ isc);
+		return "index";
+	}
+	//연장하기
+	@RequestMapping(value = "/updateExtend.do",method = RequestMethod.POST)
+	public String updateExtend(String id, int boxSeq) {
+		log.info("boxSeq : "+boxSeq+",id : "+id);
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("boxSeq", boxSeq);
+		map.put("id", id);
+		boolean isc = service.updateExtend(map);
+		log.info("연장 결과 : "+isc);		
 		return "index";
 	}
 	

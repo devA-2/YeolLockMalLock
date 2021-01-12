@@ -11,6 +11,6 @@ public class StorageBoxDto implements Serializable{
 	private static final long serialVersionUID = 1049299673225466744L;
 	private int boxSeq;
 	private String storageId;
-	private char boxStatus;
+	private String boxStatus;
 	
 }
