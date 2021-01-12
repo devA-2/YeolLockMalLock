@@ -78,15 +78,13 @@ public class ServiceImpl implements IService {
 	
 	@Override
 	public boolean insertDelivery(DeliveryDto delDto, StorageGoodsDto goodsDto) {
-		boolean isc1 = sgDao.updateDeliveryCode(goodsDto);
-		String deliveryCode = sgDao.selectDeliveryCode(goodsDto);
-		System.out.println("업데이트된 배송코드!! "+deliveryCode);
-		delDto.setDeliveryCode(deliveryCode);
-		System.out.println("DeliveryDto 확인!! "+delDto);
-		boolean isc2 = sgDao.insertDelivery(delDto);
+		boolean isc1 = sgDao.insertDelivery(delDto);
+		System.out.println("delDto 확인!! "+delDto);
+		goodsDto.setDeliveryCode(delDto.getDeliveryCode());
+		boolean isc2 = sgDao.updateDeliveryCode(goodsDto);
 		// TODO : 결제 업데이트에서 오류 발생! 확인하기!!
 		boolean isc3 = sgDao.updateDeliveryCost(goodsDto);
-		logger.info("Service_insertDelivery 실행");
+		logger.info("Service_insertDelivery 실행") ;
 		return (isc1 || isc2 || isc3)? true:false;
 	}
 

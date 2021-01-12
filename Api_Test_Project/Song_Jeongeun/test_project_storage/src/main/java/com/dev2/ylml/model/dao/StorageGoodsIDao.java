@@ -54,19 +54,14 @@ public interface StorageGoodsIDao {
 	public int selectDeliveryTime(Map<String, Integer> subwaySeqs);
 	
 	/**
-	 * 보관 정보 업데이트
-	 */
-	public boolean updateDeliveryCode(StorageGoodsDto dto);
-	
-	/**
-	 * 배송 코드 조회
-	 */
-	public String selectDeliveryCode(StorageGoodsDto dto);
-	
-	/**
 	 * 배송 등록
 	 */
 	public boolean insertDelivery(DeliveryDto dto);
+	
+	/**
+	 * 보관 정보 업데이트
+	 */
+	public boolean updateDeliveryCode(StorageGoodsDto dto);
 	
 	/**
 	 * 결제 금액 업데이트

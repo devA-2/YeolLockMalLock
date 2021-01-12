@@ -74,22 +74,16 @@ public class StorageGoodsDao implements StorageGoodsIDao {
 	}
 	
 	@Override
-	public boolean updateDeliveryCode(StorageGoodsDto dto) {
-		int cnt = sqlSession.update("storageBox.updateDeliveryCode", dto);
-		logger.info("Dao_updateDeliveryCode 실행");
+	public boolean insertDelivery(DeliveryDto dto) {
+		int cnt = sqlSession.insert("storageBox.insertDelivery", dto);
+		logger.info("Dao_insertDelivery 실행");
 		return cnt > 0? true:false;
 	}
 	
 	@Override
-	public String selectDeliveryCode(StorageGoodsDto dto) {
-		logger.info("Dao_selectDeliveryCode 실행");
-		return sqlSession.selectOne("storageBox.selectDeliveryCode", dto);
-	}
-
-	@Override
-	public boolean insertDelivery(DeliveryDto dto) {
-		int cnt = sqlSession.insert("storageBox.insertDelivery", dto);
-		logger.info("Dao_insertDelivery 실행");
+	public boolean updateDeliveryCode(StorageGoodsDto dto) {
+		int cnt = sqlSession.update("storageBox.updateDeliveryCode", dto);
+		logger.info("Dao_updateDeliveryCode 실행");
 		return cnt > 0? true:false;
 	}
 	

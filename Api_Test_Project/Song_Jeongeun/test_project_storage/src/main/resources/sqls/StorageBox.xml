@@ -77,23 +77,20 @@
 		SELECT SUM(DURATION) FROM TIME_TABLE WHERE TIME_TABLE_SEQ BETWEEN #{startSeq} AND #{arriveSeq}
 	</select>
 	
-	<!-- 보관 정보 업데이트 -->
-	<update id="updateDeliveryCode" parameterType="com.dev2.ylml.dto.StorageGoodsDto">
-		UPDATE STORAGE_GOODS SET DELIVERY_CODE = 'YMD'||TO_CHAR(DELIVERY_CODE_SEQ.NEXTVAL), CATEGORY_CODE = 'D', MESSAGE = #{message}
-		WHERE BOX_SEQ = #{boxSeq} AND STORAGE_ID = #{storageId}
-	</update>
-	
-	<!-- 배송 코드 조회 -->
-	<select id="selectDeliveryCode" parameterType="com.dev2.ylml.dto.StorageGoodsDto" resultType="java.lang.String">
-		SELECT DELIVERY_CODE FROM STORAGE_GOODS
-		WHERE BOX_SEQ = #{boxSeq} AND STORAGE_ID = #{storageId}
-	</select>
-
 	<!-- 배송 등록 -->
 	<insert id="insertDelivery" parameterType="com.dev2.ylml.dto.DeliveryDto">
 		INSERT INTO DELIVERY VALUES('YMD'||TO_CHAR(DELIVERY_CODE_SEQ.NEXTVAL), #{deliveryCost}, #{deliverymanId}, #{outboxId}, SYSDATE, null)
+		<selectKey keyProperty="deliveryCode" order="AFTER" resultType="java.lang.String">
+			SELECT 'YMD'||TO_CHAR(DELIVERY_CODE_SEQ.CURRVAL) FROM DUAL
+		</selectKey>
 	</insert>
 	
+	<!-- 보관 정보 업데이트 -->
+	<update id="updateDeliveryCode" parameterType="com.dev2.ylml.dto.StorageGoodsDto">
+		UPDATE STORAGE_GOODS SET DELIVERY_CODE = #{deliveryCode}, CATEGORY_CODE = 'D', MESSAGE = #{message}
+		WHERE BOX_SEQ = #{boxSeq} AND STORAGE_ID = #{storageId}
+	</update>
+
 	<!-- 결제 금액 업데이트 -->
 	<update id="updateDeliveryCost" parameterType="com.dev2.ylml.dto.DeliveryDto">
 		UPDATE COST SET COST = COST + (
