@@ -1,4 +1,4 @@
-package com.dev2.ylml.model;
+package com.dev2.ylml.model.service;
 
 import java.util.Map;
 
@@ -29,11 +29,16 @@ public interface MemberIService {
 	/*
 	 *  아이디 찾기
 	 */
-	public MemberDto IdSearch(Map<String, Object> map);
+	public MemberDto idSearch(Map<String, Object> map);
 	
 	/*
-	 *  개인정보 변경(지금은 휴대폰 번호만 변경 가능하지만, 추후에 추가 할 수 있음
+	 *  개인정보 변경(지금은 휴대폰 번호만 변경 가능하지만, 추후에 추가 할 수 있음)
 	 */
-	public boolean updateInfo(Map<String, Object> map);
+	public int updateInfo(Map<String, Object> map);
+	
+	/*
+	 * 비밀번호 변경
+	 */
+	public int updatePw(Map<String, Object> map);
 
 }

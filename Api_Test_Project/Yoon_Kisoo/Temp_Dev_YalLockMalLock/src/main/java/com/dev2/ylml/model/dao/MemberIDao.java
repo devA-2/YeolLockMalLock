@@ -1,4 +1,4 @@
-package com.dev2.ylml.model;
+package com.dev2.ylml.model.dao;
 
 import java.util.Map;
 
@@ -14,9 +14,11 @@ public interface MemberIDao {
 	
 	public MemberDto login(Map<String, Object> map);
 	
-	public MemberDto IdSearch(Map<String, Object> map);
+	public MemberDto idSearch(Map<String, Object> map);
 	
-	public boolean updateInfo(Map<String, Object> map);
+	public int updateInfo(Map<String, Object> map);
+	
+	public int updatePw(Map<String, Object> map);
 	
 
 }

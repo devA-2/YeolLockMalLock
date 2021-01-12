@@ -3,27 +3,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Insert title here</title>
 <script type="text/javascript" src="./js/jquery-3.5.1.js"></script>
-
 <style type="text/css">
 #container{
-   width : 300px;
+   width : 360px;
    height: 600px;
    border: 1px solid black;
    margin: auto;
-
+}
 </style>
 <script type="text/javascript">
 
-function myPageCheck(){
-		var pw = document.getElementById("InputPw").value;
+function myPageChk(){
+		var pw = document.getElementById("pw").value;
 		var result = "";
 		
 		if(pw == "" || pw.trim()== ""){
-			document.getElementById("InputPw").focus();
-			$("InputPw").val("");
+			document.getElementById("pw").focus();
+			$("pw").val("");
 			alert("비밀번호를 입력해 주세요");
 		}else{
 			$.ajax({
@@ -48,8 +47,8 @@ function myPageCheck(){
 <body>
 	<div id="container">
 		<h1>마이페이지</h1>
-			<div>비밀번호: </div><input type="password" id="InputPw" name="pw" maxlength="20" size="20"><br><br>
-			<input type="button" id="myPageChk" name="myPageChk" value="확인" onclick="myPageCheck()">
+			<div>비밀번호: </div><input type="password" id="pw" name="pw" maxlength="20" size="20" value="User010101"><br><br>
+			<input type="button" id="myPageChk" name="myPageChk" value="확인" onclick="myPageChk()">
 	</div>	
 </body>
 </html>

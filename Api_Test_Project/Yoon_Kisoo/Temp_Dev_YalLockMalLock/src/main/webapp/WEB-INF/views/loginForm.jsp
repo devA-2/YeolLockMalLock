@@ -18,8 +18,8 @@
 <script type="text/javascript">	
 
 function loginChk(){
-	var email = document.getElementById("InputEmail").value;
-	var pw = document.getElementById("InputPw").value;
+	var email = document.getElementById("email").value;
+	var pw = document.getElementById("pw").value;
 	var frm = document.loginFrm;
 
 	frm.action = "./login.do"	// Ajax에서 이동할 주소
@@ -27,12 +27,12 @@ function loginChk(){
 	var result = "";
 	
 	if(email == "" || email.trim()==""){
-		document.getElementById("InputEmail").focus();
-		$("InputEmail").val("");
+		document.getElementById("email").focus();
+		$("email").val("");
 		alert("로그인", "아이디를 입력해 주세요");
 	}else if(pw == "" || pw.trim()==""){
-		document.getElementById("InputPw").focus();
-		$("InputPw").val("");
+		document.getElementById("pw").focus();
+		$("pw").val("");
 		alert("로그인", "비밀번호를 입력해 주세요");
 	}else{
 		$.ajax({
@@ -55,13 +55,14 @@ function loginChk(){
 </script>
 </head>
 <body>
+	<!-- 정보를 수정 할 수 있는 건 현재 휴대폰 번호 뿐이지만, 추 후에 추가 될 수 있음 -->
 	<div id="container">
 		<h1>열락말락 로그인</h1>
 		<form method="post" name="loginFrm">
-			<div id="id">아이디</div>
-				<input type="text" name="email" id="InputEmail" required="required" value="user01@naver.com"/>
-			<div id="pw">비밀번호</div>
-				<input type="password" name="pw" id="InputPw" required="required" value="User010101" maxlength="20" size="20"><br>
+			<div>아이디</div>
+				<input type="text" name="email" id="email" required="required" value="user01@naver.com"/>
+			<div>비밀번호</div>
+				<input type="password" name="pw" id="pw" required="required" value="User010101" maxlength="20" size="20"><br>
 			<a href="./idSearchForm.do">아이디 찾기</a> &nbsp;&nbsp;
 			<a href="./infoAgree.do">비밀번호 찾기</a><br><br>
 			

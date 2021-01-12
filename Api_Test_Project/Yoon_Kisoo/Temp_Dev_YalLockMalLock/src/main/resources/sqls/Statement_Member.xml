@@ -67,4 +67,10 @@ PHONE_NUM = #{phone_num}
 WHERE EMAIL= #{email}
 </update>
 
+<!-- 비밀번호 변경 -->
+<update id="updatePw" parameterType="java.util.Map">
+UPDATE MEMBER SET 
+PW = #{pw}
+WHERE EMAIL= #{email}
+</update>
 </mapper>

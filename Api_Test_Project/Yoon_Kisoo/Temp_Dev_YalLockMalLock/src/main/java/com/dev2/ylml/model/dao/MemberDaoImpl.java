@@ -1,4 +1,4 @@
-package com.dev2.ylml.model;
+package com.dev2.ylml.model.dao;
 
 import java.util.Map;
 
@@ -63,15 +63,22 @@ public class MemberDaoImpl implements MemberIDao {
 	}
 
 	@Override
-	public MemberDto IdSearch(Map<String, Object> map) {
+	public MemberDto idSearch(Map<String, Object> map) {
 		log.info("MemberDaoImpl IdSearch : " + map);
 		return sqlSession.selectOne("member.IdSearch", map);
 	}
 
 	@Override
-	public boolean updateInfo(Map<String, Object> map) {
-		int cnt = sqlSession.update("member.updateInfo", map);
-		return (cnt>0)? true:false;
+	public int updateInfo(Map<String, Object> map) {
+		int result= sqlSession.update("member.updateInfo", map);
+		System.out.println(result);
+		return result;
+	}
+
+	@Override
+	public int updatePw(Map<String, Object> map) {
+		int result= sqlSession.update("member.updatePw", map);
+		return result;
 	}
 	
 	

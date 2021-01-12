@@ -1,5 +1,6 @@
 package com.dev2.ylml.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -7,6 +8,9 @@ import java.util.Random;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,15 +22,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dev2.ylml.dto.MemberDto;
-import com.dev2.ylml.model.MemberIService;
+import com.dev2.ylml.model.service.MemberIService;
+import com.dev2.ylml.naver.NaverLoginBO;
 import com.dev2.ylml.util.CoolTextService;
+import com.github.scribejava.core.model.OAuth2AccessToken;
 
 // 로그인 세션 : mem
-// 마이페이지 접근 세션 : myPageAllowed
+// 마이페이지 접근 세션 : Allowed
 @Controller
 public class MemberController {
 	
 	private Logger log = LoggerFactory.getLogger(getClass());
+	
 	
 	@Autowired
 	private MemberIService iService;
@@ -34,18 +41,38 @@ public class MemberController {
 	@Autowired
 	private CoolTextService CoolService;
 	
+	private NaverLoginBO naverLoginBO;
+	
+	@Autowired
+	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
+		this.naverLoginBO = naverLoginBO;
+	}
+	
+	/***
+	 *  메인으로 이동
+	 */
+	@RequestMapping(value = "/main.do", method = RequestMethod.GET)
+	public String main(Model model, HttpSession session) {
+		log.info("move to : main");
+		String naverUrl = naverLoginBO.getAuthorizationUrl(session);
+		model.addAttribute("naverUrl", naverUrl);
+		return "main";
+		
+	}
 	
 	/**
+	 * 개인정보보호 및 이용약관 동의 폼 이동<br>
 	 * 
 	 * @return
 	 */
 	@RequestMapping(value = "/infoAgree.do", method = RequestMethod.GET)
 	public String infoAgree() {
-		System.out.println("move to : infoAgree");
+		log.info("move to : infoAgree");
 		return "infoAgree";
 	}
 	
 	/**
+	 * 회원가입 폼 이동<br>
 	 * 
 	 * @return
 	 */
@@ -56,6 +83,7 @@ public class MemberController {
 	}
 	
 	/**
+	 * 로그인 폼 이동<br>
 	 * 
 	 * @param request
 	 * @return
@@ -67,7 +95,8 @@ public class MemberController {
 	}
 	
 	/**
-	 * 
+	 * 마이페이지 진입 전 패스워드 재확인<br>
+	 * 이때 개인정보 세션은 false로 초기화 해준다
 	 * @return
 	 */
 	@RequestMapping(value = "/myPageCheck.do", method = RequestMethod.GET)
@@ -77,18 +106,36 @@ public class MemberController {
 		return "myPageCheck";
 	}
 	
+	/**
+	 * 아이디 찾기 폼 이동<br>
+	 * 
+	 * @return
+	 */
 	@RequestMapping(value = "/idSearchForm.do", method = RequestMethod.GET)
 	public String idSearchForm() {
 		System.out.println("move to : idSearchForm");
 		return "idSearchForm";
 	}
-
-//	/**
-//	 * 마이페이지 정보 수정<br>
-//	 * 휴대폰번호 수정
-//	 * @param dto
-//	 * @return
-//	 */
+	
+	/**
+	 * 마이페이지 진입 세션 여부 확인<br>
+	 * 세션 여부(allowed)확인하여 마이페이지 진입 혹은 다시 리다이렉트로 보냄 (하지만 한번 들어가면 세션 정보가 남아 있는거 같음 이건 따로 세션 없애는거를 구현해야 할거 같음)
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "/myPage.do", method = RequestMethod.GET)
+	public String myPage(HttpSession session) {	
+//		System.out.println("move to : myPage -> " + (boolean)session.getAttribute("myPageAllowed"));
+		boolean isc = (session.getAttribute("allowed")!= null)?(boolean)session.getAttribute("allowed"):false;
+		return isc ? "myPage" : "redirect:myPageCheck.do";
+	}
+	
+	/**
+	 * 마이페이지 정보 폼 이동<br>
+	 * 휴대폰번호 수정
+	 * @param dto
+	 * @return
+	 */
 	@RequestMapping(value= "/updateInfoForm.do", method = RequestMethod.GET)
 	public String updatePw(MemberDto dto) {
 		System.out.println(dto);
@@ -97,7 +144,7 @@ public class MemberController {
 	}
 	
 	/**
-	 * 마이페이지 비밀번호 변경<br>
+	 * 마이페이지 비밀번호 폼 이동<br>
 	 * 비밀번호 변경
 	 * @param dto
 	 * @return
@@ -107,18 +154,6 @@ public class MemberController {
 		System.out.println(dto);
 		log.info("memberController updatePwForm" + dto);
 		return "updatePwForm";
-	}
-	/**
-	 * 마이페이지 진입 세션 여부 확인<br>
-	 * 세션 여부(myPageAllowed)확인하여 마이페이지 진입 혹은 다시 리다이렉트로 보냄 (하지만 한번 들어가면 세션 정보가 남아 있는거 같음 이건 따로 세션 없애는거를 구현해야 할거 같음)
-	 * @param session
-	 * @return
-	 */
-	@RequestMapping(value = "/myPage.do", method = RequestMethod.GET)
-	public String myPage(HttpSession session) {	
-//		System.out.println("move to : myPage -> " + (boolean)session.getAttribute("myPageAllowed"));
-		boolean isc = (session.getAttribute("allowed")!= null)?(boolean)session.getAttribute("allowed"):false;
-		return isc ? "myPage" : "redirect:myPageCheck.do";
 	}
 	
 	/**
@@ -135,13 +170,53 @@ public class MemberController {
 		return isc ? "redirect:/loginForm.do" : "redirect:/signUpForm.do";
 	}
 	
+	/**
+	 * 개인정보 수정<br>
+	 * @param email
+	 * @param phone_num
+	 * @param session
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "/updateInfo.do", method = RequestMethod.POST)
 	public String updateInfo(String email, String phone_num, HttpSession session, Model model) {
-		String mail = (String)session.getAttribute(email);
-		String phone = (String)session.getAttribute(phone_num);
-		
-		
-		return "myPage.do";
+		MemberDto dto = (MemberDto) session.getAttribute("mem");
+		Map<String, Object> infoMap = new HashMap<String, Object>();
+		infoMap.put("email", dto.getEmail());
+		infoMap.put("phone_num", phone_num);
+		log.info(email, phone_num);
+
+		int result = iService.updateInfo(infoMap);
+		if(result>0) {
+			dto.setPhone_num(phone_num);
+			return "redirect:myPage.do";
+		}
+		return "updateInfoForm.do";
+	}
+	
+	// TODO : 암호화 해야함...
+	/**
+	 * 비밀번호 변경<br>
+	 * @param email
+	 * @param phone_num
+	 * @param session
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/updatePw.do", method = RequestMethod.POST)
+	public String updatePw(String email, String pw, HttpSession session) {
+		MemberDto dto = (MemberDto) session.getAttribute("mem");
+		Map<String, Object> infoMap = new HashMap<String, Object>();
+		infoMap.put("email", dto.getEmail());
+		infoMap.put("pw", pw);
+		log.info(email, pw);
+
+		int result = iService.updateInfo(infoMap);
+		if(result>0) {
+			dto.setPw(pw);
+			return "redirect:myPage.do";
+		}
+		return "updatePwForm.do";
 	}
 	
 	/**
@@ -184,7 +259,6 @@ public class MemberController {
 		}
 		return map;
 	}
-	
 
 	/**
 	 * 로그아웃<br>
@@ -201,11 +275,31 @@ public class MemberController {
 		return "redirect:/index.do";
 	}
 	
+	/**
+	 * 아이디 찾기 <br>
+	 * dto의 name과 phone_num을 map에 담아 검색 그 후 dto에 담아서 email을 불러옴<br
+	 * 화면단에서 출력해주어야함....
+	 * @param name
+	 * @param phone_num
+	 * @return
+	 */
 	@RequestMapping(value = "/idSearch.do", method = RequestMethod.POST)
-	public String idSearch(String Email, String phone_num) {
-		log.info("MemberController findId" + "찾은 아이디 ", Email);
-		return "index.do";
+	public String idSearch(String name, String phone_num, Model model) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("name", name);
+		map.put("phone_num", phone_num);
+		MemberDto dto = iService.idSearch(map);
+		dto.getEmail();
+		log.info("찾은 아이디는 :"+ dto.getEmail());
+		model.addAttribute("dto", dto);
+		
+		if(dto.getEmail() == null) {
+			model.addAttribute("failed", "해당하는 정보의 아이디가 없습니다");
+		}
+		
+		return "idSearchResult";
 	}
+	
 	
 // Ajax 
 	
@@ -276,6 +370,34 @@ public class MemberController {
 			session.setAttribute("allowed", true);
 		}
 		return result;
+	}
+	
+	@RequestMapping(value = "/naverCallback.do", method = RequestMethod.GET)
+	public String naverCallback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws IOException, ParseException {
+		OAuth2AccessToken oauthToken = naverLoginBO.getAccessToken(session, code, state);
+		String apiResult = naverLoginBO.getUserProfile(oauthToken);
+		
+		// String형식인 apiResult를 json형태로 바꿈
+		JSONParser parser = new JSONParser();
+		Object obj = parser.parse(apiResult);
+		JSONObject jsonObj = (JSONObject)obj;
+
+		// 데이터 파싱
+		// Top레벨 단계 _response 파싱
+		JSONObject response_obj = (JSONObject)jsonObj.get("response");
+		// response의 nickname값 파싱
+		String name = (String)response_obj.get("name");
+		String email = (String)response_obj.get("email");
+		
+		boolean emailChk = (iService.idCheck(email)==0);
+		
+		if(!emailChk) {
+			model.addAttribute("name",name);
+			model.addAttribute("email",email);
+			return "extraForm";
+		}else {
+			return "callback";
+		}
 	}
 	
 }

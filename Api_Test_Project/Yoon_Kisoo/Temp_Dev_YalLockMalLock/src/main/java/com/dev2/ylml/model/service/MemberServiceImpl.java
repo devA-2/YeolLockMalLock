@@ -1,4 +1,4 @@
-package com.dev2.ylml.model;
+package com.dev2.ylml.model.service;
 
 import java.util.Map;
 
@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dev2.ylml.dto.MemberDto;
+import com.dev2.ylml.model.dao.MemberIDao;
 
 
 @Service
@@ -35,13 +36,18 @@ public class MemberServiceImpl implements MemberIService {
 	}
 
 	@Override
-	public MemberDto IdSearch(Map<String, Object> map) {
-		return iDao.IdSearch(map);
+	public MemberDto idSearch(Map<String, Object> map) {
+		return iDao.idSearch(map);
 	}
 
 	@Override
-	public boolean updateInfo(Map<String, Object> map) {
+	public int updateInfo(Map<String, Object> map) {
 		return iDao.updateInfo(map);
+	}
+
+	@Override
+	public int updatePw(Map<String, Object> map) {
+		return iDao.updatePw(map);
 	}
 	
 }

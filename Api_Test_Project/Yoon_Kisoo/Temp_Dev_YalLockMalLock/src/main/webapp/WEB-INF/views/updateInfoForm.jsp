@@ -4,11 +4,11 @@
 <html>
 <head>
 <script type="text/javascript" src="./js/jquery-3.5.1.js"></script>
-<meta charset="UTF-8">
+<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Insert title here</title>
 <style type="text/css">
 #container{
-   width : 300px;
+   width : 360px;
    height: 600px;
    border: 1px solid black;
    margin: auto;
@@ -18,10 +18,17 @@
 //휴대폰 번호 정규식
 var phoneJ = /(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/g;
 
+
+function updatePw(){
+	location.href='./updatePwForm.do'
+	
+}
+
 $(document).ready(function(){
 	
-	var sendPhone_Num = document.getElementById("sendPhone_Num");
-	sendPhone_Num.disabled='disabled';
+	var sendPhone_Num = document.getElementById("sendPhone_num");
+// 	sendPhone_num.disabled='disabled';  // 샘플이라 버튼 막아둠
+// 	updateBtn.disabled='disabled';
 	
 	// 휴대폰 번호 중복확인
 	$("#phone_num").blur(function(){ 
@@ -48,23 +55,19 @@ $(document).ready(function(){
 						if(data > 0){
 							$('#phoneChk').text('중복된 휴대폰 번호 입니다.');
 							$('#phoneChk').css('color','red');
-							$("#joincheck").attr("disabled", false);
 						} else {
 							if(phoneJ.test(phone_num)){
 								$('#phoneChk').text('사용가능한 휴대폰 번호 입니다.');
 								$('#phoneChk').css('color', 'blue');
-								$("#joincheck").attr("disabled", false);
-								sendPhone_Num.disabled=false;
+								sendPhone_num.disabled=false;
 							}
 							else if(phone_num == ''){
 								$('#phoneChk').text('휴대폰 번호를 입력해주세요.');
 								$('#phoneChk').css('color', 'red');
-								$("#joincheck").attr("disabled", true);
 	
 							} else if(! phoneJ.test(phone_num)){
 								$('#phoneChk').text("휴대폰 번호 형식이 맞지 않습니다 '-'을 제외하고 입력해주세요.");
 								$('#phoneChk').css('color', 'red');
-								$("#joincheck").attr("disabled", true); 
 							}
 						}  
 						
@@ -84,20 +87,22 @@ $(document).ready(function(){
 			<label>변경 할 핸드폰 번호 : </label>
 				<input type="text" name="phone_num" id="phone_num" maxlength="11" size="15">
 			<div class="check_font" id="phoneChk"></div>
-				<input type="button" id="sendPhone_Num" value="인증번호 전송"><br>
-				<input type="text" id="inputCertifiedNumber" value='인증번호' size="5">
+				<input type="button" id="sendPhone_num" value="인증번호 전송"><br>
+				<input type="text" id="inputCertified_num" value='인증번호' size="5">
 				<input type="button" id="checkBtn" value="확인">
 			<div class="time"></div>
-			<input type="submit" value="개인정보 수정" id="success">	
+			<input type="submit" value="개인정보 수정" id="updateInfoBtn">	
+			<input type="button" value="비밀번호 변경" onclick="updatePw()">
+<%-- 			${mem.phone_num } --%>
 		</form>
 	</div>
 <script>
 var timer = null;
 var isRunning = false;
-var success = document.getElementById("success");
-// success.disabled='disabled'; // 회원가입 용이하게 하기 위해 막아둠
+var updateInfoBtn = document.getElementById("updateInfoBtn");
+// updateInfoBtn.disabled='disabled'; // 회원가입 용이하게 하기 위해 막아둠
 
-        $('#sendPhone_Num').click(function(){
+        $('#sendPhone_num').click(function(){
             let phoneNumber = $('#phone_num').val();
             alert('인증번호 발송 완료!');
             var display = $('.time');
@@ -121,14 +126,14 @@ var success = document.getElementById("success");
                 data: {"phoneNumber" : phoneNumber}, // 핸드폰 값이 넘어감
                 success: function(res){ // 인증번호 값이 넘어옴
                     $('#checkBtn').click(function(){
-                    	if($('#inputCertifiedNumber').val()=='') {
+                    	if($('#inputCertified_num').val()=='') {
                     		alert('값을 입력하세요.');
-                    	} else if(isRunning && $.trim(res) ==$('#inputCertifiedNumber').val()){
+                    	} else if(isRunning && $.trim(res) ==$('#inputCertified_num').val()){
                             // 타이머가 활성화 되어있고 값이 정확히 입력되었을 때
                     		alert('휴대폰 인증이 정상적으로 완료되었습니다.');
 							clearInterval(timer);
 			        		display.html("");
-			        		success.disabled=false;
+			        		updateInfoBtn.disabled=false;
 			        		
                         }else{
                         	if(isRunning) {

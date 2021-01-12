@@ -3,25 +3,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Insert title here</title>
+<script type="text/javascript" src="./js/jquery-3.5.1.js"></script>
+<script type="text/javascript" src="./js/signUp.js"></script>
 </head>
-
 <style type="text/css">
 #container{
-   width : 300px;
+   width : 360px;
    height: 600px;
    border: 1px solid black;
    margin: auto;
 }
 </style>
-<script type="text/javascript" src="./js/jquery-3.5.1.js"></script>
-<script type="text/javascript" src="./js/signUp.js"></script>
+<script type="text/javascript">
+
 <body>
 <!-- 휴대폰 인증 유효성 검사를 세션에 담아서 체크하는 거 구현해야함... 메일 보내는 것도.. -->
 	<div id="container">
 		<h1>회원가입</h1>
-		<form action="./insertMember.do" id="joinCheck" method="post">
+		<form action="./insertMember.do" id="joinChkFrm" method="post">
 			<label>아이디 : </label>
 				<input type="text" id="email" name="email" size="40" maxlength="40"><br>
 				<div class="checkFont" id="mailChk"></div>
@@ -38,19 +39,17 @@
 			<label>핸드폰 번호 : </label>
 				<input type="text" name="phone_num" id="phone_num" maxlength="11" size="15">
 			<div class="check_font" id="phoneChk"></div>
-				<input type="button" id="sendPhone_Num" value="인증번호 전송"><br>
-				<input type="text" id="inputCertifiedNumber" value='인증번호' size="5">
+				<input type="button" id="sendPhone_num" value="인증번호 전송"><br>
+				<input type="text" id="certified_num" value='인증번호' size="5">
 				<input type="button" id="checkBtn" value="확인">
 			<div class="time"></div>
-			<input type="submit" value="회원가입완료" id="success">	
+			<input type="submit" value="회원가입완료" id="signUpBtn">	
 		</form>
 	</div>
 		<script>
-var success = document.getElementById("success");
-success.disabled='disabled'; // 회원가입 용이하게 하기 위해 막아둠		
 var timer = null;
 var isRunning = false;
-        $('#sendPhone_Num').click(function(){
+        $('#sendPhone_num').click(function(){
             let phoneNumber = $('#phone_num').val();
             alert('인증번호 발송 완료!');
             var display = $('.time');
@@ -72,14 +71,14 @@ var isRunning = false;
                 data: {"phoneNumber" : phoneNumber}, // 핸드폰 값이 넘어감
                 success: function(res){ // 인증번호 값이 넘어옴
                     $('#checkBtn').click(function(){
-                    	if($('#inputCertifiedNumber').val()=='') {
+                    	if($('#certified_num').val()=='') {
                     		alert('값을 입력하세요.');
-                    	} else if(isRunning && $.trim(res) ==$('#inputCertifiedNumber').val()){
+                    	} else if(isRunning && $.trim(res) ==$('#certified_num').val()){
                             // 타이머가 활성화 되어있고 값이 정확히 입력되었을 때
                     		alert('휴대폰 인증이 정상적으로 완료되었습니다.');
 							clearInterval(timer);
 			        		display.html("");
-			        		success.disabled=false;
+			        		signUpBtn.disabled=false;
 			        		
                         }else{
                         	if(isRunning) {

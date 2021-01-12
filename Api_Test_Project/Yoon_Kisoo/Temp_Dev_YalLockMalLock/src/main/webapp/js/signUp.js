@@ -1,5 +1,5 @@
 
-//TODO : 유효성검사 지금 블러로 진행중인데, keyup으로 특정 자릿수를 입력했을때 동작하는게 괜찮아보임 
+//TODO : 유효성검사 지금 블러로 진행중인데, keyup으로 특정 자릿수를 입력했을때 동작하는게 괜찮아보임 <br> 회원가입을 용이하게 하기위해 버튼을 비활성화함 <br> 유효성 검사 수정이 필요함. 현재 입력값이 없어도 진행이 됨
 
 //유효성검사
 //모든 공백 체크 정규식 
@@ -16,8 +16,10 @@ var phoneJ = /(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/g;
 
 $(document).ready(function(){
 	
-	var sendPhone_Num = document.getElementById("sendPhone_Num");
-	sendPhone_Num.disabled='disabled';
+	var sendPhone_num = document.getElementById("sendPhone_num");
+	sendPhone_num.disabled='disabled';
+	var signUpBtn = document.getElementById("signUpBtn");
+//	signUpBtn.disabled='disabled'; // 회원가입 용이하게 하기 위해 막아둠		
 
 
 	// 아이디(이메일) 중복확인
@@ -45,23 +47,23 @@ $(document).ready(function(){
 						if(data > 0){
 							$('#mailChk').text('중복된 아이디(이메일) 입니다.');
 							$('#mailChk').css('color','red');
-							$("#joincheck").attr("disabled", false);
+							$("#joinChkFrm").attr("disabled", false);
 						} else {
 							if(mailJ.test(email)){
 								$('#mailChk').text('사용가능한 아이디(이메일) 입니다.');
 								$('#mailChk').css('color', 'blue');
-								$("#joincheck").attr("disabled", false);
+								$("#joinChkFrm").attr("disabled", false);
 							}
 							else if(email == ''){
 								$('#mailChk').text('아이디(이메일)를 입력해주세요.');
 								$('#mailChk').css('color', 'red');
-								$("#joincheck").attr("disabled", true);
+								$("#joinChkFrm").attr("disabled", true);
 	
 	
 							} else {
 								$('#mailChk').text("이메일 형식이 아닙니다. 다시 입력해주세요.");
 								$('#mailChk').css('color', 'red');
-								$("#joincheck").attr("disabled", true); 
+								$("#joinChkFrm").attr("disabled", true); 
 							}
 						}  
 						
@@ -97,23 +99,23 @@ $(document).ready(function(){
 						if(data > 0){
 							$('#phoneChk').text('중복된 휴대폰 번호 입니다.');
 							$('#phoneChk').css('color','red');
-							$("#joincheck").attr("disabled", false);
+							$("#joinChkFrm").attr("disabled", false);
 						} else {
 							if(phoneJ.test(phone_num)){
 								$('#phoneChk').text('사용가능한 휴대폰 번호 입니다.');
 								$('#phoneChk').css('color', 'blue');
-								$("#joincheck").attr("disabled", false);
-								sendPhone_Num.disabled=false;
+								$("#joinChkFrm").attr("disabled", false);
+								sendPhone_num.disabled=false;
 							}
 							else if(phone_num == ''){
 								$('#phoneChk').text('휴대폰 번호를 입력해주세요.');
 								$('#phoneChk').css('color', 'red');
-								$("#joincheck").attr("disabled", true);
+								$("#joinChkFrm").attr("disabled", true);
 	
 							} else if(! phoneJ.test(phone_num)){
 								$('#phoneChk').text("휴대폰 번호 형식이 맞지 않습니다 '-'을 제외하고 입력해주세요.");
 								$('#phoneChk').css('color', 'red');
-								$("#joincheck").attr("disabled", true); 
+								$("#joinChkFrm").attr("disabled", true); 
 							}
 						}  
 						
@@ -124,7 +126,7 @@ $(document).ready(function(){
 
 		}); // blur
 	
-	// 비밀번호 유효성 검사 : 추후에 정규식 영소대문자 숫자  혼용해서 사용하게 정규식 추가예정 //
+	// 비밀번호 유효성 검사
 	$('#pw').blur(function() {
 		if (pwJ.test($('#pw').val())) {
 			console.log('true');
