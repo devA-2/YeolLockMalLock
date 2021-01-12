@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.min.edu.dto.LostPropertyDto;
 import com.min.edu.dto.MemberDto;
 import com.min.edu.dto.ReportDto;
+import com.min.edu.model.ILostPropertyService;
 import com.min.edu.model.IReportService;
 import com.min.edu.model.TestILoginService;
 
@@ -24,7 +26,13 @@ import com.min.edu.model.TestILoginService;
 public class ReportController {
 
 	@Autowired
-	private IReportService service;
+	private IReportService service; // 신고글 Service
+	
+	@Autowired
+	private TestILoginService service2; // 로그인 Service
+	
+	@Autowired
+	private ILostPropertyService service3; // 유실물 Service
 	
 	Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -94,6 +102,11 @@ public class ReportController {
 		return "redirect:/reportList.do";
 	}
 	
+	public String replyReport() {
+		
+		return "";
+	}
+	
 //	@RequestMapping(value = "/backPage.do", method=RequestMethod.POST)
 //	public String backPage(HttpSession session, @RequestParam Map<String, Object> map) {
 //		MemberDto mDto = service2.loginMember(map);
@@ -101,11 +114,8 @@ public class ReportController {
 //		return "reportList";
 //	}
 	
-	// 테스트용 login
-	@Autowired
-	private TestILoginService service2;
 	
-	
+	// 신고글게시판 테스트용 로그인
 	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
 	public String login(@RequestParam Map<String, Object> map, HttpSession session, Model model) {
 		MemberDto mDto = service2.loginMember(map);
@@ -118,6 +128,24 @@ public class ReportController {
 		model.addAttribute("lists", list);
 		
 		return "reportList";
+	}
+	
+	// 유실물 테스트용 로그인
+	@RequestMapping(value = "/login2.do", method = RequestMethod.POST)
+	public String login2(@RequestParam Map<String, Object> map, HttpSession session, Model model) {
+		MemberDto mDto = service2.loginMember(map);
+		System.out.println("mDto : "+mDto);
+		session.setAttribute("mem", mDto);
+		List<LostPropertyDto> list = service3.selectAllLostProperty();
+		model.addAttribute("lists", list);
+		
+		if(mDto == null) {
+			return "error";
+		}
+		
+		
+		return "lostPropertyList";
+		
 	}
 
 

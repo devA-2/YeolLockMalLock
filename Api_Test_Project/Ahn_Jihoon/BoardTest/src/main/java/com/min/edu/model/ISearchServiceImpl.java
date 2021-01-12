@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.min.edu.dto.LostPropertyDto;
 import com.min.edu.dto.ReportDto;
 
 @Service
@@ -19,8 +20,14 @@ public class ISearchServiceImpl implements ISearchService {
 	
 	@Override
 	public List<ReportDto> searchId(String email) {
-		log.info("--------------------- 게시글 검색(id) 실행 ---------------------");
+		log.info("--------------------- 신고글 검색(id) 실행 ---------------------");
 		return iDao.searchId(email);
+	}
+
+	@Override
+	public List<LostPropertyDto> searchId2(String receipt_user_id) {
+		log.info("--------------------- 유실물 검색(id) 실행 ---------------------");
+		return iDao.searchId2(receipt_user_id);
 	}
 
 	@Override
@@ -28,5 +35,4 @@ public class ISearchServiceImpl implements ISearchService {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 }

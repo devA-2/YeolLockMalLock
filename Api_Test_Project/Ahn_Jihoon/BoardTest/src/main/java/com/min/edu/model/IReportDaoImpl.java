@@ -14,44 +14,44 @@ public class IReportDaoImpl implements IReportDao {
 	private final String NS="com.min.edu.model.IReportDao.";
 	
 	@Autowired
-	private SqlSessionTemplate sqlSessionFactoryBean;
+	private SqlSessionTemplate sqlSession;
 	
 	@Override
 	public boolean insertReport(ReportDto dto) {
-		int cnt = sqlSessionFactoryBean.insert(NS+"insertReport", dto);
+		int cnt = sqlSession.insert(NS+"insertReport", dto);
 		return cnt>0?true:false;
 	}
 
 	@Override
 	public boolean replyReport(ReportDto dto) {
-		int cnt = sqlSessionFactoryBean.update(NS+"replyReport", dto);
+		int cnt = sqlSession.update(NS+"replyReport", dto);
 		return cnt>0?true:false;
 	}
 
 	@Override
 	public boolean modifyReport(ReportDto dto) {
-		int cnt = sqlSessionFactoryBean.update(NS+"modifyReport", dto);
+		int cnt = sqlSession.update(NS+"modifyReport", dto);
 		return cnt>0?true:false;
 	}
 
 	@Override
 	public List<ReportDto> selectAllReport() {
-		return sqlSessionFactoryBean.selectList(NS+"selectAllReport");
+		return sqlSession.selectList(NS+"selectAllReport");
 	}
 
 	@Override
 	public ReportDto selectOneReport(String seq) {
-		return sqlSessionFactoryBean.selectOne(NS+"selectOneReport", seq);
+		return sqlSession.selectOne(NS+"selectOneReport", seq);
 	}
 
 	@Override
 	public List<ReportDto> searchReport(String email) {
-		return sqlSessionFactoryBean.selectList(NS+"searchReport", email);
+		return sqlSession.selectList(NS+"searchReport", email);
 	}
 
 	@Override
 	public boolean updateProcessStatus(ReportDto dto) {
-		int cnt = sqlSessionFactoryBean.update(NS+"updateProcessStatus", dto);
+		int cnt = sqlSession.update(NS+"updateProcessStatus", dto);
 		return cnt>0?true:false;
 	}
 

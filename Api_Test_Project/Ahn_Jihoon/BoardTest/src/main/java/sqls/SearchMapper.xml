@@ -7,4 +7,11 @@
 	FROM REPORT r 
 	WHERE EMAIL = #{email}
 </select>
+
+  <select id="searchId2" parameterType="java.lang.String" resultType="LostPropertyDto">
+	SELECT SEQ, LOST_REGDATE, RECEIPT_USER_ID, LOST_STATUS
+	FROM LOSTPROPERTY l 
+	WHERE RECEIPT_USER_ID =#{receipt_user_id}
+</select>
+
 </mapper>

@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.min.edu.dto.LostPropertyDto;
 import com.min.edu.dto.ReportDto;
 
 @Repository
@@ -22,9 +23,15 @@ public class ISearchDaoImpl implements ISearchDao {
 	}
 
 	@Override
+	public List<LostPropertyDto> searchId2(String receipt_user_id) {
+		return sqlSession.selectList(NS+"searchId2", receipt_user_id);
+	}
+	
+	@Override
 	public boolean insertLostProperty(ReportDto dto) {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
 
 }
