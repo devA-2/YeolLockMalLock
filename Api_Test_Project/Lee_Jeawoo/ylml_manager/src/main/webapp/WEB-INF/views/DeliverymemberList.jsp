@@ -6,6 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
 <meta charset="UTF-8">
 <title>담당자 및 배송원 전체 정보조회</title>
 </head>
@@ -15,32 +16,61 @@ allDeleveryList.do<br>
 <div id="container">
 <h1><a href="./managerMain.do">관리자메인페이지로</a></h1>
 
-	<div>
-		<form action="./searchId.do" method="post">
-		<input type="text" name="searchWord"  placeholder="검색할 ID를 입력하세요">
-		<input type="submit"  value="ID검색" >
-		</form> 
-	</div>
 
-	<table border="1">
-		<tr>
-			<th>이메일</th>
-			<th>이름</th>
-			<th>전화번호</th>
-			<th>권한</th>
-		</tr>
-		<c:forEach varStatus="vs" items="${lists}" var="dto">
-			<tr>
-				<td><a title="${dto.email}" href="./deliveryDetail.do?email=${dto.email}">${dto.email}</a></td>
-				<td>${dto.name}</td>
-				<td>${dto.phone_num}</td>
-				<td>${dto.auth}</td>
-			</tr>
-		</c:forEach>
-	</table>
 	<hr>
 	
-	
+	<script type="text/javascript">
+      
+      
+      // 익명함수, 페이지 로드될 때 실행됨 -> 전체리스트 호출
+      $(function() {
+         $.get("list.do", function(data) {
+            console.log(data);
+            $('#list').html(data);
+         }); 
+      });
+      
+      
+      // 버튼 클릭시, 검색어 결과 호출
+      function search() {
+    	  var searchID = $('#searchID').val();
+    	  console.log(searchID);
+    	  
+    	  if(searchID == ""){
+    		  alert('검색어를 입력해 주세요');
+    		  
+    	  }else {
+    		  
+          $.get("list.do?param="+searchID, function(data) {
+             console.log(data);
+             
+             $('#list').html(data);
+          });
+          
+    	  }
+       }
+      
+      function viewAllList() {
+    	  $.get("list.do", function(data) {
+              console.log(data);
+              
+              $('#list').html(data);
+           });
+	}
+    </script>
+    
+    
+    <div id='container'>
+   <input id="searchID" type="text"  placeholder="검색어를 입력하세요"/>
+   <button onclick="search()">확인</button>&nbsp;
+   <button onclick="viewAllList()">전체리스트보기</button>
+   <div id=list></div>
+   </div>
+   
+   
+   
+   <hr>
+<input style="font-size: large;" type="button" value="돌아가기" onclick="history.back(-1)">    
 </div>
 </body>
 </html>
