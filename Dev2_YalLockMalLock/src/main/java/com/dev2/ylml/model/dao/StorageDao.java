@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.dev2.ylml.dto.StorageBoxDto;
 import com.dev2.ylml.dto.StorageListDto;
+import com.dev2.ylml.dto.UserGoodsDto;
 
 @Repository
 public class StorageDao implements StorageIDao {
@@ -22,7 +23,7 @@ public class StorageDao implements StorageIDao {
 	}
 
 	@Override
-	public List<StorageListDto> selectStorageList() {
+	public List<Map<String,String>> selectStorageList() {
 		return sqlSession.selectList("storage.selectStorageList");
 	}
 
@@ -68,6 +69,41 @@ public class StorageDao implements StorageIDao {
 	public boolean updateExtendCost(Map<String, Object> map) {
 		return sqlSession.update("storage.updateExtendCost",map)>0?true:false;
 	}
+
+	@Override
+	public UserGoodsDto compareKey(String key) {
+		return sqlSession.selectOne("storage.compareKey",key);
+	}
+
+	@Override
+	public boolean updateExtraCost(Map<String, Object> map) {
+		return sqlSession.update("storage.updateExtraCost",map)>0?true:false;
+	}
+
+	@Override
+	public boolean updateStatusCheck(Map<String, String> map) {
+		return sqlSession.update("storage.updateStatusCheck",map)>0?true:false;
+	}
+	
+	@Override
+	public boolean deleteGoods(String costCode) {
+		return sqlSession.delete("storage.deleteGoods",costCode)>0?true:false;
+	}
+//	@Override
+//	public String checkOutEmail(String email) {
+//		return sqlSession.selectOne("storage.checkOutEmail",email);
+//	}
+
+	@Override
+	public UserGoodsDto selectForReturn(String costCode) {
+		return sqlSession.selectOne("storage.selectForReturn",costCode);
+	}
+	@Override
+	public boolean insertReturn(UserGoodsDto goodsDto) {
+		return sqlSession.insert("storage.insertReturn",goodsDto)>0?true:false;
+	}
+
+
 
 	
 	

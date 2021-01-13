@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.dev2.ylml.dto.StorageBoxDto;
 import com.dev2.ylml.dto.StorageListDto;
+import com.dev2.ylml.dto.UserGoodsDto;
 
 public interface StorageIDao {
 
@@ -17,41 +18,37 @@ public interface StorageIDao {
 	 * 검색창 자동완성 위한 보관함 리스트 정보 받아오기
 	 * @return List<StorageListDto>
 	 */
-	public List<StorageListDto> selectStorageList();
+	public List<Map<String,String>> selectStorageList();
 	/**
 	 * ajax로 해당 보관함 정보, 사용가능한 갯수 가져오기
 	 * @param id
-	 * @return 
+	 * @return StorageListDto
 	 */
 	public StorageListDto ajaxCountStorage(String id);
 	/**
 	 * 해당 보관함의 사용여부 가져오기
 	 * @param id
-	 * @return 
+	 * @return List<StorageBoxDto>
 	 */
 	public List<StorageBoxDto> selectStorageStatus(String id);
 	/**
 	 * seq, id, email로 보관 등록
 	 * @param map
-	 * @return 
 	 */
 	public boolean insertGoods(Map<String, Object> map);
 	/**
 	 * 사용가능 -> 사용중 상태변경
 	 * @param map
-	 * @return
 	 */
 	public boolean updateStatus(Map<String, Object> map);
 	/**
 	 * 결제 코드 등록
 	 * @param map
-	 * @return
 	 */
 	public boolean insertCost(Map<String, Object> map);
 	/**
 	 * 보관 정보에 selectKey로 받아온 결제 코드 수정
 	 * @param map
-	 * @return
 	 */
 	public boolean updateCostCode(Map<String, Object> map);
 	/**
@@ -63,13 +60,46 @@ public interface StorageIDao {
 	/**
 	 * 연장시간, 연장횟수 수정
 	 * @param map
-	 * @return boolean
 	 */
 	public boolean updateExtend(Map<String, Object> map);
 	/**
 	 * 연장 금액 수정
 	 * @param map
-	 * @return boolean
 	 */
 	public boolean updateExtendCost(Map<String, Object> map);
+	/**
+	 * 회수전 키 대조
+	 * @param key
+	 * @return cost_code, out_user
+	 */
+	public UserGoodsDto compareKey(String key);
+	/**
+	 * 보관시간 만료 이후 회수시 키 대조후 결제 전에 할증비용 추가 
+	 * @param costCode, overCost
+	 */
+	public boolean updateExtraCost(Map<String, Object> map);
+	/**
+	 * 결제완료 후 사용중인 보관함 대기여부 확인하고 사용가능 처리
+	 * @param costCode + 쿼리에서 id 저장해야해서 map 사용
+	 */
+	public boolean updateStatusCheck(Map<String,String> map);
+	/**
+	 * 보관정보 삭제
+	 * @param costCode
+	 */
+	public boolean deleteGoods(String costCode);
+	
+//	public String checkOutEmail(String email);
+	
+	/**
+	 * 반품할때 결제코드로 정보 가져오기
+	 * @param costCode
+	 * @return UserGoodsDto(BOX_SEQ ,STORAGE_ID , IN_USER ,OUT_USER)
+	 */
+	public UserGoodsDto selectForReturn(String costCode);
+	/**
+	 * 반품 등록 
+	 * @param UserGoodsDto(BOX_SEQ ,STORAGE_ID , IN_USER ,OUT_USER,MESSAGE)
+	 */
+	public boolean insertReturn(UserGoodsDto goodsDto);
 }

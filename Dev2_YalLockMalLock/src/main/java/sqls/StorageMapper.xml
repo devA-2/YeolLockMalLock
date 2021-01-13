@@ -3,11 +3,11 @@
 <mapper namespace="storage">
 
 	<select id="selectMap" resultType="java.util.HashMap">
-		select storage_id as id, lng,lat from storagebox_list
+		select storage_id as "id",lng as "lng",lat as "lat" from storagebox_list
 	</select>
 
-	<select id="selectStorageList" resultType="com.dev2.ylml.dto.StorageListDto">
-		select storage_id,storage_name,address,subway from storagebox_list
+	<select id="selectStorageList" resultType="java.util.HashMap">
+		select storage_id AS "value" ,storage_name AS "label" ,address||' '||subway||' '||detail AS "desc" from storagebox_list
 	</select>
 
 	<select id="ajaxCountStorage" resultType="com.dev2.ylml.dto.StorageListDto">
@@ -63,36 +63,43 @@
 	  </foreach>
 	</update>
 
-<!-- 	<select id="compareKey" parameterType="java.lang.String"> -->
-<!-- 		SELECT cost_code,out_user FROM storage_goods WHERE key=#{key} -->
+	<select id="compareKey" resultType="com.dev2.ylml.dto.UserGoodsDto" parameterType="java.lang.String">
+		SELECT cost_code,out_user FROM storage_goods WHERE key=#{key}
+	</select>
+
+	<update id="updateExtraCost" parameterType="java.util.HashMap">
+		UPDATE cost SET
+		cost=cost+#{overCost} WHERE cost_code=#{costCode}
+	</update>
+
+	<!-- 셀렉트키가 update에서 적용안돼서 insert로 -->
+	<insert id="updateStatusCheck" parameterType="java.util.HashMap">
+		<selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
+			SELECT STORAGE_ID FROM STORAGE_GOODS sg WHERE COST_CODE=#{costCode}
+		</selectKey>
+		UPDATE ${id} SET BOX_STATUS = CASE WHEN BOX_STATUS = 'I' THEN 'O' WHEN
+		BOX_STATUS = 'W' THEN 'X' END WHERE BOX_SEQ = (SELECT BOX_SEQ FROM
+		STORAGE_GOODS sg WHERE COST_CODE=#{costCode})
+	</insert>
+
+	<delete id="deleteGoods" parameterType="java.lang.String">
+		DELETE FROM storage_goods WHERE cost_code=#{costCode}
+	</delete>
+
+<!-- 	<select id="checkOutEmail" parameterType="java.lang.String" resultType="java.lang.String"> -->
+<!-- 		SELECT EMAIL FROM MEMBER WHERE email=#{email} -->
 <!-- 	</select> -->
-
-
-<!-- 	<update id="updateExtraCost"> -->
-<!-- 		UPDATE cost SET cost=cost+ -->
-<!-- 		(SELECT ceil((sysdate-g.ex_time)*24)*1000 -->
-<!-- 		FROM storage_goods g, cost c  -->
-<!-- 		where c.cost_code=g.cost_code and g.box_seq=#{boxSeq} and g.storage_id=#{id}) -->
-<!-- 		WHERE cost_code= -->
-<!-- 		(select cost_code from storage_goods where box_seq=#{boxSeq} and storage_id=#{id}) -->
-<!-- 	</update> -->
-	<!-- <update id="updateStatusCheck"> -->
-	<!-- UPDATE ${id} SET BOX_STATUS = CASE WHEN BOX_STATUS = 'I' THEN 'O' WHEN 
-		BOX_STATUS = 'W' THEN 'X' END WHERE BOX_SEQ = #{boxSeq} -->
-	<!-- </update> -->
-
-	<!-- <delete id="deleteGoods"> -->
-	<!-- DELETE FROM storage_goods WHERE cost_code='' -->
-	<!-- </delete> -->
-
-	<!-- <select id="checkOutEmail" parameterType="java.lang.String" resultType="java.lang.String"> -->
-	<!-- SELECT EMAIL FROM MEMBER WHERE email=#{email} -->
-	<!-- </select> -->
-
-	<!-- <insert id="insertReturn" parameterType="보관물품Dto"> -->
-	<!-- insert into storage_goods(box_seq,storage_id,in_user,out_user,category_code,message) -->
-	<!-- VALUES(#{boxSeq},#{id},#{inEmail},#{outEmail},'R',#{message}) -->
-	<!-- </insert> -->
+	
+	<!-- 	반품할때 결제코드로 정보 가져오기  -->
+	<select id="selectForReturn" parameterType="java.lang.String" resultType="com.dev2.ylml.dto.UserGoodsDto">
+		SELECT BOX_SEQ ,STORAGE_ID , IN_USER ,OUT_USER FROM STORAGE_GOODS sg WHERE COST_CODE =#{costCode}
+	</select>
+	
+	<!-- 	반품 등록 -->
+	<insert id="insertReturn" parameterType="com.dev2.ylml.dto.UserGoodsDto">
+		insert into storage_goods(box_seq,storage_id,in_user,out_user,category_code,message)
+		VALUES(#{boxSeq},#{storageId},#{outUser},#{inUser},'R',#{message})
+	</insert>
 
 </mapper>
 

@@ -48,6 +48,8 @@
 		<input type="hidden" name="boxSeq" id="boxSeq" value="0">
 		<input type="submit" value="다음">
 	</form>
+	
+
 </body>
 </html>
 <!-- [StorageBoxDto(boxSeq=1, storageId=null, boxStatus=O),  -->
