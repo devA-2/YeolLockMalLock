@@ -11,7 +11,7 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @ToString
-public class UserDeliveryListDto implements Serializable {
+public class DeliveryListDto implements Serializable {
 
 	private static final long serialVersionUID = -7900537746350142992L;
 
@@ -21,5 +21,7 @@ public class UserDeliveryListDto implements Serializable {
 	String detail;
 	String deliverymanId;
 	String deliveryArrive;
+	String outboxId;
+	String deliveryCode;
 	
 }

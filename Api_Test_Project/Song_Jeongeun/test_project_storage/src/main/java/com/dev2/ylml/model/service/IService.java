@@ -7,21 +7,26 @@ import com.dev2.ylml.dto.DeliveryDto;
 import com.dev2.ylml.dto.MemberDto;
 import com.dev2.ylml.dto.StorageBoxListDto;
 import com.dev2.ylml.dto.StorageGoodsDto;
-import com.dev2.ylml.dto.UserDeliveryListDto;
+import com.dev2.ylml.dto.DeliveryListDto;
 import com.dev2.ylml.dto.UserStorageListDto;
 
 public interface IService {
+	
+	/**
+	 * 보관함ID로 STORAGEBOX_LIST 조회
+	 */
+	public StorageBoxListDto selectStorageBoxList(String storageId);
+	
+	/**
+	 * 보관함SEQ, 보관함ID로 STORAGEBOX_GOODS 조회
+	 */
+	public StorageGoodsDto selectStorageGoods(Map<String, Object> map);
 
 	/**
 	 * 보관 정보 조회(사용자)
 	 */
 	public List<UserStorageListDto> selectUserStorageList(Map<String, String> map);
 	
-	/**
-	 * 보관함ID로 보관함 정보 조회
-	 */
-	public List<StorageBoxListDto> selectStorageBoxList(String storageId);
-
 	/**
 	 * 타임테이블 SEQ 조회
 	 */
@@ -53,8 +58,13 @@ public interface IService {
 	public boolean insertDelivery(DeliveryDto delDto, StorageGoodsDto goodsDto);
 	
 	/**
-	 * 배송 정보 조회(사용자)
+	 * 배송 정보 조회(사용자, 배송원)
 	 */
-	public List<UserDeliveryListDto> selectUserDeliveryList(String email);
+	public List<DeliveryListDto> selectDeliveryList(String email, String auth);
 	
+	/**
+	 * 배송 시작 시간 업데이트
+	 */
+	public boolean updatedeliveryStrat(String deliveryCode);
+
 }

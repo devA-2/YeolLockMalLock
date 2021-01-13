@@ -15,7 +15,7 @@ public class UserStorageListDto implements Serializable {
 	
 	private static final long serialVersionUID = -938667966245847681L;
 	
-	int boxSeq, cost, extendCnt;
-	String storageId, storageName, subway, detail, inUser, outUser, costCode, inTime, exTime, overTime, categoryCode;
+	int boxSeq, cost, extendCnt, overTime, overH, overM, overCost;
+	String storageId, storageName, subway, detail, inUser, outUser, costCode, inTime, exTime, categoryCode;
 	
 }

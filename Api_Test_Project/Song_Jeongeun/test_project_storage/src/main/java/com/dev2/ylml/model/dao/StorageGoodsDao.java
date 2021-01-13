@@ -14,7 +14,7 @@ import com.dev2.ylml.dto.DeliveryDto;
 import com.dev2.ylml.dto.MemberDto;
 import com.dev2.ylml.dto.StorageBoxListDto;
 import com.dev2.ylml.dto.StorageGoodsDto;
-import com.dev2.ylml.dto.UserDeliveryListDto;
+import com.dev2.ylml.dto.DeliveryListDto;
 import com.dev2.ylml.dto.UserStorageListDto;
 
 @Repository
@@ -24,7 +24,19 @@ public class StorageGoodsDao implements StorageGoodsIDao {
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;
-
+	
+	@Override
+	public StorageBoxListDto selectStorageBoxList(String storageId) {
+		logger.info("Dao_selectStorageBoxList 실행");
+		return sqlSession.selectOne("storageBox.selectStorageBoxList", storageId);
+	}
+	
+	@Override
+	public StorageGoodsDto selectStorageGoods(Map<String, Object> map) {
+		logger.info("Dao_selectStorageGoods 실행");
+		return sqlSession.selectOne("storageBox.selectStorageGoods", map);
+	}
+	
 	@Override
 	public List<UserStorageListDto> selectUserStorageList(Map<String, String> map) {
 		logger.info("Dao_selectUserStorageList 실행");
@@ -36,12 +48,7 @@ public class StorageGoodsDao implements StorageGoodsIDao {
 		logger.info("Dao_selectCost 실행");
 		return sqlSession.selectList("storageBox.selectCost", email);
 	}
-	
-	@Override
-	public List<StorageBoxListDto> selectStorageBoxList(String storageId) {
-		logger.info("Dao_selectStorageBoxList 실행");
-		return sqlSession.selectList("storageBox.selectStorageBoxList", storageId);
-	}
+
 	
 	@Override
 	public int selectTimeTableSeq(String subway) {
@@ -95,9 +102,22 @@ public class StorageGoodsDao implements StorageGoodsIDao {
 	}
 
 	@Override
-	public List<UserDeliveryListDto> selectUserDeliveryList(String email) {
+	public List<DeliveryListDto> selectUserDeliveryList(String email) {
 		logger.info("Dao_selectUserDeliveryList 실행");
 		return sqlSession.selectList("storageBox.selectUserDeliveryList", email);
+	}
+
+	@Override
+	public List<DeliveryListDto> selectDelmanDeliveryList(String email) {
+		logger.info("Dao_selectDelmanDeliveryList 실행");
+		return sqlSession.selectList("storageBox.selectDelmanDeliveryList", email);
+	}
+
+	@Override
+	public boolean updatedeliveryStrat(String deliveryCode) {
+		int cnt = sqlSession.update("storageBox.updatedeliveryStrat", deliveryCode);
+		logger.info("Dao_updatedeliveryStrat 실행");
+		return cnt > 0? true:false;
 	}
 
 }

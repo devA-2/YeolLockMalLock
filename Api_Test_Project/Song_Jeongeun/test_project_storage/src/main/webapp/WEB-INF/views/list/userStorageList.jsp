@@ -8,15 +8,59 @@
 <title>보관 내역</title>
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
-	function deliveryForm(storageId, boxSeq) {
-		
+	function keyTransBtn(boxSeq, storageId) {
 		$.ajax({
-			url: "./idSeq.do",
-			data: {"storageId":storageId, "boxSeq":boxSeq},
+			url: "./dtoSession.do",
+			data: {"boxSeq":boxSeq, "storageId":storageId},
 			type: "POST",
-			success : function(msg){
-				console.log("성공")
-				location.href = "./deliveryForm.do"
+			success : function(){
+				location.href = "#"
+			},
+			error : function(){
+				alert("서비스에 문제가 생겼습니다.")		
+			}
+		});
+	}
+
+	function deliveryBtn(boxSeq, storageId, categoryCode) {
+		$.ajax({
+			url: "./deliveryBtn.do",
+			data: {"boxSeq":boxSeq, "storageId":storageId, "categoryCode":categoryCode},
+			type: "POST",
+			success : function(result){
+				if(result == "success"){
+					location.href = "./deliveryForm.do"
+				}else{
+					console.log("이미 배송 중인 물품입니다.")
+				}
+			},
+			error : function(){
+				alert("서비스에 문제가 생겼습니다.")		
+			}
+		});
+	}
+	
+	function extendBtn(boxSeq, storageId) {
+		$.ajax({
+			url: "./extendBtn.do",
+			data: {"boxSeq":boxSeq, "storageId":storageId},
+			type: "POST",
+			success : function(){
+				location.href = "#"
+			},
+			error : function(){
+				alert("서비스에 문제가 생겼습니다.")		
+			}
+		});
+	}
+	
+	function paymentBtn(boxSeq, storageId) {
+		$.ajax({
+			url: "./paymentBtn.do",
+			data: {"boxSeq":boxSeq, "storageId":storageId},
+			type: "POST",
+			success : function(){
+				location.href = "#"
 			},
 			error : function(){
 				alert("서비스에 문제가 생겼습니다.")		
@@ -36,14 +80,16 @@
 				<span>${list.subway} ${list.detail} /</span>
 				<span>보관 시작 시간 ${list.inTime} /</span>
 				<span>수령 사용자 ${list.outUser} /</span>
-				<span>배송 여부 
-					<c:if test="${list.categoryCode eq 'D' || 'RD'}">O</c:if>
-					<c:if test="${list.categoryCode ne 'D' || 'RD'}">X</c:if>
+				<span>배송 여부
+					<c:choose>
+						<c:when test="${list.categoryCode eq 'D' || list.categoryCode eq 'RD'}">O</c:when>
+						<c:when test="${list.categoryCode eq 'S' || list.categoryCode eq 'R'}">X</c:when>
+					</c:choose>
 				</span>
 			</div>
 			<div>
-				<button>교환</button>
-				<button onclick="deliveryForm('${list.storageId}','${list.boxSeq}')">배송</button>
+				<button onclick="keyTransBtn('${list.boxSeq}', '${list.storageId}')">교환</button>
+				<button onclick="deliveryBtn('${list.boxSeq}', '${list.storageId}', '${list.categoryCode}')">배송</button>
 			</div>
 			<hr>
 		</c:if>
@@ -58,19 +104,23 @@
 				<span>수령 사용자 ${list.outUser} /</span>
 				<span>보관 비용 ${list.cost}원 /</span>
 				<span>배송 여부 
-					<c:if test="${list.categoryCode eq 'D' || 'RD'}">O</c:if>
-					<c:if test="${list.categoryCode ne 'D' || 'RD'}">X</c:if>
+					<c:choose>
+						<c:when test="${list.categoryCode eq 'D' || list.categoryCode eq 'RD'}">O</c:when>
+						<c:when test="${list.categoryCode eq 'S' || list.categoryCode eq 'R'}">X</c:when>
+					</c:choose>
 				/</span>
 				<span>보관 만료 시간 ${list.exTime} /</span>
 				<span>
-					<c:if test="${list.overTime eq 0}"></c:if>
-					<c:if test="${list.overTime ne 0}">${list.overTime}시간 초과 /</c:if>
+					<c:choose>
+						<c:when test="${list.overTime eq 0}"></c:when>
+						<c:when test="${list.overTime ne 0}">${list.overH}시간 ${list.overM}분 초과(결제시 ${list.overCost}원 추가 결제) /</c:when>
+					</c:choose>
 				</span>
 				<span>연장 횟수 ${list.extendCnt}</span>
 			</div>
 			<div>
-				<button>연장</button>
-				<button>결제</button>
+				<button onclick="extendBtn('${list.boxSeq}', '${list.storageId}')">연장</button>
+				<button onclick="paymentBtn('${list.boxSeq}', '${list.storageId}')">결제</button>
 			</div>
 			<hr>
 		</c:if>

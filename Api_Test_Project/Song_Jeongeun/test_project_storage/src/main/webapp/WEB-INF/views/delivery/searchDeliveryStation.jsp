@@ -27,10 +27,10 @@
 						$('#result').append('<tr><td>배송 메시지</td><td><input type="text" name="message" placeholder="배달 메시지를 적어주세요"></td></tr>')
 						$('#result').append('<tr><td colspan="2"><input type="submit" value="배송하기"></td></tr>')
 						
-						$('#msg').append('<span>소요 시간은 가장 가까운 배달원의 이동시간을 고려하여 산정되었으며, 배달원 사정에 따라 배송 시간이 늦어질 수 있습니다.</span><br>')
-						$('#msg').append('<span>배송 비용에는 보관 비용은 산정 되어 있지 않습니다.</span>')
+						$('#msg').html('<span>소요 시간은 가장 가까운 배달원의 이동시간을 고려하여 산정되었으며, 배달원 사정에 따라 배송 시간이 늦어질 수 있습니다.</span><br>')
+						$('#msg').html('<span>배송 비용에는 보관 비용은 산정 되어 있지 않습니다.</span>')
 					}else if(info.isc == "false"){
-						$('#msg').append('<span>현재 배송 물량 초과로배송 진행이 어렵습니다.</span>')
+						$('#msg').html('<span>현재 배송 물량 초과로배송 진행이 어렵습니다.</span>')
 					}
 				},
 				error: function(){

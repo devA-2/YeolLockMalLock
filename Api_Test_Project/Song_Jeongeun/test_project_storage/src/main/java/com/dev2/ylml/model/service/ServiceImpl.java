@@ -1,5 +1,6 @@
 package com.dev2.ylml.model.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +14,7 @@ import com.dev2.ylml.dto.DeliveryDto;
 import com.dev2.ylml.dto.MemberDto;
 import com.dev2.ylml.dto.StorageBoxListDto;
 import com.dev2.ylml.dto.StorageGoodsDto;
-import com.dev2.ylml.dto.UserDeliveryListDto;
+import com.dev2.ylml.dto.DeliveryListDto;
 import com.dev2.ylml.dto.UserStorageListDto;
 import com.dev2.ylml.model.dao.StorageGoodsIDao;
 
@@ -26,6 +27,18 @@ public class ServiceImpl implements IService {
 	private StorageGoodsIDao sgDao;
 
 	@Override
+	public StorageBoxListDto selectStorageBoxList(String storageId) {
+		logger.info("Service_selectStorageBoxList 실행");
+		return sgDao.selectStorageBoxList(storageId);
+	}
+	
+	@Override
+	public StorageGoodsDto selectStorageGoods(Map<String, Object> map) {
+		logger.info("Service_selectStorageGoods 실행");
+		return sgDao.selectStorageGoods(map);
+	}
+	
+	@Override
 	public List<UserStorageListDto> selectUserStorageList(Map<String, String> map) {
 		List<UserStorageListDto> list = sgDao.selectUserStorageList(map);
 		List<CostDto> cost = sgDao.selectCost(map.get("email"));
@@ -35,7 +48,15 @@ public class ServiceImpl implements IService {
 					list.get(i).setCost(cost.get(j).getCost());
 				}
 			}
+			int overTime = list.get(i).getOverTime();
+			int overH = overTime/60;
+			int overM= overTime%overH;
+			int overCost = overH * 1000;
+			list.get(i).setOverH(overH);
+			list.get(i).setOverM(overM);
+			list.get(i).setOverCost(overCost);
 		}
+		
 		logger.info("Service_selectUserStorageList 실행");
 		return list;
 	}
@@ -44,12 +65,6 @@ public class ServiceImpl implements IService {
 	public int selectTimeTableSeq(String subway) {
 		logger.info("Service_selectTimeTableSeq 실행");
 		return sgDao.selectTimeTableSeq(subway);
-	}
-	
-	@Override
-	public List<StorageBoxListDto> selectStorageBoxList(String storageId) {
-		logger.info("Service_selectStorageBoxList 실행");
-		return sgDao.selectStorageBoxList(storageId);
 	}
 	
 	@Override
@@ -79,19 +94,41 @@ public class ServiceImpl implements IService {
 	@Override
 	public boolean insertDelivery(DeliveryDto delDto, StorageGoodsDto goodsDto) {
 		boolean isc1 = sgDao.insertDelivery(delDto);
-		System.out.println("delDto 확인!! "+delDto);
 		goodsDto.setDeliveryCode(delDto.getDeliveryCode());
+		if(goodsDto.getCategoryCode().equals("R")) {
+			goodsDto.setCategoryCode("RD");
+		}else {
+			goodsDto.setCategoryCode("D");
+		}
 		boolean isc2 = sgDao.updateDeliveryCode(goodsDto);
-		// TODO : 결제 업데이트에서 오류 발생! 확인하기!!
 		boolean isc3 = sgDao.updateDeliveryCost(goodsDto);
 		logger.info("Service_insertDelivery 실행") ;
 		return (isc1 || isc2 || isc3)? true:false;
 	}
 
 	@Override
-	public List<UserDeliveryListDto> selectUserDeliveryList(String email) {
+	public List<DeliveryListDto> selectDeliveryList(String email, String auth) {
+		List<DeliveryListDto> deliveryList = new ArrayList<DeliveryListDto>();
+		StorageBoxListDto SBDto = new StorageBoxListDto();
+		if(auth.equals("10")) {
+			deliveryList = sgDao.selectUserDeliveryList(email);
+		}else if(auth.equals("80")) {
+			deliveryList = sgDao.selectDelmanDeliveryList(email);
+			for (int i = 0; i < deliveryList.size(); i++) {
+				String station = deliveryList.get(i).getOutboxId();
+				SBDto = sgDao.selectStorageBoxList(station);
+				station = SBDto.getSubway();
+				deliveryList.get(i).setOutboxId(station);
+			}
+		}
 		logger.info("Service_selectUserDeliveryList 실행");
-		return sgDao.selectUserDeliveryList(email);
+		return deliveryList;
+	}
+
+	@Override
+	public boolean updatedeliveryStrat(String deliveryCode) {
+		logger.info("Service_updatedeliveryStrat 실행");
+		return sgDao.updatedeliveryStrat(deliveryCode);
 	}
 
 }

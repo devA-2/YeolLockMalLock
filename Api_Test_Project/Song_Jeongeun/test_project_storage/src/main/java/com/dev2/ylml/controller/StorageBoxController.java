@@ -20,7 +20,7 @@ import com.dev2.ylml.dto.DeliveryDto;
 import com.dev2.ylml.dto.MemberDto;
 import com.dev2.ylml.dto.StorageBoxListDto;
 import com.dev2.ylml.dto.StorageGoodsDto;
-import com.dev2.ylml.dto.UserDeliveryListDto;
+import com.dev2.ylml.dto.DeliveryListDto;
 import com.dev2.ylml.dto.UserStorageListDto;
 import com.dev2.ylml.model.service.IService;
 
@@ -48,25 +48,60 @@ public class StorageBoxController {
 		return "list/userStorageList";
 	}
 	
+//	========================= 버튼 눌렀을 때 세션 저장 =========================
 	
+	/**
+	 * 교환/연장/결제 버튼 눌렀을 때 작동
+	 * @param boxSeq
+	 * @param storageId
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "/dtoSession.do", method = RequestMethod.POST)
+	@ResponseBody
+	public String dtoSession(@RequestParam("boxSeq") int boxSeq, @RequestParam("storageId") String storageId, HttpSession session) {
+		Map<String, Object> seqId = new HashMap<String, Object>();
+		seqId.put("boxSeq", boxSeq);
+		seqId.put("storageId", storageId);
+		StorageGoodsDto storageGoodsDto = service.selectStorageGoods(seqId);
+		System.out.println("storageGoodsDto확인!!  "+storageGoodsDto);
+		session.setAttribute("storageGoodsDto", storageGoodsDto);
+		logger.info("Controller_keyTransBtn.do 실행");
+		return "done";
+	}
 	
-	
-	
-	
-	
-	
-	
+	/**
+	 * 배송 버튼 눌렀을 때 작동
+	 * 카테고리 상태에 따라 분기 나누기, 배송 시 StorageGoodsDto 세션 생성
+	 * @param storageId
+	 * @param boxSeq
+	 * @param categoryCode
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "/deliveryBtn.do", method = RequestMethod.POST)
+	@ResponseBody
+	public String deliveryBtn(@RequestParam("boxSeq") int boxSeq, @RequestParam("storageId") String storageId, @RequestParam("categoryCode") String categoryCode, HttpSession session) {
+		String result;
+		if(categoryCode.equals("D") || categoryCode.equals("RD")) {
+			System.out.println(categoryCode);
+			result = "false";
+		}else {
+			System.out.println(categoryCode);
+			Map<String, Object> seqId = new HashMap<String, Object>();
+			seqId.put("boxSeq", boxSeq);
+			seqId.put("storageId", storageId);
+			StorageGoodsDto storageGoodsDto = service.selectStorageGoods(seqId);
+			System.out.println("storageGoodsDto확인!!  "+storageGoodsDto);
+			session.setAttribute("storageGoodsDto", storageGoodsDto);
+			result = "success";
+		}
+		logger.info("Controller_deliveryBtn.do 실행");
+		return result;
+	}
 	
 //	============================== 배송 ==============================
 	
-	@RequestMapping(value = "/idSeq.do", method = RequestMethod.POST)
-	@ResponseBody
-	public String idSeq(@RequestParam("storageId") String storageId ,@RequestParam("boxSeq") int boxSeq, HttpSession session) {
-		session.setAttribute("storageId", storageId);
-		session.setAttribute("boxSeq", boxSeq);
-		logger.info("Controller_idSeq.do 실행 : {}",storageId,boxSeq);
-		return "success";
-	}
 	
 	@RequestMapping(value = "/deliveryForm.do", method = RequestMethod.GET)
 	public String deliveryForm() {
@@ -89,17 +124,17 @@ public class StorageBoxController {
 	@RequestMapping(value = "/checkDeliveryInfo.do", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> checkdeliveryTime(@RequestParam("arriveStation") String arriveStation, HttpSession session) {
-		// 사용자 현재 보관함 위치
-		String userStorageId = (String) session.getAttribute("storageId");
-		List<StorageBoxListDto> userSBListDto = service.selectStorageBoxList(userStorageId);
-		String userStorageSubway = userSBListDto.get(0).getSubway();
+		// 사용자 현재 보관함 정보
+		StorageGoodsDto storageGoodsDto = (StorageGoodsDto) session.getAttribute("storageGoodsDto");
+		System.out.println("storageGoodsDto확인!!  "+storageGoodsDto);
+		String userStorageId = storageGoodsDto.getStorageId();
+		StorageBoxListDto userSBListDto = service.selectStorageBoxList(userStorageId);
+		String userStorageSubway = userSBListDto.getSubway();
+		int userLocSeq = storageGoodsDto.getBoxSeq();
 		
 		// 배송역 정보
-		List<StorageBoxListDto> deliverySBListDto = service.selectStorageBoxList(arriveStation);
-		String deliveryStorageSubway = deliverySBListDto.get(0).getSubway();
-		
-		// 타임테이블 seq
-		int userLocSeq = (int) session.getAttribute("boxSeq");
+		StorageBoxListDto deliverySBListDto = service.selectStorageBoxList(arriveStation);
+		String deliveryStorageSubway = deliverySBListDto.getSubway();
 		int deliveryLocSeq = service.selectTimeTableSeq(deliveryStorageSubway);
 		
 		// 1. 배송원 현재 위치 > 사용자 보관함 거리 계산
@@ -235,27 +270,132 @@ public class StorageBoxController {
 	 * @return
 	 */
 	@RequestMapping(value = "/delivery.do", method = RequestMethod.POST)
-	public String delivery(DeliveryDto delDto, StorageGoodsDto goodsDto) {
-		System.out.println("@@@@@@DeliveryDto@@@@@"+delDto);
-		System.out.println("@@@@@@StorageGoodsDto@@@@@"+goodsDto);
-		boolean isc = service.insertDelivery(delDto, goodsDto);
+	public String delivery(DeliveryDto delDto, String message, HttpSession session) {
+		StorageGoodsDto storageGoods = (StorageGoodsDto) session.getAttribute("storageGoodsDto");
+		storageGoods.setMessage(message);
+		System.out.println("보관함 정보 확인!! " +storageGoods);
+		boolean isc = service.insertDelivery(delDto, storageGoods);
 		logger.info("Controller_delivery.do 실행");
-		return "delivery/deliverySuccess";
-//		return isc?"redirect:/deliverySuccess.do":"redirect:/userStorageList.do";
+		return isc?"redirect:/deliverySuccess.do":"redirect:/userStorageList.do";
 	}
 
+	@RequestMapping(value = "/deliverySuccess.do", method = RequestMethod.GET)
+	public String deliverySuccess(HttpSession session) {
+		session.removeAttribute("storageGoodsDto");
+		logger.info("Controller_deliverySuccess.do 실행");
+		return "delivery/deliverySuccess";
+	}
+
+//	============================== 메뉴-배송(사용자) ==============================	
+	
 	/**
-	 * 배송 조회(사용자)
+	 * 메뉴 > 배송 메인
+	 * @return
+	 */
+	@RequestMapping(value = "/deliveryListMain.do", method = RequestMethod.GET)
+	public String moveDelivery() {
+		logger.info("Controller_moveDelivery.do 실행");
+		return "deliveryList/deliveryListMain";
+	}
+	
+	/**
+	 * 배송 메인 > 배송 시간/비용 조회
+	 * @return
+	 */
+	@RequestMapping(value = "/deliveryInquiry.do", method = RequestMethod.GET)
+	public String deliveryInquiry() {
+		logger.info("Controller_deliveryInquiry.do 실행");
+		return "deliveryList/deliveryInquiry";
+	}
+	
+	/**
+	 * storageId로 역 이름 조회
+	 * @param storageId
+	 * @return
+	 */
+	@RequestMapping(value = "/searchSubway.do", method = RequestMethod.POST)
+	@ResponseBody
+	public StorageBoxListDto searchSubway(@RequestParam("storageId") String storageId) {
+		StorageBoxListDto SBDto = service.selectStorageBoxList(storageId);
+		return SBDto;
+	}
+	
+	@RequestMapping(value = "/inquiryDelivery.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> inquiryDelivery(@RequestParam("startStation") String startStation, @RequestParam("arriveStation") String arriveStation) {
+		// 역 SEQ
+		int startSeq = service.selectTimeTableSeq(startStation);
+		int arriveSeq = service.selectTimeTableSeq(arriveStation);
+		
+		// 출발 보관함 > 도착 보관함 시간/비용 계산
+		Map<String, Integer> sationSeqs1 = new HashMap<String, Integer>();
+		int deliveryTime;
+		int deliveryCost;
+		if(startSeq < arriveSeq) {
+			sationSeqs1.put("startSeq", startSeq);
+			sationSeqs1.put("arriveSeq", arriveSeq-1);
+			deliveryTime = service.selectDeliveryTime(sationSeqs1);
+			deliveryCost = (arriveSeq - startSeq) * 200;					// 배송비용 = 정거장 수 * 200원
+			System.out.println("배송 시간 확인!! "+deliveryTime);
+			System.out.println("배송 비용 확인!! "+deliveryCost);
+		}else {
+			sationSeqs1.put("startSeq", startSeq-1);
+			sationSeqs1.put("arriveSeq", 10);									// 전체 역 10개일 경우를 가정
+			int arroundTime1 = service.selectDeliveryTime(sationSeqs1);
+			int arroundCost1 = (10 - startSeq) * 200;
+			Map<String, Integer> sationSeqs2 = new HashMap<String, Integer>();
+			int arroundTime2;
+			int arroundCost2;
+			if(startSeq != 1) {
+				sationSeqs2.put("startSeq", 1);
+				sationSeqs2.put("arriveSeq", arriveSeq-1);
+				arroundTime2 = service.selectDeliveryTime(sationSeqs2);
+				arroundCost2 = (arriveSeq - 1) * 200;
+			}else {
+				arroundTime2 = 0;
+				arroundCost2 = 0;
+			}
+			deliveryTime = arroundTime1+arroundTime2;
+			deliveryCost = arroundCost1 + arroundCost2;
+			System.out.println("배송 시간 확인!! "+deliveryTime);
+			System.out.println("배송 비용 확인!! "+deliveryCost);
+		}
+		
+		// 화면에 전달할 값 저장
+		Map<String, Object> info = new HashMap<String, Object>();
+		info.put("deliveryTime", deliveryTime);
+		info.put("deliveryCost", deliveryCost);
+		return info;
+	}
+	
+	/**
+	 * 배송 메인 > 배송 조회(사용자)
+	 * 배송 메인 > 배송 조회(배송원)
 	 * @param email
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/userDeliveryList.do", method = RequestMethod.GET)
-	public String userDeliveryList(String email, Model model) {
-		List<UserDeliveryListDto> list = service.selectUserDeliveryList(email);
-		model.addAttribute("deliveryList", list);
+	@RequestMapping(value = "/deliveryList.do", method = RequestMethod.GET)
+	public String userDeliveryList(String email, String auth, Model model) {
+		List<DeliveryListDto> deliveryList = service.selectDeliveryList(email, auth);
+		model.addAttribute("deliveryList", deliveryList);
+		model.addAttribute("auth", auth);
+		System.out.println("DTO 확인!!"+deliveryList);
 		logger.info("Controller_checkDeliveryInfo.do 실행");
-		return "list/userDeliveryList";
+		return "deliveryList/deliveryList";
+	}
+	
+	/**
+	 * 배송 물품 수령 버튼 클릭(배송원) > 배송 시작 시간 업데이트
+	 * @param deliveryCode
+	 * @return
+	 */
+	@RequestMapping(value = "/receipt.do", method = RequestMethod.POST)
+	@ResponseBody
+	public String receipt(@RequestParam("deliveryCode") String deliveryCode) {
+		service.updatedeliveryStrat(deliveryCode);
+		logger.info("Controller_pickUp.do 실행");
+		return "success";
 	}
 	
 }
