@@ -36,7 +36,7 @@ public class MemberServiceImpl implements MemberIService {
 	}
 
 	@Override
-	public MemberDto idSearch(Map<String, Object> map) {
+	public String idSearch(Map<String, Object> map) {
 		return iDao.idSearch(map);
 	}
 
@@ -48,6 +48,11 @@ public class MemberServiceImpl implements MemberIService {
 	@Override
 	public int updatePw(Map<String, Object> map) {
 		return iDao.updatePw(map);
+	}
+
+	@Override
+	public int usingCheck(String email) {
+		return iDao.usingCheck(email);
 	}
 	
 }

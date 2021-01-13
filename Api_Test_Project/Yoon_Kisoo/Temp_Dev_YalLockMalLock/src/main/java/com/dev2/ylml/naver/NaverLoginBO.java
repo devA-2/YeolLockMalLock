@@ -85,4 +85,5 @@ public class NaverLoginBO {
 	private String getSession(HttpSession session){
 		return (String) session.getAttribute(SESSION_STATE);
 	}
+	
 }

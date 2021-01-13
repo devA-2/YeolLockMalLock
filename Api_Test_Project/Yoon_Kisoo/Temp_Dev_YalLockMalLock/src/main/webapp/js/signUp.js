@@ -13,14 +13,84 @@ var pwJ = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
 
 // 휴대폰 번호 정규식
 var phoneJ = /(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/g;
+var timer = null;
+var isRunning = false;
 
 $(document).ready(function(){
 	
-	var sendPhone_num = document.getElementById("sendPhone_num");
-	sendPhone_num.disabled='disabled';
-	var signUpBtn = document.getElementById("signUpBtn");
-//	signUpBtn.disabled='disabled'; // 회원가입 용이하게 하기 위해 막아둠		
+	$("#sendPhone_num").attr("disabled",true);
+//	$("#signUpBtn").attr("disabled",true); // 회원가입 테스트 용이하게 하기 위함
+	
+	        $('#sendPhone_num').click(function(){
+	            let phoneNumber = $('#phone_num').val();
+	            alert('인증번호 발송 완료!');
+	        	$("#phone_num").attr("readonly",true);
+	            var display = $('.time');
+	        	var leftSec = 120;
+	        	// 남은 시간
+	        	// 이미 타이머가 작동중이면 중지
+	        	if (isRunning){
+	        		clearInterval(timer);
+	        		display.html("");
+	        		startTimer(leftSec, display);
+	        	}else{
+	        		startTimer(leftSec, display);
+	        		
+	        	}
 
+	            $.ajax({
+	                type: "POST",
+	                url: "./sendSMS.do",
+	                data: {"phoneNumber" : phoneNumber}, // 핸드폰 값이 넘어감
+	                success: function(res){ // 인증번호 값이 넘어옴
+	                    $('#checkBtn').click(function(){
+	                    	if($('#certified_num').val()=='') {
+	                    		alert('값을 입력하세요.');
+	                    	} else if(isRunning && $.trim(res) ==$('#certified_num').val()){
+	                            // 타이머가 활성화 되어있고 값이 정확히 입력되었을 때
+	                    		alert('휴대폰 인증이 정상적으로 완료되었습니다.');
+								clearInterval(timer);
+				        		display.html("");
+				        		signUpBtn.disabled=false;
+				        		
+	                        }else{
+	                        	if(isRunning) {
+	                        		// 타이머가 활성화 되어있고 인증번호가 틀렸을때
+		                        	alert('인증번호가 맞지 않습니다.');
+	                        	} else {
+	                        		// 타이머가 활성화 되어 있지 않을때
+		                        	alert('시간이 초과되었습니다.');
+	                        	}
+	                        }
+	                    })
+	                }
+	            })
+	        });
+	//--------------------타이머
+	            
+	        function startTimer(count, display) {
+	            		var minutes, seconds;
+	                    timer = setInterval(
+	        function () {
+	                    minutes = parseInt(count / 60, 10);
+	                    seconds = parseInt(count % 60, 10);
+	             
+	                    minutes = minutes < 10 ? "0" + minutes : minutes;
+	                    seconds = seconds < 10 ? "0" + seconds : seconds;
+	             
+	                    display.html(minutes + ":" + seconds);
+	             
+	                    // 타이머 끝
+	                    if (--count < 0) {
+	            	     clearInterval(timer);
+	            	     alert("시간초과");
+	            	     display.html("시간초과");
+	            	     $('#checkBtn').attr("disabled","disabled");
+	            	     isRunning = false;
+	                    }
+	                }, 1000);
+	                     isRunning = true;
+	        }
 
 	// 아이디(이메일) 중복확인
 	$("#email").blur(function(){ 
@@ -105,17 +175,19 @@ $(document).ready(function(){
 								$('#phoneChk').text('사용가능한 휴대폰 번호 입니다.');
 								$('#phoneChk').css('color', 'blue');
 								$("#joinChkFrm").attr("disabled", false);
-								sendPhone_num.disabled=false;
+								$("#sendPhone_num").removeAttr("disabled");
 							}
 							else if(phone_num == ''){
 								$('#phoneChk').text('휴대폰 번호를 입력해주세요.');
 								$('#phoneChk').css('color', 'red');
 								$("#joinChkFrm").attr("disabled", true);
+								$("#sendPhone_num").attr("disabled",true);
 	
 							} else if(! phoneJ.test(phone_num)){
 								$('#phoneChk').text("휴대폰 번호 형식이 맞지 않습니다 '-'을 제외하고 입력해주세요.");
 								$('#phoneChk').css('color', 'red');
 								$("#joinChkFrm").attr("disabled", true); 
+								$("#sendPhone_num").attr("disabled",true);
 							}
 						}  
 						
@@ -185,5 +257,7 @@ $(document).ready(function(){
 				alert('정보를 다시 확인하세요.');
 			}
 	});
+	
+	
 });
 

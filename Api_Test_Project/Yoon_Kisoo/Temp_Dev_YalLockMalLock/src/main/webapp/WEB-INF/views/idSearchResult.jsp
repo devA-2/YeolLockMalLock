@@ -14,11 +14,13 @@
    margin: auto;
 }
 </style>
+<script type="text/javascript">
+</script>
 </head>
 <body>
 	<div id="container">
 		<h1>아이디 찾기</h1>
-			해당하는 정보의 아이디는  ${dto.email }입니다.<br>
+			해당하는 정보의 아이디는  ${email}입니다.<br>
 			<a href="./loginForm.do">로그인으로 돌아가기</a>
 	</div>
 </body>

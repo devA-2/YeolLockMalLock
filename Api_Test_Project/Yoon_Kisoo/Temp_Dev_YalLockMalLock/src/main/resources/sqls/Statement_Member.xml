@@ -5,7 +5,7 @@
 <!--  회원가입 (임시 : id_num 가져올수 없어서 테스트용으로 씀) -->
 <insert id="insertMember" parameterType="com.dev2.ylml.dto.MemberDto">
 INSERT INTO MEMBER(ID_NUM, EMAIL, PW, NAME, PHONE_NUM)
-VALUES ('11251255', #{email}, #{pw}, #{name},#{phone_num})
+VALUES ('112512522	5', #{email}, #{pw}, #{name},#{phone_num})
 </insert>
 
 <!-- 회원가입 (자동으로 id_num 가져 올때 -->
@@ -53,7 +53,7 @@ WHERE EMAIL = #{email}
 </select>
 
 <!-- 아이디 찾기 -->
-<select id="IdSearch" parameterType="java.util.Map" resultType="com.dev2.ylml.dto.MemberDto">
+<select id="IdSearch" parameterType="java.util.Map" resultType="java.lang.String">
 SELECT EMAIL 
 FROM MEMBER
 WHERE NAME = #{name}
@@ -73,4 +73,10 @@ UPDATE MEMBER SET
 PW = #{pw}
 WHERE EMAIL= #{email}
 </update>
+
+<select id="usingCheck" parameterType="java.util.Map" resultType="java.lang.Integer">
+SELECT COUNT (M.EMAIL)
+FROM STORAGE_GOODS G, MEMBER M
+WHERE (G.IN_USER = M.EMAIL OR G.OUT_USER = M.EMAIL) AND M.EMAIL = #{email}
+</select>
 </mapper>

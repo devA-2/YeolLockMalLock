@@ -102,6 +102,8 @@ public class MemberController {
 	@RequestMapping(value = "/myPageCheck.do", method = RequestMethod.GET)
 	public String myPageCheck(HttpSession session) {	
 		System.out.println("move to : myPageCheck");
+//		boolean isc = (session.getAttribute("allowed")!=null):?(boolean)session.getAttribute("api"):false;
+//		session.setAttribute("api", false);
 		session.setAttribute("allowed", false);
 		return "myPageCheck";
 	}
@@ -228,7 +230,7 @@ public class MemberController {
 	 */
 	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
 	public String login(@RequestParam Map<String, Object> map, HttpSession session) {
-		System.out.println(map.toString());
+		System.out.println(map.toString()); 		// 맵 정보 확인용
 		MemberDto dto = iService.login(map);
 		log.info("MemberController login" + dto);
 		session.setAttribute("mem", dto);
@@ -288,20 +290,33 @@ public class MemberController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("name", name);
 		map.put("phone_num", phone_num);
-		MemberDto dto = iService.idSearch(map);
-		dto.getEmail();
-		log.info("찾은 아이디는 :"+ dto.getEmail());
-		model.addAttribute("dto", dto);
+		String email = iService.idSearch(map);
+		log.info("찾은 아이디는 :"+ email);
 		
-		if(dto.getEmail() == null) {
-			model.addAttribute("failed", "해당하는 정보의 아이디가 없습니다");
+		boolean fromIdSearch = false;
+		String page = "";
+		
+		if("".equals(email) || email ==null) {
+			fromIdSearch = true;
+			page = "idSearchForm";
+		}else {
+			fromIdSearch = false;
+			model.addAttribute("email", email);
+			page = "idSearchResult";
 		}
-		
-		return "idSearchResult";
+		System.out.println(page);
+		model.addAttribute("fromIdSearch", fromIdSearch);
+		return page;
 	}
 	
 	
 // Ajax 
+	@RequestMapping(value = "/usingCheck.do", method = RequestMethod.POST)
+	@ResponseBody
+	public int usingCheck(@RequestParam("mail") String email) {
+		int result = iService.usingCheck(email);
+		return result;
+	}
 	
 	//TODO : 인증번호를 세션에 태워서 회원가입 확인 버튼을 누르더라도 서버단에서 체크할 것 (로직수정 필요)
 	/**
@@ -372,6 +387,19 @@ public class MemberController {
 		return result;
 	}
 	
+	// TODO: 토큰 삭제 및 토큰 연장 등등... 구현해야함...
+	/**
+	 * 네이버 간편 로그인 <br>
+	 *
+	 * 네이버로 부터 access 토큰을 통해 정보를 가져와서 아이디 중복 체크를 통해 없다면 extraSignUp폼으로 보내고 있다면 로그인 되고 인덱스 페이지로 보냄
+	 * @param model
+	 * @param code
+	 * @param state
+	 * @param session
+	 * @return
+	 * @throws IOException
+	 * @throws ParseException
+	 */
 	@RequestMapping(value = "/naverCallback.do", method = RequestMethod.GET)
 	public String naverCallback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws IOException, ParseException {
 		OAuth2AccessToken oauthToken = naverLoginBO.getAccessToken(session, code, state);
@@ -391,11 +419,20 @@ public class MemberController {
 		
 		boolean emailChk = (iService.idCheck(email)==0);
 		
-		if(!emailChk) {
+		if(emailChk) {
 			model.addAttribute("name",name);
 			model.addAttribute("email",email);
-			return "extraForm";
+			return "extraSignUpForm";
 		}else {
+			MemberDto dto = new MemberDto();
+			dto.setEmail(email);
+			dto.setName(name);
+			dto.getAuth();
+			dto.getPhone_num();
+			dto.getReg_date();
+			
+			session.setAttribute("mem", dto);
+//			session.getAttribute("api");
 			return "callback";
 		}
 	}

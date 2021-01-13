@@ -14,11 +14,13 @@ public interface MemberIDao {
 	
 	public MemberDto login(Map<String, Object> map);
 	
-	public MemberDto idSearch(Map<String, Object> map);
+	public String idSearch(Map<String, Object> map);
 	
 	public int updateInfo(Map<String, Object> map);
 	
 	public int updatePw(Map<String, Object> map);
+	
+	public int usingCheck(String email);
 	
 
 }

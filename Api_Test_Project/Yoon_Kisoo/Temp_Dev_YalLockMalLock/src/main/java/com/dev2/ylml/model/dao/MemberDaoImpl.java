@@ -28,12 +28,12 @@ public class MemberDaoImpl implements MemberIDao {
 		log.info("MemberDaoImpl insertMember : " + dto);
 		String enPw = pwEncoder.encode(dto.getPw());
 		dto.setPw(enPw);
-		int cnt= sqlSession.insert("member.insertMember", dto);
-		System.out.println(cnt);
-		return (cnt>0)? true:false;
+		int result= sqlSession.insert("member.insertMember", dto);
+		System.out.println(result);
+		return (result>0)? true:false;
 
 	}
-
+	
 	@Override
 	public int idCheck(String email) {
 		log.info("MemberDaoImpl idCheck : " + email);
@@ -63,7 +63,7 @@ public class MemberDaoImpl implements MemberIDao {
 	}
 
 	@Override
-	public MemberDto idSearch(Map<String, Object> map) {
+	public String idSearch(Map<String, Object> map) {
 		log.info("MemberDaoImpl IdSearch : " + map);
 		return sqlSession.selectOne("member.IdSearch", map);
 	}
@@ -80,9 +80,10 @@ public class MemberDaoImpl implements MemberIDao {
 		int result= sqlSession.update("member.updatePw", map);
 		return result;
 	}
-	
-	
-	
-	
 
+	@Override
+	public int usingCheck(String email) {
+		int result = sqlSession.selectOne("member.usingCheck", email);
+		return result;
+	}
 }

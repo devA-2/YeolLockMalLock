@@ -38,6 +38,7 @@
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
+	<bean id="naverLoginBO" class="com.dev2.ylml.naver.NaverLoginBO"/>
 
 	<!-- 모든 얘들을 트랜잭션 걸게 하는 소스처리 -->
 	<tx:advice id="txAdvice"
