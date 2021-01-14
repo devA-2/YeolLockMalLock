@@ -48,11 +48,11 @@ public class Manager_MemberServiceImpl implements Manager_MemberIService {
 		return service.selectTempDelivery();
 	}
 
-	// 담당자 및 배송원 권한 부여
+	// 담당자 및 배송원 임시권한 변경
 	@Override
-	public boolean modifyAuth(Manager_MemberDto dto) {
+	public boolean modifyAuth(String email) {
 		logger.info("담당자 및 배송원 권한 부여 modifyAuth {}");
-		return service.modifyAuth(dto);
+		return service.modifyAuth(email);
 	}
 
 	// 담당자 및 배송원의 아이디를 통해 정보 조회

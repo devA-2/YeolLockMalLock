@@ -56,11 +56,12 @@ public class Manager_MemberDao implements Manager_MemberIDao {
 		return lists;
 	}
 
-	// 담당자 및 배송원 권한 부여 id="modifyAuth"
+	// 담당자 및 배송원의 임시권한 -> 정식권한 id="modifyAuth"
+	// AUTH 89 -> 80, 99 -> 90
 	@Override
-	public boolean modifyAuth(Manager_MemberDto dto) {
+	public boolean modifyAuth(String email) {
 		logger.info("Daoimpl + modifyAuth");
-		int cnt = sqlSession.update(NS+"modifyAuth", dto);
+		int cnt = sqlSession.update(NS+"modifyAuth", email);
 		return cnt>0?true:false;
 	}
 

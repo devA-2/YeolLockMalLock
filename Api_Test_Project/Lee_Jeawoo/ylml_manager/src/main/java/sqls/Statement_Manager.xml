@@ -3,16 +3,14 @@
 <mapper namespace="com.dev2.ylml.model.Manager_MemberIDao">
 
 	<!-- 담당자 및 배송원 전체 정보조회 -->
-	<!-- 테스트중 -->
 	<select id="selectallDelivery" parameterType="java.util.Map"
 	resultType="ManagerDto">
 	SELECT EMAIL, NAME, PHONE_NUM, AUTH
 	FROM "MEMBER" m
-	WHERE AUTH IN (80,90) 
+	WHERE AUTH IN (80,90,89,99) 
 	</select>
 	
 	<!-- 상세 정보조회 -->
-	<!-- 테스트중 -->
 	<select id="selectDetail" parameterType="java.lang.String" 
 	resultType="ManagerDto">
 	SELECT EMAIL, NAME, PHONE_NUM, REG_DATE , LEAVE_DATE, AUTH
@@ -21,7 +19,6 @@
 	</select>
 	
 	<!-- 배송 정보조회 -->
-	<!-- 테스트중 -->
 	<select id="DeliveryInfo" parameterType="java.lang.String"
 	resultType="ManagerDto">
 	SELECT DELIVERY_CODE,
@@ -36,26 +33,25 @@
 	
 	
 	<!-- 임시권한 담당자 및 배송원 정보조회 -->
-	<!-- 수정중 -->
 	<select id="selectTempDelivery" parameterType="java.util.Map"
 	resultType="ManagerDto">
-	SELECT M.NAME, M.PHONE_NUM, D.DELIVERY_CODE, DM.CURRENT_LOC
-	FROM MEMBER M, DELIVERY D, DELIVERYMAN DM
-	WHERE D.DELIVERYMAN_ID
-	IN (SELECT EMAIL FROM MEM WHERE AUTH IN (88,99)) AND D.DELIVERYMAN_ID =
-	DM.DELIVERYMAN_ID
+	SELECT EMAIL, NAME, PHONE_NUM, AUTH
+	FROM "MEMBER" m
+	WHERE AUTH IN (89,99)
 	</select>
   	
-  	<!-- 담당자 및 배송원 권한 부여 -->
-  	<select id="modifyAuth" parameterType="ManagerDto">
-	UPDATE MEMBER
-	SET AUTH = #{auth}
+  	<!-- 담당자 및 배송원 임시권한 변경 -->
+  	<select id="modifyAuth" parameterType="java.lang.String">
+	UPDATE "MEMBER"
+	SET AUTH = CASE
+	WHEN AUTH = '99' THEN '90'
+	WHEN AUTH = '89' THEN '80'
+	END
 	WHERE EMAIL = #{email}
 	</select>
 	
 	<!-- 담당자 및 배송원의 아이디를 통해 정보 조회 
 	(이메일, 이름, 핸드폰번호, 권한, 배송코드, 현재위치)-->
-	<!-- 수정중 -->
 	<select id="selectIdDelivery" parameterType="java.util.Map"
 	resultType="ManagerDto">
 	SELECT EMAIL, NAME, PHONE_NUM, AUTH,

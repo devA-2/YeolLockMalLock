@@ -94,7 +94,7 @@ public class ManagerController {
 	 */
 	@RequestMapping(value = "list.do", method = RequestMethod.GET)
 	public String list(Model model, String param) {
-		logger.info("list" + param);
+		logger.info("list.do 검색결과 : " + param);
 
 		if (param == null) {
 			List<Manager_MemberDto> lists = service.selectallDelivery();
@@ -108,9 +108,42 @@ public class ManagerController {
 	}
 
 	
+	/** 전체조회에서 임시권한을 가진 배송원 및 담당자를 조회
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "viewTempAuth.do", method = RequestMethod.GET)
+	public String viewTempAuth(Model model) {
+		logger.info("viewTempAuth 임시권한 보기 : " );
+		
+		List<Manager_MemberDto> TempList = service.selectTempDelivery();
+		model.addAttribute("TempList", TempList);
+		
+		return "viewList";
+	}
 
-
-
+	
+	
+	// modifyAuth 임시권한 변경
+	/** 임시권한을 가진 배송원 및 담당자의 권한을 정식권한으로 변경
+	 * @param model
+	 * @param email
+	 * @return
+	 */
+	@RequestMapping(value = "modifyAuth.do", method = RequestMethod.GET)
+	public String modifyAuth(Model model,@RequestParam String email) {
+		logger.info("modifyAuth.do 임시권한 변경 : " + email );
+		
+		boolean isc = service.modifyAuth(email);
+//		String ischeck = (String.valueOf(isc));
+//		model.addAttribute("ischeck", ischeck);
+		
+		logger.info("권한변경 결과 : " + isc );
+//		logger.info("권한변경 결과 : " + ischeck );
+		return "redirect:deliveryDetail.do?email="+email;
+	}
+	
+		
 	
 	
 	

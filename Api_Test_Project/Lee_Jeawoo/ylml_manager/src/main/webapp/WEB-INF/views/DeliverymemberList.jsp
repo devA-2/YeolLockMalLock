@@ -21,49 +21,57 @@ allDeleveryList.do<br>
 	
 	<script type="text/javascript">
       
-      
       // 익명함수, 페이지 로드될 때 실행됨 -> 전체리스트 호출
       $(function() {
          $.get("list.do", function(data) {
-            console.log(data);
+//             console.log(data);
             $('#list').html(data);
          }); 
       });
       
       
-      // 버튼 클릭시, 검색어 결과 호출
+      // id 검색버튼 클릭시, 검색어 결과 호출
       function search() {
     	  var searchID = $('#searchID').val();
-    	  console.log(searchID);
+//     	  console.log(searchID);
     	  
     	  if(searchID == ""){
     		  alert('검색어를 입력해 주세요');
-    		  
     	  }else {
-    		  
           $.get("list.do?param="+searchID, function(data) {
-             console.log(data);
-             
+//              console.log(data);
              $('#list').html(data);
           });
           
     	  }
        }
+	   
       
+      // 전체리스트보기
       function viewAllList() {
     	  $.get("list.do", function(data) {
-              console.log(data);
-              
+//               console.log(data);
+              $('#list').html(data);
+           });
+	}
+      
+      // 임시권한 회원 보기
+      function viewTempAuth() {
+    	  $.get("viewTempAuth.do", function(data) {
+//               console.log(data);
               $('#list').html(data);
            });
 	}
     </script>
     
     
+    
+    
     <div id='container'>
+   <button onclick="viewTempAuth()">임시권한회원</button>&nbsp;
    <input id="searchID" type="text"  placeholder="검색어를 입력하세요"/>
    <button onclick="search()">확인</button>&nbsp;
-   <button onclick="viewAllList()">전체리스트보기</button>
+   <button onclick="viewAllList()">전체리스트</button>
    <div id=list></div>
    </div>
    

@@ -33,11 +33,11 @@ public interface Manager_MemberIService {
 	 */
 	public List<Manager_MemberDto> selectTempDelivery();
 	
-	/** 담당자 및 배송원 권한 부여
+	/** 담당자 및 배송원 임시권한 변경
 	 * @param dto
 	 * @return
 	 */
-	public boolean modifyAuth(Manager_MemberDto dto);
+	public boolean modifyAuth(String email);
 	
 	/** 담당자 및 배송원의 아이디를 통해 정보 조회
 	 * @param email

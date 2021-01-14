@@ -7,12 +7,36 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="http://code.jquery.com/jquery-latest.js"></script>
 <title>담당자 및 배송원 상세 페이지</title>
+<script type="text/javascript">
+
+
+
+	
+	
+	function authCheck() {
+		var chk = "<c:out value='${list1.auth}'/>";
+		
+		console.log(chk);
+		
+		if(!(chk==89||chk==99)){
+			alert("권한이 이미 변경되었거나 변경할 수 없는 권한입니다.");
+		}else{
+			var email = "<c:out value='${list1.email}'/>";
+			
+			location.href="./modifyAuth.do?email="+email;
+		}
+	}
+
+</script>
 </head>
 <body>
-deliveryDetail.jsp
+deliveryDetail.jsp<br>
 
-<!-- 값 넘어오는지 확인 -->
+값 넘어오는지 확인
+${ischeck}
+${isc}
 <%-- ${list1}<br> --%>
 <%-- ${list2} --%>
 
@@ -36,10 +60,10 @@ deliveryDetail.jsp
 	<p>배송시작 : ${list2.delivery_start}</p>
 	<p>배송완료 : ${list2.delivery_arrive}</p>
 	</div>
-
-<button style="color:blue; font-size: large; font-weight: bold;" onclick="#">권한 수정</button>
+	
+<button style="color:blue; font-size: large; font-weight: bold;" onclick="authCheck()">임시권한 변경</button>
 <hr>
-<input style="font-size: large;" type="button" value="돌아가기" onclick="history.back(-1)">
+<input style="font-size: large;" type="button" value="전체리스트로" onclick="location.href='./allDeleveryList.do'">
 </div>
 </body>
 </html>
