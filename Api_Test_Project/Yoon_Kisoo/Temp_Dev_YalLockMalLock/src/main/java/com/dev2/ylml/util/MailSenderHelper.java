@@ -1,6 +1,94 @@
 package com.dev2.ylml.util;
 
+import java.sql.Date;
+import java.util.HashMap;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Component;
+
+import com.dev2.ylml.dto.MailSenderDto;
+
 public class MailSenderHelper {
+	
+		private final int DEFAULT_LENGTH; // 빈에서 인증번호 자릿 수를 설정 할 수 있음
+		private final int LIMIT_SECOND;   // 빈에서 인증번호의 유효 초를 설정 할 수 있음
+		
+		public static final int NOT_EXIST = -1;
+		public static final int FAILED = -1;
+		public static final int SUCCESS = 1;
+		private final int RESET = 100;
+		private final int PROVE = 200;
+		private HashMap<String, MailSenderDto> prove_info;
+		
+		@Autowired // TODO : 빈에 등록해야함
+		MailService mailService;
+		
+		public MailSenderHelper(int code_length, int limit_second) {
+			this.DEFAULT_LENGTH = code_length;
+			this.LIMIT_SECOND = limit_second;
+			prove_info = new HashMap<String, MailSenderDto>(); // 생성자를 생성 할 때만 사용할 것 (고유값)
+			
+		}
+		
+		// 이메일 난수 생성 메서드
+		private int getRandCode(int length) {
+			int result = 1;
+			for (int i = 0; i < length; i++) {
+				result *= 10;
+			}
+			int rand = (int)(Math.random() * result); // 10000까지의 난수 생성
+			return rand;
+		}
+		
+		public void sendCode4Reset(String email) {
+			sendCode(RESET, email);
+		}
+		
+		public void sendCode4Prove(String email) {
+			sendCode(PROVE, email);
+		}
+		
+		// TODO : 빈에 올릴 것
+		private boolean sendCode(int status, String email) {
+			int code = getRandCode(DEFAULT_LENGTH);
+			if(mailService.sendMail(email, code)) {
+				MailSenderDto dto = new MailSenderDto(status, code);
+				// status는 어디서 가져와서 담지?
+				prove_info.put(email, dto);
+				return true;
+			}else{
+				return false;
+			}
+		}
+			
+		public int checkCode4Reset(String email, int code) {
+			return checkCode(RESET,email, code);
+		}
+		
+		public int checkCode4Prove(String email, int code) {
+			return checkCode(PROVE, email, code);
+		}
+		
+		private int checkCode(int status, String email, int code) {
+			// 맵의 저장된 키(이메일)과 밸류(인증번호) 입력 받은 키 ,밸류 값과 비교 + 상태
+			HashMap<String, MailSenderDto> prove_info = new HashMap<String, MailSenderDto>();
+			boolean hasKey = prove_info.containsKey(email);
+			MailSenderDto dto = prove_info.get(email);
+			int nowDate = (int) new Date(System.currentTimeMillis()).getTime();
+			int sendTime = (int) dto.getSend_time().getTime(); 
+			
+			// 시간이 초과했을 경우 failed
+			if(hasKey
+					&& (sendTime + LIMIT_SECOND * 1000 < nowDate)  // 사실상 주석에 들어가야 맞음 시간을 계산하는 메소드를 만들어서 하면 편함
+					&& dto.getCode() == code){
+						return SUCCESS;
+					}else {
+						return FAILED;
+			}
+			
+		}
+		
 	// 생성자 : 유효시간(limitSec 초단위)
 	
 	// 난수 생성 후 메일 발송 > 무엇을 보냈는지 기억(리스트 dto에 누적하여 보관) > 누구한테 보냈는지 list에서 확인해야함 >
@@ -15,7 +103,7 @@ public class MailSenderHelper {
 	// 		컬렉션 중 해시맵을 쓰면 키가 중복이 안됨, 똑같은 키(이메일) 인증번호+생성시간을 가지면 이메일로 발송여부를 확인 할 수 있음
 	//			(HashMap.hasKey() ?) 여기에 이메일을 주면 해쉬맵에 키값이 있는지 체크가 가능
 	//	-> 다시짜야댐 
-	/************************************************************************************/
+	/**********************************새로 짠 설계 ******************************************/
 		
 	// 메일발송 누름 (sendCode 실행) // 받는 값 : 이메일
 	//	1. 난수 생성 
@@ -34,6 +122,9 @@ public class MailSenderHelper {
 	//	-1 : 메일 없음 혹은 키가 만료됬음
 	//	0 : 인증키가 올바르지 않음
 	//	1 : 인증키가 일치함
+	
+		
+	// **********************************아래 쪽 부터는 결과설명*******************************************************
 	// ex) 
 	//	MailSenderHelper
 	//	static final NOT_ EXIST = -1;
@@ -74,6 +165,8 @@ public class MailSenderHelper {
 	//-> 거기에 필요한 결과는 다시 임의로 정함
 	//그래서 그냥 컨트롤러에서 구현했다치고 만들어봄 -> 필요한게 있음 -> 만듬
 	
+		
+		
 	// 메일 코드
 //	private final int RESET = 100;
 //	private final in PROVE = 200;

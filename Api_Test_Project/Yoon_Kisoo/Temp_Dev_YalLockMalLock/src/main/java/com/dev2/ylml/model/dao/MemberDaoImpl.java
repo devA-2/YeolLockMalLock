@@ -86,4 +86,10 @@ public class MemberDaoImpl implements MemberIDao {
 		int result = sqlSession.selectOne("member.usingCheck", email);
 		return result;
 	}
+
+	@Override
+	public boolean emailAuth(MemberDto dto) {
+		int result = sqlSession.update("member.emailAuth", dto);
+		return result>0?true:false;
+	}
 }

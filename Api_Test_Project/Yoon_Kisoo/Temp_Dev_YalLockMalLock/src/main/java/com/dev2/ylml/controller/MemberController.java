@@ -25,6 +25,7 @@ import com.dev2.ylml.dto.MemberDto;
 import com.dev2.ylml.model.service.MemberIService;
 import com.dev2.ylml.naver.NaverLoginBO;
 import com.dev2.ylml.util.CoolTextService;
+import com.dev2.ylml.util.MailSenderHelper;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 
 // 로그인 세션 : mem
@@ -42,6 +43,9 @@ public class MemberController {
 	private CoolTextService CoolService;
 	
 	private NaverLoginBO naverLoginBO;
+	
+	// 빈등록?
+	private MailSenderHelper mailHelper;
 	
 	@Autowired
 	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
@@ -157,6 +161,11 @@ public class MemberController {
 		log.info("memberController updatePwForm" + dto);
 		return "updatePwForm";
 	}
+	@RequestMapping(value = "/emailAuthForm.do", method = RequestMethod.GET)
+	public String emailAuthForm() {
+		log.info("memberController go to emailAuthForm");
+		return "emailAuthForm";
+	}
 	
 	/**
 	 * 회원가입<br>
@@ -234,6 +243,10 @@ public class MemberController {
 		MemberDto dto = iService.login(map);
 		log.info("MemberController login" + dto);
 		session.setAttribute("mem", dto);
+		/////////////////////////////////////
+		if(dto.getAuth() != 10) {
+			return "redirect:/emailAuthForm.do"; // 그냥 로그인 버튼을 눌러서 19인 경우에는 emailAuthForm으로 보내는게 낫나? 마이페이지 체크처럼?
+		}
 		return (dto != null) ? "redirect:/index.do" : "redirect:/signUpForm.do";
 	}
 
@@ -307,6 +320,35 @@ public class MemberController {
 		System.out.println(page);
 		model.addAttribute("fromIdSearch", fromIdSearch);
 		return page;
+	}
+	
+	// TODO : 리턴값 써야댐
+	// 이메일 인증 전송
+	@RequestMapping(value = "/sendCodeToMail.do", method = RequestMethod.GET)
+	public String sendCodeToMail(String email, HttpSession session) {
+		String mail = ((MemberDto) session.getAttribute("mem")).getEmail(); 
+		mailHelper.sendCode4Prove(mail);	// 메일보내기, 인증번호 기억해두는거 // java.lang.NullPointerException 클래스에서 먼가 잘못된듯?
+		return email; // 리턴은 어디로 던져야하지..
+	}
+	
+	//이메일 인증번호 체크
+	@RequestMapping(value = "/checkCode.do", method = RequestMethod.POST)
+	public String checkCode(MemberDto dto, int code, HttpSession session) {
+		String email = ((MemberDto) session.getAttribute("mem")).getEmail();
+		if(mailHelper.checkCode4Prove(email, code) == MailSenderHelper.SUCCESS) {
+			log.info(dto.getEmail(), code);
+			// TODO : 권한 변경하는 서비스 구현 해야함 19 -> 10 로그인 dto를 던저줌, 
+			boolean emailAuth = iService.emailAuth(dto);
+					//dto.권한변경(dto.getEmail, 10) ???? 
+					dto.setAuth(10);
+					return "redirect:index.do";
+					
+		}else if(mailHelper.checkCode4Reset(email, code) == MailSenderHelper.FAILED) {
+			// 여기에 리턴 넣었더니 오류나서 뺏는데.. 뭐 넣어야하지?  실패했을 경우엔... 
+		}
+		
+		return "redirect:emailAuthForm.do";
+			
 	}
 	
 	

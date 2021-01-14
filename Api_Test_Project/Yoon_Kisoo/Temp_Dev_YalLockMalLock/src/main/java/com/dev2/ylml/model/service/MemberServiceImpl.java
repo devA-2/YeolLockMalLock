@@ -54,5 +54,10 @@ public class MemberServiceImpl implements MemberIService {
 	public int usingCheck(String email) {
 		return iDao.usingCheck(email);
 	}
+
+	@Override
+	public boolean emailAuth(MemberDto dto) {
+		return iDao.emailAuth(dto);
+	}
 	
 }

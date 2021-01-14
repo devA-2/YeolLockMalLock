@@ -15,11 +15,11 @@ VALUES ('112512522	5', #{email}, #{pw}, #{name},#{phone_num})
 <!-- </insert> -->
 
 <!-- 이메일 인증 후 권한변경 -->
-<!-- <update id="emailAuth" parameterType="java.lang.Inteager"> -->
-<!-- UPDATE MEMBER SET -->
-<!-- AUTH = '10' -->
-<!-- WHERE EMAIL = ${email} -->
-<!-- </update> -->
+<update id="emailAuth" parameterType="com.dev2.ylml.dto.MemberDto">
+UPDATE MEMBER SET
+AUTH = '10'
+WHERE EMAIL = ${email}
+</update>
 
 <!-- 아이디 중복검사 -->
 <select id="idCheck" parameterType="java.lang.String" resultType="java.lang.Integer">

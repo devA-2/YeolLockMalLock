@@ -22,10 +22,14 @@ public interface MemberIService {
 	public int phoneCheck(String phone_num);
 	
 	/*
-	 *  회원가입(일반회원)
+	 *  회원가입
 	 */
 	public MemberDto login(Map<String, Object> map);
 	
+	/*
+	 * 이메일 인증 후, 권한변경
+	 */
+	public boolean emailAuth(MemberDto dto);
 	/*
 	 *  아이디 찾기
 	 */
