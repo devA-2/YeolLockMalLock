@@ -68,6 +68,12 @@ public class ServiceImpl implements IService {
 	}
 	
 	@Override
+	public int selectSubwayCnt() {
+		logger.info("Service_selectSubwayCnt 실행");
+		return sgDao.selectSubwayCnt();
+	}
+	
+	@Override
 	public List<MemberDto> selectDeliveryMan() {
 		logger.info("Service_selectDeliveryMan 실행");
 		return sgDao.selectDeliveryMan();
@@ -129,6 +135,14 @@ public class ServiceImpl implements IService {
 	public boolean updatedeliveryStrat(String deliveryCode) {
 		logger.info("Service_updatedeliveryStrat 실행");
 		return sgDao.updatedeliveryStrat(deliveryCode);
+	}
+
+	
+// ========================= 지도 복붙 테스트 =========================	
+	
+	@Override
+	public List<Map<String, Object>> selectMap() {
+		return sgDao.selectMap();
 	}
 
 }

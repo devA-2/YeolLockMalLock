@@ -48,12 +48,17 @@ public class StorageGoodsDao implements StorageGoodsIDao {
 		logger.info("Dao_selectCost 실행");
 		return sqlSession.selectList("storageBox.selectCost", email);
 	}
-
 	
 	@Override
 	public int selectTimeTableSeq(String subway) {
-		logger.info("selectTimeTableSeq 실행");
+		logger.info("Dao_selectTimeTableSeq 실행");
 		return sqlSession.selectOne("storageBox.selectTimeTableSeq", subway);
+	}
+	
+	@Override
+	public int selectSubwayCnt() {
+		logger.info("Dao_selectSubwayCnt 실행");
+		return sqlSession.selectOne("storageBox.selectSubwayCnt");
 	}
 	
 	@Override
@@ -118,6 +123,14 @@ public class StorageGoodsDao implements StorageGoodsIDao {
 		int cnt = sqlSession.update("storageBox.updatedeliveryStrat", deliveryCode);
 		logger.info("Dao_updatedeliveryStrat 실행");
 		return cnt > 0? true:false;
+	}
+
+	
+// ========================= 지도 복붙 테스트 =========================	
+
+	@Override
+	public List<Map<String, Object>> selectMap() {
+		return sqlSession.selectList("storageBox.selectMap");
 	}
 
 }

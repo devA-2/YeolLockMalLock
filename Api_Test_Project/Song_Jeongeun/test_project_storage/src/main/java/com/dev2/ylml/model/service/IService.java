@@ -33,6 +33,11 @@ public interface IService {
 	public int selectTimeTableSeq(String subway);
 	
 	/**
+	 * 역 갯수 조회
+	 */
+	public int selectSubwayCnt();
+	
+	/**
 	 * 전체 배송원 조회
 	 */
 	public List<MemberDto> selectDeliveryMan();
@@ -66,5 +71,13 @@ public interface IService {
 	 * 배송 시작 시간 업데이트
 	 */
 	public boolean updatedeliveryStrat(String deliveryCode);
+	
+	
+// ========================= 지도 복붙 테스트 =========================
+	/**
+	 * 전체 보관함 정보 출력해서 마커표시
+	 * @return storage_id,lng,lat
+	 */
+	public List<Map<String, Object>> selectMap();
 
 }

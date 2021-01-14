@@ -64,6 +64,11 @@
 		SELECT TIME_TABLE_SEQ FROM TIME_TABLE WHERE START_STATION = #{subway}
 	</select>
 	
+	<!-- 역 갯수 조회 -->
+	<select id="selectSubwayCnt" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM TIME_TABLE
+	</select>
+	
 	<!-- 전체 배송원 EMAIL, NAME 조회 -->
 	<select id="selectDeliveryMan" resultType="com.dev2.ylml.dto.MemberDto">
 		SELECT EMAIL, NAME FROM "MEMBER" WHERE AUTH = 80
@@ -135,5 +140,11 @@
 	<update id="updatedeliveryStrat" parameterType="java.lang.String">
 		UPDATE DELIVERY SET DELIVERY_START = SYSDATE WHERE DELIVERY_CODE = #{deliveryCode}
 	</update>
+
+
+	<!-- 지도 복붙 테스트 -->
+	<select id="selectMap" resultType="java.util.HashMap">
+		select storage_id as "id",lng as "lng",lat as "lat" from storagebox_list
+	</select>
 
 </mapper>
