@@ -56,22 +56,27 @@ public class ReportController {
 		return "reportList";
 	}
 	
-	@RequestMapping(value="/selectOneReport.do", method=RequestMethod.GET)
-	public String selectOneReport(String seq, Model model) {
+//	수정 예정
+	@RequestMapping(value="/selectDetailReport.do", method=RequestMethod.GET)
+	public String selectOneReport(String refer, Model model, HttpSession session) {
 		log.info("------------------ 상세글 ------------------");
-		ReportDto dto = service.selectOneReport(seq);
+		
+		
+//		MemberDto mDto = (MemberDto)session.getAttribute("mem"); //
+		List<ReportDto> dto = service.selectDetailReport(refer);
+		System.out.println("ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ" + dto + "ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ");
 		model.addAttribute("dto", dto);
-		return "selectOneReport";
+		return "selectDetailReport";
 	}
 	
-	@RequestMapping(value = "/modifyReport.do", method=RequestMethod.GET)
-	public String modifyReport(String seq, Model model) {
-		log.info("------------------ 글 수정으로 이동 ------------------");
-		ReportDto dto = service.selectOneReport(seq);
-		model.addAttribute("dto", dto);
-		
-		return "modifyReport";
-	}
+//	@RequestMapping(value = "/modifyReport.do", method=RequestMethod.GET)
+//	public String modifyReport(String seq, Model model) {
+//		log.info("------------------ 글 수정으로 이동 ------------------");
+//		List<ReportDto> dto = service.selectOneReport(seq);
+//		model.addAttribute("dto", dto);
+//		
+//		return "modifyReport";
+//	}
 	
 	@RequestMapping(value = "/modify.do", method = RequestMethod.GET)
 	public String modify(ReportDto dto) {
@@ -79,7 +84,7 @@ public class ReportController {
 		boolean isc = service.modifyReport(dto);
 		
 		if (isc == true) {
-			return "redirect:/selectOneReport.do?seq="+dto.getSeq();
+			return "redirect:/selectDetailReport.do?refer="+dto.getRefer();
 		}else {
 			return "redirect:/reportList.do";
 		}

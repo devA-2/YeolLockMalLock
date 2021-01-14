@@ -43,9 +43,9 @@ public class IReportServiceImpl implements IReportService {
 	}
 
 	@Override
-	public ReportDto selectOneReport(String seq) {
-		log.info("상세 글 조회 : {} ", seq);
-		return iDao.selectOneReport(seq);
+	public List<ReportDto> selectDetailReport(String refer) {
+		log.info("상세 글 조회 : {} ", refer);
+		return iDao.selectDetailReport(refer);
 	}
 
 	@Override

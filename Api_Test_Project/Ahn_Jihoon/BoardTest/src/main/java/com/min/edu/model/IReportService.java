@@ -14,7 +14,7 @@ public interface IReportService {
 
 	public List<ReportDto> selectAllReport();
 
-	public ReportDto selectOneReport(String seq);
+	public List<ReportDto> selectDetailReport(String refer);
 
 	public List<ReportDto> searchReport(String email);
 

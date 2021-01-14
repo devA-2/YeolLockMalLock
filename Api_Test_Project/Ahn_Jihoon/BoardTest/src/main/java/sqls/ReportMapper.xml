@@ -25,16 +25,20 @@
 </update>
 
 <select id="selectAllReport" resultType="ReportDto">
-	SELECT SEQ, EMAIL, TITLE, REGDATE, PROCESS_STATUS
+	SELECT *
 	FROM REPORT
 	WHERE DELFLAG = 'N' AND STEP = 0
 	ORDER BY REFER DESC, STEP
 </select>
 
-<select id="selectOneReport" parameterType="java.lang.String" resultType="ReportDto">
-	SELECT SEQ, EMAIL, TITLE, CONTENT, REGDATE, CATEGORY, IMAGE, PROCESS_STATUS, DELFLAG
-	FROM REPORT r
-	WHERE REFER = (SELECT REFER FROM REPORT r WHERE SEQ=#{seq})
+<!-- 수정예정 -->
+<select id="selectDetailReport" parameterType="java.lang.String" resultType="ReportDto">
+<!-- 	SELECT SEQ, EMAIL, TITLE, CONTENT, REGDATE, CATEGORY, IMAGE, PROCESS_STATUS, DELFLAG -->
+<!-- 	FROM REPORT r -->
+<!-- 	WHERE REFER = (SELECT REFER FROM REPORT r WHERE SEQ=#{seq}) -->
+	SELECT *
+		FROM REPORT r 
+	 		WHERE REFER = #{refer}
 </select>
 
 

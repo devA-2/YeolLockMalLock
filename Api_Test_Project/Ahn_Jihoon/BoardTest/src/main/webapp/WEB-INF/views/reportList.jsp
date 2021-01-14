@@ -19,15 +19,16 @@
 		<th>작성자</th>
 	</tr>
 	<c:forEach items="${lists}" var="vo" varStatus="vs">
-		<tr onclick="location.href='./selectOneReport.do?seq=${vo.seq}'">
+	
+		<tr onclick="location.href='./selectDetailReport.do?refer=${vo.refer}'">
 			<td>${vo.seq}</td>
 			<td>${vo.regdate}</td>
 			<td>${vo.title}</td>
 			<td>${vo.email}</td>
 		</tr>
+		
 	</c:forEach>
 </table>
-
 	<div>
 		<button onclick="location.href = './insertReport.do'">신고 글 작성</button><br>
 	</div>

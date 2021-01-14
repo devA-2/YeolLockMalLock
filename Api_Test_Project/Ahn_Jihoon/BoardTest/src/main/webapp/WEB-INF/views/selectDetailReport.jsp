@@ -26,16 +26,16 @@
 <body>
 	<div id="container">
 		<table>
+		<c:forEach items="${dto}" var="vo" varStatus="vs">
 			<tr>
-				<td>${dto.title}</td>
-				<td>${dto.email}</td>
-				<td>${dto.category }</td>
-				<td>${dto.process_status}</td>
-				<td>${dto.content }</td>
-				<td>${dto.image}</td>
+				<td>${vo.regdate}</td>
+				<td>${vo.title}</td>
+				<td>${vo.email}</td>
 			</tr>
+		</c:forEach>
+		
 		</table>
-		<input type="button" value="수정하기" onclick="location.href='./modifyReport.do?seq=${dto.seq}'">
+<%-- 		<input type="button" value="수정하기" onclick="location.href='./modifyReport.do?seq=${dto.seq}'"> --%>
 		<button onclick="historys()">뒤로 가기</button>
 	</div>
 </body>

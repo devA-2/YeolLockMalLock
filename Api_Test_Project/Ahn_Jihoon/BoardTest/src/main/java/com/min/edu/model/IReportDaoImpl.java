@@ -40,8 +40,8 @@ public class IReportDaoImpl implements IReportDao {
 	}
 
 	@Override
-	public ReportDto selectOneReport(String seq) {
-		return sqlSession.selectOne(NS+"selectOneReport", seq);
+	public List<ReportDto> selectDetailReport(String refer) {
+		return sqlSession.selectList(NS+"selectDetailReport", refer);
 	}
 
 	@Override
