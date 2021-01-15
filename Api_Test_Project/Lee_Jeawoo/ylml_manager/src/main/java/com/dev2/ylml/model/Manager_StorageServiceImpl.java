@@ -31,6 +31,7 @@ public class Manager_StorageServiceImpl implements Manager_StorageIService {
 		return service.selectIdStorage(storage_id);
 	}
 	
+	// 보관함 지하철역으로 조회
 	@Override
 	public Manager_StorageDto selectSubwayStorage(String subway) {
 		logger.info("보관함 지하철역 조회 selectSubwayStorage {}");

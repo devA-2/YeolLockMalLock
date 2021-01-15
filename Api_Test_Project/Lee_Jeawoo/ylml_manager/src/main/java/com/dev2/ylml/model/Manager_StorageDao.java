@@ -77,8 +77,8 @@ public class Manager_StorageDao implements Manager_StorageIDao {
 	//	(보관함ID로 검색)후 선택하여 수정
 	@Override
 	public boolean modifyStorage(Manager_StorageDto dto) {
-		logger.info("ManagerStorage_Daoimpl + registStorage 실행");
-		int isc = sqlSession.update(NS+"registStorage", dto);
+		logger.info("ManagerStorage_Daoimpl + modifyStorage 실행");
+		int isc = sqlSession.update(NS+"modifyStorage", dto);
 		return isc>0?true:false;
 	}
 

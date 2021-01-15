@@ -8,8 +8,9 @@
 	</typeAliases>
 	
 	<mappers>
-		<mapper resource="/sqls/Statement_Manager.xml"/>
-		<mapper resource="/sqls/Statement_Storage.xml"/>
+		<mapper resource="/sqls/ManagerMapper.xml"/>
+		<mapper resource="/sqls/LockerMapper.xml"/>
 	</mappers>
-
+		
+	
 </configuration>

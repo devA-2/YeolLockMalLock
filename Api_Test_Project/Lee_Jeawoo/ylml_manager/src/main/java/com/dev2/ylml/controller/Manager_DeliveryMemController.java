@@ -54,9 +54,7 @@ public class Manager_DeliveryMemController {
 	public String allDeleveryList(Model model) {
 		logger.info("allDeleveryList.do : 담당자 및 배송원 전체 정보조회 이동");
 
-		List<Manager_MemberDto> lists = service.selectallDelivery();
-		model.addAttribute("lists", lists);
-		return "DeliverymemberList";
+		return "deliverymemberList";
 	}
 
 	/**
@@ -102,7 +100,7 @@ public class Manager_DeliveryMemController {
 			Manager_MemberDto list = service.selectIdDelivery(param);
 	         model.addAttribute("list", list);
 	      }
-		return "viewList";
+		return "deliveryViewList";
 	}
 
 	
@@ -117,7 +115,7 @@ public class Manager_DeliveryMemController {
 		List<Manager_MemberDto> TempList = service.selectTempDelivery();
 		model.addAttribute("TempList", TempList);
 		
-		return "viewList";
+		return "deliveryViewList";
 	}
 
 	

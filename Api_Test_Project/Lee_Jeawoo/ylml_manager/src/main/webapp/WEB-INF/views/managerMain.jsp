@@ -31,8 +31,8 @@
       </li>
        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 2 <span class="caret"></span></a>
         <ul class="dropdown-menu">
-         <li><a href="./StorageList.do">보관함 조회</a></li>
-         <li><a href="#">Page 2-2</a></li>
+         <li><a href="allStorageList.do">보관함 조회</a></li>
+         <li><a href="registStorage.do">보관함 등록</a></li>
          </ul>
        </li>
       <li><a href="#">Page 3</a></li>
