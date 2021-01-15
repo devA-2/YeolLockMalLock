@@ -60,14 +60,46 @@ public class ReportController {
 	@RequestMapping(value="/selectDetailReport.do", method=RequestMethod.GET)
 	public String selectOneReport(String refer, Model model, HttpSession session) {
 		log.info("------------------ 상세글 ------------------");
-		
-		
-//		MemberDto mDto = (MemberDto)session.getAttribute("mem"); //
+		MemberDto mem = (MemberDto)session.getAttribute("mem"); //
 		List<ReportDto> dto = service.selectDetailReport(refer);
-		System.out.println("ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ" + dto + "ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ");
+		model.addAttribute("dto", dto);
+		session.setAttribute("mem", mem);
+		return "selectDetailReport";
+	}
+	
+	@RequestMapping(value = "/selectDetail.do", method=RequestMethod.GET)
+	public String selectDetail(String seq, HttpSession session, Model model) {
+		log.info("------------------ 답글 입력에서 상세글로 뒤로가기 ------------------");
+		MemberDto mem = (MemberDto)session.getAttribute("mem");
+		ReportDto dto = service.selectDetail(seq);
+		
+		session.setAttribute("mem", mem);
 		model.addAttribute("dto", dto);
 		return "selectDetailReport";
 	}
+	
+	@RequestMapping(value = "/replyReport.do", method=RequestMethod.GET)
+	public String replyReport(String seq, HttpSession session, Model model) {
+		log.info("------------------ 답변 글 작성 페이지 이동 ------------------");
+		ReportDto rDto = service.selectDetail(seq);
+		MemberDto mDto = (MemberDto)session.getAttribute("mem");
+		
+		model.addAttribute("dto", rDto);
+		session.setAttribute("mem", mDto);
+		
+		return "reply";
+	}
+	
+	// 여기 마저해야함. 답변 글 작성하고 상세글로 이동시키는건데 글 집어넣고 화면전환 해주면됨
+	@RequestMapping(value = "/reply.do", method=RequestMethod.POST)
+	public String reply(ReportDto dto, HttpSession session, Model model) {
+		log.info("------------------ 답변 글 작성 후 신고 글 목록으로 이동 ------------------");
+		MemberDto mDto = (MemberDto)session.getAttribute("mem");
+		dto.setEmail(mDto.getEmail());
+		return "";
+	}
+	
+
 	
 //	@RequestMapping(value = "/modifyReport.do", method=RequestMethod.GET)
 //	public String modifyReport(String seq, Model model) {
@@ -107,10 +139,6 @@ public class ReportController {
 		return "redirect:/reportList.do";
 	}
 	
-	public String replyReport() {
-		
-		return "";
-	}
 	
 //	@RequestMapping(value = "/backPage.do", method=RequestMethod.POST)
 //	public String backPage(HttpSession session, @RequestParam Map<String, Object> map) {
@@ -124,7 +152,6 @@ public class ReportController {
 	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
 	public String login(@RequestParam Map<String, Object> map, HttpSession session, Model model) {
 		MemberDto mDto = service2.loginMember(map);
-		System.out.println("mDto : "+mDto);
 		session.setAttribute("mem", mDto);
 		if(mDto == null) {
 			return "error";

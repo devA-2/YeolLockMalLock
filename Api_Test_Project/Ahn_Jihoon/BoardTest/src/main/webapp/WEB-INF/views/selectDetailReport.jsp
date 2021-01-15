@@ -1,3 +1,4 @@
+<%@page import="com.min.edu.dto.MemberDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -20,6 +21,9 @@
 	function historys(){
 		location.href="./reportList.do";
 	}
+	function replyGo(seq){
+		location.href='./replyReport.do?seq='+seq;
+	}
 </script>
 
 </head>
@@ -37,6 +41,19 @@
 		</table>
 <%-- 		<input type="button" value="수정하기" onclick="location.href='./modifyReport.do?seq=${dto.seq}'"> --%>
 		<button onclick="historys()">뒤로 가기</button>
+		<%
+			Object obj = session.getAttribute("mem");
+			MemberDto mem = (MemberDto)obj;
+			
+			if(Integer.parseInt(mem.getAuth()) == 20){
+				%>
+					<c:forEach items="${dto}" var="vo" varStatus="vs">
+					<button onclick="replyGo(${vo.seq})">답변 글 작성</button>
+					</c:forEach>
+				<%
+			}
+			
+		%>
 	</div>
 </body>
 </html>

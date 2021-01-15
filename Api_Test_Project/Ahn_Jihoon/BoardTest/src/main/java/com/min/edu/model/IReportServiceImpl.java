@@ -60,4 +60,16 @@ public class IReportServiceImpl implements IReportService {
 		return iDao.updateProcessStatus(dto);
 	}
 
+	@Override
+	public ReportDto selectDetail(String seq) {
+		log.info("답변 달 상세 페이지 이동 : {} ", seq);
+		return iDao.selectDetail(seq);
+	}
+
+	@Override
+	public boolean reply(ReportDto dto) {
+		log.info("답변 글 달기 실행 : {} ", dto);
+		return iDao.reply(dto);
+	}
+
 }

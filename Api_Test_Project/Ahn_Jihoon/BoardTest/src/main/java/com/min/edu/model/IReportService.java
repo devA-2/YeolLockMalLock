@@ -20,4 +20,7 @@ public interface IReportService {
 
 	public boolean updateProcessStatus(ReportDto dto);
 	
+	public ReportDto selectDetail(String seq);
+	
+	public boolean reply(ReportDto dto);
 }

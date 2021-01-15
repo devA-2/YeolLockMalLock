@@ -8,7 +8,7 @@
 	VALUES(REPORT_SEQ.NEXTVAL, #{email}, #{title}, #{content}, SYSDATE, #{category}, #{image}, 'N', 'N', (SELECT NVL(MAX(REFER),0)+1 FROM REPORT), 0)
 </insert>
 
-<insert id="replyReport" parameterType="ReportDto">
+<insert id="reply" parameterType="ReportDto">
 	INSERT INTO REPORT (SEQ, EMAIL, TITLE, CONTENT, REGDATE, CATEGORY, IMAGE, DELFLAG, PROCESS_STATUS, REFER, STEP)
 	VALUES(
 	#{seq}, #{email}, #{title}, #{content}, SYSDATE, '1', '', 'N', 'Y', 
@@ -31,7 +31,6 @@
 	ORDER BY REFER DESC, STEP
 </select>
 
-<!-- 수정예정 -->
 <select id="selectDetailReport" parameterType="java.lang.String" resultType="ReportDto">
 <!-- 	SELECT SEQ, EMAIL, TITLE, CONTENT, REGDATE, CATEGORY, IMAGE, PROCESS_STATUS, DELFLAG -->
 <!-- 	FROM REPORT r -->
@@ -39,6 +38,12 @@
 	SELECT *
 		FROM REPORT r 
 	 		WHERE REFER = #{refer}
+</select>
+
+<select id="selectDetail" parameterType="java.lang.String" resultType="ReportDto">
+	SELECT *
+		FROM REPORT r
+			WHERE SEQ = #{seq}
 </select>
 
 

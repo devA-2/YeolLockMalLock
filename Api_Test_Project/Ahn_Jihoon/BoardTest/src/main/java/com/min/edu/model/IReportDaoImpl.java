@@ -55,4 +55,15 @@ public class IReportDaoImpl implements IReportDao {
 		return cnt>0?true:false;
 	}
 
+	@Override
+	public ReportDto selectDetail(String seq) {
+		return sqlSession.selectOne(NS+"selectDetail", seq);
+	}
+
+	@Override
+	public boolean reply(ReportDto dto) {
+		int cnt = sqlSession.insert(NS+"reply", dto);
+		return cnt>0?true:false;
+	}
+
 }

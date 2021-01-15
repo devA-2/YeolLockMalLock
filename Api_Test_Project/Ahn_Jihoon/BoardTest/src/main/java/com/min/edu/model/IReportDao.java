@@ -19,5 +19,9 @@ public interface IReportDao {
 	public List<ReportDto> searchReport(String email);
 
 	public boolean updateProcessStatus(ReportDto dto);
+	
+	public ReportDto selectDetail(String seq);
+	
+	public boolean reply(ReportDto dto);
 
 }
