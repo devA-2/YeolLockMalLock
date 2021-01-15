@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,12 +40,16 @@ public class StorageController {
 	/**
 	 * 검색창에 자동완성 위한 전체보관함 list 받아오기
 	 * @param 
-	 * @return storage_id AS "value" ,storage_name AS "label" ,address||' '||subway||' '||detail AS "desc"
+	 * @return storage_id AS "value" 
+	 * @return storage_name AS "label" 
+	 * @return address||' '||subway||' '||detail AS "desc"
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/selectStorageList.do")
-	public List<Map<String,String>> selectStorageList() {
+	public List<Map<String,String>> selectStorageList(HttpSession session) {
 		List<Map<String,String>> list = service.selectStorageList();
+		session.setAttribute("list", list);
+		//이름 직관적으로 받아와서 바꿔주는게 나은지 ?
 		return list;
 	}
 	/**
@@ -54,10 +60,8 @@ public class StorageController {
 	@ResponseBody
 	public List<Map<String,Object>> selectMap(){
 		List<Map<String,Object>> position = service.selectMap();
-//		log.info(position+"");
 		return position;
 	}
-	
 	/**
 	 * ajax - 보관함 마커 클릭시 정보 + 사용가능한 갯수 출력
 	 * @param id
@@ -70,17 +74,27 @@ public class StorageController {
 		log.info("받아온 Storage List Dto : "+ LDto);
 		return LDto;
 	}
-	
 	/**
 	 * 해당 보관함 현재 사용 여부 가져오기
 	 * @param id
 	 * @param model
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/selectStorageStatus.do",method = RequestMethod.GET)
-	public String selectStorageStatus(String id,Model model) {
+	public String selectStorageStatus(String id,Model model,HttpSession session) {
+		//해당 id의 보관함 사용여부 가져오기
 		List<StorageBoxDto> statusList = service.selectStorageStatus(id);
-		model.addAttribute("id",id);
+		//세션에서 보관함 이름, 주소정보 받아오기
+		List<Map<String,String>> list = (List<Map<String, String>>) session.getAttribute("list");
+		//세션에서 id와 같은 보관함 정보 model에 담기
+		for(int i=0;i<list.size();i++) {
+			if(id.equals(list.get(i).get("value"))){
+				//value는 id, label은 name, desc는 주소(jqueryUI autocomplete 사용 때문)
+				model.addAttribute("storageInfo",list.get(i));
+				break;
+			}
+		}
 		model.addAttribute("statusList",statusList);
 		return "storageStatus";
 	}
@@ -164,18 +178,9 @@ public class StorageController {
 		model.addAttribute("dto",goodsDto);//costCode,outUser담겨있는 dto
 		return "payPage";
 	}
-	/**
-	 * 수령 사용자 이메일 입력 폼으로 이동
-	 * @return
-	 */
-	@RequestMapping(value="/outUserForm.do",method = RequestMethod.POST)
-	public String outUserForm() {
-		log.info("수령 사용자 이메일 입력하는 폼으로 이동하는 컨트롤러");
-		return "outUserEmailCheck";
-	}
 	
 	/**
-	 * 수령 사용자 이메일 확인
+	 * ajax 수령 사용자 이메일 확인
 	 * @param email
 	 * @return email
 	 */
@@ -188,36 +193,59 @@ public class StorageController {
 	}
 	/**
 	 * TODO 키 udpate
-	 * 받아온 수령사용자 이메일 등록
+	 * 이메일이 없으면 이메일입력 폼으로
+	 * 이메일이 있으면 수령사용자 이메일 등록
 	 * @param id
 	 * @param boxSeq
 	 * @param email
 	 * @return
 	 */
 	@RequestMapping(value = "/updateOutUser.do",method = RequestMethod.GET)
-	public String updateOutUser(String id,int boxSeq,String email) {
+	public String updateOutUser(Model model,@RequestParam("storageId") String id,
+			int boxSeq, @RequestParam(required=false) String email) {
 		log.info("받아온 id: "+id+" boxSeq: "+boxSeq+" outUSerEmail: "+email);
-		Map<String,Object> map = new HashMap<String, Object>();
-		map.put("boxSeq", boxSeq);
-		map.put("id", id);
-		map.put("email", email);
-		boolean isc = service.updateOutUser(map);
-		log.info("수령사용자 등록 결과 : "+isc);
-		return "map";
+		//이메일이 없으면 수령 사용자 이메일 입력 폼으로
+		if(email == null || email.isBlank()) {
+			model.addAttribute("id",id);
+			model.addAttribute("boxSeq",boxSeq);
+			return "outUserForm";
+		}else {
+			Map<String,Object> map = new HashMap<String, Object>();
+			map.put("boxSeq", boxSeq);
+			map.put("id", id);
+			map.put("email", email);
+			boolean isc = service.updateOutUser(map);
+			log.info("수령사용자 등록 결과 : "+isc);
+			return "map";
+		}
 	}
 	/**
-	 * 결제 후 보관함 사용가능 처리, 보관물품 정보 삭제
-	 * @param costCode
+	 * 결제후 반품여부 없으면 결제완료페이지로 이동
+	 * 결제페이지에서 반품여부 Y -> 반품페이지로 이동
+	 * 결제페이지에서 반품여부 N -> 보관함 사용가능 처리, 보관물품 정보 삭제
+	 * @param costCode, returnFlag
 	 * @return
 	 */
 	@RequestMapping(value = "/afterPayment.do",method = RequestMethod.POST)
-	public String afterPayment(String costCode) {
-		Map<String,String> map = new HashMap<String, String>();
-		map.put("costCode", costCode);
-		boolean isc = service.afterPayment(map);
-		log.info("보관함 사용가능처리 + 보관 정보 삭제 결과 : "+isc);
-		return "index";
+	public String afterPayment(String returnFlag,String costCode,Model model) {
+		if(returnFlag==null ||returnFlag.isBlank()) {
+			//반품여부 없으면 결제 완료 페이지로
+			model.addAttribute("costCode",costCode);
+			return "afterPayment";
+		}else if(returnFlag.equals("Y")) {
+			//반품여부 확인-> 결제코드 담고 반품페이지로
+			model.addAttribute("costCode",costCode);
+			return "returnPage";
+		}else {
+			//반품여부 N 이면 사용끝!
+			Map<String,String> map = new HashMap<String, String>();
+			map.put("costCode", costCode);
+			boolean isc = service.afterPayment(map);
+			log.info("보관함 사용가능처리 + 보관 정보 삭제 결과 : "+isc);
+			return "map";
+		}
 	}
+	
 	/**
 	 * 결제후 반품 메세지 입력후 반품등록
 	 * @param costCode

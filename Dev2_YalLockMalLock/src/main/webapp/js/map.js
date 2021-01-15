@@ -41,7 +41,7 @@ $.get("./selectMap.do", function(markers) {
       var options = {
          //지도의 중심좌표(학원위치)
          center : new kakao.maps.LatLng(37.47788928071299, 126.87901000461567),
-         level : 3
+         level :5
       //지도의 확대 레벨 
       };
 
@@ -81,12 +81,13 @@ $.get("./selectMap.do", function(markers) {
                 position : new kakao.maps.LatLng(markers[i].lat,markers[i].lng), // 마커를 표시할 위치
                 image : markerImage,// 마커 이미지 
                 clickable : true,
+                // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
                 title : markers[i].id
-             // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
              });
 
              // 마커를 클릭했을 때 마커 위에 표시할 인포윈도우를 생성합니다
-             var iwContent = '<div id="info" style="padding:5px;"><br><br></div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+             var iwContent = '<div id="info" style="padding:5px;"><br><br><br></div>', 
+             // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
              iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
 
              // 인포윈도우를 생성합니다
@@ -100,7 +101,8 @@ $.get("./selectMap.do", function(markers) {
              (function(marker, infowindow) {
                 // 마커에 mouseover 이벤트를 등록하고 마우스 오버 시 인포윈도우를 표시합니다 
                 kakao.maps.event.addListener(marker, 'click', function() {
-//                	console.log(marker)
+                	console.log(marker)
+//                	infowindow.close();
                    getInfo(marker.Fb);
                    infowindow.open(map, marker);
                 });
@@ -118,7 +120,7 @@ $.get("./selectMap.do", function(markers) {
     		  data : { "id" : id },
     		  success : function(LDto) {
 //    			  console.log(LDto);
-    			  msg = LDto.subway+"  <strong>"+LDto.storageName+"</strong><br>사용가능 갯수 : "+ LDto.cnt ;
+    			  msg = LDto.subway+"  <br><strong>"+LDto.storageName+"</strong><br>사용가능 갯수 : "+ LDto.cnt ;
     			  document.getElementById('info').innerHTML = msg;
     			  document.getElementById('info').onclick=function(){
     				  location.href='./selectStorageStatus.do?id='+LDto.storageId;

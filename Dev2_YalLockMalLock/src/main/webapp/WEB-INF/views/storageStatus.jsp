@@ -10,11 +10,33 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <style type="text/css">
+.container{
+   width : 360px;
+   height: 600px;
+   border: 1px solid black;
+   margin: auto;
+}
+.btn{
+	width: 90px;
+	height: 90px;
+	margin : 10px;
+}
+.storageBox{
+	width: 360px;
+	height: 360px;
+}
 
 </style>
 </head>
 <body>
 	<script type="text/javascript">
+	function clickCheck(){
+		if(document.getElementById('boxSeq').value == 0){
+			alert('사용할 보관함을 선택해주세요');
+			return false;
+		}
+	}
+	
 	function clickBox(seq){
 		//클릭했을때  노란색으로, 노란색을 누른거면 원상태로 , 노란색 있는상태에서 다른걸 누르면 그게 노란색으로 다른건 파란색으로
 		var seqFinal = document.getElementById('boxSeq').value;
@@ -31,7 +53,12 @@
 		}
 	}
 </script>
-	<form action="./insertGoods.do" method="post">
+<div class="container">
+	<h1>${storageInfo.label }</h1>
+	<h4>${storageInfo.desc }</h4>
+	<hr>
+	<form action="./insertGoods.do" method="post" onsubmit="return clickCheck()">
+		<div class="storageBox">
 			<c:forEach var="box" items="${statusList}">
 				<c:choose>
 					<c:when test='${box.boxStatus eq "O"}'>
@@ -42,12 +69,14 @@
 					</c:otherwise>
 				</c:choose>
 			</c:forEach>
-			
+		</div>
+		<hr>
 		<input type="hidden" name="email" value="user02@naver.com">
-		<input type="hidden" name="id" value="${id}">
+		<input type="hidden" name="id" value="${storageInfo.value}">
 		<input type="hidden" name="boxSeq" id="boxSeq" value="0">
 		<input type="submit" value="다음">
 	</form>
+</div>
 	
 
 </body>

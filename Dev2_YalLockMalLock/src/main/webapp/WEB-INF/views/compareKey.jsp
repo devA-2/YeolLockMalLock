@@ -10,7 +10,7 @@
 	<h1>
 		보관함 리더기에<br> NFC를 태그해주세요
 	</h1>
-	<div>
+	<div class="container">
 		<form action="./beforePay.do" method="post">
 			<!-- 	<input type="hidden" name="" value=""> -->
 			<!-- 	<input type="hidden" name="" value=""> -->

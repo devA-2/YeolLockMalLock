@@ -9,6 +9,14 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<style type="text/css">
+.container{
+   width : 360px;
+   height: 600px;
+   border: 1px solid black;
+   margin: auto;
+}
+</style>
 </head>
 <body>
 <script type="text/javascript">
@@ -20,8 +28,8 @@ function checkEmail(){
 		  type : 'get',
 		  data : { "email" : email },
 		  success : function(checkedEmail) {
-			  console.log(checkedEmail)
-			var result = document.getElementById('result').innerHTML;
+// 			  console.log(checkedEmail)
+// 			var result = document.getElementById('result').innerHTML;
 			if(checkedEmail==''){
 				document.getElementById('result').innerHTML = '해당 사용자가 없습니다. <br> 다시 입력해주세요'
 			}else{
@@ -37,11 +45,11 @@ function checkEmail(){
 }
 
 </script>
-	<div id='container'>
+	<div class='container'>
 		<form action="./updateOutUser.do">
 			<h2>수령할 사용자를 이메일을 입력해주세요</h2>
-			<input type="hidden" name="id" value="CITYHALL_B">
-			<input type="hidden" name="boxSeq" value="2">
+			<input type="hidden" name="storageId" value="${id }">
+			<input type="hidden" name="boxSeq" value="${boxSeq }">
 			<input type="text" name='email' id="searchOutUser"> 
 			<input type="button" value="입력" onclick="checkEmail()">
 			<div>
