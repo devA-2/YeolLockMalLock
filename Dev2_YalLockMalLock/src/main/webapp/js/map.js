@@ -78,7 +78,7 @@ $.get("./selectMap.do", function(markers) {
              // 마커를 생성합니다
              var marker = new kakao.maps.Marker({
                 map : map, // 마커를 표시할 지도
-                position : new kakao.maps.LatLng(markers[i].lng,markers[i].lat), // 마커를 표시할 위치
+                position : new kakao.maps.LatLng(markers[i].lat,markers[i].lng), // 마커를 표시할 위치
                 image : markerImage,// 마커 이미지 
                 clickable : true,
                 title : markers[i].id

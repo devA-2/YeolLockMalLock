@@ -89,13 +89,16 @@ public class StorageServiceImpl implements StorageIService {
 		log.info("결제 완료된 물품 정보 삭제 결과 : "+isc2);
 		return isc1 && isc2;
 	}
-	
 
-//	@Override
-//	public String checkOutEmail(String email) {
-//		return dao.checkOutEmail(email);
-//	}
+	@Override
+	public String checkOutEmail(String email) {
+		return dao.checkOutEmail(email);
+	}
 
+	@Override
+	public boolean updateOutUser(Map<String, Object> map) {
+		return dao.updateOutUser(map);
+	}
 	@Transactional
 	@Override
 	public boolean insertReturn(String costCode,String message) {
@@ -115,5 +118,6 @@ public class StorageServiceImpl implements StorageIService {
 		log.info("반품 결제코드 수정 : "+isc4);
 		return isc1 && isc2 && isc3 && isc4;
 	}
+
 
 }

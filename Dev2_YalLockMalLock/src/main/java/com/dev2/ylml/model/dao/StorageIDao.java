@@ -88,9 +88,17 @@ public interface StorageIDao {
 	 * @param costCode
 	 */
 	public boolean deleteGoods(String costCode);
-	
-//	public String checkOutEmail(String email);
-	
+	/**
+	 * 수령 사용자 아이디 확인하기
+	 * @param email
+	 * @return email
+	 */
+	public String checkOutEmail(String email);
+	/**
+	 * 입력한 수령 사용자 보관물품에 등록
+	 * @param map
+	 */
+	public boolean updateOutUser(Map<String,Object> map);
 	/**
 	 * 반품할때 결제코드로 정보 가져오기
 	 * @param costCode

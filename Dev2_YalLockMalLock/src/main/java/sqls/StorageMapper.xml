@@ -85,10 +85,17 @@
 	<delete id="deleteGoods" parameterType="java.lang.String">
 		DELETE FROM storage_goods WHERE cost_code=#{costCode}
 	</delete>
-
-<!-- 	<select id="checkOutEmail" parameterType="java.lang.String" resultType="java.lang.String"> -->
+	<!-- 수령 사용자 아이디 체크 -->
+	<select id="checkOutEmail" parameterType="java.lang.String" resultType="java.lang.String">
 <!-- 		SELECT EMAIL FROM MEMBER WHERE email=#{email} -->
-<!-- 	</select> -->
+		SELECT EMAIL FROM MEM WHERE email=#{email}
+	</select>
+	
+<!-- 	수령사용자 email 보관물품에 입력 -->
+	<update id="updateOutUser" parameterType="java.util.HashMap">
+		UPDATE STORAGE_GOODS SET OUT_USER =#{email}  
+		WHERE BOX_SEQ =#{boxSeq} AND STORAGE_ID =#{id}
+	</update>
 	
 	<!-- 	반품할때 결제코드로 정보 가져오기  -->
 	<select id="selectForReturn" parameterType="java.lang.String" resultType="com.dev2.ylml.dto.UserGoodsDto">

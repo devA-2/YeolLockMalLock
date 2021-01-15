@@ -89,11 +89,14 @@ public class StorageDao implements StorageIDao {
 	public boolean deleteGoods(String costCode) {
 		return sqlSession.delete("storage.deleteGoods",costCode)>0?true:false;
 	}
-//	@Override
-//	public String checkOutEmail(String email) {
-//		return sqlSession.selectOne("storage.checkOutEmail",email);
-//	}
-
+	@Override
+	public String checkOutEmail(String email) {
+		return sqlSession.selectOne("storage.checkOutEmail",email);
+	}
+	@Override
+	public boolean updateOutUser(Map<String, Object> map) {
+		return sqlSession.update("storage.updateOutUser",map)>0?true:false;
+	}
 	@Override
 	public UserGoodsDto selectForReturn(String costCode) {
 		return sqlSession.selectOne("storage.selectForReturn",costCode);
@@ -102,6 +105,7 @@ public class StorageDao implements StorageIDao {
 	public boolean insertReturn(UserGoodsDto goodsDto) {
 		return sqlSession.insert("storage.insertReturn",goodsDto)>0?true:false;
 	}
+
 
 
 

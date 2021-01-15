@@ -65,9 +65,17 @@ public interface StorageIService {
 	 * @param costCode + selectKey id 저장해야해서 map 사용
 	 */
 	public boolean afterPayment(Map<String,String> map);
-
-//	public String checkOutEmail(String email);
-	
+	/**
+	 * 수령 사용자 아이디 확인하기
+	 * @param email
+	 * @return email
+	 */
+	public String checkOutEmail(String email);
+	/**
+	 * 입력한 수령 사용자 보관물품에 등록
+	 * @param map
+	 */
+	public boolean updateOutUser(Map<String,Object> map);
 	/**
 	 * 결제 완료후 반품 신청
 	 * 물품 정보 받아옴 + 물품정보 삭제 + 반품 등록 + 결제코드 등록 + 결제코드 수정

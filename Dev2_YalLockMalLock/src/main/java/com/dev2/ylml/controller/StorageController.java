@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dev2.ylml.dto.StorageBoxDto;
@@ -111,7 +112,7 @@ public class StorageController {
 	 * @return
 	 */
 	@RequestMapping(value = "/updateExtend.do",method = RequestMethod.POST)
-	public String updateExtend(String id, int boxSeq) {
+	public String updateExtend(@RequestParam("storageId") String id, int boxSeq) {
 		log.info("boxSeq : "+boxSeq+",id : "+id);
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("boxSeq", boxSeq);
@@ -121,14 +122,28 @@ public class StorageController {
 		return "index";
 	}
 	/**
+	 * 추가비용 가지고 키대조 화면으로 이동하는 컨트롤러
+	 * @param overCost
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/compareKey.do",method = RequestMethod.GET)
+//	public String compareKey(@RequestParam("storageId") String id,int boxSeq, int overCost,Model model) {
+	public String compareKey(int overCost,Model model) {
+		log.info("키 대조 화면으로 이동");
+		//추후 id, boxSeq 필요시 map 으로 던지기
+		model.addAttribute("overCost",overCost);
+		return "compareKey";
+	}
+	/**
 	 * 결제전 키 대조, 불일치시 페이지이동
 	 * 할증비용 있을때 결제전 할증비용 추가
 	 * @param key
 	 * @param overCost
 	 * @return
 	 */
-	@RequestMapping(value = "/compareKey.do",method = RequestMethod.POST)
-	public String compareKey(String key,int overCost) {
+	@RequestMapping(value = "/beforePay.do",method = RequestMethod.POST)
+	public String beforePay(String key,int overCost,Model model) {
 		log.info("받은 key : "+key + " overCost : "+overCost);
 		UserGoodsDto goodsDto = service.compareKey(key);
 		log.info("키 대조 결과 : "+goodsDto);
@@ -145,17 +160,51 @@ public class StorageController {
 			map.put("overCost", overCost);
 			boolean isc = service.updateExtraCost(map);
 			log.info("보관시간 만료 이후 할증 금액 수정 결과 : "+ isc);
-			
 		}
+		model.addAttribute("dto",goodsDto);//costCode,outUser담겨있는 dto
 		return "payPage";
 	}
-//	@ResponseBody
-//	@RequestMapping(value="/checkOutEmail.do",method = RequestMethod.POST)
-//	public String checkOutEmail(String email) {
-//		log.info("수령 사용자 이메일 확인 / 받은 이메일 : "+email);
-//		String checkedemail = service.checkOutEmail(email);
-//		return checkedemail;
-//	}
+	/**
+	 * 수령 사용자 이메일 입력 폼으로 이동
+	 * @return
+	 */
+	@RequestMapping(value="/outUserForm.do",method = RequestMethod.POST)
+	public String outUserForm() {
+		log.info("수령 사용자 이메일 입력하는 폼으로 이동하는 컨트롤러");
+		return "outUserEmailCheck";
+	}
+	
+	/**
+	 * 수령 사용자 이메일 확인
+	 * @param email
+	 * @return email
+	 */
+	@ResponseBody
+	@RequestMapping(value="/checkOutUser.do",method = RequestMethod.GET)
+	public String checkOutEmail(String email) {
+		String checkedEmail = service.checkOutEmail(email);
+		log.info("수령 사용자 이메일 확인 -> "+email+ " 받아온 이메일 : "+ checkedEmail);
+		return checkedEmail;
+	}
+	/**
+	 * TODO 키 udpate
+	 * 받아온 수령사용자 이메일 등록
+	 * @param id
+	 * @param boxSeq
+	 * @param email
+	 * @return
+	 */
+	@RequestMapping(value = "/updateOutUser.do",method = RequestMethod.GET)
+	public String updateOutUser(String id,int boxSeq,String email) {
+		log.info("받아온 id: "+id+" boxSeq: "+boxSeq+" outUSerEmail: "+email);
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("boxSeq", boxSeq);
+		map.put("id", id);
+		map.put("email", email);
+		boolean isc = service.updateOutUser(map);
+		log.info("수령사용자 등록 결과 : "+isc);
+		return "map";
+	}
 	/**
 	 * 결제 후 보관함 사용가능 처리, 보관물품 정보 삭제
 	 * @param costCode
