@@ -87,12 +87,11 @@ $(document).ready(function(){
 				<input type="text" name="phone_num" id="phone_num" maxlength="11" size="15">
 			<div class="check_font" id="phoneChk"></div>
 				<input type="button" id="sendPhone_num" value="인증번호 전송"><br>
-				<input type="text" id="inputCertified_num" value='인증번호' size="5">
+				<input type="text" id="inputCertified_num" size="5">
 				<input type="button" id="checkBtn" value="확인">
 			<div class="time"></div>
 			<input type="submit" value="개인정보 수정" id="updateInfoBtn">	
 			<input type="button" value="비밀번호 변경" onclick="updatePw()">
-<%-- 			${mem.phone_num } --%>
 		</form>
 	</div>
 <script>

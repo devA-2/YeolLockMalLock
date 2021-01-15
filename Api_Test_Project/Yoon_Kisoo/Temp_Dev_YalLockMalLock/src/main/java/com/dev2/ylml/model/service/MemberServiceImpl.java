@@ -46,8 +46,8 @@ public class MemberServiceImpl implements MemberIService {
 	}
 
 	@Override
-	public int updatePw(Map<String, Object> map) {
-		return iDao.updatePw(map);
+	public int updatePw(MemberDto dto) {
+		return iDao.updatePw(dto);
 	}
 
 	@Override

@@ -64,7 +64,7 @@ function loginChk(){
 			<div>비밀번호</div>
 				<input type="password" name="pw" id="pw" required="required" value="User010101" maxlength="20" size="20"><br>
 			<a href="./idSearchForm.do">아이디 찾기</a> &nbsp;&nbsp;
-			<a href="./infoAgree.do">비밀번호 찾기</a><br><br>
+			<a href="./pwSearchForm.do">비밀번호 찾기</a><br><br>
 			
 			<input type="button" id="login" name="login" class="btn btn-success" value="로그인" onclick="loginChk()">&nbsp;&nbsp;
 		</form>

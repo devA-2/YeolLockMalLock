@@ -127,6 +127,17 @@ public class MemberController {
 	}
 	
 	/**
+	 * 비밀번호 찾기 폼 이동<br>
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/pwSearchForm.do", method = RequestMethod.GET)
+	public String pwSearchForm() {
+		log.info("memberController go to pwSearchForm");
+		return "pwSearchForm";
+	}
+	
+	/**
 	 * 마이페이지 진입 세션 여부 확인<br>
 	 * 세션 여부(allowed)확인하여 마이페이지 진입 혹은 다시 리다이렉트로 보냄 (하지만 한번 들어가면 세션 정보가 남아 있는거 같음 이건 따로 세션 없애는거를 구현해야 할거 같음)
 	 * @param session
@@ -164,6 +175,12 @@ public class MemberController {
 		log.info("memberController updatePwForm" + dto);
 		return "updatePwForm";
 	}
+	
+	/**
+	 * 이메일 인증 폼 이동<br>
+	 * 
+	 * @return
+	 */
 	@RequestMapping(value = "/emailAuthForm.do", method = RequestMethod.GET)
 	public String emailAuthForm() {
 		log.info("memberController go to emailAuthForm");
@@ -217,15 +234,29 @@ public class MemberController {
 	 * @param model
 	 * @return
 	 */
+//	@RequestMapping(value = "/updatePw.do", method = RequestMethod.POST)
+//	public String updatePw(String email, String pw, HttpSession session) {
+//		MemberDto dto = (MemberDto) session.getAttribute("mem");
+//		Map<String, Object> infoMap = new HashMap<String, Object>();
+//		infoMap.put("email", dto.getEmail());
+//		infoMap.put("pw", pw);
+//		log.info(email, pw);
+//
+//		int result = iService.updateInfo(infoMap);
+//		if(result>0) {
+//			dto.setPw(pw);
+//			return "redirect:myPage.do";
+//		}
+//		return "updatePwForm.do";
+//	}
+	
 	@RequestMapping(value = "/updatePw.do", method = RequestMethod.POST)
 	public String updatePw(String email, String pw, HttpSession session) {
 		MemberDto dto = (MemberDto) session.getAttribute("mem");
-		Map<String, Object> infoMap = new HashMap<String, Object>();
-		infoMap.put("email", dto.getEmail());
-		infoMap.put("pw", pw);
+		dto.getEmail();
+		dto.setPw(pw);
 		log.info(email, pw);
-
-		int result = iService.updateInfo(infoMap);
+		int result = iService.updatePw(dto);
 		if(result>0) {
 			dto.setPw(pw);
 			return "redirect:myPage.do";
@@ -483,6 +514,7 @@ public class MemberController {
 		if(emailChk) {
 			model.addAttribute("name",name);
 			model.addAttribute("email",email);
+			
 			return "extraSignUpForm";
 		}else {
 			MemberDto dto = new MemberDto();
@@ -491,6 +523,10 @@ public class MemberController {
 			dto.getAuth();
 			dto.getPhone_num();
 			dto.getReg_date();
+			System.out.println(dto.getAuth());
+			System.out.println(dto.getPhone_num());
+			System.out.println(dto.getReg_date());
+			
 			
 			session.setAttribute("mem", dto);
 //			session.getAttribute("api");

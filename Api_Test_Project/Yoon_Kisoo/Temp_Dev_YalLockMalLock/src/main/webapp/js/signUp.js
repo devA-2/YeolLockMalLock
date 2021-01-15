@@ -246,6 +246,7 @@ $(document).ready(function(){
 			alert('휴대폰 번호를 확인하세요.');
 			return false;
 		}
+		
 		// 전체 유효성 검사
 		var validAll = true;
 			for (var i = 0; i < inval_Arr.length; i++){

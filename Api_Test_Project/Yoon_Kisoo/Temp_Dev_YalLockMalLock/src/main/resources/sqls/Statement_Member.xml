@@ -68,7 +68,7 @@ WHERE EMAIL= #{email}
 </update>
 
 <!-- 비밀번호 변경 -->
-<update id="updatePw" parameterType="java.util.Map">
+<update id="updatePw" parameterType="com.dev2.ylml.dto.MemberDto">
 UPDATE MEMBER SET 
 PW = #{pw}
 WHERE EMAIL= #{email}

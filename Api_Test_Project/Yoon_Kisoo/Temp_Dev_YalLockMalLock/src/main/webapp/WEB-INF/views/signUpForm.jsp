@@ -17,7 +17,7 @@
 }
 </style>
 <body>
-<!-- 휴대폰 인증 유효성 검사를 세션에 담아서 체크하는 거 구현해야함... 메일 보내는 것도.. -->
+<!-- 인증하기 부분은 숨길것 -->
 	<div id="container">
 		<h1>회원가입</h1>
 		<form action="./insertMember.do" id="joinChkFrm" method="post">
@@ -38,7 +38,7 @@
 				<input type="text" name="phone_num" id="phone_num" maxlength="11" size="15">
 			<div class="check_font" id="phoneChk"></div>
 				<input type="button" id="sendPhone_num" value="인증번호 전송"><br>
-				<input type="text" id="certified_num" value='인증번호' size="5">
+				<input type="text" id="certified_num" size="5">
 				<input type="button" id="checkBtn" value="확인">
 			<div class="time"></div>
 			<input type="submit" value="회원가입완료" id="signUpBtn">	

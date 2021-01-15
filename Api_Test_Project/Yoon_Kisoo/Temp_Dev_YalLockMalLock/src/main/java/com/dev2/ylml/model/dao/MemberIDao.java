@@ -43,7 +43,9 @@ public interface MemberIDao {
 	/*
 	 * 비밀번호 변경
 	 */
-	public int updatePw(Map<String, Object> map);
+//	public int updatePw(Map<String, Object> map);
+	
+	public int updatePw(MemberDto dto);
 	
 	/*
 	 * 탈퇴전 서비스 사용유무 조회

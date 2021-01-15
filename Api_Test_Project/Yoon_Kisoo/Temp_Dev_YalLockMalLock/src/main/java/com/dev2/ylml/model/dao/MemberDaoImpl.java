@@ -75,9 +75,17 @@ public class MemberDaoImpl implements MemberIDao {
 		return result;
 	}
 
+//	@Override
+//	public int updatePw(MemberDto dto) {
+//		int result= sqlSession.update("member.updatePw", dto); // TODO : 암호화를 여기서 해줘야하는데 DTO로 받아서 처리를 해야 할듯?
+//		return result;
+//	}
+	
 	@Override
-	public int updatePw(Map<String, Object> map) {
-		int result= sqlSession.update("member.updatePw", map); // TODO : 암호화를 여기서 해줘야하는데 DTO로 받아서 처리를 해야 할듯?
+	public int updatePw(MemberDto dto) {
+		String enPw = pwEncoder.encode(dto.getPw());
+		dto.setPw(enPw);
+		int result= sqlSession.update("member.updatePw", dto); // TODO : 암호화를 여기서 해줘야하는데 DTO로 받아서 처리를 해야 할듯?
 		return result;
 	}
 
