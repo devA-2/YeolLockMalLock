@@ -47,48 +47,23 @@ public class StorageBoxController {
 		logger.info("Controller_userStorageList.do 실행");
 		return "list/userStorageList";
 	}
-	
-//	========================= 버튼 눌렀을 때 세션 저장 =========================
-	
-	/**
-	 * 배송 버튼 눌렀을 때 작동
-	 * 카테고리 상태에 따라 분기 나누기, 배송 시 StorageGoodsDto 세션 생성
-	 * @param storageId
-	 * @param boxSeq
-	 * @param categoryCode
-	 * @param session
-	 * @return
-	 */
-	@RequestMapping(value = "/deliveryBtn.do", method = RequestMethod.POST)
-	@ResponseBody
-	public String deliveryBtn(@RequestParam("boxSeq") int boxSeq, @RequestParam("storageId") String storageId, @RequestParam("categoryCode") String categoryCode, HttpSession session) {
-		String isc;	// 이미 배송한 경우를 위한 분기 값
-		if(categoryCode.equals("D") || categoryCode.equals("RD")) {
-			System.out.println(categoryCode);
-			isc = "false";
-		}else {
-			System.out.println(categoryCode);
-			Map<String, Object> seqId = new HashMap<String, Object>();
-			seqId.put("boxSeq", boxSeq);
-			seqId.put("storageId", storageId);
-			StorageGoodsDto storageGoodsDto = service.selectStorageGoods(seqId);
-			System.out.println("storageGoodsDto확인!!  "+storageGoodsDto);
-			session.setAttribute("storageGoodsDto", storageGoodsDto);
-			logger.info("세션 확인!! "+session.getAttribute("storageGoodsDto"));
-			isc = "success";
-		}
-		logger.info("Controller_deliveryBtn.do 실행 {}");
-		return isc;
-	}
+
 	
 //	============================== 배송 ==============================
 	
 	/**
 	 * 보관 정보 > 배송 이용 약관
+	 * StorageGoodsDto 세션 생성
 	 * @return
 	 */
-	@RequestMapping(value = "/deliveryForm.do", method = RequestMethod.GET)
-	public String deliveryForm() {
+	@RequestMapping(value = "/deliveryForm.do", method = RequestMethod.POST)
+	public String deliveryForm(StorageGoodsDto dto, HttpSession session) {
+		Map<String, Object> seqId = new HashMap<String, Object>();
+		seqId.put("boxSeq", dto.getBoxSeq());
+		seqId.put("storageId", dto.getStorageId());
+		StorageGoodsDto storageGoodsDto = service.selectStorageGoods(seqId);
+		System.out.println("storageGoodsDto확인!!  "+storageGoodsDto);
+		session.setAttribute("storageGoodsDto", storageGoodsDto);
 		logger.info("Controller_deliveryForm.do 실행");
 		return "delivery/deliveryTerms";
 	}
@@ -153,14 +128,17 @@ public class StorageBoxController {
 					}else {
 						deliverymanDist = (subwayCnt-deliverymanLocSeq)+userLocSeq;
 					}
-					if(deliverymanDist < num && deliverymanDist > 0) {
+					
+					if(deliverymanDist < num) {
 						num = deliverymanDist;
-					}else if(deliverymanDist == num) {
+						
+						if(deliverymanDist == num){
 						delManInfo.put("deliverymanId", deliverymanId);
 						delManInfo.put("deliverymanName", deliverymanName);
 						delManInfo.put("deliverymanSubway", deliverymanSubway);
 						delManInfo.put("deliverymanLocSeq", deliverymanLocSeq);
 						System.out.println("배송원 거리 확인!! "+deliverymanDist);
+						}
 					}
 				}
 			}
@@ -405,6 +383,17 @@ public class StorageBoxController {
 
 //	============================== 지도 복붙 테스트(머지후 삭제) ==============================
 // TODO : 지도 구현을 위해 복붙한 메서드 (추후 머지 할 때 selectMap에 대한 컨트롤러, Dao, Service, Mapper 내용 삭제 예정)	
+	/**
+	 * 검색창에 자동완성 위한 전체보관함 list 받아오기
+	 * @param 
+	 * @return storage_id AS "value" ,storage_name AS "label" ,address||' '||subway||' '||detail AS "desc"
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/selectStorageList.do")
+	public List<Map<String,String>> selectStorageList() {
+		List<Map<String,String>> list = service.selectStorageList();
+		return list;
+	}
 	/**
 	 * 지도 표시하기위한 보관함 위치정보 받아오는 ajax
 	 * @return storage_id as "id",lng as "lng",lat as "lat"

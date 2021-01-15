@@ -1,25 +1,19 @@
-function exchangeBtn(form) {
+function exchangeBtn(num) {
 	// 키교환할 수령 사용자 입력하기
-	form.action='./outUserForm.do';
-	form.submit();
+	var frm = document.getElementById("storeForm"+num)
+	frm.action='./outUserForm.do';
+	frm.submit();
 }
 
-function deliveryBtn(boxSeq, storageId, categoryCode) {
-	$.ajax({
-		type:"post",
-		url: "./deliveryBtn.do",
-		data: {"boxSeq":boxSeq, "storageId":storageId, "categoryCode":categoryCode},
-		success : function(result){
-			if(result == "success"){
-				location.href = "./deliveryForm.do"
-			}else{
-				console.log("이미 배송 중인 물품입니다.")
-			}
-		},
-		error : function(){
-			alert("서비스에 문제가 생겼습니다.")      
-		}
-	});
+function deliveryBtn(num) {
+	var OX = document.getElementById("OX"+num).innerText
+	var frm = document.getElementById("storeForm"+num)
+	if(OX == "O"){
+		alert("이미 배송 신청한 물품 입니다.")
+	}else if(OX == "X"){
+		frm.action='./deliveryForm.do';
+		frm.submit();
+	}
 }
    
 function extendBtn(form) {

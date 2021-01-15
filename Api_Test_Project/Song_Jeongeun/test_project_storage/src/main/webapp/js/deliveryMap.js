@@ -1,3 +1,36 @@
+//검색창 자동완성
+$( function() {
+	$.ajax({
+		url : './selectStorageList.do',
+		type : 'get',
+		dataType : 'json',
+		success : function(storages) {
+//			console.log(storages);
+			$( "#search" ).autocomplete({
+				minLength: 1,//최소 글자수
+				source: storages,//가져오는 array
+				focus: function( event, ui ) {
+					$( "#search" ).val( ui.item.label );
+					return false;
+				},
+				select: function( event, ui ) {
+					$( "#search" ).val( ui.item.label );
+					location.href='./selectStorageStatus.do?id='+ui.item.value;
+					return false;
+					}
+			})
+			.autocomplete( "instance" )._renderItem = function( ul, item ) {
+				return $( "<li>" )
+				.append( "<div><strong>" + item.label + "</strong><br>" + item.desc + "</div>" )
+				.appendTo( ul );
+			};
+		},
+		error : function() {
+			console.log("ajax 오류");
+		}
+	});//ajax
+}); 
+
 //지도에 마커표시
 $.get("./selectMap.do", function(markers) {
 //			console.log(markers);

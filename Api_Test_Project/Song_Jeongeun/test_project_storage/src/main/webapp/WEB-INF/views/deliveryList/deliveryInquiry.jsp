@@ -11,6 +11,16 @@
 </head>
 <body>
 
+	<!-- 검색창 div -->
+	<div class="input-group">
+		<input type="text" class="form-control" placeholder="보관함 검색" id="search">
+		<div class="input-group-btn">
+			<button class="btn btn-default">
+				<i class="glyphicon glyphicon-search"></i>
+            </button>
+		</div>
+	</div>
+
 	<!-- 지도 표시하는 div  -->
 	<div id="map" style="width: 600px; height: 600px;"></div>
 	

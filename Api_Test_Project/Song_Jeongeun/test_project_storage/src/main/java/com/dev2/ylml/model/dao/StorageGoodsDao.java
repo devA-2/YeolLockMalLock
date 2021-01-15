@@ -127,7 +127,10 @@ public class StorageGoodsDao implements StorageGoodsIDao {
 
 	
 // ========================= 지도 복붙 테스트 =========================	
-
+	@Override
+	public List<Map<String,String>> selectStorageList() {
+		return sqlSession.selectList("storageBox.selectStorageList");
+	}
 	@Override
 	public List<Map<String, Object>> selectMap() {
 		return sqlSession.selectList("storageBox.selectMap");

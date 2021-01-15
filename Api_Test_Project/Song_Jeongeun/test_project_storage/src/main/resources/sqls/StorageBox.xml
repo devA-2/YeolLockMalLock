@@ -143,6 +143,9 @@
 
 
 	<!-- 지도 복붙 테스트 -->
+	<select id="selectStorageList" resultType="java.util.HashMap">
+		select storage_id AS "value" ,storage_name AS "label" ,address||' '||subway||' '||detail AS "desc" from storagebox_list
+	</select>
 	<select id="selectMap" resultType="java.util.HashMap">
 		select storage_id as "id",lng as "lng",lat as "lat" from storagebox_list
 	</select>

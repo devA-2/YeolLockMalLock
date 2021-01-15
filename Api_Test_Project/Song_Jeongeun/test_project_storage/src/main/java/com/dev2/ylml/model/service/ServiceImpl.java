@@ -139,7 +139,10 @@ public class ServiceImpl implements IService {
 
 	
 // ========================= 지도 복붙 테스트 =========================	
-	
+	@Override
+	public List<Map<String,String>> selectStorageList() {
+		return sgDao.selectStorageList();
+	}
 	@Override
 	public List<Map<String, Object>> selectMap() {
 		return sgDao.selectMap();

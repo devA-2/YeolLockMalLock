@@ -96,6 +96,11 @@ public interface StorageGoodsIDao {
 
 // ========================= 지도 복붙 테스트 =========================
 	/**
+	 * 검색창 자동완성 위한 보관함 리스트 정보 받아오기
+	 * @return List<StorageListDto>
+	 */
+	public List<Map<String,String>> selectStorageList();
+	/**
 	 * 전체 보관함 정보 출력해서 마커표시
 	 * @return storage_id,lng,lat
 	 */
