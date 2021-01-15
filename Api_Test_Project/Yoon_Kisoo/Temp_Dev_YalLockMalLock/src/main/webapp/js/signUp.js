@@ -12,7 +12,7 @@ var mailJ = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a
 var pwJ = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
 
 // 휴대폰 번호 정규식
-var phoneJ = /(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/g;
+var phoneJ = /(01[016789])(\d{4}|\d{3})\d{4}$/g; 
 var timer = null;
 var isRunning = false;
 
@@ -51,7 +51,7 @@ $(document).ready(function(){
 	                    		alert('휴대폰 인증이 정상적으로 완료되었습니다.');
 								clearInterval(timer);
 				        		display.html("");
-				        		signUpBtn.disabled=false;
+//				        		signUpBtn.disabled=false;
 				        		
 	                        }else{
 	                        	if(isRunning) {
@@ -229,6 +229,9 @@ $(document).ready(function(){
 	// 폼 서밋 후 체크
 	$('form').on('submit', function(){
 		var inval_Arr = new Array(2).fill(false);
+		// 위에 중복이 되는데 이걸 어떻게 빼면 좋을까?
+		
+		// 이메일 정규식
 		if (mailJ.test($('#email').val())) {
 			inval_Arr[0] = true;
 		} else {
@@ -242,8 +245,7 @@ $(document).ready(function(){
 			inval_Arr[1] = true;
 			alert('휴대폰 번호를 확인하세요.');
 			return false;
-		} else {}
-		
+		}
 		// 전체 유효성 검사
 		var validAll = true;
 			for (var i = 0; i < inval_Arr.length; i++){

@@ -5,7 +5,7 @@
 <!--  회원가입 (임시 : id_num 가져올수 없어서 테스트용으로 씀) -->
 <insert id="insertMember" parameterType="com.dev2.ylml.dto.MemberDto">
 INSERT INTO MEMBER(ID_NUM, EMAIL, PW, NAME, PHONE_NUM)
-VALUES ('112512522	5', #{email}, #{pw}, #{name},#{phone_num})
+VALUES ('112512525', #{email}, #{pw}, #{name},#{phone_num})
 </insert>
 
 <!-- 회원가입 (자동으로 id_num 가져 올때 -->
@@ -14,11 +14,11 @@ VALUES ('112512522	5', #{email}, #{pw}, #{name},#{phone_num})
 <!-- VALUES ('#{id_num}',#{email}, #{pw}, #{name},#{phone_num}) -->
 <!-- </insert> -->
 
-<!-- 이메일 인증 후 권한변경 -->
-<update id="emailAuth" parameterType="com.dev2.ylml.dto.MemberDto">
+<!-- 권한변경 -->
+<update id="authUpdate" parameterType="com.dev2.ylml.dto.MemberDto">
 UPDATE MEMBER SET
-AUTH = '10'
-WHERE EMAIL = ${email}
+AUTH = #{auth}
+WHERE EMAIL = #{email}
 </update>
 
 <!-- 아이디 중복검사 -->
@@ -79,4 +79,11 @@ SELECT COUNT (M.EMAIL)
 FROM STORAGE_GOODS G, MEMBER M
 WHERE (G.IN_USER = M.EMAIL OR G.OUT_USER = M.EMAIL) AND M.EMAIL = #{email}
 </select>
+
+<update id="quitMember" parameterType="java.lang.String">
+UPDATE MEMBER SET 
+DEL_FLAG = 'Y',
+LEV_DATE = SYSDATE
+WHERE EMAIL = #{email}
+</update>
 </mapper>

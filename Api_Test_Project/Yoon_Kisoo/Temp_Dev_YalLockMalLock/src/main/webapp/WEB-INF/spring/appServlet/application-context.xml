@@ -61,6 +61,19 @@
    
 	<!-- 네이버 로그인  -->
 	<bean id="naverLoginBO" class="com.dev2.ylml.naver.NaverLoginBO"/>
+	
+	<!-- 메일인증 -->
+	<bean id="mailHelper" class="com.dev2.ylml.util.MailSenderHelper">
+    <constructor-arg index="0" value="4"/>  <!-- code_length -->
+    <constructor-arg index="1" value="600"/> <!-- limit_seconds -->
+    <constructor-arg index="2" value="100"/> <!-- clean_timing -->
+    <property name="mailService" ref="mailService"/>
+	</bean>
+	
+	<bean id="mailService" class="com.dev2.ylml.util.MailService">
+	<property name="mailSender" ref="javaMailSender"/>
+	
+	</bean>
 
 	<!-- 모든 얘들을 트랜잭션 걸게 하는 소스처리 -->
 	<tx:advice id="txAdvice"

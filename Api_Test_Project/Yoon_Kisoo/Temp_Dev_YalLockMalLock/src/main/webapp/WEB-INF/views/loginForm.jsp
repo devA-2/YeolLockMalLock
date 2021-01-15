@@ -9,7 +9,7 @@
 <script type="text/javascript" src="./js/jquery-3.5.1.js"></script>
 <style type="text/css">
 #container{
-   width : 300px;
+   width : 360px;
    height: 600px;
    border: 1px solid black;
    margin: auto;
@@ -60,7 +60,7 @@ function loginChk(){
 		<h1>열락말락 로그인</h1>
 		<form method="post" name="loginFrm">
 			<div>아이디</div>
-				<input type="text" name="email" id="email" required="required" value="user01@naver.com"/>
+				<input type="text" name="email" id="email" required="required" value="yoooon0104@gmail.com"/>
 			<div>비밀번호</div>
 				<input type="password" name="pw" id="pw" required="required" value="User010101" maxlength="20" size="20"><br>
 			<a href="./idSearchForm.do">아이디 찾기</a> &nbsp;&nbsp;

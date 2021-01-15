@@ -31,6 +31,7 @@ $(document).ready(function(){
 				if(data > 0){
 					alert('현재 이용중인 서비스가 있으므로 탈퇴가 불가합니다. 서비스를 모두 이용 후 탈퇴해주세요.');
 				}else{
+					alert('회원탈퇴를 진행합니다.')
 					location.href='./quitMember.do'
 				}
 			}

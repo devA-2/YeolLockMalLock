@@ -16,8 +16,7 @@
 </style>
 <script type="text/javascript">
 //휴대폰 번호 정규식
-var phoneJ = /(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/g;
-
+var phoneJ = /(01[016789])(\d{4}|\d{3})\d{4}$/g; 
 
 function updatePw(){
 	location.href='./updatePwForm.do'

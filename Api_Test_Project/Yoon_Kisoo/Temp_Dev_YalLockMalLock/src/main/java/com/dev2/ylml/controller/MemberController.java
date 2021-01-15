@@ -35,7 +35,6 @@ public class MemberController {
 	
 	private Logger log = LoggerFactory.getLogger(getClass());
 	
-	
 	@Autowired
 	private MemberIService iService;
 	
@@ -44,8 +43,12 @@ public class MemberController {
 	
 	private NaverLoginBO naverLoginBO;
 	
-	// 빈등록?
 	private MailSenderHelper mailHelper;
+	
+	@Autowired
+	private void setMailSenderHelper(MailSenderHelper mailHelper) {
+		this.mailHelper = mailHelper;
+	}
 	
 	@Autowired
 	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
@@ -285,7 +288,9 @@ public class MemberController {
 	public String logOut(HttpSession session) {
 		MemberDto dto = (MemberDto)session.getAttribute("mem");
 		if(dto != null) {
-			session.removeAttribute("mem");
+//			session.removeAttribute("mem");
+			session.invalidate();
+			
 		}
 		return "redirect:/index.do";
 	}
@@ -326,9 +331,10 @@ public class MemberController {
 	// 이메일 인증 전송
 	@RequestMapping(value = "/sendCodeToMail.do", method = RequestMethod.GET)
 	public String sendCodeToMail(String email, HttpSession session) {
-		String mail = ((MemberDto) session.getAttribute("mem")).getEmail(); 
+		String mail = ((MemberDto) session.getAttribute("mem")).getEmail();
+		log.info("세션에서 가져온 이메일 값 :" + mail);
 		mailHelper.sendCode4Prove(mail);	// 메일보내기, 인증번호 기억해두는거 // java.lang.NullPointerException 클래스에서 먼가 잘못된듯?
-		return email; // 리턴은 어디로 던져야하지..
+		return "redirect:emailAuthForm.do";
 	}
 	
 	//이메일 인증번호 체크
@@ -336,29 +342,42 @@ public class MemberController {
 	public String checkCode(MemberDto dto, int code, HttpSession session) {
 		String email = ((MemberDto) session.getAttribute("mem")).getEmail();
 		if(mailHelper.checkCode4Prove(email, code) == MailSenderHelper.SUCCESS) {
-			log.info(dto.getEmail(), code);
-			// TODO : 권한 변경하는 서비스 구현 해야함 19 -> 10 로그인 dto를 던저줌, 
-			boolean emailAuth = iService.emailAuth(dto);
-					//dto.권한변경(dto.getEmail, 10) ???? 
-					dto.setAuth(10);
+			log.info("인증번호 전송 :" + dto.getEmail(),code);
+			boolean emailAuth = iService.authUpdate((MemberDto)session.getAttribute("mem"));
 					return "redirect:index.do";
 					
-		}else if(mailHelper.checkCode4Reset(email, code) == MailSenderHelper.FAILED) {
-			// 여기에 리턴 넣었더니 오류나서 뺏는데.. 뭐 넣어야하지?  실패했을 경우엔... 
+		}else if (mailHelper.checkCode4Reset(email, code) == MailSenderHelper.FAILED) {
+			return "redirect:emailAuthForm.do";
+		}else {
+			return "error";
 		}
+			
 		
-		return "redirect:emailAuthForm.do";
 			
 	}
 	
-	
-// Ajax 
 	@RequestMapping(value = "/usingCheck.do", method = RequestMethod.POST)
 	@ResponseBody
 	public int usingCheck(@RequestParam("mail") String email) {
 		int result = iService.usingCheck(email);
 		return result;
 	}
+	
+	/**
+	 *
+	 * 회원탈퇴<br>
+	 * 로그인 세션에서 이메일을 불러와서 델 플레그 처리
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "/quitMember.do", method = RequestMethod.GET)
+	public String quitMember(HttpSession session) {
+		String email = ((MemberDto)session.getAttribute("mem")).getEmail();
+		int result = iService.quitMember(email);
+		// TODO : 탈퇴가 정상적으로 처리되었다고 띄어주어야함 어디서 띄우지..?
+		return "redirect:logout.do";
+	}
+	
 	
 	//TODO : 인증번호를 세션에 태워서 회원가입 확인 버튼을 누르더라도 서버단에서 체크할 것 (로직수정 필요)
 	/**
@@ -475,6 +494,7 @@ public class MemberController {
 			
 			session.setAttribute("mem", dto);
 //			session.getAttribute("api");
+			// 세션 스토리지 이용하여 쿠키 삭제 할 수 있음 좀더 찾아봐야ㅏㅁ
 			return "callback";
 		}
 	}

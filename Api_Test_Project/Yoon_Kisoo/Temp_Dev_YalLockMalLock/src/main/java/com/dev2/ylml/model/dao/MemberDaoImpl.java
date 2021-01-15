@@ -77,7 +77,7 @@ public class MemberDaoImpl implements MemberIDao {
 
 	@Override
 	public int updatePw(Map<String, Object> map) {
-		int result= sqlSession.update("member.updatePw", map);
+		int result= sqlSession.update("member.updatePw", map); // TODO : 암호화를 여기서 해줘야하는데 DTO로 받아서 처리를 해야 할듯?
 		return result;
 	}
 
@@ -88,8 +88,14 @@ public class MemberDaoImpl implements MemberIDao {
 	}
 
 	@Override
-	public boolean emailAuth(MemberDto dto) {
-		int result = sqlSession.update("member.emailAuth", dto);
+	public boolean authUpdate(MemberDto dto) {
+		int result = sqlSession.update("member.authUpdate", dto);
 		return result>0?true:false;
+	}
+
+	@Override
+	public int quitMember(String email) {
+		int result = sqlSession.update("member.quitMember", email);
+		return result;
 	}
 }

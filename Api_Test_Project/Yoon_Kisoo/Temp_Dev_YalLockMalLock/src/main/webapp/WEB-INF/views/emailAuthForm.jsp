@@ -9,7 +9,7 @@
 <script type="text/javascript" src="./js/jquery-3.5.1.js"></script>
 <style type="text/css">
 #container{
-   width : 300px;
+   width : 360px;
    height: 600px;
    border: 1px solid black;
    margin: auto;

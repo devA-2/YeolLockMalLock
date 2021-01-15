@@ -56,8 +56,21 @@ public class MemberServiceImpl implements MemberIService {
 	}
 
 	@Override
-	public boolean emailAuth(MemberDto dto) {
-		return iDao.emailAuth(dto);
+	public boolean authUpdate(MemberDto dto) {
+		switch (dto.getAuth()) {
+		case 19 : dto.setAuth(10); 
+			break;
+		case 89 : dto.setAuth(80); 
+			break;
+		case 99 : dto.setAuth(90); 
+			break;
+		}
+		return iDao.authUpdate(dto);
+	}
+
+	@Override
+	public int quitMember(String email) {
+		return iDao.quitMember(email);
 	}
 	
 }

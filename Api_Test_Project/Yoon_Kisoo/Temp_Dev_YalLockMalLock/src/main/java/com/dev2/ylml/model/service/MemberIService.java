@@ -27,9 +27,9 @@ public interface MemberIService {
 	public MemberDto login(Map<String, Object> map);
 	
 	/*
-	 * 이메일 인증 후, 권한변경
+	 * 권한변경
 	 */
-	public boolean emailAuth(MemberDto dto);
+	public boolean authUpdate(MemberDto dto);
 	/*
 	 *  아이디 찾기
 	 */
@@ -49,5 +49,10 @@ public interface MemberIService {
 	 * 탈퇴전 서비스 사용유무 조회
 	 */
 	public int usingCheck(String email);
+	
+	/*
+	 * 회원탈퇴(삭제여부 변경)
+	 */
+	public int quitMember(String email);
 
 }

@@ -13,12 +13,19 @@ public class MailFormVo {
 		return encodingType;
 	}
 	public String getMessage(String email, int code) {
-		return 	"<h2>안녕하세요"+ email +"열락말락 메일인증 입니다.<h2><br><br>"
+		return 	"<h2>안녕하세요"+ email +" 님 열락말락 메일인증 입니다.<h2><br><br>"
 				+ "<h3>회원님의 인증번호는" + code + "입니다.<h3>";
 	}
 	public String getContextType() {
 		return contextType;
 	}
+	@Override
+	public String toString() {
+		return "MailFormVo [subject=" + subject + ", encodingType=" + encodingType + ", contextType=" + contextType
+				+ "]";
+	}
+	
+	
 	
 	
 	

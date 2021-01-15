@@ -56,10 +56,9 @@ var pwChk2 = false;
 	
 	$('#updatePwFrm').submit(function() {
 		if(pwChk1 && pwChk2){
-			alert('성공햇음')
 			return true;
 		}
-		alert('실패함')
+		alert('다시 시도해주세요.')
 		return false;
 	});
 });
@@ -70,7 +69,7 @@ var pwChk2 = false;
 	<!-- 이미 마이페이지 진입시 패스워드 일치여부 확인 했으므로, 현재 비밀번호는 입력하지 않음 -->
 	<div id="container">
 		<h1>비밀번호 변경</h1>
-		<form action="./updatePwForm.do" id="updatePwFrm" method="get">
+		<form action="./updatePw.do" id="updatePwFrm" method="post">
 			<div>변경 할 비밀번호: </div><input type="password" id="pw" name="pw" maxlength="20" size="20"><br>
 			<div class="check_font" id="pwChk"></div>
 			<div>비밀번호 확인: </div><input type="password" id="pw2" name="pw2" maxlength="20" size="20"><br>
