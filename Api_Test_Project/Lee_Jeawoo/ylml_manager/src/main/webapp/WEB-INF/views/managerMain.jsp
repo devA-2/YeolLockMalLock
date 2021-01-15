@@ -27,10 +27,14 @@
         <ul class="dropdown-menu">
           <li><a href="./allDeleveryList.do">담당자 및 배송원 전체조회</a></li>
           <li><a href="#">Page 1-2</a></li>
-          <li><a href="#">Page 1-3</a></li>
         </ul>
       </li>
-      <li><a href="#">Page 2</a></li>
+       <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 2 <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+         <li><a href="./StorageList.do">보관함 조회</a></li>
+         <li><a href="#">Page 2-2</a></li>
+         </ul>
+       </li>
       <li><a href="#">Page 3</a></li>
     </ul>
   </div>
@@ -39,7 +43,7 @@
 <div class="container">
   <h3>Navbar With Dropdown</h3>
   <p>This example adds a dropdown menu for the "Page 1" button in the navigation bar.</p>
-  <h1><p>관리자메인페이지 입니다.</p></h1>
+  <p><h1>관리자메인페이지 입니다.</h1></p>
 </div>
 	
 </div>

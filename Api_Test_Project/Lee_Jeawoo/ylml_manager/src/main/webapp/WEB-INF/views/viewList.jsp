@@ -26,7 +26,7 @@
 	</c:if>
 	
 	<c:set var="TempList" value="${TempList}"/>
-	<c:if test="${TempList != null}">
+	<c:if test="${!empty TempList}">
 	<table border="1">
 		<tr>
 			<th>이메일</th>
@@ -46,8 +46,8 @@
 	</c:if>
 	
 	<c:set var="list" value="${list}"/>
-	<c:if test="${empty list}">
-	<div id="noResult"><p>결과없음<p></div>
+	<c:if test="${list == null}">
+	<div id="noResult"></div>
 	</c:if>
 	
 	<c:if test="${!empty list}">

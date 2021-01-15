@@ -46,6 +46,15 @@ allDeleveryList.do<br>
     	  }
        }
 	   
+      // 일치검색어 없을시 에러메세지 출력
+      function nullChk() {
+		var chk = $('#noResult').val();
+// 		console.log(chk);
+		
+		if(chk == ""){
+			alert("검색결과가 없습니다.");
+		}
+	}
       
       // 전체리스트보기
       function viewAllList() {
@@ -70,7 +79,7 @@ allDeleveryList.do<br>
     <div id='container'>
    <button onclick="viewTempAuth()">임시권한회원</button>&nbsp;
    <input id="searchID" type="text"  placeholder="검색어를 입력하세요"/>
-   <button onclick="search()">확인</button>&nbsp;
+   <button onclick="search(),setTimeout(nullChk,1500);">확인</button>&nbsp;
    <button onclick="viewAllList()">전체리스트</button>
    <div id=list></div>
    </div>
