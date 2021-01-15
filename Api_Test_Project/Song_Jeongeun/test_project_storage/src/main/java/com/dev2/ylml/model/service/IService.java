@@ -72,6 +72,10 @@ public interface IService {
 	 */
 	public boolean updatedeliveryStrat(String deliveryCode);
 	
+	/**
+	 * 결제 상태 업데이트
+	 */
+	public boolean updateCostStatus(String costCode);
 	
 // ========================= 지도 복붙 테스트 =========================
 	/**

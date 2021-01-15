@@ -24,7 +24,7 @@ function extendBtn(form) {
 	}
 }
    
-function paymentBtn(form) {
+function paymentBtn(num) {
 	//결제전 키 대조 화면으로 이동 
 	form.action='./compareKey.do';
 	form.submit();

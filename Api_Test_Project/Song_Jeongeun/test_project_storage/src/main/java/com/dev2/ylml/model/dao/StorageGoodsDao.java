@@ -124,6 +124,13 @@ public class StorageGoodsDao implements StorageGoodsIDao {
 		logger.info("Dao_updatedeliveryStrat 실행");
 		return cnt > 0? true:false;
 	}
+	
+	@Override
+	public boolean updateCostStatus(String costCode) {
+		int cnt = sqlSession.update("storageBox.updateCostStatus", costCode);
+		logger.info("Dao_updateCostStatus 실행");
+		return cnt > 0? true:false;
+	}
 
 	
 // ========================= 지도 복붙 테스트 =========================	
@@ -135,5 +142,7 @@ public class StorageGoodsDao implements StorageGoodsIDao {
 	public List<Map<String, Object>> selectMap() {
 		return sqlSession.selectList("storageBox.selectMap");
 	}
+
+
 
 }

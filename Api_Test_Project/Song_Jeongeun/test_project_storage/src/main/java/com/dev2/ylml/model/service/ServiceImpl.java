@@ -136,7 +136,12 @@ public class ServiceImpl implements IService {
 		logger.info("Service_updatedeliveryStrat 실행");
 		return sgDao.updatedeliveryStrat(deliveryCode);
 	}
-
+	
+	@Override
+	public boolean updateCostStatus(String costCode) {
+		logger.info("Service_updateCostStatus 실행");
+		return sgDao.updateCostStatus(costCode);
+	}
 	
 // ========================= 지도 복붙 테스트 =========================	
 	@Override

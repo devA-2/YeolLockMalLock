@@ -380,6 +380,46 @@ public class StorageBoxController {
 		return "success";
 	}
 
+	
+	
+//	============================== 결제 ==============================
+	
+	// TODO : 추후 StorageGoodsDto 세션 생성으로 변경해야 함
+	@RequestMapping(value = "/paymentPage.do", method = RequestMethod.GET)
+	public String paymentPage(String phoneNum, String cost, String costCode, HttpSession session) {
+		session.setAttribute("phoneNum", phoneNum);
+		session.setAttribute("cost", cost);
+		session.setAttribute("costCode", costCode);
+		logger.info("Controller_paymentPage.do 실행");
+		return "payment";
+	}
+	
+	@RequestMapping(value = "/afterPayment.do", method = RequestMethod.GET)
+	public String afterPayment(String imp_success, HttpSession session) {
+		String costCode = (String) session.getAttribute("costCode");
+		String result;
+		if(imp_success.equals(true)) {
+			service.updateCostStatus(costCode);
+			result = "redirect:./successPayment.do";
+		}else {
+			result = "redirect:./falsePayment.do";
+		}
+		logger.info("Controller_afterPayment.do 실행");
+		return result;
+	}
+	
+	@RequestMapping(value = "/successPayment.do", method = RequestMethod.GET)
+	public String successPayment() {
+		logger.info("Controller_successPayment.do 실행");
+		return "successPayment";
+	}
+	
+	@RequestMapping(value = "/falsePayment.do", method = RequestMethod.GET)
+	public String falsePayment() {
+		logger.info("Controller_falsePayment.do 실행");
+		return "falsePayment";
+	}
+	
 
 //	============================== 지도 복붙 테스트(머지후 삭제) ==============================
 // TODO : 지도 구현을 위해 복붙한 메서드 (추후 머지 할 때 selectMap에 대한 컨트롤러, Dao, Service, Mapper 내용 삭제 예정)	
@@ -404,5 +444,5 @@ public class StorageBoxController {
 		List<Map<String,Object>> position = service.selectMap();
 		return position;
 	}
-	
+
 }
