@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.dev2.ylml.model.service.ApiService;
+import com.dev2.ylml.model.service.IApiService;
 
 
 @Controller
@@ -18,13 +18,11 @@ public class ApiController {
 	
 	
 	@Autowired
-	ApiService service;
+	IApiService service;
 	
 	@ResponseBody
 	@RequestMapping(value = "index.do")
 	public List<HashMap<String, Object>> index(){
-		
-		
 		return service.testList();
 	}
 	

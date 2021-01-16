@@ -11,7 +11,7 @@ public interface IApiService {
 	 * 
 	 *  private 요소는 interface에 구현 할 필요가 없음
 	 */
-	
+	public List<HashMap<String, Object>> testList();
 	
 	//List<HashMap<String, Object>> generateArray(boolean certification);
 	//List<HashMap<String, Object>> keySucceed();
