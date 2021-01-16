@@ -20,7 +20,7 @@ import com.dev2.ylml.dto.Manager_MemberDto;
 import com.dev2.ylml.model.Manager_MemberIService;
 
 @Controller
-public class Manager_DeliveryMemController {
+public class Manager_DeliveryMemberController {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
