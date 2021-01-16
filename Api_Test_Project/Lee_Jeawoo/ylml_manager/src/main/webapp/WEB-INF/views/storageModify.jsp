@@ -18,37 +18,42 @@
         </div>
         <div >
             <label>보관함 이름</label>
-            <input type="text" name="storage_name" placeholder="${list.storage_name}" >
+            <input type="text" name="storage_name" value="${list.storage_name}" >
         </div>
         <div >
             <label>주 소</label>
-            <input type="text" name="address" placeholder="${list.address}" >
+            <input type="text" name="address" value="${list.address}" >
         </div>
         <div >
             <label>지하철역</label>
-            <input type="text" name="subway" placeholder="${list.subway}" >
+            <input type="text" name="subway" value="${list.subway}" >
         </div>
         <div >
             <label>좌표 LAT</label>
-            <input type="text" name="lat" placeholder="${list.lat}" >
+            <input type="text" name="lat" value="${list.lat}" >
         </div>
         <div >
             <label>좌표 LNG</label>
-            <input type="text" name="lng" placeholder="${list.lng}" >
+            <input type="text" name="lng" value="${list.lng}" >
         </div>
         <div >
             <label>상 세</label>
-            <input type="text" name="detail" placeholder="${list.detail}" >
+            <input type="text" name="detail" value="${list.detail}" >
         </div>
         <div >
             <label>담당자</label>
-            <input type="text" name="manager" placeholder="${list.manager}" >
+            <input type="text" name="manager" value="${list.manager}" >
+        </div>
+        <div >
+            <label>보관함 갯수</label>
+            <input type="text" name="box_amount" value="${list.box_amount}" >
         </div>
         
         
+        
   <hr> 
-    <input style="font-size: large;" id="sub" type="submit" value="수정하기" >
-    
+    <input style="font-size: large;" id="sub" type="submit" value="보관함 정보수정" >
+    <input style="font-size: large;" type="button" value="뒤로가기" onclick="history.back(-1)">
     </form>
 
 

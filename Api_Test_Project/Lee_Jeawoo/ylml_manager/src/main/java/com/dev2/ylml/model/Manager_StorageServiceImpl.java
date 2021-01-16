@@ -45,6 +45,13 @@ public class Manager_StorageServiceImpl implements Manager_StorageIService {
 		return service.selectDetailStorage(storage_id);
 	}
 
+	//	보관함 상태 조회
+	@Override
+	public List<Manager_StorageDto> selectBoxStatus(String storage_id) {
+		logger.info("보관함 상세정보 조회 selectBoxStatus {}");
+		return service.selectBoxStatus(storage_id);
+	}
+	
 	// 보관함 등록
 	@Override
 	public boolean registStorage(Manager_StorageDto dto) {
@@ -61,10 +68,11 @@ public class Manager_StorageServiceImpl implements Manager_StorageIService {
 	
 	// 사용불가 보관함이 해결되었을때 관리자가 사용 가능 보관함으로 변경
 	@Override
-	public boolean ActivateStorage(int seq) {
+	public boolean ActivateStorage(String seq) {
 		logger.info("보관함 사용가능 변경 ActivateStorage {}");
 		return service.ActivateStorage(seq);
 	}
+
 
 	
 

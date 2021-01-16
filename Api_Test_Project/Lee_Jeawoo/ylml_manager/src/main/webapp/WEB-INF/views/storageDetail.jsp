@@ -1,10 +1,32 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="http://code.jquery.com/jquery-latest.js"></script>
 <title>보관함 상세조회</title>
+<script type="text/javascript">
+	// box_seq = ${vs.index+1} 클릭한 버튼의 인덱스
+	function statusChange(box_seq) {
+// 		console.log(box_seq);
+		
+		var storage_id = "${list.storage_id}";
+// 		console.log(storage_id);
+		var answer = confirm("보관함 상태를 사용가능으로 변경하시겠습니까?");
+		
+		if(answer){
+			var url = 'ActivateStorage.do?box_seq=' + box_seq +
+					  '&storage_id=' + storage_id;
+// 			console.log(url);
+			
+			location.href = url;
+		}
+	}
+	
+
+</script>
 </head>
 <body>
 <%-- ${list} --%>
@@ -14,43 +36,52 @@
 	<p>보관함 ID : ${list.storage_id}</p>
 	<p>보관함 이름 : ${list.storage_name}</p>
 	<p>주 소 : ${list.address}</p>
+	<p>상세주소 : ${list.detail}</p>
 	<p>지하철역 : ${list.subway}</p>
 	<p>좌표 LAT : ${list.lat}</p>
 	<p>좌표 LNG : ${list.lng}</p>
-	<p>상 세 : ${list.detail}</p>
 	<p>담당자 : ${list.manager}</p>
+	<p>보관함 갯수 : ${list.box_amount}</p>
+</div>
+<hr>
+
+<div>
+<%-- ${lists} --%>
 	
+<c:choose>
+<c:when test="${!empty lists}">
+<div></div>
+<table border="1">
+	<tbody>
+	<tr>
+		<th>보관함 번호</th>
+		<th>보관함 상태</th>
+		<th>보관함 상태변경</th>
+	</tr>
+	
+<c:forEach varStatus="vs" items="${lists}" var="dto">
+	<tr>
+		<td align="center">${dto.box_seq}</td>
+		<td align="center">${dto.box_status}</td>
+		<td align="center">
+			<button onclick="statusChange(${vs.index+1})">보관함 상태변경</button>
+		</td>
+	</tr>
+</c:forEach>
+</tbody>
+</table>
+	
+</c:when>
+<c:otherwise>
+	<p>상태를 표시할 보관함이 없습니다.</p>
+</c:otherwise>	
+</c:choose>	
+
 </div>
 
 
-
-
-<!-- 	<div> -->
-<!-- 	<table border="1"> -->
-<!-- 		<tr> -->
-<!-- 			<th>보관함 ID</th> -->
-<!-- 			<th>보관함 이름</th> -->
-<!-- 			<th>주 소</th> -->
-<!-- 			<th>지하철역</th> -->
-<!-- 			<th>좌표 LAT</th> -->
-<!-- 			<th>좌표 LNG</th> -->
-<!-- 			<th>상 세</th> -->
-<!-- 			<th>담당자</th> -->
-<!-- 		</tr> -->
-<!-- 			<tr> -->
-<%-- 				<td>${list.storage_id}</td> --%>
-<%-- 				<td>${list.storage_name}</td> --%>
-<%-- 				<td>${list.address}</td> --%>
-<%-- 				<td>${list.subway}</td> --%>
-<%-- 				<td>${list.lat}</td> --%>
-<%-- 				<td>${list.lng}</td> --%>
-<%-- 				<td>${list.detail}</td> --%>
-<%-- 				<td>${list.manager}</td> --%>
-<!-- 			</tr> -->
-<!-- 	</table> -->
-<!-- 	</div> -->
 <hr>
 <input style="font-size: large;" type="button" value="수정하기" onclick="location.href='./storageModify.do?storage_id=${list.storage_id}'">
-<input style="font-size: large;" type="button" value="전체리스트로" onclick="location.href='./allStorageList.do'">
+<input style="font-size: large;" type="button" value="전체리스트" onclick="location.href='./allStorageList.do'">
 </body>
 </html>

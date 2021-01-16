@@ -25,8 +25,6 @@ public interface Manager_MemberIDao {
 	public Manager_MemberDto DeliveryInfo(String email);
 	
 	
-	
-	
 	/**임시권한 담당자 및 배송원 정보조회
 	 * @return
 	 */

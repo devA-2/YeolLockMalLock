@@ -34,16 +34,20 @@
 
 
 	<!-- 보관함 상세정보 조회(보관함 ID, 이름, 지하철역, 좌표, 좌표, 보관함 갯수, 보관함 상태, 담당자) -->
+	<!-- 보관함 상태는 추가쿼리 작성 -->
 	<select id="selectDetailStorage" parameterType="java.lang.String" 
 	resultType="StorageDto">
 		SELECT STORAGE_ID, STORAGE_NAME, ADDRESS, SUBWAY, DETAIL, MANAGER, LNG, LAT,
-		(SELECT BOX_STATUS FROM STORAGE_CITYHALL WHERE STORAGE_ID = #{storage_id}) AS
-		BOX_STATUS,
-		(SELECT COUNT(BOX_SEQ) FROM STORAGE_CITYHALL sc) AS BOX_AMOUNT
+		(SELECT COUNT(BOX_SEQ) FROM STORAGE_CITYHALL sc WHERE STORAGE_ID = #{storage_id}) AS BOX_AMOUNT
 		FROM STORAGEBOX_LIST sl
 		WHERE STORAGE_ID = #{storage_id}
 	</select>
-
+	<!-- 보관함 상태조회 -->
+	<select id="selectBoxStatus" parameterType="java.lang.String"
+	resultType="StorageDto">
+		SELECT BOX_SEQ ,BOX_STATUS FROM STORAGE_CITYHALL WHERE STORAGE_ID = #{storage_id}
+	</select>
+	
 	<!-- 보관함 등록 -->
 	<!-- 신규 보관함 등록(보관함 ID, 이름, 지하철역, 실제주소, 상세주소, LNG, LAT, 담당자) -->
 	<select id="registStorage" parameterType="StorageDto">

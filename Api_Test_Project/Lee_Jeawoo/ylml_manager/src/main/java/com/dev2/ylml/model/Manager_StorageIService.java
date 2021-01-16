@@ -36,6 +36,11 @@ public interface Manager_StorageIService {
 	 */
 	public Manager_StorageDto selectDetailStorage(String storage_id);
 	
+	/** 보관함 상태조회
+	 * @return
+	 */
+	public List<Manager_StorageDto> selectBoxStatus(String storage_id);
+	
 	/**	보관함 등록
 	 * 신규 보관함 등록
 	 * (보관함 ID, 이름, 지하철역, 실제주소, 상세주소, LNG, LAT, 담당자)
@@ -56,5 +61,5 @@ public interface Manager_StorageIService {
 	 * @param seq
 	 * @return
 	 */
-	public boolean ActivateStorage(int seq);
+	public boolean ActivateStorage(String seq);
 }

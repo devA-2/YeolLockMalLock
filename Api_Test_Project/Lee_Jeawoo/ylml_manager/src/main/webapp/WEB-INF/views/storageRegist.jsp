@@ -23,6 +23,10 @@ registStorage.jsp<br>
         <div >
             <label>주 소</label>
             <input type="text" name="address" placeholder="보관함 주소를 입력하세요"  required="required">
+        <div >
+            <label>상세주소</label>
+            <input type="text" name="detail" placeholder="상세내용을 입력하세요" required="required">
+        </div>
         </div>
         <div >
             <label>지하철역</label>
@@ -35,10 +39,6 @@ registStorage.jsp<br>
         <div >
             <label>좌표 LNG</label>
             <input type="text" name="lng" placeholder="좌표 LNG를 입력하세요" required="required">
-        </div>
-        <div >
-            <label>상 세</label>
-            <input type="text" name="detail" placeholder="상세내용을 입력하세요" required="required">
         </div>
         <div >
             <label>담당자</label>

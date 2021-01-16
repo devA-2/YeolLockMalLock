@@ -61,6 +61,14 @@ public class Manager_StorageDao implements Manager_StorageIDao {
 		Manager_StorageDto dto = sqlSession.selectOne(NS+"selectDetailStorage", storage_id);
 		return dto;
 	}
+	
+	//	보관함 상태조회
+	@Override
+	public List<Manager_StorageDto> selectBoxStatus(String storage_id) {
+		logger.info("ManagerStorage_Daoimpl + selectBoxStatus 실행");
+		List<Manager_StorageDto> lists = sqlSession.selectList(NS+"selectBoxStatus",storage_id);
+		return lists;
+	}
 
 	//  보관함 등록 
 	//	신규 보관함 등록(보관함 ID, 이름, 지하철역, 
@@ -84,11 +92,13 @@ public class Manager_StorageDao implements Manager_StorageIDao {
 
 	//	사용불가 보관함이 해결되었을때 관리자가 사용 가능 보관함으로 변경
 	@Override
-	public boolean ActivateStorage(int seq) {
+	public boolean ActivateStorage(String seq) {
 		logger.info("ManagerStorage_Daoimpl + ActivateStorage 실행");
 		int isc = sqlSession.update(NS+"ActivateStorage", seq);
 		return isc>0?true:false;
 	}
+
+	
 
 	
 

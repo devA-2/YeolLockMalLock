@@ -35,7 +35,12 @@
          <li><a href="registStorage.do">보관함 등록</a></li>
          </ul>
        </li>
-      <li><a href="#">Page 3</a></li>
+        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 3 <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+         <li><a href="#">게시판1</a></li>
+         <li><a href="#">게시판2</a></li>
+         </ul>
+       </li>
     </ul>
   </div>
 </nav>

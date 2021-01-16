@@ -41,18 +41,27 @@
 	</c:if>
 	
 	<c:if test="${!empty list}">
+<%-- 	${list} --%>
 	<table border="1">
 		<tr>
-			<th>이메일</th>
-			<th>이름</th>
-			<th>전화번호</th>
-			<th>권한</th>
+			<th>보관함 ID</th>
+			<th>보관함 이름</th>
+			<th>주 소</th>
+			<th>지하철역</th>
+			<th>좌표 LAT</th>
+			<th>좌표 LNG</th>
+			<th>상 세</th>
+			<th>담당자</th>
 		</tr>
 			<tr>
-				<td><a title="${list.email}" href="./deliveryDetail.do?email=${list.email}">${list.email}</a></td>
-				<td>${list.name}</td>
-				<td>${list.phone_num}</td>
-				<td>${list.auth}</td>
+				<td><a title="${list.storage_id}" href="./storageDetail.do?storage_id=${list.storage_id}">${list.storage_id}</a></td>
+				<td>${list.storage_name}</td>
+				<td>${list.address}</td>
+				<td>${list.subway}</td>
+				<td>${list.lat}</td>
+				<td>${list.lng}</td>
+				<td>${list.detail}</td>
+				<td>${list.manager}</td>
 			</tr>
 	</table>
 	</c:if>

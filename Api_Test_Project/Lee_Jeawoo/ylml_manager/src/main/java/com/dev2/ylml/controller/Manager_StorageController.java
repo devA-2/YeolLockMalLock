@@ -24,15 +24,15 @@ public class Manager_StorageController {
 	
 	// 보관함 전체 조회 이동 allStorageList.do
 	@RequestMapping(value = "allStorageList.do", method = RequestMethod.GET)
-	public String StorageList(Model model) {
-		logger.info("StorageList.do : 보관함 전체 조회 이동");
+	public String storageList() {
+		logger.info("storageList.do : 보관함 전체 조회 이동");
 
-//		List<Manager_StorageDto> lists = service.selectAllStorage();
-//		model.addAttribute("lists", lists);
-		return "StorageList";
+		return "storageList";
 	}
 	
 	// 보관함 전체 조회  storageList
+	// 전체조회에서 id로 담당자 및 배송원 조회 검색 결과를 list로 model객체에 담아서
+	// storageViewList로 전달
 	@RequestMapping(value = "storageList.do", method = RequestMethod.GET)
 	public String storageList(Model model, String param) {
 		logger.info("storageList.do 보관함 전체 조회 : " + param);
@@ -45,17 +45,24 @@ public class Manager_StorageController {
 				Manager_StorageDto list = service.selectIdStorage(param);
 	         model.addAttribute("list", list);
 	      }
-		return "StorageViewList";
+		return "storageViewList";
 	}
 	
 	
-	//  보관함 ID로 조회 storageDetail.do
+	//  보관함 상세조회 : ID로 조회 storageDetail.do
+	//	+보관함 상태조회 : ID로 조회
 	@RequestMapping(value = "storageDetail.do", method = RequestMethod.GET)
 	public String storageDetail(Model model,@RequestParam String storage_id) {
-		logger.info("storageDetail.do storage_id 검색결과 : " + storage_id);
+		logger.info("storageDetail.do storage_id 검색id : " + storage_id);
 		
+		List<Manager_StorageDto> lists = service.selectBoxStatus(storage_id);
 		Manager_StorageDto list = service.selectDetailStorage(storage_id);
+		
+		logger.info("storageDetail.do box_status : " + lists);
+		
+		model.addAttribute("lists", lists);
 		model.addAttribute("list", list);
+		
 		return "storageDetail";
 	}
 	
@@ -96,6 +103,20 @@ public class Manager_StorageController {
 		
 		return "redirect:storageDetail.do?storage_id="+dto.getStorage_id();
 	}
+	
+	//	사용불가 보관함이 해결되었을때 관리자가 사용 가능 보관함으로 변경
+	// ActivateStorage.do
+	@RequestMapping(value = "ActivateStorage.do", method = RequestMethod.GET)
+	public String ActivateStorage(Model model, @RequestParam String box_seq, 
+			@RequestParam String storage_id) {
+		logger.info("ActivateStorage.do 상태변경할 보관함번호 : " + box_seq);
+		logger.info("ActivateStorage.do 상태변경되는 보관함 id  : " + storage_id);
+		
+		service.ActivateStorage(box_seq);
+		
+		return "redirect:storageDetail.do?storage_id="+storage_id;
+	}
+	
 	
 	
 }
