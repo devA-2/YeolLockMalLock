@@ -15,11 +15,12 @@
 	<form action="./replyDo.do">
 		<input type="hidden" name="seq" value="${dto.seq}">
 		
-		<div>'${dto.email}'님이 문의하신 '${dto.title}'글의 답변입니다.</div>
-		<div>작성자 : ${mem.email}</div> 
-		<div>seq 테스트 : ${dto.seq }</div>
 		<div>
-			<select name='process' size='3'>
+			<input type="text" style="width:500px;" name="title" value="'${dto.email}'님이 문의하신 '${dto.title}'글의 답변입니다." readonly="readonly">
+		</div>
+		<div>
+		<input type="text" name="email" value="${mem.email}" readonly="readonly">
+			<select name='process' size='3' name="category">
 			  <option selected>-- 처리 상태 변경 --</option>
 			  <option value='complete'>처리 완료</option>
 			  <option value='back'>반려 처리</option>

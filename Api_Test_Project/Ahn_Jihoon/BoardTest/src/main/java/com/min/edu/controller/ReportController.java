@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,6 +20,7 @@ import com.min.edu.dto.ReportDto;
 import com.min.edu.model.ILostPropertyService;
 import com.min.edu.model.IReportService;
 import com.min.edu.model.TestILoginService;
+import com.min.edu.util.MailService;
 
 @Controller
 public class ReportController {
@@ -33,6 +33,9 @@ public class ReportController {
 	
 	@Autowired
 	private ILostPropertyService service3; // 유실물 Service
+	
+	@Autowired
+	private MailService mailService;
 	
 	Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -48,11 +51,16 @@ public class ReportController {
 		return "reportList";
 	}
 	
+	// login session들고다니면서 테스트 진행함에 따라 사용하지 않는 상태. 취합할때 이걸로 변경해야함.
 	@RequestMapping(value="/reportList.do", method=RequestMethod.GET)
-	public String reportList(Model model) {
+	public String reportList(HttpSession session, Model model) {
+		
 		log.info("------------------ 신고글 목록 ------------------");
+		MemberDto mem = (MemberDto)session.getAttribute("mem");
+		session.setAttribute("mem", mem);
 		List<ReportDto> list = service.selectAllReport();
 		model.addAttribute("lists", list);
+
 		return "reportList";
 	}
 	
@@ -67,16 +75,6 @@ public class ReportController {
 		return "selectDetailReport";
 	}
 	
-	@RequestMapping(value = "/selectDetail.do", method=RequestMethod.GET)
-	public String selectDetail(String seq, HttpSession session, Model model) {
-		log.info("------------------ 답글 입력에서 상세글로 뒤로가기 ------------------");
-		MemberDto mem = (MemberDto)session.getAttribute("mem");
-		ReportDto dto = service.selectDetail(seq);
-		
-		session.setAttribute("mem", mem);
-		model.addAttribute("dto", dto);
-		return "selectDetailReport";
-	}
 	
 	@RequestMapping(value = "/replyReport.do", method=RequestMethod.GET)
 	public String replyReport(String seq, HttpSession session, Model model) {
@@ -90,17 +88,44 @@ public class ReportController {
 		return "reply";
 	}
 	
-	// 여기 마저해야함. 답변 글 작성하고 상세글로 이동시키는건데 글 집어넣고 화면전환 해주면됨
-	@RequestMapping(value = "/reply.do", method=RequestMethod.POST)
+	@RequestMapping(value = "/replyDo.do", method=RequestMethod.GET)
 	public String reply(ReportDto dto, HttpSession session, Model model) {
-		log.info("------------------ 답변 글 작성 후 신고 글 목록으로 이동 ------------------");
-		MemberDto mDto = (MemberDto)session.getAttribute("mem");
-		dto.setEmail(mDto.getEmail());
-		return "";
+		log.info("------------------ 답변 글 작성 후 신고 글 목록으로 이동 ------------------");		
+		String email = service.selectDetail(dto.getSeq()).getEmail();
+		String title = dto.getTitle();
+		String content = dto.getContent();
+		
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+content);
+		
+		// Map으로 이메일에 들어갈 정보 보낼때 사용할수있음
+//		Map<String, String> map = new HashMap<String, String>();
+//		map.put("email", email);
+//		map.put("title", email);
+//		map.put("content", email);
+		
+		service.reply(dto);
+
+		mailService.sendMail(email, title, content); // 여기가 널포인트가 뜬다 ?
+		return "redirect:/reportList.do";
 	}
 	
-
+	@RequestMapping(value = "/selectDetail.do", method=RequestMethod.GET)
+	public String selectDetail(String seq, HttpSession session, Model model) {
+		log.info("------------------ 답글 입력에서 상세글로 뒤로가기 ------------------");
+		MemberDto mem = (MemberDto)session.getAttribute("mem");
+		ReportDto dto = service.selectDetail(seq);
+		
+		session.setAttribute("dto", dto);
+		session.setAttribute("mem", mem);
+		
+		
+//		model.addAttribute("dto", dto);
+		return "selectDetailReport";
+	}
 	
+	
+
+	// 사용 고민
 //	@RequestMapping(value = "/modifyReport.do", method=RequestMethod.GET)
 //	public String modifyReport(String seq, Model model) {
 //		log.info("------------------ 글 수정으로 이동 ------------------");
@@ -110,22 +135,24 @@ public class ReportController {
 //		return "modifyReport";
 //	}
 	
-	@RequestMapping(value = "/modify.do", method = RequestMethod.GET)
-	public String modify(ReportDto dto) {
-		log.info("------------------ 글 수정후 상세 글로 이동 ------------------");
-		boolean isc = service.modifyReport(dto);
-		
-		if (isc == true) {
-			return "redirect:/selectDetailReport.do?refer="+dto.getRefer();
-		}else {
-			return "redirect:/reportList.do";
-		}
-	}
+	// 사용 고민
+//	@RequestMapping(value = "/modify.do", method = RequestMethod.GET)
+//	public String modify(ReportDto dto) {
+//		log.info("------------------ 글 수정후 상세 글로 이동 ------------------");
+//		boolean isc = service.modifyReport(dto);
+//		
+//		if (isc == true) {
+//			return "redirect:/selectDetailReport.do?refer="+dto.getRefer();
+//		}else {
+//			return "redirect:/reportList.do";
+//		}
+//	}
 	
 	@RequestMapping(value = "/insertReport.do", method = RequestMethod.GET)
 	public String insertReport(String seq, HttpSession session, ReportDto dto) {
 		log.info("------------------ 신고 글 작성 ------------------");
 		MemberDto mDto = (MemberDto)session.getAttribute("mem");
+		session.setAttribute("mem", mDto);
 		return "insertReport";
 	}
 	

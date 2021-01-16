@@ -3,8 +3,8 @@ package com.min.edu.interceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -16,7 +16,7 @@ public class Interceptor extends HandlerInterceptorAdapter{
 	 * @author EUNSOL
 	 */
 	
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
+//	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	// *.do 실행되기 전에 전처리를 해주는 handler
 	// 로그인 정보 (ServletRequest > HttpServletRequest > HttpSession)

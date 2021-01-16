@@ -11,6 +11,8 @@
 
 <title>신고글 게시판 목록</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+
 </head>
 <script type="text/javascript">
 	function chkAuth(memEmail, voEmail, auth, refer){
@@ -22,48 +24,105 @@
 	
 		
 	}
+
+//       // 익명함수, 페이지 로드될 때 실행됨 -> 전체리스트 호출
+//       $(function() {
+//          $.get("reportList.do", function(data) {
+//             console.log(data);
+//             $('#tbody').html(data);
+//          }); 
+//       });
+
+$(document).ready(function() {
+ 
+   var cnames = ['seq','작성일','제목','작성자'];
+ 
+       $("#jqGrid").jqGrid({
+       
+           url: "reportList.do",
+           datatype: "local",
+           colNames: cnames,
+           colModel:[
+         {name:'seq',index:'seq', width:55, key:true, align:"center"},
+         {name:'regdate',index:'regdate', width:100, align:"center"},
+         {name:'title',index:'title', width:100},
+         {name:'email',index:'email', width:100}
+
+   ],
+           height: 480,
+           rowNum: 10,
+           rowList: [10,20,30],
+           pager: '#jqGridPager',
+           rownumbers  : true,                     
+           ondblClickRow : function(rowId, iRow, iCol, e) {
+ 
+   if(iCol == 1) {
+ 
+             alert(rowId+" 째줄 입니다.");
+             }
+           },
+       
+           viewrecords : true,
+           caption:"실습용 테이블"
+       });
+   });
+
+
+	
 </script>
+
 <body>
-<div style="width: 360px; height: 600px; border: 1px solid black; margin:auto;">
 
-<%
-	Object obj = session.getAttribute("mem");
-	MemberDto mem = (MemberDto)obj;
+<div style="width: 800px; height: 1200px; border: 1px solid black; margin:auto;">
+    <div class="row">
 
+       <div>
+       		<table id="jqGrid"></table>
+       		<div id="jqGridPager"></div>
+       </div>
+      </div>
+
+	<%
 	
+	  	Object obj = session.getAttribute("mem"); 
+	 	MemberDto mem = (MemberDto)obj;
 	
-	if(Integer.parseInt(mem.getAuth()) == 30){
-		%>
-		<div>관리자 권한</div>
-		<%
-	}else if(Integer.parseInt(mem.getAuth()) == 10){
-		%>
-		<div>일반 사용자</div>
-		<%
-	}
 		
-%>
-<table class="table table-hover">
-	<tr>
-		<th>SEQ</th>
-		<th>작성 일자</th>
-		<th>제목</th>
-		<th>작성자</th>
-	</tr>
-	<c:forEach items="${lists}" var="vo" varStatus="vs">
-<%-- 		<tr onclick="location.href='./selectDetailReport.do?refer=${vo.refer}'"> --%>
-		<tr onclick="chkAuth('${mem.email}', '${vo.email}', '${mem.auth}', '${vo.refer}')">
-			<td>${vo.seq}</td>
-			<td>${vo.regdate}</td>
-			<td>${vo.title}</td>
-			<td>${vo.email}</td>
-		</tr>
-	</c:forEach>
+		
+	 	if(Integer.parseInt(mem.getAuth()) == 30){
+	 		%> 
+	 		<div>관리자 권한</div> 
+			<% 
+		}else if(Integer.parseInt(mem.getAuth()) == 10){
+	  		%> 
+	 		<div>일반 사용자</div>
+	 		<% 
+	  	}  
+	%> 
 
-</table>
+<!-- 	<table class="table table-hover"> -->
+	<table>
+		<tr>
+			<th>SEQ</th>
+			<th>작성 일자</th>
+			<th>제목</th>
+			<th>작성자</th>
+		</tr>
+		<c:forEach items="${lists}" var="vo" varStatus="vs">
+			<tr onclick="chkAuth('${mem.email}', '${vo.email}', '${mem.auth}', '${vo.refer}')">
+<!-- 			<tr> -->
+				<td>${vo.seq}</td>
+				<td>${vo.regdate}</td>
+				<td>${vo.title}</td>
+				<td>${vo.email}</td>
+			</tr> 
+		</c:forEach>
+	</table>
+	
 	<div>
 		<button onclick="location.href = './insertReport.do'">신고 글 작성</button><br>
 	</div>
+	
 	<div>
 		<form action="./searchId.do" method="post">
 			<input type="text" value="USER02@NAVER.COM" name="email">

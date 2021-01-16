@@ -5,6 +5,11 @@
 <head>
 <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
 <title>신고 글 작성</title>
+<script type="text/javascript">
+	function goBack(){
+		history.go(-1);
+	}
+</script>
 </head>
 <body>
 	<form action="./insert.do" method="post">
@@ -19,7 +24,10 @@
 			</tr>
 			<tr>
 				<th>내용</th>
-				<td><input type="text" placeholder="내용" name="content"></td>
+				<td>
+					<textarea rows="10" cols="40" id="content" name="content"></textarea>
+<!-- 					<input type="text" placeholder="내용" name="content"> -->
+				</td>
 			</tr>
 			<tr>
 				<th>카테고리<th>
@@ -32,8 +40,8 @@
 			
 			<tr>
 			<td>
-			<input type="submit" value="확인">
-			
+				<input type="submit" value="확인">
+				<input type="button" onclick="goBack()" value="뒤로가기">
 			</td>
 			</tr>
 		</table>

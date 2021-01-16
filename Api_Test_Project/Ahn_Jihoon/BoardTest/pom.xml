@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.min.edu</groupId>
 	<artifactId>TEST_02</artifactId>
@@ -37,7 +39,7 @@
 				<exclusion>
 					<groupId>commons-logging</groupId>
 					<artifactId>commons-logging</artifactId>
-				 </exclusion>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -132,7 +134,7 @@
 			<version>3.8.1</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<!-- lombok -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -151,7 +153,7 @@
 			<artifactId>poi-ooxml</artifactId>
 			<version>4.1.2</version>
 		</dependency>
-		
+
 		<!-- XML스키마를 자바클래스로 생성하는 라이브러리 -->
 		<dependency>
 			<groupId>org.apache.xmlbeans</groupId>
@@ -165,7 +167,7 @@
 			<artifactId>mybatis</artifactId>
 			<version>3.5.5</version>
 		</dependency>
-		<!-- java를 통해서 Oracle 연결을 위한 드라이버 파일 ojdbc5.jar  -->
+		<!-- java를 통해서 Oracle 연결을 위한 드라이버 파일 ojdbc5.jar -->
 		<dependency>
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc6</artifactId>
@@ -214,12 +216,9 @@
 
 
 
-		<!-- security session : 비밀번호 암호화-->
-		<!-- <dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-core</artifactId>
-			<version>${security.version}</version>
-		</dependency> -->
+		<!-- security session : 비밀번호 암호화 -->
+		<!-- <dependency> <groupId>org.springframework.security</groupId> <artifactId>spring-security-core</artifactId> 
+			<version>${security.version}</version> </dependency> -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
@@ -230,16 +229,22 @@
 			<artifactId>spring-security-config</artifactId>
 			<version>${security.version}</version>
 		</dependency>
-<!-- 		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-taglibs</artifactId>
-			<version>${security.version}</version>
+		<!-- <dependency> <groupId>org.springframework.security</groupId> <artifactId>spring-security-taglibs</artifactId> 
+			<version>${security.version}</version> </dependency> <dependency> <groupId>org.springframework.security</groupId> 
+			<artifactId>spring-security-test</artifactId> <version>${security.version}</version> 
+			</dependency> -->
+
+		<!-- 메일 SMTP를 처리하기 위한 라이브러리 -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.7</version>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-test</artifactId>
-			<version>${security.version}</version>
-		</dependency> -->
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
 
 	</dependencies>
 	<build>
