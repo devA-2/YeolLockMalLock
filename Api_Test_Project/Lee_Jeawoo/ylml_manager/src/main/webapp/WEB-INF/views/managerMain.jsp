@@ -10,12 +10,18 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <script type="text/javascript">
 	
-  	var auth = ${mangerLogin.auth};
+  	// 로그아웃
+  	function logOut() {
+  		sessionStorage.clear();
+  		location.href="index.do"
+	}
+  
+  	var auth = "${mangerLogin.auth}";
 		
       function accessDeliveryList() {
 		console.log(auth);
 		if(auth != "90"){
-			alert("해당 메뉴에 접근하실수 있는 권한이 없습니다.");
+			alert("해당 메뉴의 접근권한이 없습니다.");
 		}
 		else {
 			location.href="allDeleveryList.do";
@@ -25,7 +31,7 @@
       function accessStorageList() {
     	  console.log(auth);
   		if(auth != "99"){
-  			alert("해당 메뉴에 접근하실수 있는 권한이 없습니다.");
+  			alert("해당 메뉴의 접근권한이 없습니다.");
   		}
   		else {
   			location.href="allStorageList.do";
@@ -35,7 +41,7 @@
       function accessStorageRegist() {
     	  console.log(auth);
   		if(auth != "99"){
-  			alert("해당 메뉴에 접근하실수 있는 권한이 없습니다.");
+  			alert("해당 메뉴의 접근권한이 없습니다.");
   		}
   		else {
   			location.href="registStorage.do";
@@ -50,7 +56,8 @@
 	${mangerLogin.auth}<br> 
 
 	<div id="container">
-	<a href="./index.do">처음으로</a><br><br>
+<!-- 	<a href="./index.do">로그아웃</a><br><br> -->
+	<a onclick="logOut()">로그아웃</a><br><br>
 	<p id="managerLogInfo">${mangerLogin.email}님 접속하셨습니다.</p>
 	
 	

@@ -117,6 +117,9 @@ public class Manager_StorageController {
 		return "redirect:storageDetail.do?storage_id="+storage_id;
 	}
 	
+	// 지하철역으로 검색 viewSubway.do
+	
+	
 	
 	
 }
