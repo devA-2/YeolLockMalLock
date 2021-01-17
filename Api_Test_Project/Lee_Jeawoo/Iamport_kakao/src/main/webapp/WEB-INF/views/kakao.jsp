@@ -65,10 +65,10 @@
             //IMP.request_pay를 호출하기 전에 여러분의 서버에 주문 정보를 전달(데이터베이스에 주문정보 INSERT)하고 서버가 생성한 주문 번호를 param의 merchant_uid속성에 지정
             name: 'CU',
             amount: <%=vo.getPrice()%>,
-            buyer_email: '<%=vo.getEmail()%>',
-            buyer_name: '<%=vo.getName()%>',
+<%--             buyer_email: '<%=vo.getEmail()%>', --%>
+<%--             buyer_name: '<%=vo.getName()%>', --%>
             buyer_tel: '<%=vo.getPhone()%>',
-            buyer_addr: '<%=vo.getAddress()%>',
+<%--             buyer_addr: '<%=vo.getAddress()%>', --%>
             buyer_postcode: '123-456',
             m_redirect_url: 'https://admin.iamport.kr/payments/complete'
         }, function (rsp) { // callback
