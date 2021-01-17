@@ -29,8 +29,8 @@ function myPageChk(){
 				type:"post",
 				url:"./pwChk.do",
 				data:"pw="+pw,
-				success: function(msg){ 
-					if(msg.isc == "성공"){
+				success: function(isc){ 
+					if(isc){
 						location.href="./myPage.do"
 					}else{
 						alert("비밀번호가 틀립니다. 다시 시도해주세요");

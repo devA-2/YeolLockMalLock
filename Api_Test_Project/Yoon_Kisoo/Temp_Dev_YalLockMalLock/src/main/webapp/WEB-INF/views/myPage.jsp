@@ -61,11 +61,11 @@ $(document).ready(function(){
 				</tr>	
 				<tr>
 					<td>핸드폰번호 :</td>
-					<td><div class="email">${mem.phone_num }</div></td>
+					<td><div class="email">${mem.phoneNum }</div></td>
 				</tr>	
 				<tr>
 					<td>가입일 :</td>
-					<td><div class="email">${mem.reg_date }</div></td>
+					<td><div class="email">${mem.regDate }</div></td>
 				</tr>	
 			</table>
 			<input type="button" value="개인정보 수정" onclick="updateInfo()">

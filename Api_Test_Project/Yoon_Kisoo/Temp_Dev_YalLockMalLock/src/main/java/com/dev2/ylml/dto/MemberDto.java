@@ -1,22 +1,23 @@
 package com.dev2.ylml.dto;
 
-import java.sql.Date;
+import java.io.Serializable;
 
 import lombok.Data;
 
 @Data
-public class MemberDto {
-	
+public class MemberDto implements Serializable{
+
+	private static final long serialVersionUID = 1465862168229624446L;
 	private String tag;
-	private String id_num;
+	private String idNum;
 	private String email;
 	private String pw;
 	private String name;
-	private String phone_num;
+	private String phoneNum;
 	private int auth;
-	private Date reg_date;
-	private Date lev_date;
-	private char del_flag;
+	private String regDate;
+	private String levDate;
+	private String delFlag;
 	
-
+	
 }

@@ -210,17 +210,17 @@ public class MemberController {
 	 * @return
 	 */
 	@RequestMapping(value = "/updateInfo.do", method = RequestMethod.POST)
-	public String updateInfo(String email, String phone_num, HttpSession session, Model model) {
+	public String updateInfo(String email, String phoneNum, HttpSession session, Model model) {
 		MemberDto dto = (MemberDto) session.getAttribute("mem");
 		Map<String, Object> infoMap = new HashMap<String, Object>();
 		infoMap.put("email", dto.getEmail());
-		infoMap.put("phone_num", phone_num);
-		log.info(email, phone_num);
+		infoMap.put("phoneNum", phoneNum);
+		log.info(email, phoneNum);
 
 		int result = iService.updateInfo(infoMap);
 		if(result>0) {
-			dto.setPhone_num(phone_num);
-			return "redirect:myPage.do";
+			dto.setPhoneNum(phoneNum);
+			return "redirect:/myPage.do";
 		}
 		return "updateInfoForm.do";
 	}
@@ -251,15 +251,16 @@ public class MemberController {
 //	}
 	
 	@RequestMapping(value = "/updatePw.do", method = RequestMethod.POST)
-	public String updatePw(String email, String pw, HttpSession session) {
+	public String updatePw(String pw, HttpSession session) {
 		MemberDto dto = (MemberDto) session.getAttribute("mem");
-		dto.getEmail();
+//		dto.getEmail();
+//		dto.setPw(pw);
+//		log.info(email, pw);
+		//dto에 이메일이있고 dto로 넘기니까 email 필요없음
 		dto.setPw(pw);
-		log.info(email, pw);
 		int result = iService.updatePw(dto);
 		if(result>0) {
-			dto.setPw(pw);
-			return "redirect:myPage.do";
+			return "redirect:/myPage.do";
 		}
 		return "updatePwForm.do";
 	}
@@ -273,14 +274,17 @@ public class MemberController {
 	 */
 	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
 	public String login(@RequestParam Map<String, Object> map, HttpSession session) {
+		
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		System.out.println(map.toString()); 		// 맵 정보 확인용
 		MemberDto dto = iService.login(map);
-		log.info("MemberController login" + dto);
+		log.info("MemberController login : " + dto);
 		session.setAttribute("mem", dto);
 		/////////////////////////////////////
-		if(dto.getAuth() != 10) {
-			return "redirect:/emailAuthForm.do"; // 그냥 로그인 버튼을 눌러서 19인 경우에는 emailAuthForm으로 보내는게 낫나? 마이페이지 체크처럼?
-		}
+//		if(dto.getAuth() != 10) {
+//			return "redirect:/emailAuthForm.do"; 
+//			// 그냥 로그인 버튼을 눌러서 19인 경우에는 emailAuthForm으로 보내는게 낫나? 마이페이지 체크처럼?
+//		}
 		return (dto != null) ? "redirect:/index.do" : "redirect:/signUpForm.do";
 	}
 
@@ -293,20 +297,20 @@ public class MemberController {
 	 */
 	@RequestMapping(value = "/loginCheckMap.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, String> loginCheckMap(String email, String pw) {
-		Map<String, String> map = new HashMap<String, String>();
+	public boolean loginCheckMap(String email, String pw) {
 		Map<String,Object> iMap = new HashMap<String, Object>();
 		iMap.put("email", email);
 		iMap.put("pw", pw);
 		MemberDto dto = iService.login(iMap);
 		System.out.println("로그인 된 값: \t"+ dto);
+		boolean isc;
 		// TODO : boolean 이용하여 true, false로 수정할것 (해당 값은 loginForm에 있는 ajax에서 고쳐야함)
 		if(dto == null) {
-			map.put("isc", "실패");
+			isc = false;
 		}else {
-			map.put("isc","성공");
+			isc = true;
 		}
-		return map;
+		return isc;
 	}
 
 	/**
@@ -335,10 +339,10 @@ public class MemberController {
 	 * @return
 	 */
 	@RequestMapping(value = "/idSearch.do", method = RequestMethod.POST)
-	public String idSearch(String name, String phone_num, Model model) {
+	public String idSearch(String name, String phoneNum, Model model) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("name", name);
-		map.put("phone_num", phone_num);
+		map.put("phoneNum", phoneNum);
 		String email = iService.idSearch(map);
 		log.info("찾은 아이디는 :"+ email);
 		
@@ -365,7 +369,7 @@ public class MemberController {
 		String mail = ((MemberDto) session.getAttribute("mem")).getEmail();
 		log.info("세션에서 가져온 이메일 값 :" + mail);
 		mailHelper.sendCode4Prove(mail);	// 메일보내기, 인증번호 기억해두는거 // java.lang.NullPointerException 클래스에서 먼가 잘못된듯?
-		return "redirect:emailAuthForm.do";
+		return "redirect:/emailAuthForm.do";
 	}
 	
 	//이메일 인증번호 체크
@@ -375,10 +379,10 @@ public class MemberController {
 		if(mailHelper.checkCode4Prove(email, code) == MailSenderHelper.SUCCESS) {
 			log.info("인증번호 전송 :" + dto.getEmail(),code);
 			boolean emailAuth = iService.authUpdate((MemberDto)session.getAttribute("mem"));
-					return "redirect:index.do";
+					return "redirect:/index.do";
 					
 		}else if (mailHelper.checkCode4Reset(email, code) == MailSenderHelper.FAILED) {
-			return "redirect:emailAuthForm.do";
+			return "redirect:/emailAuthForm.do";
 		}else {
 			return "error";
 		}
@@ -454,9 +458,9 @@ public class MemberController {
 	 */
 	@RequestMapping(value = "/phoneCheck.do", method = RequestMethod.POST)
 	@ResponseBody
-	public int phoneCheck(@RequestParam("phone") String phone_num, Model model) {	
-		log.info("phone_num:" + phone_num);
-		int result = iService.phoneCheck(phone_num);
+	public int phoneCheck(@RequestParam("phone") String phoneNum, Model model) {	
+		log.info("phoneNum:" + phoneNum);
+		int result = iService.phoneCheck(phoneNum);
 		return result;
 	}
 	
@@ -469,11 +473,12 @@ public class MemberController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/pwChk.do", method = RequestMethod.POST)
-	public Map<String, String> pwChk(HttpSession session, String pw) {
+	public Boolean pwChk(HttpSession session, String pw) {
 		// loginCheckMap에서 비슷한 로직이 있어서 재활용함
-		Map<String, String> result = loginCheckMap(((MemberDto)session.getAttribute("mem")).getEmail(), pw);
+		boolean result = 
+				loginCheckMap(((MemberDto)session.getAttribute("mem")).getEmail(), pw);
 		
-		if(result.get("isc").equals("성공")) {
+		if(result) {
 			session.setAttribute("allowed", true);
 		}
 		return result;
@@ -521,11 +526,11 @@ public class MemberController {
 			dto.setEmail(email);
 			dto.setName(name);
 			dto.getAuth();
-			dto.getPhone_num();
-			dto.getReg_date();
+			dto.getPhoneNum();
+			dto.getRegDate();
 			System.out.println(dto.getAuth());
-			System.out.println(dto.getPhone_num());
-			System.out.println(dto.getReg_date());
+			System.out.println(dto.getPhoneNum());
+			System.out.println(dto.getRegDate());
 			
 			
 			session.setAttribute("mem", dto);

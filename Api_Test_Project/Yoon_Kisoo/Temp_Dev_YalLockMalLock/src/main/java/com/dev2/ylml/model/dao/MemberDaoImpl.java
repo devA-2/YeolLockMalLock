@@ -1,5 +1,6 @@
 package com.dev2.ylml.model.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -10,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import com.dev2.ylml.dto.MemberDto;
+import com.dev2.ylml.dto.UserGoodsDto;
 
 
 @Repository
@@ -43,9 +45,9 @@ public class MemberDaoImpl implements MemberIDao {
 	}
 
 	@Override
-	public int phoneCheck(String phone_num) {
-		log.info("MemberDaoImpl phoneCheck : " + phone_num);
-		int result = sqlSession.selectOne("member.phoneCheck", phone_num);
+	public int phoneCheck(String phoneNum) {
+		log.info("MemberDaoImpl phoneCheck : " + phoneNum);
+		int result = sqlSession.selectOne("member.phoneCheck", phoneNum);
 		return result;
 	}
 
@@ -53,11 +55,13 @@ public class MemberDaoImpl implements MemberIDao {
 	public MemberDto login(Map<String, Object> map) {
 		log.info("MemberDaoImpl login : " + map);		
 		MemberDto dto = null;
+//		System.out.println("~~~~~~~~~~~~~~"+map);
 		String enPw = pwEncoder.encode((String) map.get("pw"));
 		String dbPw = sqlSession.selectOne("member.enPw", map.get("email"));
-		
+//		System.out.println(dbPw+"~~~~~~~~~~~~~~"+enPw);
 		if(pwEncoder.matches((String) map.get("pw"), dbPw)) {
 			dto = sqlSession.selectOne("member.enLogin",map);
+//			log.info(map+"oooooooooooooooooooo"+dto);
 		}
 		return dto;
 	}
@@ -106,4 +110,25 @@ public class MemberDaoImpl implements MemberIDao {
 		int result = sqlSession.update("member.quitMember", email);
 		return result;
 	}
+	
+	@Override
+	public List<MemberDto> selectAll(String email) {
+		return sqlSession.selectList("member.selectAll",email);
+	}
+
+	@Override
+	public List<String> memberIdSearch() {
+		return sqlSession.selectList("member.memberIdSearch");
+	}
+	@Override
+	public MemberDto detailMember(String email) {
+		return sqlSession.selectOne("member.detailMember",email);
+	}
+
+	@Override
+	public List<UserGoodsDto> memberUsing(String email) {
+		return sqlSession.selectList("member.memberUsing",email);
+	}
+
+
 }

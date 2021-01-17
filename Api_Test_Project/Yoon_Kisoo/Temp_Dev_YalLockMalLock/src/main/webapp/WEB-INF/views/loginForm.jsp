@@ -17,10 +17,9 @@
 </style>
 <script type="text/javascript">	
 
-function loginChk(){
+function loginChk(frm){
 	var email = document.getElementById("email").value;
 	var pw = document.getElementById("pw").value;
-	var frm = document.loginFrm;
 
 	frm.action = "./login.do"	// Ajax에서 이동할 주소
 	
@@ -39,8 +38,9 @@ function loginChk(){
 			type:"post",
 			url:"./loginCheckMap.do",
 			data:"email="+email+"&pw="+pw,
-			success: function(msg){ 
-				if(msg.isc == "성공"){
+			success: function(isc){ 
+				console.log(isc)
+				if(isc){
 					frm.submit();
 				}else{
 					alert("아이디 및 비밀번호가 틀립니다. 다시 시도해주세요.");
@@ -66,7 +66,7 @@ function loginChk(){
 			<a href="./idSearchForm.do">아이디 찾기</a> &nbsp;&nbsp;
 			<a href="./pwSearchForm.do">비밀번호 찾기</a><br><br>
 			
-			<input type="button" id="login" name="login" class="btn btn-success" value="로그인" onclick="loginChk()">&nbsp;&nbsp;
+			<input type="button" id="login" name="login" class="btn btn-success" value="로그인" onclick="loginChk(this.form)">&nbsp;&nbsp;
 		</form>
 	</div>
 </body>

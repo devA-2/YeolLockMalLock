@@ -1,8 +1,10 @@
 package com.dev2.ylml.model.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import com.dev2.ylml.dto.MemberDto;
+import com.dev2.ylml.dto.UserGoodsDto;
 
 public interface MemberIDao {
 	
@@ -19,7 +21,7 @@ public interface MemberIDao {
 	/*
 	 *  휴대폰 중복검사(Ajax)
 	 */
-	public int phoneCheck(String phone_num);
+	public int phoneCheck(String phoneNum);
 	
 	/*
 	 *  회원가입
@@ -56,4 +58,10 @@ public interface MemberIDao {
 	 * 회원탈퇴 (삭제여부 변경)
 	 */
 	public int quitMember(String email);
+	
+	public List<MemberDto> selectAll(String email);
+	
+	public List<String> memberIdSearch();
+	public MemberDto detailMember(String email);
+	public List<UserGoodsDto> memberUsing(String email);
 }

@@ -34,7 +34,7 @@
 				${name }<br>
 				<input type="hidden" name="name" value="${name}" >
 			<label>핸드폰 번호 : </label>
-				<input type="text" name="phone_num" id="phone_num" maxlength="11" size="15">
+				<input type="text" name="phoneNum" id="phone_num" maxlength="11" size="15">
 			<div class="check_font" id="phoneChk"></div>
 				<input type="button" id="sendPhone_num" value="인증번호 전송"><br>
 				<input type="text" id="certified_num" size="5">

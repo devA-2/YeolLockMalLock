@@ -5,7 +5,7 @@
 <!--  회원가입 (임시 : id_num 가져올수 없어서 테스트용으로 씀) -->
 <insert id="insertMember" parameterType="com.dev2.ylml.dto.MemberDto">
 INSERT INTO MEMBER(ID_NUM, EMAIL, PW, NAME, PHONE_NUM)
-VALUES ('112512525', #{email}, #{pw}, #{name},#{phone_num})
+VALUES ('112122515', #{email}, #{pw}, #{name},#{phoneNum})
 </insert>
 
 <!-- 회원가입 (자동으로 id_num 가져 올때 -->
@@ -32,7 +32,7 @@ WHERE EMAIL = #{email}
 <select id="phoneCheck" parameterType="java.lang.String" resultType="java.lang.Integer">
 SELECT COUNT(PHONE_NUM) PHONE_NUM
 FROM MEMBER
-WHERE PHONE_NUM = #{phone_num}
+WHERE PHONE_NUM = #{phoneNum}
 </select>
 
 
@@ -41,7 +41,7 @@ WHERE PHONE_NUM = #{phone_num}
 SELECT EMAIL, NAME, AUTH, PHONE_NUM, REG_DATE
 FROM MEMBER
 WHERE EMAIL = #{email}
-AND AUTH IN ('10','19')
+AND AUTH IN (10,19)
 AND DEL_FLAG = 'N'
 </select>
 
@@ -57,13 +57,13 @@ WHERE EMAIL = #{email}
 SELECT EMAIL 
 FROM MEMBER
 WHERE NAME = #{name}
-AND PHONE_NUM = #{phone_num}
+AND PHONE_NUM = #{phoneNum}
 </select>
 
 <!-- 개인정보 변경(휴대폰 변경이지만 후에 추가 될 수 있으므로 DTO로 처리함) -->
 <update id="updateInfo" parameterType="java.util.Map">
 UPDATE MEMBER SET 
-PHONE_NUM = #{phone_num}
+PHONE_NUM = #{phoneNum}
 WHERE EMAIL= #{email}
 </update>
 
@@ -86,4 +86,33 @@ DEL_FLAG = 'Y',
 LEV_DATE = SYSDATE
 WHERE EMAIL = #{email}
 </update>
+<!-- 회원전체조회 -->
+	<select id="selectAll" parameterType="java.lang.String" resultType="com.dev2.ylml.dto.MemberDto">
+		SELECT EMAIL, NAME, PHONE_NUM, AUTH,
+		 TO_CHAR(reg_Date,'yyyy-mm-dd hh24:mi:ss') as reg_date,
+		 TO_CHAR(LEV_DATE,'yyyy-mm-dd hh24:mi:ss') as LEV_DATE, DEL_FLAG FROM MEMBER m
+		 where AUTH IN (10,19) 
+			<if test="email != null">
+				AND EMAIL LIKE '%'||#{email}||'%' 
+			</if>
+		 ORDER BY REG_DATE DESC 
+	</select>
+<!-- 	회원 아이디로 상세정보 검색 -->
+	<select id="memberIdSearch" resultType="java.lang.String">
+		SELECT EMAIL FROM member where AUTH IN (10,19)
+	</select>
+<!-- 회원 상세정보(아이디, 이름, 핸드폰번호, 등록일, 탈퇴일, 삭제여부, 사용중인 서비스) -->
+	<select id="detailMember" parameterType="java.lang.String" resultType="com.dev2.ylml.dto.MemberDto">
+		SELECT EMAIL,NAME ,PHONE_NUM ,AUTH ,
+		TO_CHAR(reg_Date,'yyyy-mm-dd hh24:mi:ss') as REG_DATE ,
+		TO_CHAR(LEV_DATE,'yyyy-mm-dd hh24:mi:ss') as LEV_DATE ,DEL_FLAG FROM member where email=#{email}
+	</select>
+	<select id="memberUsing" parameterType="java.lang.String" resultType="com.dev2.ylml.dto.UserGoodsDto">
+		SELECT BOX_SEQ ,IN_USER, OUT_USER,
+		(SELECT STORAGE_NAME FROM STORAGEBOX_LIST WHERE STORAGE_ID=sg.STORAGE_ID) AS STORAGE_ID ,
+		TO_CHAR(IN_TIME,'yyyy-mm-dd hh24:mi:ss') as IN_TIME ,
+		TO_CHAR(EX_TIME,'yyyy-mm-dd hh24:mi:ss') as EX_TIME ,
+		(SELECT cost FROM cost WHERE COST_CODE=sg.COST_CODE) as cost
+		FROM STORAGE_GOODS sg WHERE OUT_USER =#{email} OR IN_USER =#{email}
+	</select>
 </mapper>

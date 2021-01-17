@@ -1,11 +1,13 @@
 package com.dev2.ylml.model.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dev2.ylml.dto.MemberDto;
+import com.dev2.ylml.dto.UserGoodsDto;
 import com.dev2.ylml.model.dao.MemberIDao;
 
 
@@ -26,8 +28,8 @@ public class MemberServiceImpl implements MemberIService {
 	}
 
 	@Override
-	public int phoneCheck(String phone_num) {
-		return iDao.phoneCheck(phone_num);
+	public int phoneCheck(String phoneNum) {
+		return iDao.phoneCheck(phoneNum);
 	}
 
 	@Override
@@ -72,5 +74,25 @@ public class MemberServiceImpl implements MemberIService {
 	public int quitMember(String email) {
 		return iDao.quitMember(email);
 	}
+	
+	@Override
+	public List<MemberDto> selectAll(String email) {
+		return iDao.selectAll(email);
+	}
+
+	@Override
+	public List<String> memberIdSearch() {
+		return iDao.memberIdSearch();
+	}
+	@Override
+	public MemberDto detailMember(String email) {
+		return iDao.detailMember(email);
+	}
+
+	@Override
+	public List<UserGoodsDto> memberUsing(String email) {
+		return iDao.memberUsing(email);
+	}
+
 	
 }

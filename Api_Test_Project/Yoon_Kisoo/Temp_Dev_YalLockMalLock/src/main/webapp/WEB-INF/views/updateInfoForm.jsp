@@ -84,7 +84,7 @@ $(document).ready(function(){
 	<h1>마이페이지 수정</h1>
 		<form action="./updateInfo.do" method="post">
 			<label>변경 할 핸드폰 번호 : </label>
-				<input type="text" name="phone_num" id="phone_num" maxlength="11" size="15">
+				<input type="text" name="phoneNum" id="phone_num" maxlength="11" size="15">
 			<div class="check_font" id="phoneChk"></div>
 				<input type="button" id="sendPhone_num" value="인증번호 전송"><br>
 				<input type="text" id="inputCertified_num" size="5">
