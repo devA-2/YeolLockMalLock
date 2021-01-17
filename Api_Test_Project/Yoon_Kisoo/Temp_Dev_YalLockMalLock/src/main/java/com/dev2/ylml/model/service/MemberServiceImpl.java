@@ -36,10 +36,20 @@ public class MemberServiceImpl implements MemberIService {
 	public MemberDto login(Map<String, Object> map) {
 		return iDao.login(map);
 	}
+	
+	@Override
+	public MemberDto apiLogin(Map<String, Object> map) {
+		return iDao.apiLogin(map);
+	}
 
 	@Override
 	public String idSearch(Map<String, Object> map) {
 		return iDao.idSearch(map);
+	}
+	
+	@Override
+	public int pwSearch(Map<String, String> map) {
+		return iDao.pwSearch(map);
 	}
 
 	@Override

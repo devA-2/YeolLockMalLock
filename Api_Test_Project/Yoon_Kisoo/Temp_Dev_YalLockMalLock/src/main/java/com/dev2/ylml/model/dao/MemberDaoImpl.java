@@ -65,11 +65,24 @@ public class MemberDaoImpl implements MemberIDao {
 		}
 		return dto;
 	}
+	
+	@Override
+	public MemberDto apiLogin(Map<String, Object> map) {
+		log.info("MemberDaoImpl apiLogin : " + map);		
+		return sqlSession.selectOne("member.enLogin",map);
+	}
 
 	@Override
 	public String idSearch(Map<String, Object> map) {
 		log.info("MemberDaoImpl IdSearch : " + map);
 		return sqlSession.selectOne("member.IdSearch", map);
+	}
+	
+	@Override
+	public int pwSearch(Map<String, String> map) {
+		int result = sqlSession.selectOne("member.pwSearch", map); 
+		log.info("MemberDaoImpl pwSearch : " + map);
+		return result;
 	}
 
 	@Override
@@ -79,12 +92,6 @@ public class MemberDaoImpl implements MemberIDao {
 		return result;
 	}
 
-//	@Override
-//	public int updatePw(MemberDto dto) {
-//		int result= sqlSession.update("member.updatePw", dto); // TODO : 암호화를 여기서 해줘야하는데 DTO로 받아서 처리를 해야 할듯?
-//		return result;
-//	}
-	
 	@Override
 	public int updatePw(MemberDto dto) {
 		String enPw = pwEncoder.encode(dto.getPw());

@@ -30,8 +30,10 @@
 	</c:if>				
    <!-- 여기서부터 필요한 화면은 각자 작성 및 테스트 하시면 됩니다 -->
    <hr>
-   <a href="./loginForm.do">로그인</a><br>
-   <a href="${naverUrl}">네이버 간편 로그인</a><br>
+   <c:if test="${mem == null}">
+	   <a href="./loginForm.do">로그인</a><br>
+	   <a href="${naverUrl}">네이버 간편 로그인</a><br>
+   </c:if>
    <a href="./infoAgree.do">회원가입</a><br>
    <a href="./allMember.do">회원전체조회</a><br>
    <hr>

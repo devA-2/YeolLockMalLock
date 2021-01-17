@@ -70,6 +70,7 @@ var pwChk2 = false;
 	<div id="container">
 		<h1>비밀번호 변경</h1>
 		<form action="./updatePw.do" id="updatePwFrm" method="post">
+			<input type="hidden" value="${email }" name="email">
 			<div>변경 할 비밀번호: </div><input type="password" id="pw" name="pw" maxlength="20" size="20"><br>
 			<div class="check_font" id="pwChk"></div>
 			<div>비밀번호 확인: </div><input type="password" id="pw2" name="pw2" maxlength="20" size="20"><br>

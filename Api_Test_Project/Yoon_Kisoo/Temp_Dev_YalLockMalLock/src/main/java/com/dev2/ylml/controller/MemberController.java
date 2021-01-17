@@ -109,8 +109,6 @@ public class MemberController {
 	@RequestMapping(value = "/myPageCheck.do", method = RequestMethod.GET)
 	public String myPageCheck(HttpSession session) {	
 		System.out.println("move to : myPageCheck");
-//		boolean isc = (session.getAttribute("allowed")!=null):?(boolean)session.getAttribute("api"):false;
-//		session.setAttribute("api", false);
 		session.setAttribute("allowed", false);
 		return "myPageCheck";
 	}
@@ -169,9 +167,10 @@ public class MemberController {
 	 * @param dto
 	 * @return
 	 */
-	@RequestMapping(value= "/updatePwForm.do", method = RequestMethod.GET)
-	public String updatePwForm(MemberDto dto) {
+	@RequestMapping(value= "/updatePwForm.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public String updatePwForm(MemberDto dto,Model model) {
 		System.out.println(dto);
+		model.addAttribute("email",dto.getEmail());
 		log.info("memberController updatePwForm" + dto);
 		return "updatePwForm";
 	}
@@ -225,42 +224,31 @@ public class MemberController {
 		return "updateInfoForm.do";
 	}
 	
-	// TODO : 암호화 해야함...
 	/**
 	 * 비밀번호 변경<br>
-	 * @param email
-	 * @param phone_num
+	 * 로그인 dto에서 email을 가져와서 비밀번호 변경을 해줌
+	 * @param pw
 	 * @param session
-	 * @param model
 	 * @return
 	 */
-//	@RequestMapping(value = "/updatePw.do", method = RequestMethod.POST)
-//	public String updatePw(String email, String pw, HttpSession session) {
-//		MemberDto dto = (MemberDto) session.getAttribute("mem");
-//		Map<String, Object> infoMap = new HashMap<String, Object>();
-//		infoMap.put("email", dto.getEmail());
-//		infoMap.put("pw", pw);
-//		log.info(email, pw);
-//
-//		int result = iService.updateInfo(infoMap);
-//		if(result>0) {
-//			dto.setPw(pw);
-//			return "redirect:myPage.do";
-//		}
-//		return "updatePwForm.do";
-//	}
-	
 	@RequestMapping(value = "/updatePw.do", method = RequestMethod.POST)
-	public String updatePw(String pw, HttpSession session) {
-		MemberDto dto = (MemberDto) session.getAttribute("mem");
-//		dto.getEmail();
-//		dto.setPw(pw);
-//		log.info(email, pw);
-		//dto에 이메일이있고 dto로 넘기니까 email 필요없음
-		dto.setPw(pw);
-		int result = iService.updatePw(dto);
-		if(result>0) {
-			return "redirect:/myPage.do";
+	public String updatePw(String email, String pw, HttpSession session) {
+		if(session.getAttribute("mem")==null) {
+			MemberDto dto = new MemberDto();
+			dto.setEmail(email);
+			dto.setPw(pw);
+			int result = iService.updatePw(dto);
+//			System.out.println(result+"00000000000000000000000000000000000000000000");
+			if(result>0) {
+				return "loginForm";
+			}
+		}else {
+			MemberDto dto = (MemberDto) session.getAttribute("mem");
+			dto.setPw(pw);
+			int result = iService.updatePw(dto);
+			if(result>0) {
+				return "redirect:/myPage.do";
+			}
 		}
 		return "updatePwForm.do";
 	}
@@ -275,17 +263,29 @@ public class MemberController {
 	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
 	public String login(@RequestParam Map<String, Object> map, HttpSession session) {
 		
-		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+//		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		System.out.println(map.toString()); 		// 맵 정보 확인용
 		MemberDto dto = iService.login(map);
 		log.info("MemberController login : " + dto);
 		session.setAttribute("mem", dto);
 		/////////////////////////////////////
-//		if(dto.getAuth() != 10) {
+		String page ="";
+		if(dto ==null) {
+			page = "redirect:/signUpForm.do";
+		}else if(dto.getAuth()==19) {
+			page = "redirect:/emailAuthForm.do";
+		}else {
+			page = "redirect:/index.do";
+		}
+		return page;
+//		
+//		
+//		
+//		if(dto.getAuth() == 19) {
 //			return "redirect:/emailAuthForm.do"; 
 //			// 그냥 로그인 버튼을 눌러서 19인 경우에는 emailAuthForm으로 보내는게 낫나? 마이페이지 체크처럼?
 //		}
-		return (dto != null) ? "redirect:/index.do" : "redirect:/signUpForm.do";
+//		return (dto != null) ? "redirect:/index.do" : "redirect:/signUpForm.do";
 	}
 
 	/**
@@ -362,6 +362,15 @@ public class MemberController {
 		return page;
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = "/pwSearch.do", method = RequestMethod.POST)
+	public int pwSearch(@RequestParam Map<String, String> map, String name, String email) {
+		map.put("email", email);
+		map.put("name", name);
+		int result = iService.pwSearch(map);
+		return result;
+	}
+	
 	// TODO : 리턴값 써야댐
 	// 이메일 인증 전송
 	@RequestMapping(value = "/sendCodeToMail.do", method = RequestMethod.GET)
@@ -371,6 +380,8 @@ public class MemberController {
 		mailHelper.sendCode4Prove(mail);	// 메일보내기, 인증번호 기억해두는거 // java.lang.NullPointerException 클래스에서 먼가 잘못된듯?
 		return "redirect:/emailAuthForm.do";
 	}
+	
+
 	
 	//이메일 인증번호 체크
 	@RequestMapping(value = "/checkCode.do", method = RequestMethod.POST)
@@ -386,9 +397,6 @@ public class MemberController {
 		}else {
 			return "error";
 		}
-			
-		
-			
 	}
 	
 	@RequestMapping(value = "/usingCheck.do", method = RequestMethod.POST)
@@ -515,26 +523,19 @@ public class MemberController {
 		String email = (String)response_obj.get("email");
 		
 		boolean emailChk = (iService.idCheck(email)==0);
+		//DB에 저장된 email중복체크 여부가 담김 true->중복이없음
 		
 		if(emailChk) {
+			log.info("추가 정보 입력폼으로");
 			model.addAttribute("name",name);
 			model.addAttribute("email",email);
-			
 			return "extraSignUpForm";
 		}else {
-			MemberDto dto = new MemberDto();
-			dto.setEmail(email);
-			dto.setName(name);
-			dto.getAuth();
-			dto.getPhoneNum();
-			dto.getRegDate();
-			System.out.println(dto.getAuth());
-			System.out.println(dto.getPhoneNum());
-			System.out.println(dto.getRegDate());
-			
-			
+			//이메일이나 이름을 dto 가져오는 서비스,다오 만들어얗ㅁ 
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("email", email);
+			MemberDto dto = iService.apiLogin(map);
 			session.setAttribute("mem", dto);
-//			session.getAttribute("api");
 			// 세션 스토리지 이용하여 쿠키 삭제 할 수 있음 좀더 찾아봐야ㅏㅁ
 			return "callback";
 		}

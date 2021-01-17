@@ -24,18 +24,29 @@ public interface MemberIService {
 	public int phoneCheck(String phoneNum);
 	
 	/*
-	 *  회원가입
+	 *  로그인
 	 */
 	public MemberDto login(Map<String, Object> map);
+	
+	/*
+	 * 간편 로그인
+	 */
+	public MemberDto apiLogin(Map<String, Object> map);
 	
 	/*
 	 * 권한변경
 	 */
 	public boolean authUpdate(MemberDto dto);
+	
 	/*
 	 *  아이디 찾기
 	 */
 	public String idSearch(Map<String, Object> map);
+	
+	/*
+	 *  비밀번호 찾기
+	 */
+	public int pwSearch(Map<String, String> map);
 	
 	/*
 	 *  개인정보 변경(지금은 휴대폰 번호만 변경 가능하지만, 추후에 추가 할 수 있음)
@@ -60,8 +71,11 @@ public interface MemberIService {
 	public int quitMember(String email);
 	
 	public List<MemberDto> selectAll(String email);
+	
 	public List<String> memberIdSearch();
+	
 	public MemberDto detailMember(String email);
+	
 	public List<UserGoodsDto> memberUsing(String email);
 
 }

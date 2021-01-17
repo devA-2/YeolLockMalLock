@@ -21,6 +21,7 @@
 	<div id="container">
 		<h1>회원가입</h1>
 		<form action="./insertMember.do" id="joinChkFrm" method="post">
+		테스트용 고유식별번호<input type="text" name="idNum" >
 			<label>아이디 : </label>
 				<input type="text" id="email" name="email" size="40" maxlength="40"><br>
 				<div class="checkFont" id="mailChk"></div>

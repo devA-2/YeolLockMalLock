@@ -24,36 +24,59 @@
 
 	//이메일 검사 정규식
 	var mailJ = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-
+	
+	
 	$(document).ready(function() {
-		$("#pwSearchBtn").attr("disabled", true);
+// 	$("#pwReserBtn").attr("disabled", true);
+	$('#pwSearchBtn').click(function(){
+		
+		$.ajax({
+			type: 'post',
+			url : './pwSearch.do',
+			data: 
+			"name="+document.getElementById('name').value+"&email="+document.getElementById('email').value,
+			success: function(data){
+				console.log('Ajax for pwSearch : ' + data);
+				if(data > 0){
+					$("#pwReserBtn").removeAttr("disabled");
+		        	$("#email").attr("readonly",true);
+		        	$("#name").attr("readonly",true);
+				}else{
+					alert('해당하는 정보의 회원이 없습니다.')
+					$("#pwReserBtn").attr("disabled", true);
+				}
+			}
+			
+			});
+		});
+	
 		$("#email").blur(function() {
-
 			if ($('#email').val() != '') {
 				$("#pwSearchBtn").removeAttr("disabled");
 			} 				
 		});
-
-		function sendCodeToMail() {
-			location.href = './sendCodeToMail.do'
-		}
-	});
+	});	
 </script>
 </head>
 <body>
 	<div id="container">
 		<h1>비밀번호 찾기</h1>
-		<form action="./checkCode.do" method="post">
+		<form action="./updatePwForm.do" id="pwSearchForm" method="post">
 			<div>이름</div>
-				<input type="text" name="name" required="required" value="윤기수"/>
+				<input type="text" id="name" name="name" required="required" value="윤기수"/>
 			<div>아이디</div>
-				<input type="text" id="email" name="email" size="40" maxlength="40">
+				<input type="text" id="email" name="email" size="40" maxlength="40"><br>
 				<div class="checkFont" id="mailChk"></div>
-			<input type="button" id="pwSearchBtn" name="pwSearchBtn" class="btn btn-success" value="이메일 전송" onclick="sendCodeToMail()">&nbsp;&nbsp;
+			<input type="button" id="pwSearchBtn" name="pwSearchBtn" class="btn btn-success" value="정보확인">&nbsp;&nbsp;<br>
 			<!-- 숨겨야해 -->
-			<div>인증번호 입력</div>
-			<input type="text" name="code"><br>
-			<input type="button" id="checkCodeBtn" name="checkCodeBtn" class="btn btn-success" value="인증하기 " onclick="sendMail()">&nbsp;&nbsp;
+			<label>핸드폰 번호 : </label>
+				<input type="text" name="phoneNum" id="phone_num" maxlength="11" size="15">
+			<div class="check_font" id="phoneChk"></div>
+				<input type="button" id="sendPhone_num" value="인증번호 전송"><br>
+				<input type="text" id="certified_num" size="5">
+				<input type="button" id="checkBtn" value="확인">
+			<div class="time"></div>
+			<input type="submit" id="pwReserBtn" value="비밀번호 초기화">	
 		</form>
 	</div>
 </body>

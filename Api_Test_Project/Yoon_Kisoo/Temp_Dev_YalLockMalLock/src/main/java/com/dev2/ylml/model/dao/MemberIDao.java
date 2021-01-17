@@ -24,18 +24,29 @@ public interface MemberIDao {
 	public int phoneCheck(String phoneNum);
 	
 	/*
-	 *  회원가입
+	 *  로그인
 	 */
 	public MemberDto login(Map<String, Object> map);
+	
+	/*
+	 * 간편 로그인
+	 */
+	public MemberDto apiLogin(Map<String, Object> map);
 	
 	/*
 	 * 이메일 인증 후, 권한변경
 	 */
 	public boolean authUpdate(MemberDto dto);
+	
 	/*
 	 *  아이디 찾기
 	 */
 	public String idSearch(Map<String, Object> map);
+	
+	/*
+	 *  비밀번호 찾기
+	 */
+	public int pwSearch(Map<String, String> map);
 	
 	/*
 	 *  개인정보 변경(지금은 휴대폰 번호만 변경 가능하지만, 추후에 추가 할 수 있음)
@@ -45,7 +56,6 @@ public interface MemberIDao {
 	/*
 	 * 비밀번호 변경
 	 */
-//	public int updatePw(Map<String, Object> map);
 	
 	public int updatePw(MemberDto dto);
 	
@@ -59,9 +69,24 @@ public interface MemberIDao {
 	 */
 	public int quitMember(String email);
 	
+	/*
+	 * 
+	 */
 	public List<MemberDto> selectAll(String email);
 	
+	/*
+	 *  회원 아이디로 검색
+	 */
 	public List<String> memberIdSearch();
+	
+	/*
+	 * 회원 상세정보 조회
+	 */
 	public MemberDto detailMember(String email);
+	
+	/*
+	 * 
+	 */
 	public List<UserGoodsDto> memberUsing(String email);
+	
 }
