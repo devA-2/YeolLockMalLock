@@ -1,10 +1,14 @@
 package com.min.edu.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +17,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.min.edu.dto.LostPropertyDto;
 import com.min.edu.dto.MemberDto;
@@ -176,6 +182,70 @@ public class ReportController {
 	
 	
 	// 신고글게시판 테스트용 로그인
+	@RequestMapping(value = "/adminLogin.do", method = RequestMethod.POST)
+	public String adminLogin(@RequestParam Map<String, Object> map, HttpSession session, Model model) {
+		MemberDto mDto = service2.loginMember(map);
+		session.setAttribute("mem", mDto);
+		if(mDto == null) {
+			return "error";
+		}
+//		List<ReportDto> list = service.selectAllReport();
+//		model.addAttribute("lists", list);
+		
+		System.out.println("log 1번");
+		
+//		JSONObject jsonObject = new JSONObject();
+//		String email = null;
+//		String title = null;
+//		String regdate = null;
+//		String seq = null;
+//		
+//		System.out.println("log 2번");
+//		
+//		for (int i = 0; i < list.size(); i++) {
+//			email = list.get(i).getEmail();
+//			title = list.get(i).getTitle();
+//			regdate = list.get(i).getRegdate();
+//			seq = list.get(i).getSeq();
+//			
+//			jsonObject.put("email", email);
+//			jsonObject.put("title", title);
+//			jsonObject.put("regdate", regdate);
+//			jsonObject.put("seq", seq);
+//			
+//		}
+//		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+jsonObject);
+		
+		ArrayList<ReportDto> list = (ArrayList<ReportDto>)(service.selectAllReport());
+//		JSONObject jsonObejct = new JSONObject();
+//		
+//		JSONArray cell = new JSONArray();
+//		ReportDto data = null;
+//		
+//		for (int i = 0; i < list.size(); i++) {
+//			data = (ReportDto)list.get(i);
+//
+//			JSONObject jsonObject = new JSONObject();
+//			
+//			jsonObject.put("email", data.getEmail());
+//			jsonObject.put("title", data.getTitle());
+//			jsonObject.put("regdate", data.getRegdate());
+//			jsonObject.put("seq", data.getSeq());
+//			
+//			
+//			
+//			
+//			
+//		}
+		
+		
+		
+		
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+list);
+		
+		return "adminReportList";
+	}
+	
 	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
 	public String login(@RequestParam Map<String, Object> map, HttpSession session, Model model) {
 		MemberDto mDto = service2.loginMember(map);
@@ -207,5 +277,35 @@ public class ReportController {
 		
 	}
 
+	
+	// Admin 신고글 게시판 jqGrid 적용 Ajax 처리 테스트
+	@RequestMapping(value="/adminReportList.do", method=RequestMethod.GET)
+	public String adminReportList(HttpSession session, Model model) {
+		
+		log.info("------------------ 신고글 목록 ------------------");
+		MemberDto mem = (MemberDto)session.getAttribute("mem");
+		session.setAttribute("mem", mem);
+		List<ReportDto> list = service.selectAllReport();
+		model.addAttribute("lists", list);
+		
+//		ArrayList<ReportDto> list = (ArrayList<ReportDto>)(service.selectAllReport());
+//		JsonObject jsonObejct = new JsonObject();
+//		
+//		JsonArray cell = new JsonArray();
+//		ReportDto data = null;
+//		
+//		for (int i = 0; i < list.size(); i++) {
+//			data = (ReportDto)list.get(i);
+//
+//			JsonObject obj = new JsonObject();
+//			
+//			obj.add("seq",data.getSeq());
+//			
+//			
+//		}
+		
+		return "adminReportList";
+	}
+	
 
 }

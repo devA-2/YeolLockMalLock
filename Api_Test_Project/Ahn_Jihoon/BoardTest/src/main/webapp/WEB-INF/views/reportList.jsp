@@ -32,56 +32,13 @@
 //             $('#tbody').html(data);
 //          }); 
 //       });
-
-$(document).ready(function() {
- 
-   var cnames = ['seq','작성일','제목','작성자'];
- 
-       $("#jqGrid").jqGrid({
-       
-           url: "reportList.do",
-           datatype: "local",
-           colNames: cnames,
-           colModel:[
-         {name:'seq',index:'seq', width:55, key:true, align:"center"},
-         {name:'regdate',index:'regdate', width:100, align:"center"},
-         {name:'title',index:'title', width:100},
-         {name:'email',index:'email', width:100}
-
-   ],
-           height: 480,
-           rowNum: 10,
-           rowList: [10,20,30],
-           pager: '#jqGridPager',
-           rownumbers  : true,                     
-           ondblClickRow : function(rowId, iRow, iCol, e) {
- 
-   if(iCol == 1) {
- 
-             alert(rowId+" 째줄 입니다.");
-             }
-           },
-       
-           viewrecords : true,
-           caption:"실습용 테이블"
-       });
-   });
-
-
 	
 </script>
 
 <body>
 
-<div style="width: 800px; height: 1200px; border: 1px solid black; margin:auto;">
-    <div class="row">
-
-       <div>
-       		<table id="jqGrid"></table>
-       		<div id="jqGridPager"></div>
-       </div>
-      </div>
-
+<div style="width: 360px; height: 600px; border: 1px solid black; margin:auto;">
+<div>${mem.email }</div>
 	<%
 	
 	  	Object obj = session.getAttribute("mem"); 
@@ -100,8 +57,7 @@ $(document).ready(function() {
 	  	}  
 	%> 
 
-<!-- 	<table class="table table-hover"> -->
-	<table>
+	<table class="table table-hover">
 		<tr>
 			<th>SEQ</th>
 			<th>작성 일자</th>

@@ -28,6 +28,12 @@
 			<input type="password" value="PW1234" name="pw">
 			<input type="submit" value="확인" >
 		</form>
+			   <h2>신고게시판 Admin 테스트용</h2>
+	   <form action="./adminLogin.do" method="post" name="frm">
+			<input type="text" value="ADMIN02" name="email">
+			<input type="password" value="PW1234" name="pw">
+			<input type="submit" value="확인" >
+		</form>
 		<h2>유실물게시판 테스트용</h2>
 		<form action="./login2.do" method="post" name="frm">
 			<input type="text" value="USER02@NAVER.COM" name="email">
@@ -36,7 +42,7 @@
 		</form>
 	   <a href="#">회원가입</a><br>
 	   <hr>
-	   <a href="./reportList.do">신고 글 게시판</a><br>
+	   <a href="./adminReportList.do">신고 글 게시판</a><br>
 	   <hr>
 	   <a href="#">유실물 게시판</a><br>
 	   <hr>
