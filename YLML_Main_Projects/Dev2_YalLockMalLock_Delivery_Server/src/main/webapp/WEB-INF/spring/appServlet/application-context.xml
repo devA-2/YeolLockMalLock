@@ -77,7 +77,7 @@
 	
 	
 
-	<bean id="apiServerHelper"
+	<bean id="apiClientHelper"
 		class="com.dev2.ylml.util.ApiClientHelper">
 		<constructor-arg name="url" value="http://localhost:8095/Dev2_YalLockMalLock_API_Server/" />
 		<constructor-arg name="key" value="1234" />

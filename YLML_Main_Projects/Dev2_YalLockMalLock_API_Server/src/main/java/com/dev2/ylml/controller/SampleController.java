@@ -16,7 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.dev2.ylml.abstractView.ExcelDownload;
 import com.dev2.ylml.dto.ExcelDto;
-import com.dev2.ylml.model.service.ApiService;
+import com.dev2.ylml.model.service.Api_IService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -25,7 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class SampleController {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
-	ApiService service;
+	Api_IService service;
 	
 	@RequestMapping(value = "index.do")
 	public String index() {

@@ -2,6 +2,7 @@ package com.dev2.ylml.util;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.http.client.methods.CloseableHttpResponse;
