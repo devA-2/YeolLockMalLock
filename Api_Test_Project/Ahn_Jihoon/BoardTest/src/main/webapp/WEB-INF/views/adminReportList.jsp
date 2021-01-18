@@ -100,14 +100,11 @@ $(document).ready(function(){
 </script>
 
 <body>
-        <div>
-            <table id="jqGrid"></table>
-            <div id="pager2"></div><br>
-        </div>
 
-<div id = "listAjax">
 
-	<div>${mem.email }</div>
+<div id = "listAjax" style="width: 1000px; border: 1px solid black; text-align: center; margin: auto;">
+
+	<div>사용중인 계정 : ${mem.email }</div>
 	<%
 	
 	  	Object obj = session.getAttribute("mem"); 
@@ -126,9 +123,6 @@ $(document).ready(function(){
 	  	}  
 	%> 
 
-	<div>
-		<button onclick="location.href = './insertReport.do'">신고 글 작성</button><br>
-	</div>
 	
 	<div>
 		<form action="./searchId.do" method="post">
@@ -139,9 +133,9 @@ $(document).ready(function(){
 
 
 	
-	<table style="text-align: center;">
+	<table style="text-align: center; margin: auto;">
 		<tr>
-			<th colspan="5">상세 보기 표시 테이블</th>
+			<th colspan="5">상세 보기 테이블</th>
 		</tr>
 		<tr>
 			<th>seq</th>
@@ -163,6 +157,11 @@ $(document).ready(function(){
 			</td>
 		</tr>
 	</table>
+	
+		<div style="margin: auto;">
+			<table id="jqGrid" style="margin: auto;"></table>
+			<div id="pager2" style="margin: auto;"></div>
+		</div>
         
 </div>
 
