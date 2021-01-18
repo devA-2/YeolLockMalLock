@@ -41,7 +41,7 @@
 
 	<bean id="apiServerHelper"
 		class="com.dev2.ylml.util.ApiClientHelper">
-		<constructor-arg name="url" value="http://192.168.25.32:8091/Dev2_YalLockMalLock_API_Server/" />
+		<constructor-arg name="url" value="http://localhost:8095/Dev2_YalLockMalLock_API_Server/" />
 		<constructor-arg name="key" value="1234" />
 	</bean>
 	<!-- 모든 얘들을 트랜잭션 걸게 하는 소스처리 -->
