@@ -9,6 +9,8 @@ import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.min.edu.dto.LostPropertyDto;
 import com.min.edu.dto.MemberDto;
 import com.min.edu.dto.ReportDto;
@@ -70,6 +74,67 @@ public class ReportController {
 		return "reportList";
 	}
 	
+//	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/reportListAjax.do", method = RequestMethod.GET)
+	public String reportListAjax(Model model, HttpSession session) {
+		
+		List<ReportDto> list = service.selectAllReport();
+		MemberDto mem = (MemberDto)session.getAttribute("mem");
+		model.addAttribute("lists", list);
+		session.setAttribute("mem", mem);
+		
+//		List<ReportDto> list = service.selectAllReport();
+//		JSONArray jsonArray = null;
+//		ObjectMapper mapper = new ObjectMapper();
+//		try {
+//			String jsonArrayStr = mapper.writeValueAsString(list);
+//			System.out.println(jsonArrayStr);
+//			JSONParser parser = new JSONParser();
+//			jsonArray = (JSONArray) parser.parse(jsonArrayStr);
+//			model.addAttribute("model", jsonArray);
+//		} catch (JsonProcessingException e) {
+//			// TODO error page 처리
+//			e.printStackTrace();
+//		}
+// catch (ParseException e) {
+//			// TODO error page 처리
+//			e.printStackTrace();
+//		}
+		
+		
+//		for (ReportDto dto : list) {
+//		jsonObject = new JSONObject();
+//		jsonObject.put("seq", dto.getSeq());
+//		jsonObject.put("email", dto.getEmail());
+//		jsonObject.put("title", dto.getTitle());
+//		jsonObject.put("content", dto.getContent());
+//		jsonObject.put("regdate", dto.getRegdate());
+//		jsonObject.put("category", dto.getCategory());
+//		jsonObject.put("image", dto.getImage());
+//		jsonObject.put("delflag", dto.getDelflag());
+//		jsonObject.put("process_status", dto.getProcess_status());
+//		jsonObject.put("refer", dto.getRefer());
+//		jsonObject.put("step", dto.getStep());
+//		jsonArray.add(jsonObject);
+//		}
+		
+//			 ObjectMapper mapper = new ObjectMapper();
+//			 String jsonStr = null;
+//			try {
+//				jsonStr = mapper.writeValueAsString(dto);
+//				System.out.println(jsonStr);
+//				 JSONParser parser = new JSONParser();
+//				 jsonObject = (JSONObject)parser.parse(jsonStr);
+//			} catch (JsonProcessingException e) {
+//				e.printStackTrace();
+//			} catch (ParseException e) {
+//				e.printStackTrace();
+//			}
+
+//			jsonArray.add(jsonObject);
+		return "viewReportList";
+	}
+	
 //	수정 예정
 	@RequestMapping(value="/selectDetailReport.do", method=RequestMethod.GET)
 	public String selectOneReport(String refer, Model model, HttpSession session) {
@@ -112,6 +177,7 @@ public class ReportController {
 		service.reply(dto);
 
 		mailService.sendMail(email, title, content); // 여기가 널포인트가 뜬다 ?
+		
 		return "redirect:/reportList.do";
 	}
 	
@@ -182,68 +248,42 @@ public class ReportController {
 	
 	
 	// 신고글게시판 테스트용 로그인
-	@RequestMapping(value = "/adminLogin.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/adminLogin.do", method=RequestMethod.POST)
 	public String adminLogin(@RequestParam Map<String, Object> map, HttpSession session, Model model) {
 		MemberDto mDto = service2.loginMember(map);
 		session.setAttribute("mem", mDto);
+		
 		if(mDto == null) {
 			return "error";
 		}
-//		List<ReportDto> list = service.selectAllReport();
-//		model.addAttribute("lists", list);
 		
-		System.out.println("log 1번");
-		
-//		JSONObject jsonObject = new JSONObject();
-//		String email = null;
-//		String title = null;
-//		String regdate = null;
-//		String seq = null;
-//		
-//		System.out.println("log 2번");
-//		
-//		for (int i = 0; i < list.size(); i++) {
-//			email = list.get(i).getEmail();
-//			title = list.get(i).getTitle();
-//			regdate = list.get(i).getRegdate();
-//			seq = list.get(i).getSeq();
-//			
-//			jsonObject.put("email", email);
-//			jsonObject.put("title", title);
-//			jsonObject.put("regdate", regdate);
-//			jsonObject.put("seq", seq);
-//			
-//		}
-//		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+jsonObject);
-		
-		ArrayList<ReportDto> list = (ArrayList<ReportDto>)(service.selectAllReport());
-//		JSONObject jsonObejct = new JSONObject();
-//		
-//		JSONArray cell = new JSONArray();
-//		ReportDto data = null;
-//		
-//		for (int i = 0; i < list.size(); i++) {
-//			data = (ReportDto)list.get(i);
-//
-//			JSONObject jsonObject = new JSONObject();
-//			
-//			jsonObject.put("email", data.getEmail());
-//			jsonObject.put("title", data.getTitle());
-//			jsonObject.put("regdate", data.getRegdate());
-//			jsonObject.put("seq", data.getSeq());
-//			
-//			
-//			
-//			
-//			
-//		}
-		
-		
-		
-		
-		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+list);
+
+//		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+list);
 		
 		return "adminReportList";
+	}
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/jqGrid.do")
+	@ResponseBody
+	public JSONArray jqGrid() {
+		
+		List<ReportDto> list = service.selectAllReport();
+		
+		JSONArray jsonArray = new JSONArray();
+		JSONObject jsonObject = null;
+		
+		for (ReportDto dto : list) {
+			jsonObject = new JSONObject();
+			jsonObject.put("email", dto.getEmail());
+			jsonObject.put("seq", dto.getSeq());
+			jsonObject.put("title", dto.getTitle());
+			jsonObject.put("regdate", dto.getRegdate());
+			jsonArray.add(jsonObject);
+		}
+		
+		
+		return jsonArray;
 	}
 	
 	@RequestMapping(value = "/login.do", method = RequestMethod.POST)

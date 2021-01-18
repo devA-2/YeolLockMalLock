@@ -10,15 +10,18 @@
 <meta charset="UTF-8">
 
 <title>신고글 게시판 목록</title>
-<script src="http://code.jquery.com/jquery-latest.js"></script>
-<link rel="stylesheet" type="text/css" href="./css/jquery-ui.css" />
-<link rel="stylesheet" type="text/css" media="screen" href="./css/ui.jqgrid.css" />
-<link rel="stylesheet" type="text/css" href="./css/ui.multiselect.css" />
 
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href="./css/ui.jqgrid.css" />
 
-    <script type="text/javascript" src="./js/jquery.min.js"></script>  
-    <script type="text/javascript" src="./js/i18n/grid.locale-kr.js"></script>
-    <script type="text/javascript" src="./js/jquery.jqGrid.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+
+<script type="text/javascript" src="./js/jquery-3.5.1.js"></script>
+<script type="text/javascript" src="./js/grid.locale-kr.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript" src="./js/jquery.jqGrid.min.js"></script>
 
 </head>
 <script type="text/javascript">
@@ -45,53 +48,47 @@
 <!-- jqGrid 테스트 스크립트 -->
 <script type="text/javascript">
 var $Grid = {};
+var rowNum = 5;
+$(document).ready(function(){
+     $Grid = $('#jqGrid');
+     $Grid.jqGrid({
+          url : 'jqGrid.do',
+          datatype : "json",
+          mtype : "get",
+          jsonReader : {
+               id : "seq" // 대표 아이디를 설정
+               ,root : "employee" // 데이터의 시작을 설정
+          },
+          colNames : [
+                          'seq',
+                          '아이디',
+                          '작성일',
+                          '제목'
+                     ],
+          colModel : [
+                    { name : 'seq', index: 'seq', width:40,  align:'center'},
+                    { name : 'email', index: 'email', width:80,  align:'left'  },
+                    { name : 'regdate', index: 'regdate', width:80,  align:'left'  },
+                    { name : 'title', index: 'title', width:80,  align:'right' },
+            ],
+          rowNum : rowNum,
+          pager : '#pager2'
+//           multiselect : true
+    });
+});
 
-$(document).ready(function() {
-	 	$Grid = $("#jqGrid");
-	   var cnames = ['번호','작성일','제목','작성자'];
-	   
-	       $Grid.jqGrid({
-	           url: "/adminLogin.do",
-	           datatype: "json",
-	           mtype: "get",
-	           jsonReader :{
-	        	 id :"seq",
-	        	 root: "employee"
-	           },
-	           colNames: cnames,
-	           colModel:[
-	         {name:'seq', index:'seq', width:55, key:true, align:"center"},
-	         {name:'regdate', index:'regdate', width:100, align:"center"},
-	         {name:'title', index:'title', width:100},
-	         {name:'email', index:'email', width:100}
-	   ],
-	           height: 480,
-	           width: 1000,
-	           rowNum: 10,
-	           rowList: [10,20,30],
-	           pager: '#pager2',
-	           rownumbers  : true,
-	           sortname: 'id',
-	           viewrecords: true,
-	           sortorder: "desc",
-	           caption:"JSON TEST TABLE"
-	       });
-	   });
-jQuery("#jqGrid").jqGrid('navGrid','#pager2',{edit:false,add:false,del:false});
+// sample code // collback
+// function getData(callbackFunc) {
+//     $.get('jqGrid.do', function(response) {
+//         callbackFunc(response); // 서버에서 받은 데이터 response를 callbackFunc() 함수에 넘겨줌
+//     });
+// }
 
-// $.ajax({
-// 				url: "adminLogin.do",
-// 				dataType: "jsonp",
-// 				type: "get",
-// 				success: function(data){
-// 				console.log(data);
-// 					console.log(data.rows);
-// 					var a=data.rows;
-// 					$("#jqGrid").jqGrid('setGridParam',{'data' : a}).trigger('reloadGrid');
-// 				},error: function(){
-// 					console.log("에러 : " + error);
-// 				}
-// 			});
+// getData(function(tableData) {
+
+	
+//     console.log(tableData); // $.get()의 response 값이 tableData에 전달됨
+// });
 
 </script>
 
@@ -150,14 +147,10 @@ jQuery("#jqGrid").jqGrid('navGrid','#pager2',{edit:false,add:false,del:false});
 
 <div>
 	<h2>jqGird 테스트 영역</h2>
-	<div class="row">
         <div>
-            <table id="jqGrid">
-            	<tr role="row"></tr>
-            </table>
-            <div id="pager2"></div>
-        </div>    
-    </div>
+            <table id="jqGrid"></table>
+            <div id="pager2"></div><br>
+        </div>
 </div>
 
 

@@ -25,20 +25,19 @@
 		
 	}
 
-//       // 익명함수, 페이지 로드될 때 실행됨 -> 전체리스트 호출
-//       $(function() {
-//          $.get("reportList.do", function(data) {
-//             console.log(data);
-//             $('#tbody').html(data);
-//          }); 
-//       });
-	
+      // 익명함수, 페이지 로드될 때 실행됨 -> 전체리스트 호출
+      $(function() {
+         $.get("reportListAjax.do", function(data) {
+            console.log(data);
+            $('#tbody').html(data);
+         });
+      });
 </script>
 
 <body>
 
 <div style="width: 360px; height: 600px; border: 1px solid black; margin:auto;">
-<div>${mem.email }</div>
+<div>${mem.email}</div>
 	<%
 	
 	  	Object obj = session.getAttribute("mem"); 
@@ -64,15 +63,17 @@
 			<th>제목</th>
 			<th>작성자</th>
 		</tr>
-		<c:forEach items="${lists}" var="vo" varStatus="vs">
-			<tr onclick="chkAuth('${mem.email}', '${vo.email}', '${mem.auth}', '${vo.refer}')">
-<!-- 			<tr> -->
-				<td>${vo.seq}</td>
-				<td>${vo.regdate}</td>
-				<td>${vo.title}</td>
-				<td>${vo.email}</td>
-			</tr> 
-		</c:forEach>
+<%-- 		<c:forEach items="${lists}" var="vo" varStatus="vs"> --%>
+<%-- 			<tr onclick="chkAuth('${mem.email}', '${vo.email}', '${mem.auth}', '${vo.refer}')"> --%>
+<!-- <!-- 			<tr> -->
+<%-- 				<td>${vo.seq}</td> --%>
+<%-- 				<td>${vo.regdate}</td> --%>
+<%-- 				<td>${vo.title}</td> --%>
+<%-- 				<td>${vo.email}</td> --%>
+<!-- 			</tr>  -->
+<%-- 		</c:forEach> --%>
+		<tbody id="tbody">
+		</tbody>
 	</table>
 	
 	<div>
