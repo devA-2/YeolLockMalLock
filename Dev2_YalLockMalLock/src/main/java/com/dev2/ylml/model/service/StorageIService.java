@@ -3,11 +3,13 @@ package com.dev2.ylml.model.service;
 import java.util.List;
 import java.util.Map;
 
+import com.dev2.ylml.dto.MemberDto;
 import com.dev2.ylml.dto.StorageBoxDto;
 import com.dev2.ylml.dto.StorageListDto;
 import com.dev2.ylml.dto.UserGoodsDto;
 
 public interface StorageIService {
+
 
 	/**
 	 * 전체 보관함 정보 출력해서 마커표시
@@ -83,4 +85,5 @@ public interface StorageIService {
 	 * @param message
 	 */
 	public boolean insertReturn(String costCode,String message);
+	
 }

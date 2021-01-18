@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="storage">
-
+	
 	<select id="selectMap" resultType="java.util.HashMap">
 		select storage_id as "id",lng as "lng",lat as "lat" from storagebox_list
 	</select>

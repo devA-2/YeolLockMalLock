@@ -8,7 +8,7 @@ import lombok.Data;
 public class UserGoodsDto implements Serializable{
 
 	private static final long serialVersionUID = -1740590824033288713L;
-	private int boxSeq,extCnt;
+	private int boxSeq,extCnt,cost;
 	private String storageId, key, inUser,outUser,deleiveCode,categoryCode,costCode,message;
-	private Date inTime,exTime;
+	private String inTime,exTime;
 }

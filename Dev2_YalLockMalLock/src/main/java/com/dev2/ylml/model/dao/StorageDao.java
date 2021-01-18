@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.dev2.ylml.dto.MemberDto;
 import com.dev2.ylml.dto.StorageBoxDto;
 import com.dev2.ylml.dto.StorageListDto;
 import com.dev2.ylml.dto.UserGoodsDto;
@@ -106,11 +107,7 @@ public class StorageDao implements StorageIDao {
 		return sqlSession.insert("storage.insertReturn",goodsDto)>0?true:false;
 	}
 
-
-
-
-	
-	
+		
 	
 	
 }

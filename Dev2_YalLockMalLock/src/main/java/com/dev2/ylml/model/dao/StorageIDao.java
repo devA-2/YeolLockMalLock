@@ -3,6 +3,7 @@ package com.dev2.ylml.model.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.dev2.ylml.dto.MemberDto;
 import com.dev2.ylml.dto.StorageBoxDto;
 import com.dev2.ylml.dto.StorageListDto;
 import com.dev2.ylml.dto.UserGoodsDto;

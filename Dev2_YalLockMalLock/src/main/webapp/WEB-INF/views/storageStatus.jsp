@@ -16,7 +16,7 @@
    border: 1px solid black;
    margin: auto;
 }
-.btn{
+div.btn{
 	width: 90px;
 	height: 90px;
 	margin : 10px;
@@ -30,15 +30,8 @@
 </head>
 <body>
 	<script type="text/javascript">
-	function clickCheck(){
-		if(document.getElementById('boxSeq').value == 0){
-			alert('사용할 보관함을 선택해주세요');
-			return false;
-		}
-	}
-	
-	function clickBox(seq){
 		//클릭했을때  노란색으로, 노란색을 누른거면 원상태로 , 노란색 있는상태에서 다른걸 누르면 그게 노란색으로 다른건 파란색으로
+	function clickBox(seq){
 		var seqFinal = document.getElementById('boxSeq').value;
 		if(seqFinal == 0){
 			document.getElementById(seq).className='btn btn-warning';
@@ -52,12 +45,46 @@
 			document.getElementById('boxSeq').value = seq;
 		}
 	}
+	//보관함 선택안했으면 alert, 아니면 모달띄우기
+	function clickCheck(){
+		if(document.getElementById('boxSeq').value == 0){
+			alert('사용할 보관함을 선택해주세요');
+		}else{
+			updateModal();
+			$('#myModal').modal();
+		}
+	}	
+	
+	//모달에 보관정보 넣기
+	function updateModal(){
+		   var date = new Date();
+		   var sysdate = date.getFullYear()+'.'+(date.getMonth()+1)+'.'+date.getDate();
+		   var systime = date.getHours()+':'+date.getMinutes();
+		   var systime4;
+		   if(date.getHours()>19){
+			   systime4 = '24:00';
+		   }else{
+			   systime4 = date.getHours()+4+':'+date.getMinutes();
+		   }
+		   
+// 		   var storageName = document.getElementById('id').value;
+		   var boxSeq = document.getElementById('boxSeq').value;
+		   document.getElementById('storageInfo').innerHTML= '<h4>${storageInfo.label }보관함 '+boxSeq+' </h4>';
+		   document.getElementById('storageTime').innerHTML=sysdate+' '+systime+'->'+sysdate+' '+systime4;
+		   document.getElementById('storageCost').innerText='기본 4시간 : 2000원';
+		
+	}
+	
+	function insertGoods(form){
+		form.submit();
+	}
+	
 </script>
 <div class="container">
 	<h1>${storageInfo.label }</h1>
 	<h4>${storageInfo.desc }</h4>
 	<hr>
-	<form action="./insertGoods.do" method="post" onsubmit="return clickCheck()">
+	<form action="./insertGoods.do" method="post">
 		<div class="storageBox">
 			<c:forEach var="box" items="${statusList}">
 				<c:choose>
@@ -70,13 +97,40 @@
 				</c:choose>
 			</c:forEach>
 		</div>
-		<hr>
 		<input type="hidden" name="email" value="user02@naver.com">
-		<input type="hidden" name="id" value="${storageInfo.value}">
+		<input type="hidden" id='id' name="id" value="${storageInfo.value}">
 		<input type="hidden" name="boxSeq" id="boxSeq" value="0">
-		<input type="submit" value="다음">
+		<input type="button" class="btn btn-info btn-lg" onclick="clickCheck()" value="다음">
+<!-- 모달시작 -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h5 class="modal-title">보관 정보 확인</h5>
+        </div>
+        <div class="modal-body">
+          <p id="storageInfo">보관함정보</p>
+          <p id="storageTime">시간</p>
+          <p id="storageCost">금액</p>
+        </div>
+        <div class="modal-footer">
+          <input type="button" class="btn btn-success" data-dismiss="modal" value="보관" onclick="insertGoods(this.form)">
+        </div>
+      </div>
+      
+    </div>
+  </div>
+<!--   모달끝 -->
 	</form>
+	
+
 </div>
+
+	
+	
 	
 
 </body>

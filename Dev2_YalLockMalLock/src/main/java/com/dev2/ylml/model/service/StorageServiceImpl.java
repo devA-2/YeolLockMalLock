@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dev2.ylml.dto.MemberDto;
 import com.dev2.ylml.dto.StorageBoxDto;
 import com.dev2.ylml.dto.StorageListDto;
 import com.dev2.ylml.dto.UserGoodsDto;
@@ -22,6 +23,7 @@ public class StorageServiceImpl implements StorageIService {
 	@Autowired
 	private StorageIDao dao;
 
+	
 	@Override
 	public List<Map<String, Object>> selectMap() {
 		return dao.selectMap();
