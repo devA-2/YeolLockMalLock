@@ -14,14 +14,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.dev2.ylml.abstractView.ExcelDownload;
 import com.dev2.ylml.dto.ExcelDto;
-import com.dev2.ylml.model.service.UserIService;
+import com.dev2.ylml.model.service.ManagerIService;
 
 
 @Controller
 public class SampleController {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
-	UserIService service;
+	ManagerIService service;
 	
 	
 	@RequestMapping(value = "index.do")

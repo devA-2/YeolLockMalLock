@@ -11,7 +11,7 @@ import com.dev2.ylml.util.ApiClientHelper;
 
 
 @Service
-public class UserService implements UserIService{
+public class ManagerService implements ManagerIService{
 	@Autowired
 	ApiClientHelper helper;
 
