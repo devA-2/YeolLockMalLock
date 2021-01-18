@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">YLML_Test_web</string>
+    <string name="text_openLink">열기</string>
+    <string name="text_close">닫기</string>
+</resources>

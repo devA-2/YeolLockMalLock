@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+		
+		
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:properties/db.properties</value>
+			</list>
+		</property>
+	</bean>
+
+
+	<bean class="org.apache.commons.dbcp.BasicDataSource"
+		id="dataSource">
+		<property name="driverClassName" value="${driver}" />
+		<property name="url" value="${url}" />
+		<property name="username" value="${username}" />
+		<property name="password" value="${pw}" />
+	</bean>
+
+	<bean class="org.mybatis.spring.SqlSessionFactoryBean"
+		id="sqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="/WEB-INF/spring/sql/Configuration.xml" />
+	</bean>
+
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactoryBean" />
+	</bean>
+
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	
+	<!--   메일 보내기  -->
+   <bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+      <property name="host" value="smtp.gmail.com"/>
+      <property name="port" value="587"/>
+      <property name="username" value="gdproject2077@gmail.com"/>
+      <property name="password"> 
+      <value>
+            <![CDATA[gdproject20772077]]>
+      </value>
+      </property>
+      <property name="javaMailProperties">
+         <props>
+            <prop key="mail.smtp.debug">true</prop>
+            <prop key="mail.smtp.auth">true</prop>
+            <prop key="mail.transport.protocol">smtp</prop>
+            <prop key="mail.smtp.starttls.enable">true</prop>
+         </props>
+      </property>   
+   </bean>
+   
+   <!-- 네이버 로그인  -->
+   <bean id="naverLoginBO" class="com.dev2.ylml.naver.NaverLoginBO"/>
+   
+   <!-- 메일인증 -->
+   <bean id="mailHelper" class="com.dev2.ylml.util.MailSenderHelper">
+    <constructor-arg index="0" value="4"/>  <!-- code_length -->
+    <constructor-arg index="1" value="600"/> <!-- limit_seconds -->
+    <constructor-arg index="2" value="100"/> <!-- clean_timing -->
+    <property name="mailService" ref="mailService"/>
+   </bean>
+   
+   <bean id="mailService" class="com.dev2.ylml.util.MailService">
+   <property name="mailSender" ref="javaMailSender"/>
+   
+   </bean>
+	
+	
+
+	<bean id="apiClientHelper"
+		class="com.dev2.ylml.util.ApiClientHelper">
+		<constructor-arg name="url" value="http://localhost:8095/Dev2_YalLockMalLock_API_Server/" />
+		<constructor-arg name="key" value="1234" />
+	</bean>
+	
+	
+
+	<!-- 모든 얘들을 트랜잭션 걸게 하는 소스처리 -->
+	<tx:advice id="txAdvice"
+		transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="*" propagation="REQUIRED"
+				rollback-for="Exception" />
+			<!-- 모든 메서드의 전파를 롤백하겠다. 예외 발생 했을 때. -->
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config>
+		<aop:advisor advice-ref="txAdvice"
+			pointcut="execution(* com.dev2.ylml.model.service.*Service*.*(..))" />
+	</aop:config>
+</beans>
