@@ -114,6 +114,7 @@ WHERE EMAIL = #{email}
 		TO_CHAR(reg_Date,'yyyy-mm-dd hh24:mi:ss') as REG_DATE ,
 		TO_CHAR(LEV_DATE,'yyyy-mm-dd hh24:mi:ss') as LEV_DATE ,DEL_FLAG FROM member where email=#{email}
 	</select>
+	<!--  매퍼 수정해야함 -->
 	<select id="memberUsing" parameterType="java.lang.String" resultType="com.dev2.ylml.dto.UserGoodsDto">
 		SELECT BOX_SEQ ,IN_USER, OUT_USER,
 		(SELECT STORAGE_NAME FROM STORAGEBOX_LIST WHERE STORAGE_ID=sg.STORAGE_ID) AS STORAGE_ID ,
