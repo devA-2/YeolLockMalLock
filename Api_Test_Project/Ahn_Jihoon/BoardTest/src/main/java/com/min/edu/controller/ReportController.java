@@ -74,13 +74,25 @@ public class ReportController {
 		return "reportList";
 	}
 	
+	
+	@RequestMapping(value = "selectOneReportAjax.do", method=RequestMethod.GET)
+	public String reportListAjax(HttpSession session, Model model, String seq) {
+		ReportDto dto = service.selectDetail(seq);
+		MemberDto mem = (MemberDto)session.getAttribute("mem");
+		model.addAttribute("dto", dto);
+		session.setAttribute("mem", mem);
+		
+//		return "viewReportDetail";
+		return "adminReportList";
+	}
+	
 //	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/reportListAjax.do", method = RequestMethod.GET)
 	public String reportListAjax(Model model, HttpSession session) {
 		
-		List<ReportDto> list = service.selectAllReport();
+		List<ReportDto> lists = service.selectAllReport();
 		MemberDto mem = (MemberDto)session.getAttribute("mem");
-		model.addAttribute("lists", list);
+		model.addAttribute("lists", lists);
 		session.setAttribute("mem", mem);
 		
 //		List<ReportDto> list = service.selectAllReport();

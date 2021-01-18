@@ -28,7 +28,7 @@
 	SELECT *
 	FROM REPORT
 	WHERE DELFLAG = 'N' AND STEP = 0
-	ORDER BY REFER DESC, STEP
+	ORDER BY SEQ DESC, STEP
 </select>
 
 <select id="selectDetailReport" parameterType="java.lang.String" resultType="ReportDto">

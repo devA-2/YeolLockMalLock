@@ -48,11 +48,11 @@ public class IReportServiceImpl implements IReportService {
 		return iDao.selectDetailReport(refer);
 	}
 
-	@Override
-	public List<ReportDto> searchReport(String email) {
-		log.info("아이디로 신고 글 검색 : {} ", email);
-		return iDao.searchReport(email);
-	}
+//	@Override
+//	public List<ReportDto> searchReport(String email) {
+//		log.info("아이디로 신고 글 검색 : {} ", email);
+//		return iDao.searchReport(email);
+//	}
 
 	@Override
 	public boolean updateProcessStatus(ReportDto dto) {

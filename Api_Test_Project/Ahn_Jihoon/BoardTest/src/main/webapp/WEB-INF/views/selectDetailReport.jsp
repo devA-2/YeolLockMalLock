@@ -20,7 +20,8 @@
 </style>
 <script type="text/javascript">
 	function historys(){
-		location.href="./reportList.do";
+// 		location.href="./reportList.do";
+		window.history.back();
 	}
 	function replyGo(seq){
 		location.href='./replyReport.do?seq='+seq;

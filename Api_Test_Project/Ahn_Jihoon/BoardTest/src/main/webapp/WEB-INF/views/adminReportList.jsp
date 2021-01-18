@@ -25,30 +25,20 @@
 
 </head>
 <script type="text/javascript">
-	function chkAuth(memEmail, voEmail, auth, refer){
+function chkAuth(memEmail, voEmail, auth, refer){
 	if (memEmail == voEmail || auth == 30 || auth == 20) {
 		location.href="./selectDetailReport.do?refer="+refer;
 	}else{
 		alert("자신의 게시물만 확인할 수 있습니다.");
 	}
-	
-		
-	}
-
-//       // 익명함수, 페이지 로드될 때 실행됨 -> 전체리스트 호출
-//       $(function() {
-//          $.get("reportList.do", function(data) {
-//             console.log(data);
-//             $('#tbody').html(data);
-//          }); 
-//       });
-	
+}
 </script>
 
 <!-- jqGrid 테스트 스크립트 -->
 <script type="text/javascript">
 var $Grid = {};
-var rowNum = 5;
+var rowNum = 1000;
+var selectUrl = "./selectDetailReport.do";
 $(document).ready(function(){
      $Grid = $('#jqGrid');
      $Grid.jqGrid({
@@ -67,14 +57,27 @@ $(document).ready(function(){
                      ],
           colModel : [
                     { name : 'seq', index: 'seq', width:40,  align:'center'},
-                    { name : 'email', index: 'email', width:80,  align:'left'  },
-                    { name : 'regdate', index: 'regdate', width:80,  align:'left'  },
-                    { name : 'title', index: 'title', width:80,  align:'right' },
+                    { name : 'email', index: 'email', width:80,  align:'center'  },
+                    { name : 'regdate', index: 'regdate', width:80,  align:'center'  },
+                    { name : 'title', index: 'title', width:80,  align:'center' },
             ],
-          rowNum : rowNum,
-          pager : '#pager2'
+            onCellSelect :function(rowId) {
+            	var seq = $("#jqGrid").getCell(rowId, 'seq');
+            	
+                $.get("selectOneReportAjax.do?seq="+seq, function(data) {
+                    console.log(data);
+                    $('#listAjax').html(data);
+                 });
+              }
+              ,
+	          rowNum : rowNum,
+	          pager : '#pager2',
+	          width : '700',
+	          height : 'auto'
+
 //           multiselect : true
     });
+     
 });
 
 // sample code // collback
@@ -90,12 +93,21 @@ $(document).ready(function(){
 //     console.log(tableData); // $.get()의 response 값이 tableData에 전달됨
 // });
 
+	function replyGo(seq){
+		location.href='./replyReport.do?seq='+seq;
+	}
+
 </script>
 
 <body>
+        <div>
+            <table id="jqGrid"></table>
+            <div id="pager2"></div><br>
+        </div>
 
-<div>
-<div>${mem.email }</div>
+<div id = "listAjax">
+
+	<div>${mem.email }</div>
 	<%
 	
 	  	Object obj = session.getAttribute("mem"); 
@@ -114,24 +126,6 @@ $(document).ready(function(){
 	  	}  
 	%> 
 
-	<table>
-		<tr>
-			<th>SEQ</th>
-			<th>작성 일자</th>
-			<th>제목</th>
-			<th>작성자</th>
-		</tr>
-		<c:forEach items="${lists}" var="vo" varStatus="vs">
-			<tr onclick="chkAuth('${mem.email}', '${vo.email}', '${mem.auth}', '${vo.refer}')">
-<!-- 			<tr> -->
-				<td>${vo.seq}</td>
-				<td>${vo.regdate}</td>
-				<td>${vo.title}</td>
-				<td>${vo.email}</td>
-			</tr> 
-		</c:forEach>
-	</table>
-	
 	<div>
 		<button onclick="location.href = './insertReport.do'">신고 글 작성</button><br>
 	</div>
@@ -142,17 +136,35 @@ $(document).ready(function(){
 			<input type="submit" value="검색">
 		</form>
 	</div>
+
+
 	
+	<table style="text-align: center;">
+		<tr>
+			<th colspan="5">상세 보기 표시 테이블</th>
+		</tr>
+		<tr>
+			<th>seq</th>
+			<th>작성자</th>
+			<th>제목</th>
+			<th>작성일자</th>
+			<th>내용</th>
+		</tr>
+		<tr>
+			<td>${dto.seq }</td>
+			<td>${dto.email }</td>
+			<td>${dto.title }</td>
+			<td>${dto.regdate }</td>
+			<td>${dto.content }</td>
+		</tr>
+		<tr>
+			<td colspan="5">
+				<button onclick="replyGo(${dto.seq})">답변 글 작성</button>
+			</td>
+		</tr>
+	</table>
+        
 </div>
-
-<div>
-	<h2>jqGird 테스트 영역</h2>
-        <div>
-            <table id="jqGrid"></table>
-            <div id="pager2"></div><br>
-        </div>
-</div>
-
 
 </body>
 </html>
