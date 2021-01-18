@@ -50,10 +50,10 @@
   </script>
 </head>
 <body>
-	managerMain.jsp<br>
-	${mangerLogin.email}<br>
-    ${mangerLogin.name}<br>
-	${mangerLogin.auth}<br> 
+	현재페이지 : managerMain.jsp<br>
+	접속ID : ${mangerLogin.email}<br>
+        접속비번 : ${mangerLogin.name}<br>
+	접속권한 : ${mangerLogin.auth}<br> 
 
 	<div id="container">
 <!-- 	<a href="./index.do">로그아웃</a><br><br> -->
