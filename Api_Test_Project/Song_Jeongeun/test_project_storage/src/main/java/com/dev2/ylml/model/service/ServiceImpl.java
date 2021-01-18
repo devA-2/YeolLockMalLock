@@ -12,9 +12,8 @@ import org.springframework.stereotype.Service;
 import com.dev2.ylml.dto.CostDto;
 import com.dev2.ylml.dto.DeliveryDto;
 import com.dev2.ylml.dto.MemberDto;
-import com.dev2.ylml.dto.StorageBoxListDto;
+import com.dev2.ylml.dto.StorageListDto;
 import com.dev2.ylml.dto.StorageGoodsDto;
-import com.dev2.ylml.dto.DeliveryListDto;
 import com.dev2.ylml.dto.UserStorageListDto;
 import com.dev2.ylml.model.dao.StorageGoodsIDao;
 
@@ -27,7 +26,7 @@ public class ServiceImpl implements IService {
 	private StorageGoodsIDao sgDao;
 
 	@Override
-	public StorageBoxListDto selectStorageBoxList(String storageId) {
+	public StorageListDto selectStorageBoxList(String storageId) {
 		logger.info("Service_selectStorageBoxList 실행");
 		return sgDao.selectStorageBoxList(storageId);
 	}
@@ -113,9 +112,9 @@ public class ServiceImpl implements IService {
 	}
 
 	@Override
-	public List<DeliveryListDto> selectDeliveryList(String email, String auth) {
-		List<DeliveryListDto> deliveryList = new ArrayList<DeliveryListDto>();
-		StorageBoxListDto SBDto = new StorageBoxListDto();
+	public List<DeliveryDto> selectDeliveryList(String email, String auth) {
+		List<DeliveryDto> deliveryList = new ArrayList<DeliveryDto>();
+		StorageListDto SBDto = new StorageListDto();
 		if(auth.equals("10")) {
 			deliveryList = sgDao.selectUserDeliveryList(email);
 		}else if(auth.equals("80")) {

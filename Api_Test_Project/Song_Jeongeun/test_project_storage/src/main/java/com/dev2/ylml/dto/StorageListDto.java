@@ -11,17 +11,17 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @ToString
-public class DeliveryListDto implements Serializable {
+public class StorageListDto implements Serializable {
 
-	private static final long serialVersionUID = -7900537746350142992L;
-
-	int boxSeq;
+	private static final long serialVersionUID = 2914710415991543027L;
+	
+	String storageId;
 	String storageName;
+	String address;
 	String subway;
 	String detail;
-	String deliverymanId;
-	String deliveryArrive;
-	String outboxId;
-	String deliveryCode;
+	String manager;
+	String lng;
+	String lat;
 	
 }

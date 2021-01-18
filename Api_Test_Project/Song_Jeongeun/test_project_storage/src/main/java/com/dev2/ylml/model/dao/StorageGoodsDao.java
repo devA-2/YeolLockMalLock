@@ -12,9 +12,8 @@ import org.springframework.stereotype.Repository;
 import com.dev2.ylml.dto.CostDto;
 import com.dev2.ylml.dto.DeliveryDto;
 import com.dev2.ylml.dto.MemberDto;
-import com.dev2.ylml.dto.StorageBoxListDto;
+import com.dev2.ylml.dto.StorageListDto;
 import com.dev2.ylml.dto.StorageGoodsDto;
-import com.dev2.ylml.dto.DeliveryListDto;
 import com.dev2.ylml.dto.UserStorageListDto;
 
 @Repository
@@ -26,7 +25,7 @@ public class StorageGoodsDao implements StorageGoodsIDao {
 	private SqlSessionTemplate sqlSession;
 	
 	@Override
-	public StorageBoxListDto selectStorageBoxList(String storageId) {
+	public StorageListDto selectStorageBoxList(String storageId) {
 		logger.info("Dao_selectStorageBoxList 실행");
 		return sqlSession.selectOne("storageBox.selectStorageBoxList", storageId);
 	}
@@ -107,13 +106,13 @@ public class StorageGoodsDao implements StorageGoodsIDao {
 	}
 
 	@Override
-	public List<DeliveryListDto> selectUserDeliveryList(String email) {
+	public List<DeliveryDto> selectUserDeliveryList(String email) {
 		logger.info("Dao_selectUserDeliveryList 실행");
 		return sqlSession.selectList("storageBox.selectUserDeliveryList", email);
 	}
 
 	@Override
-	public List<DeliveryListDto> selectDelmanDeliveryList(String email) {
+	public List<DeliveryDto> selectDelmanDeliveryList(String email) {
 		logger.info("Dao_selectDelmanDeliveryList 실행");
 		return sqlSession.selectList("storageBox.selectDelmanDeliveryList", email);
 	}

@@ -18,9 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dev2.ylml.dto.DeliveryDto;
 import com.dev2.ylml.dto.MemberDto;
-import com.dev2.ylml.dto.StorageBoxListDto;
+import com.dev2.ylml.dto.StorageListDto;
 import com.dev2.ylml.dto.StorageGoodsDto;
-import com.dev2.ylml.dto.DeliveryListDto;
 import com.dev2.ylml.dto.UserStorageListDto;
 import com.dev2.ylml.model.service.IService;
 
@@ -91,12 +90,12 @@ public class StorageBoxController {
 		StorageGoodsDto storageGoodsDto = (StorageGoodsDto) session.getAttribute("storageGoodsDto");
 		System.out.println("storageGoodsDto확인!!  "+storageGoodsDto);
 		String userStorageId = storageGoodsDto.getStorageId();
-		StorageBoxListDto userSBListDto = service.selectStorageBoxList(userStorageId);
+		StorageListDto userSBListDto = service.selectStorageBoxList(userStorageId);
 		String userStorageSubway = userSBListDto.getSubway();
 		int userLocSeq = storageGoodsDto.getBoxSeq();
 		
 		// 배송역 정보
-		StorageBoxListDto deliverySBListDto = service.selectStorageBoxList(arriveStation);
+		StorageListDto deliverySBListDto = service.selectStorageBoxList(arriveStation);
 		String deliveryStorageSubway = deliverySBListDto.getSubway();
 		int deliveryLocSeq = service.selectTimeTableSeq(deliveryStorageSubway);
 		
@@ -289,8 +288,8 @@ public class StorageBoxController {
 	 */
 	@RequestMapping(value = "/searchSubway.do", method = RequestMethod.POST)
 	@ResponseBody
-	public StorageBoxListDto searchSubway(@RequestParam("storageId") String storageId) {
-		StorageBoxListDto SBDto = service.selectStorageBoxList(storageId);
+	public StorageListDto searchSubway(@RequestParam("storageId") String storageId) {
+		StorageListDto SBDto = service.selectStorageBoxList(storageId);
 		return SBDto;
 	}
 	
@@ -359,7 +358,7 @@ public class StorageBoxController {
 	 */
 	@RequestMapping(value = "/deliveryList.do", method = RequestMethod.GET)
 	public String userDeliveryList(String email, String auth, Model model) {
-		List<DeliveryListDto> deliveryList = service.selectDeliveryList(email, auth);
+		List<DeliveryDto> deliveryList = service.selectDeliveryList(email, auth);
 		model.addAttribute("deliveryList", deliveryList);
 		model.addAttribute("auth", auth);
 		System.out.println("DTO 확인!!"+deliveryList);

@@ -5,9 +5,8 @@ import java.util.Map;
 
 import com.dev2.ylml.dto.DeliveryDto;
 import com.dev2.ylml.dto.MemberDto;
-import com.dev2.ylml.dto.StorageBoxListDto;
+import com.dev2.ylml.dto.StorageListDto;
 import com.dev2.ylml.dto.StorageGoodsDto;
-import com.dev2.ylml.dto.DeliveryListDto;
 import com.dev2.ylml.dto.UserStorageListDto;
 
 public interface IService {
@@ -15,7 +14,7 @@ public interface IService {
 	/**
 	 * 보관함ID로 STORAGEBOX_LIST 조회
 	 */
-	public StorageBoxListDto selectStorageBoxList(String storageId);
+	public StorageListDto selectStorageBoxList(String storageId);
 	
 	/**
 	 * 보관함SEQ, 보관함ID로 STORAGEBOX_GOODS 조회
@@ -65,7 +64,7 @@ public interface IService {
 	/**
 	 * 배송 정보 조회(사용자, 배송원)
 	 */
-	public List<DeliveryListDto> selectDeliveryList(String email, String auth);
+	public List<DeliveryDto> selectDeliveryList(String email, String auth);
 	
 	/**
 	 * 배송 시작 시간 업데이트

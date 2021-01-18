@@ -2,36 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="storageBox">
 
-	<resultMap type="com.dev2.ylml.dto.UserStorageListDto" id="UserStorageList">
-		<result column="BOX_SEQ" property="boxSeq"/>
-		<result column="STORAGE_ID" property="storageId"/>
-		<result column="STORAGE_NAME" property="storageName"/>
-		<result column="SUBWAY" property="subway"/>
-		<result column="DETAIL" property="detail"/>
-		<result column="IN_USER" property="inUser"/>
-		<result column="OUT_USER" property="outUser"/>
-		<result column="COST_CODE" property="costCode"/>
-		<result column="COST" property="cost"/>
-		<result column="IN_TIME" property="inTime"/>
-		<result column="EX_TIME" property="exTime"/>
-		<result column="OVERTIME" property="overTime"/>
-		<result column="CATEGORY_CODE" property="categoryCode"/>
-		<result column="EXTEND_CNT" property="extendCnt"/>
-	</resultMap>
-	
-	<resultMap type="com.dev2.ylml.dto.DeliveryListDto" id="DeliveryList">
-		<result column="BOX_SEQ" property="boxSeq"/>
-		<result column="STORAGE_NAME" property="storageName"/>
-		<result column="SUBWAY" property="subway"/>
-		<result column="DETAIL" property="detail"/>
-		<result column="DELIVERYMAN_ID" property="deliverymanId"/>
-		<result column="DELIVERY_ARRIVE" property="deliveryArrive"/>
-		<result column="OUTBOX_ID" property="outboxId"/>
-		<result column="DELIVERY_CODE" property="deliveryCode"/>
-	</resultMap>
-	
 	<!-- 보관 내역(사용자) -->
-	<select id="selectUserStorageList" parameterType="java.lang.String" resultMap="UserStorageList">
+	<select id="selectUserStorageList" parameterType="java.lang.String" resultType="UserStorageListDto">
 		SELECT sg.BOX_SEQ, sl.STORAGE_ID, sl.STORAGE_NAME, sl.SUBWAY, sl.DETAIL,
 		sg.IN_USER, sg.OUT_USER,
 		TO_CHAR(sg.IN_TIME, 'YYYY-MM-DD HH:MI:SS') AS IN_TIME, TO_CHAR(sg.EX_TIME,'YYYY-MM-DD HH24:MI:SS') AS EX_TIME,
@@ -43,18 +15,18 @@
 	</select>
 		
 	<!-- 보관함ID로 STORAGEBOX_LIST 조회 -->
-	<select id="selectStorageBoxList" parameterType="java.lang.String" resultType="com.dev2.ylml.dto.StorageBoxListDto">
+	<select id="selectStorageBoxList" parameterType="java.lang.String" resultType="StorageListDto">
 		SELECT STORAGE_ID, STORAGE_NAME, ADDRESS, SUBWAY, DETAIL, MANAGER FROM STORAGEBOX_LIST WHERE STORAGE_ID= #{storageId}
 	</select>
 	
 	<!-- 보관함SEQ, 보관함ID로 STORAGEBOX_GOODS 조회 -->
-	<select id="selectStorageGoods" parameterType="java.util.Map" resultType="com.dev2.ylml.dto.StorageGoodsDto">
+	<select id="selectStorageGoods" parameterType="java.util.Map" resultType="StorageGoodsDto">
 		SELECT BOX_SEQ, STORAGE_ID, KEY, IN_USER, OUT_USER, IN_TIME, EX_TIME, DELIVERY_CODE, CATEGORY_CODE, COST_CODE, MESSAGE, EXTEND_CNT
 		FROM STORAGE_GOODS WHERE BOX_SEQ = #{boxSeq} AND STORAGE_ID= #{storageId}
 	</select>
 	
 	<!-- 보관 비용 조회 -->
-	<select id="selectCost" parameterType="java.lang.String" resultType="com.dev2.ylml.dto.CostDto">
+	<select id="selectCost" parameterType="java.lang.String" resultType="CostDto">
 		SELECT c.COST_CODE as costCode, c.COST as cost FROM COST c LEFT JOIN STORAGE_GOODS sg ON c.COST_CODE = sg.COST_CODE
 		WHERE sg.OUT_USER = #{email}
 	</select>
@@ -91,7 +63,7 @@
 	</select>
 	
 	<!-- 배송 등록 -->
-	<insert id="insertDelivery" parameterType="com.dev2.ylml.dto.DeliveryDto">
+	<insert id="insertDelivery" parameterType="DeliveryDto">
 		INSERT INTO DELIVERY VALUES('YMD'||TO_CHAR(DELIVERY_CODE_SEQ.NEXTVAL), #{deliveryCost}, #{deliverymanId}, #{outboxId}, null, null)
 		<selectKey keyProperty="deliveryCode" order="AFTER" resultType="java.lang.String">
 			SELECT 'YMD'||TO_CHAR(DELIVERY_CODE_SEQ.CURRVAL) FROM DUAL
@@ -99,13 +71,13 @@
 	</insert>
 	
 	<!-- 보관 정보 업데이트 -->
-	<update id="updateDeliveryCode" parameterType="com.dev2.ylml.dto.StorageGoodsDto">
+	<update id="updateDeliveryCode" parameterType="StorageGoodsDto">
 		UPDATE STORAGE_GOODS SET DELIVERY_CODE = #{deliveryCode}, CATEGORY_CODE = #{categoryCode}, MESSAGE = #{message}
 		WHERE BOX_SEQ = #{boxSeq} AND STORAGE_ID = #{storageId}
 	</update>
 
 	<!-- 결제 금액 업데이트 -->
-	<update id="updateDeliveryCost" parameterType="com.dev2.ylml.dto.DeliveryDto">
+	<update id="updateDeliveryCost" parameterType="DeliveryDto">
 		UPDATE COST SET COST = COST + (
 		SELECT DELIVERY_COST FROM DELIVERY WHERE DELIVERY_CODE = (
 		SELECT DELIVERY_CODE FROM STORAGE_GOODS WHERE BOX_SEQ = #{boxSeq} AND STORAGE_ID = #{storageId}))
@@ -119,7 +91,7 @@
 	</update>
 	
 	<!-- 배송 내역(사용자) -->
-	<select id="selectUserDeliveryList" parameterType="java.lang.String" resultMap="DeliveryList">
+	<select id="selectUserDeliveryList" parameterType="java.lang.String" resultType="DeliveryDto">
 		SELECT STORAGE_GOODS.BOX_SEQ, STORAGEBOX_LIST.STORAGE_NAME, STORAGEBOX_LIST.SUBWAY, STORAGEBOX_LIST.DETAIL,
 		DELIVERY.DELIVERYMAN_ID, TO_CHAR(DELIVERY.DELIVERY_ARRIVE,'YYYY-MM-DD HH24:MI:SS')
 		FROM DELIVERY JOIN STORAGE_GOODS ON DELIVERY.DELIVERY_CODE = STORAGE_GOODS.DELIVERY_CODE
@@ -128,7 +100,7 @@
 	</select>
 
 	<!-- 배송 할당 물품 조회(배송원) -->
-	<select id="selectDelmanDeliveryList" parameterType="java.lang.String" resultMap="DeliveryList">
+	<select id="selectDelmanDeliveryList" parameterType="java.lang.String" resultType="DeliveryDto">
 		SELECT STORAGEBOX_LIST.STORAGE_NAME, STORAGEBOX_LIST.SUBWAY, STORAGEBOX_LIST.DETAIL,
 		STORAGE_GOODS.BOX_SEQ, DELIVERY.DELIVERY_CODE, DELIVERY.OUTBOX_ID FROM DELIVERY
 		JOIN STORAGE_GOODS ON DELIVERY.DELIVERY_CODE = STORAGE_GOODS.DELIVERY_CODE

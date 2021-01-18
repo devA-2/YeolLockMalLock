@@ -3,12 +3,17 @@
 <configuration>
 
 	<typeAliases>
-		<!--<typeAlias type="com.min.edu.dtos.Member_DTO" alias="MemberDto"/>-->
+		<typeAlias type="com.dev2.ylml.dto.UserStorageListDto" alias="UserStorageListDto"/>
+		<typeAlias type="com.dev2.ylml.dto.StorageListDto" alias="StorageListDto"/>
+		<typeAlias type="com.dev2.ylml.dto.StorageBoxDto" alias="StorageBoxDto"/>
+		<typeAlias type="com.dev2.ylml.dto.StorageGoodsDto" alias="StorageGoodsDto"/>
+		<typeAlias type="com.dev2.ylml.dto.CostDto" alias="CostDto"/>
+		<typeAlias type="com.dev2.ylml.dto.DeliveryDto" alias="DeliveryDto"/>
 	</typeAliases>
 	
 	<mappers>
 		<!--<mapper resource="/sqls/Statement_Member.xml"/>-->
-		<mapper resource="/sqls/StorageBox.xml"/>
+		<mapper resource="/sqls/DeliveryMapper.xml"/>
 	</mappers>
 
 </configuration>
