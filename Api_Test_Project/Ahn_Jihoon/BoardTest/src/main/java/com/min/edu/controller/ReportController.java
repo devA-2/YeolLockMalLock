@@ -49,6 +49,8 @@ public class ReportController {
 	
 	Logger log = LoggerFactory.getLogger(this.getClass());
 
+	// 잉ㅇㅇㅇㅇ
+	
 	@RequestMapping(value = "/index.do")
 	public String index() {
 		log.info("------------------ index page ------------------");
