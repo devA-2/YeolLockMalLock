@@ -6,11 +6,15 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dev2.ylml.dto.MemberDto;
+import com.dev2.ylml.model.dao.MemberDao;
 import com.dev2.ylml.util.ApiServerHelper;
 @Service
 public class Api_Service implements Api_IService{
 	@Autowired
 	ApiServerHelper helper;
+	
+	MemberDao memberDao;
 	
 	//Certification -> 데이터의 0번째는 key 값 -> 틀리면 Certification:false로 return  한다
 	@SuppressWarnings("unchecked")
@@ -34,87 +38,141 @@ public class Api_Service implements Api_IService{
 		/*사용 예제*//*service.insertMember -> insertMember.do 와 매핑*/
 		
 		/* if문은 무조건 있어야함 */
-		//if(!helper.checkKey(map)) {
-		//	return helper.keyFailed();
-		//}
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
 		/* 데이터는 helper.getData로 웹에서 받은 데이터를 가져옴 */
-		//MemberDto dto = (MemberDto)helper.getData(map);
+		MemberDto dto = (MemberDto)helper.getData(map);
 		/* 전달할 값은 그냥 편하게 작성*/
-		//boolean isc=memberDao.insertMember(dto);
+		boolean isc=memberDao.insertMember(dto);
 		
 		
 		/* 전달할 값을 helper.generateData(-----)에 넣어서 return 하면 됨 */
-		//return helper.generateData(isc);
+		return helper.generateData(isc);
 		
-		
-		
-		return null;
+//		return null;
 	}
 
 	@Override
 	public Map<String, Object> idCheck(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		String email = (String)helper.getData(map);
+		int isc= memberDao.idCheck(email);
+		
+		return helper.generateData(isc);
 	}
 
 	@Override
 	public Map<String, Object> phoneCheck(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		String phoneNum = (String)helper.getData(map);
+		int isc= memberDao.phoneCheck(phoneNum);
+		
+		return helper.generateData(isc);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Object> login(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		Map<String, Object> res = (Map<String, Object>) helper.getData(map);
+		MemberDto dto = memberDao.login(res);
+		
+		return helper.generateData(dto);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Object> apiLogin(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		Map<String, Object> res = (Map<String, Object>) helper.getData(map);
+		MemberDto dto = memberDao.apiLogin(res);
+		
+		return helper.generateData(dto);
 	}
 
 	@Override
 	public Map<String, Object> authUpdate(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		MemberDto dto = (MemberDto)helper.getData(map);
+		boolean isc=memberDao.authUpdate(dto);
+		return helper.generateData(isc);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Object> idSearch(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		Map<String, Object> res = (Map<String, Object>) helper.getData(map);
+		String isc = memberDao.idSearch(res);
+		
+		return helper.generateData(isc);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Object> pwSearch(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		Map<String, String> res = (Map<String, String>) helper.getData(map);
+		int isc=memberDao.pwSearch(res);
+		return helper.generateData(isc);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Object> updateInfo(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		Map<String, Object> res = (Map<String, Object>) helper.getData(map);
+		int isc=memberDao.updateInfo(res);
+		return helper.generateData(isc);
 	}
 
 	@Override
 	public Map<String, Object> updatePw(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		MemberDto dto = (MemberDto)helper.getData(map);
+		int isc=memberDao.updatePw(dto);
+		return helper.generateData(isc);
 	}
 
 	@Override
 	public Map<String, Object> usingCheck(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		String email = (String) helper.getData(map);
+		int isc = memberDao.usingCheck(email);
+		
+		return helper.generateData(isc);
 	}
 
 	@Override
 	public Map<String, Object> quitMember(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		String email = (String) helper.getData(map);
+		int isc = memberDao.usingCheck(email);
+		
+		return helper.generateData(isc);
 	}
 
 	@Override
@@ -419,25 +477,37 @@ public class Api_Service implements Api_IService{
 
 	@Override
 	public Map<String, Object> selectAll(Map<String, Object> map) {
-		// TODO Auto-generated method stub
+		//파라미터 없어서 냅둠 // 기수
 		return null;
 	}
 
 	@Override
 	public Map<String, Object> memberIdSearch(Map<String, Object> map) {
-		// TODO Auto-generated method stub
+		//파라미터 없어서 냅둠 // 기수
 		return null;
 	}
 
 	@Override
 	public Map<String, Object> detailMember(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		String email =  (String) helper.getData(map);
+		MemberDto dto = memberDao.detailMember(email);
+		
+		return helper.generateData(dto);
 	}
 
+	// TODO : list는 어떻게 해야하는지 몰라 냅둠
 	@Override
 	public Map<String, Object> memberUsing(Map<String, Object> map) {
-		// TODO Auto-generated method stub
+//		if(!helper.checkKey(map)) {
+//			return helper.keyFailed();
+//		}
+//		String email =  (String) helper.getData(map);
+//		List<UserGoodsDto> dto = memberDao.memberUsing(email);
+//		
+//		return helper.generateData(dto);
 		return null;
 	}
 	
