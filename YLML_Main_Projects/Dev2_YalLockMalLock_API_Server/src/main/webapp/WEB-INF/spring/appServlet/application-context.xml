@@ -39,6 +39,46 @@
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
 	
+	<!--   메일 보내기  -->
+   <bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+      <property name="host" value="smtp.gmail.com"/>
+      <property name="port" value="587"/>
+      <property name="username" value="gdproject2077@gmail.com"/>
+      <property name="password"> 
+      <value>
+            <![CDATA[gdproject20772077]]>
+      </value>
+      </property>
+      <property name="javaMailProperties">
+         <props>
+            <prop key="mail.smtp.debug">true</prop>
+            <prop key="mail.smtp.auth">true</prop>
+            <prop key="mail.transport.protocol">smtp</prop>
+            <prop key="mail.smtp.starttls.enable">true</prop>
+         </props>
+      </property>   
+   </bean>
+   
+   <!-- 네이버 로그인  -->
+   <bean id="naverLoginBO" class="com.dev2.ylml.naver.NaverLoginBO"/>
+   
+   <!-- 메일인증 -->
+   <bean id="mailHelper" class="com.dev2.ylml.util.MailSenderHelper">
+    <constructor-arg index="0" value="4"/>  <!-- code_length -->
+    <constructor-arg index="1" value="600"/> <!-- limit_seconds -->
+    <constructor-arg index="2" value="100"/> <!-- clean_timing -->
+    <property name="mailService" ref="mailService"/>
+   </bean>
+   
+   <bean id="mailService" class="com.dev2.ylml.util.MailService">
+   <property name="mailSender" ref="javaMailSender"/>
+   
+   </bean>
+	
+	
+
+
+	
 	<bean id="apiServerHelper" class="com.dev2.ylml.util.ApiServerHelper">
 		<constructor-arg name="key" value="1234"/>
 		<constructor-arg name="key_uncheck" type="java.lang.Boolean" 
