@@ -6,11 +6,20 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dev2.ylml.dto.DeliveryDto;
+import com.dev2.ylml.dto.MemberDto;
+import com.dev2.ylml.dto.StorageGoodsDto;
+import com.dev2.ylml.dto.StorageListDto;
+import com.dev2.ylml.dto.UserStorageListDto;
+import com.dev2.ylml.model.dao.StorageDeliveryIDao;
 import com.dev2.ylml.util.ApiServerHelper;
 @Service
 public class Api_Service implements Api_IService{
 	@Autowired
 	ApiServerHelper helper;
+	
+	@Autowired
+	private StorageDeliveryIDao StorageDeliveryDao;
 	
 	//Certification -> 데이터의 0번째는 key 값 -> 틀리면 Certification:false로 return  한다
 	@SuppressWarnings("unchecked")
@@ -195,57 +204,99 @@ public class Api_Service implements Api_IService{
 		return null;
 	}
 
+	// TODO : 체크해야 하는 부분
 	@Override
 	public Map<String, Object> selectUserStorageList(Map<String, Object> map) {
-		// TODO Auto-generated method stub
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
 		return null;
 	}
 
 	@Override
 	public Map<String, Object> selectStorageBoxList(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		String storageId = (String) helper.getData(map);
+		StorageListDto storageListDto = StorageDeliveryDao.selectStorageBoxList(storageId);
+		return helper.generateData(storageListDto);
 	}
 
 	@Override
 	public Map<String, Object> selectTimeTableSeq(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		String subway = (String) helper.getData(map);
+		int seq = StorageDeliveryDao.selectTimeTableSeq(subway);
+		return helper.generateData(seq);
 	}
 
 	@Override
 	public Map<String, Object> selectDeliveryMan(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		List<MemberDto> deliverymanList = StorageDeliveryDao.selectDeliveryMan();
+		return helper.generateData(deliverymanList);
 	}
 
 	@Override
 	public Map<String, Object> selectDeliveryLoc(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		String deliverymanId = (String) helper.getData(map);
+		String deliveryLoc = StorageDeliveryDao.selectDeliveryLoc(deliverymanId);
+		return helper.generateData(deliveryLoc);
 	}
 
 	@Override
 	public Map<String, Object> selectDeliveryQty(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		String deliverymanId = (String) helper.getData(map);
+		int deliveryQty = StorageDeliveryDao.selectDeliveryQty(deliverymanId);
+		return helper.generateData(deliveryQty);
 	}
 
 	@Override
 	public Map<String, Object> selectDeliveryTime(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		Map<String, Integer> subwaySeqs = (Map<String, Integer>) helper.getData(map);
+		int time = StorageDeliveryDao.selectDeliveryTime(subwaySeqs);
+		return helper.generateData(time);
 	}
-
+	
 	@Override
 	public Map<String, Object> insertDelivery(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		DeliveryDto delDto = (DeliveryDto) helper.getData(map);
+		StorageGoodsDto goodsDto = (StorageGoodsDto) helper.getData(map);
+		boolean isc1 = StorageDeliveryDao.insertDelivery(delDto);
+		goodsDto.setDeliveryCode(delDto.getDeliveryCode());
+		if(goodsDto.getCategoryCode().equals("R")) {
+			goodsDto.setCategoryCode("RD");
+		}else {
+			goodsDto.setCategoryCode("D");
+		}
+		boolean isc2 = StorageDeliveryDao.updateDeliveryCode(goodsDto);
+		boolean isc3 = StorageDeliveryDao.updateDeliveryCost(goodsDto);
+		return helper.generateData((isc1 || isc2 || isc3)? true:false);
 	}
 
+	// TODO : 체크해야 하는 부분
 	@Override
 	public Map<String, Object> selectUserDeliveryList(Map<String, Object> map) {
-		// TODO Auto-generated method stub
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
 		return null;
 	}
 

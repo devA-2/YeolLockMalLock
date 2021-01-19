@@ -221,7 +221,7 @@ public interface Api_IService {
 	/**
 	 * 보관함ID로 보관함 정보 조회
 	 */
-	public Map<String, Object>/* List<StorageBoxListDto> */ selectStorageBoxList(
+	public Map<String, Object>/* StorageListDto */ selectStorageBoxList(
 			Map<String, Object> map/* String storageId */);
 
 	/**
@@ -259,7 +259,7 @@ public interface Api_IService {
 	/**
 	 * 배송 정보 조회(사용자)
 	 */
-	public Map<String, Object>/* List<UserDeliveryListDto> */ selectUserDeliveryList(
+	public Map<String, Object>/* List<DeliveryDto> */ selectUserDeliveryList(
 			Map<String, Object> map/* String email */);
 	/************************************게시판************************************/
 	/************************************지훈************************************/
