@@ -161,7 +161,7 @@ public interface Api_IService {
 	/**
 	 * 연장시간, 연장횟수 수정 + 연장 금액 수정
 	 * 
-	 * @param map
+	 * @param map(boxSeq, id, email)
 	 */
 	public Map<String, Object>/* boolean */ updateExtend(Map<String, Object> map/* Map<String, Object> map */);
 
@@ -169,9 +169,9 @@ public interface Api_IService {
 	 * 회수전 키 대조
 	 * 
 	 * @param key
-	 * @return cost_code, out_user
+	 * @return cost_code
 	 */
-	public Map<String, Object>/* UserGoodsDto */ compareKey(Map<String, Object> map/* String key */);
+	public Map<String, Object>/* String */ compareKey(Map<String, Object> map/* String key */);
 
 	/**
 	 * 키 일치할때 결제 전에 할증비용 추가
@@ -198,7 +198,7 @@ public interface Api_IService {
 	/**
 	 * 입력한 수령 사용자 보관물품에 등록
 	 * 
-	 * @param map
+	 * @param map(email,storageId,boxSeq)
 	 */
 	public Map<String, Object>/* boolean */ updateOutUser(Map<String, Object> map/* Map<String, Object> map */);
 
@@ -221,7 +221,7 @@ public interface Api_IService {
 	/**
 	 * 보관함ID로 보관함 정보 조회
 	 */
-	public Map<String, Object>/* List<StorageBoxListDto> */ selectStorageBoxList(
+	public Map<String, Object>/* StorageListDto */ selectStorageBoxList(
 			Map<String, Object> map/* String storageId */);
 
 	/**
@@ -259,7 +259,7 @@ public interface Api_IService {
 	/**
 	 * 배송 정보 조회(사용자)
 	 */
-	public Map<String, Object>/* List<UserDeliveryListDto> */ selectUserDeliveryList(
+	public Map<String, Object>/* List<DeliveryDto> */ selectUserDeliveryList(
 			Map<String, Object> map/* String email */);
 	/************************************게시판************************************/
 	/************************************지훈************************************/
@@ -388,7 +388,7 @@ public interface Api_IService {
 	 * @param email
 	 * @return
 	 */
-	public Map<String, Object>/* Manager_MemberDto */ selectDetail(Map<String, Object> map /* String email */);
+	public Map<String, Object>/* Manager_MemberDto */ selectDetailGoReply(Map<String, Object> map /* String email */);
 
 	/**
 	 * 배송 정보조회

@@ -5,9 +5,10 @@
 	<typeAliases>
 		<!--<typeAlias type="com.min.edu.dtos.Member_DTO" alias="MemberDto"/>-->
 	</typeAliases>
-	
+
 	<mappers>
 		<!--<mapper resource="/sqls/Statement_Member.xml"/>-->
+		<mapper resource="/com/dev2/ylml/mapper/storagebox/StorageBox.xml"/>
 	</mappers>
 
 </configuration>

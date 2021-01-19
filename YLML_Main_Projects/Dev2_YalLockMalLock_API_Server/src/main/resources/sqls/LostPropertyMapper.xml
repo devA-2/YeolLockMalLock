@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.min.edu.model.ILostPropertyDao">
+
+
+<select id="selectAllLostProperty" resultType="LostPropertyDto">
+	SELECT SEQ, RECEIPT_USER_ID, LOST_REGDATE, AND_DATE, LOST_KEEP_LOCATION, LOST_STATUS
+	FROM LOSTPROPERTY
+</select>
+
+<select id="selectOneLostProperty" parameterType="java.lang.String" resultType="LostPropertyDto">
+	SELECT *
+	FROM LOSTPROPERTY r
+	WHERE SEQ = #{seq}
+</select>
+
+</mapper>
