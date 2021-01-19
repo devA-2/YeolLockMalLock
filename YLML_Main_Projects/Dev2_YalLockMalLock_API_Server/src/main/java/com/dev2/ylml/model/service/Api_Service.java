@@ -1,33 +1,47 @@
 package com.dev2.ylml.model.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import lombok.extern.slf4j.Slf4j;
+import com.dev2.ylml.util.ApiServerHelper;
 
 
+import com.dev2.ylml.dto.MemberDto;
 import com.dev2.ylml.dto.LostPropertyDto;
 import com.dev2.ylml.dto.DeliveryDto;
 import com.dev2.ylml.dto.MemberDto;
 import com.dev2.ylml.dto.StorageGoodsDto;
 import com.dev2.ylml.dto.StorageListDto;
 import com.dev2.ylml.dto.UserStorageListDto;
-import com.dev2.ylml.model.dao.StorageDeliveryIDao;
-import com.dev2.ylml.dto.MemberDto;
-import com.dev2.ylml.model.dao.MemberDao;
-import com.dev2.ylml.util.ApiServerHelper;
+import com.dev2.ylml.dto.StorageBoxDto;
+import com.dev2.ylml.dto.StorageGoodsDto;
+import com.dev2.ylml.dto.StorageListDto;
 
+
+import com.dev2.ylml.model.dao.StorageDeliveryIDao;
+import com.dev2.ylml.model.dao.MemberDao;
+import com.dev2.ylml.model.dao.StorageDao;
+import com.dev2.ylml.model.dao.StorageIDao;
 import src.main.java.com.dev2.ylml.model.dao.LostPropertyDao;
 import src.main.java.com.dev2.ylml.model.dao.ReportDao;
 import src.main.java.com.dev2.ylml.model.dao.SearchDao;
 
+
 @Service
+@Slf4j
 public class Api_Service implements Api_IService{
   
 	@Autowired
 	ApiServerHelper helper;
 	
+
+	@Autowired
+	StorageIDao storageDao;
+
 	LostPropertyDao lostPropertyDao;
 	ReportDao reportDao;
 	SearchDao searchDao;
@@ -37,6 +51,7 @@ public class Api_Service implements Api_IService{
   
   @Autowired
 	MemberDao memberDao;
+
 
 	
 	//Certification -> 데이터의 0번째는 key 값 -> 틀리면 Certification:false로 return  한다
@@ -67,7 +82,9 @@ public class Api_Service implements Api_IService{
 		/* 데이터는 helper.getData로 웹에서 받은 데이터를 가져옴 */
 		MemberDto dto = (MemberDto)helper.getData(map);
 		/* 전달할 값은 그냥 편하게 작성*/
+
 		boolean isc=memberDao.insertMember(dto);
+
 		
 		
 		/* 전달할 값을 helper.generateData(-----)에 넣어서 return 하면 됨 */
@@ -200,80 +217,162 @@ public class Api_Service implements Api_IService{
 
 	@Override
 	public Map<String, Object> selectMap(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		List<Map<String, Object>> list = storageDao.selectMap();
+		return helper.generateData(list);
+		
 	}
 
 	@Override
 	public Map<String, Object> selectStorageList(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}		
+		List<Map<String, String>> list = storageDao.selectStorageList();
+		return helper.generateData(list);
 	}
 
 	@Override
 	public Map<String, Object> ajaxCountStorage(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		String id = (String) helper.getData(map);
+		StorageListDto dto =storageDao.ajaxCountStorage(id);
+		return helper.generateData(dto);
 	}
 
 	@Override
 	public Map<String, Object> selectStorageStatus(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		String id = (String) helper.getData(map);
+		List<StorageBoxDto> list =storageDao.selectStorageStatus(id);
+		return helper.generateData(list);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Object> insertGoods(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		Map<String, Object> box = (Map<String, Object>) helper.getData(map);
+		boolean isc1 = storageDao.insertGoods(box);
+		log.info("보관 등록 : "+isc1+" - map :"+ box);
+		boolean isc2 = storageDao.updateStatus(box);
+		log.info("보관함 사용중 처리 : "+isc2+" - map :"+ box);
+		boolean isc3 = storageDao.insertCost(box);
+		log.info("결제코드 생성 : "+isc3+" - map :"+ box);
+		boolean isc4 = storageDao.updateCostCode(box);
+		log.info("결제코드 수정 : "+isc4+" - map :"+ box);
+		boolean isc =  isc1 && isc2 && isc3 && isc4;
+		return helper.generateData(isc);
 	}
-
+	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Object> updateAllStatus(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		List<String> list = (List<String>) helper.getData(map);
+		int result = storageDao.updateAllStatus(list);
+		return helper.generateData(result);
 	}
-
+	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Object> updateExtend(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		Map<String, Object> box = (Map<String, Object>) helper.getData(map);
+		boolean isc1 = storageDao.updateExtend(box);
+		log.info("연장 시간, 횟수 수정 결과 : " +isc1);
+		boolean isc2 = storageDao.updateExtendCost(box);
+		log.info("연장 금액 수정 결과 : " +isc2);
+		boolean isc =  isc1 && isc2;
+		return helper.generateData(isc);
 	}
 
 	@Override
 	public Map<String, Object> compareKey(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		String key = (String) helper.getData(map);
+		String code = storageDao.compareKey(key);
+		return helper.generateData(code);
 	}
-
+	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Object> updateExtraCost(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		Map<String, Object> cost = (Map<String, Object>) helper.getData(map);
+		boolean isc = storageDao.updateExtendCost(cost);
+		return helper.generateData(isc);
 	}
-
+	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Object> afterPayment(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		Map<String, String> box = (Map<String, String>) helper.getData(map);
+		boolean isc1 = storageDao.updateStatusCheck(box);
+		log.info("결제코드로 해당 보관함 사용가능/사용불가 처리후 결과 : "+isc1);
+		boolean isc2 = storageDao.deleteGoods(box.get("costCode"));
+		log.info("결제 완료된 물품 정보 삭제 결과 : "+isc2);
+		boolean isc = isc1 && isc2;
+		return helper.generateData(isc);
 	}
 
 	@Override
 	public Map<String, Object> checkOutEmail(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		String email = (String) helper.getData(map);
+		String chkEmail = storageDao.checkOutEmail(email);
+		return helper.generateData(chkEmail);
 	}
-
+	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Object> updateOutUser(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		Map<String, Object> box = (Map<String, Object>) helper.getData(map);
+		boolean isc = storageDao.updateOutUser(box);
+		return helper.generateData(isc);
 	}
-
+	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Object> insertReturn(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		Map<String,String> box = (Map<String, String>) helper.getData(map);
+		StorageGoodsDto goodsDto = storageDao.selectForReturn(box.get("costCode"));
+		boolean isc1 = storageDao.deleteGoods(box.get("costCode"));
+		log.info("결제 완료된 물품 정보 삭제 결과 : "+ isc1);
+		goodsDto.setMessage(box.get("message"));
+		log.info("반품 하기 위해 받아온 Dto : "+ goodsDto);
+		boolean isc2 = storageDao.insertReturn(goodsDto);
+		log.info("반품 등록 결과 : "+isc2);
+		Map<String,Object> box2 = new HashMap<String, Object>();
+		box2.put("id", goodsDto.getStorageId());
+		box2.put("boxSeq", goodsDto.getBoxSeq());
+		boolean isc3 = storageDao.insertCost(box2);
+		log.info("반품 결제코드 생성 : "+isc3);
+		boolean isc4 = storageDao.updateCostCode(box2);
+		log.info("반품 결제코드 수정 : "+isc4);
+		boolean isc =  isc1 && isc2 && isc3 && isc4;
+		return helper.generateData(isc);
 	}
 
 	// TODO : 체크해야 하는 부분

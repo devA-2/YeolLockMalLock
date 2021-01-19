@@ -161,7 +161,7 @@ public interface Api_IService {
 	/**
 	 * 연장시간, 연장횟수 수정 + 연장 금액 수정
 	 * 
-	 * @param map
+	 * @param map(boxSeq, id, email)
 	 */
 	public Map<String, Object>/* boolean */ updateExtend(Map<String, Object> map/* Map<String, Object> map */);
 
@@ -169,9 +169,9 @@ public interface Api_IService {
 	 * 회수전 키 대조
 	 * 
 	 * @param key
-	 * @return cost_code, out_user
+	 * @return cost_code
 	 */
-	public Map<String, Object>/* UserGoodsDto */ compareKey(Map<String, Object> map/* String key */);
+	public Map<String, Object>/* String */ compareKey(Map<String, Object> map/* String key */);
 
 	/**
 	 * 키 일치할때 결제 전에 할증비용 추가
@@ -198,7 +198,7 @@ public interface Api_IService {
 	/**
 	 * 입력한 수령 사용자 보관물품에 등록
 	 * 
-	 * @param map
+	 * @param map(email,storageId,boxSeq)
 	 */
 	public Map<String, Object>/* boolean */ updateOutUser(Map<String, Object> map/* Map<String, Object> map */);
 

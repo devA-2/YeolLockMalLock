@@ -21,7 +21,7 @@
 		<mapper resource="/sqls/LostPropertyMapper.xml"/>
 		<mapper resource="/sqls/SearchMapper.xml"/>
 		<!-- <mapper resource="/sqls/StorageBox.xml"/> -->
-		<!-- <mapper resource="/sqls/StorageMapper.xml"/> -->
+		<mapper resource="/sqls/StorageMapper.xml"/>
 		<!-- <mapper resource="/sqls/RFIDMapper.xml"/> -->
 		<!-- <mapper resource="/sqls/Statement_Member.xml"/> -->
 	</mappers>
