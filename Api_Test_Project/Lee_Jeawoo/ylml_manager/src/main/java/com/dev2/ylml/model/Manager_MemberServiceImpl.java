@@ -24,7 +24,7 @@ public class Manager_MemberServiceImpl implements Manager_MemberIService {
 		return service.selectallDelivery();
 	}
 	
-	// 상세 정보조회 
+	// 담당자 및 배송원 상세 정보조회 
 	@Override
 	public Manager_MemberDto selectDetail(String email) {
 		logger.info("담당자 및 배송원 상세조회 selectDetail {}");
@@ -32,7 +32,7 @@ public class Manager_MemberServiceImpl implements Manager_MemberIService {
 		return dto;
 	}
 
-	// 배송 정보조회 
+	// 담당자 및 배송원 배송 정보조회 
 	@Override
 	public Manager_MemberDto DeliveryInfo(String email) {
 		logger.info("담당자 및 배송원 배송 정보조회 DeliveryInfo {}");
