@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dev2.ylml.dto.MemberDto;
 import com.dev2.ylml.util.ApiClientHelper;
 
 
@@ -25,6 +26,13 @@ public class ManagerService implements ManagerIService{
 		map.put("pw", pw);
 		
 		return (HashMap<String, String>)helper.request("sampleData.do", map);
+	}
+	
+	/*
+	 * 로그인
+	 */
+	public MemberDto login(Map<String, Object> map) {
+		return (MemberDto)helper.request("login.do", map);
 	}
 	
 	
