@@ -64,7 +64,7 @@ public interface DeliveryIService {
 	 * @param map
 	 * @return int
 	 */
-	public int pwSearch(Map<String, Object> map);
+	public int pwSearch(Map<String, String> map);
 	
 	/**
 	 * 개인정보 변경(지금은 휴대폰 번호만 변경가능하지만, 추후에 추가 가능)
