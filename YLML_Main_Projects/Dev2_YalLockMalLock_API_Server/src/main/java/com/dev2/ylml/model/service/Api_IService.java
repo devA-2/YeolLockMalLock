@@ -34,7 +34,7 @@ public interface Api_IService {
 	 * 휴대폰 중복검사
 	 * 
 	 * @param phoneNum
-	 * @return
+	 * @return int
 	 */
 	public Map<String, Object>/* int */ phoneCheck(Map<String, Object> map/* String phoneNum */);
 
@@ -82,7 +82,7 @@ public interface Api_IService {
 	 * 개인정보 변경(지금은 휴대폰 번호만 변경 가능하지만, 추후에 추가 될 수 있음)
 	 * 
 	 * @param map
-	 * @return
+	 * @return int
 	 */
 	public Map<String, Object>/* int */ updateInfo(Map<String, Object> map/* Map<String, Object> map */);
 
