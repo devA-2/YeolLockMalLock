@@ -472,7 +472,26 @@ public class Api_Service implements Api_IService{
 		}
 		return null;
 	}
-
+	
+	@Override
+	public Map<String, Object> updatedeliveryStrat(Map<String, Object> map) {
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		String deliveryCode = (String) helper.getData(map);
+		boolean isc = StorageDeliveryDao.updatedeliveryStrat(deliveryCode);
+		return helper.generateData(isc);
+	}
+	
+	@Override
+	public Map<String, Object> updateCostStatus(Map<String, Object> map) {
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		String costCode = (String) helper.getData(map);
+		boolean isc = StorageDeliveryDao.updateCostStatus(costCode);
+		return helper.generateData(isc);
+	}
 	
 // --------------------------------------------- 유실물 게시판
 	@Override

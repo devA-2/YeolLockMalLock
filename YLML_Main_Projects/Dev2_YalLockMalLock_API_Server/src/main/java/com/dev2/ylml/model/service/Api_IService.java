@@ -257,10 +257,23 @@ public interface Api_IService {
 			Map<String, Object> map/* DeliveryDto delDto, StorageGoodsDto goodsDto */);
 
 	/**
-	 * 배송 정보 조회(사용자)
+	 * 배송 정보 조회(사용자, 배송원)
 	 */
 	public Map<String, Object>/* List<DeliveryDto> */ selectUserDeliveryList(
-			Map<String, Object> map/* String email */);
+			Map<String, Object> map/* String email, String auth */);
+	
+	/**
+	 * 배송 시작 시간 업데이트
+	 */
+	public Map<String, Object>/* boolean */ updatedeliveryStrat(
+			Map<String, Object> map/* String deliveryCode */);
+	
+	/**
+	 * 결제 상태 업데이트
+	 */
+	public Map<String, Object>/* boolean */ updateCostStatus(
+			Map<String, Object> map/* String costCode */);
+	
 	/************************************게시판************************************/
 	/************************************지훈************************************/
 	/**
