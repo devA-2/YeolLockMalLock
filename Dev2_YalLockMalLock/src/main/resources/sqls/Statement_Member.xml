@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="member">
+
+<!--  회원가입 (임시 : id_num 가져올수 없어서 테스트용으로 씀) -->
+<insert id="insertMember" parameterType="com.dev2.ylml.dto.MemberDto">
+INSERT INTO MEMBER(ID_NUM, EMAIL, PW, NAME, PHONE_NUM)
+VALUES ('1251251255', #{email}, #{pw}, #{name},#{phone_num})
+</insert>
+
+<!-- 회원가입 (자동으로 id_num 가져 올때 -->
+<!-- <insert id="insertMember" parameterType="com.dev2.ylml.dto.MemberDto"> -->
+<!-- INSERT INTO MEMBER(ID_NUM, EMAIL, PW, NAME, PHONE_NUM) -->
+<!-- VALUES ('#{id_num}',#{email}, #{pw}, #{name},#{phone_num}) -->
+<!-- </insert> -->
+
+<!-- 이메일 인증 후 권한변경 -->
+<!-- <update id="emailAuth" parameterType="java.lang.Inteager"> -->
+<!-- UPDATE MEMBER SET -->
+<!-- AUTH = '10' -->
+<!-- WHERE EMAIL = ${email} -->
+<!-- </update> -->
+
+<!-- 아이디 중복검사 -->
+<select id="idCheck" parameterType="java.lang.String" resultType="java.lang.Integer">
+SELECT COUNT(EMAIL) EMAIL
+FROM MEMBER
+WHERE EMAIL = #{email}
+</select>
+
+<!-- 핸드폰 번호 중복검사 -->
+<select id="phoneCheck" parameterType="java.lang.String" resultType="java.lang.Integer">
+SELECT COUNT(PHONE_NUM) PHONE_NUM
+FROM MEMBER
+WHERE PHONE_NUM = #{phone_num}
+</select>
+
+<!-- 로그인 -->
+<!-- <select id="loginMember" parameterType="java.util.Map" resultType="com.dev2.ylml.dto.MemberDto"> -->
+<!-- SELECT EMAIL, NAME, AUTH, REG_DATE -->
+<!-- FROM MEMBER -->
+<!-- WHERE EMAIL = #{email} -->
+<!-- AND PW = #{pw} -->
+<!-- AND AUTH = '10' OR AUTH = '19' -->
+<!-- AND DEL_FLAG = 'N' -->
+<!-- </select> -->
+
+<!-- 암호화 로그인 -->
+<select id="enLogin" parameterType="java.util.Map" resultType="com.dev2.ylml.dto.MemberDto">
+SELECT EMAIL, NAME, AUTH, PHONE_NUM, REG_DATE
+FROM MEMBER
+WHERE EMAIL = #{email}
+AND AUTH IN ('10','19')
+AND DEL_FLAG = 'N'
+</select>
+
+<!-- 아이디로 암호화 된 비밀번호 찾기 -->
+<select id="enPw" parameterType="java.lang.String" resultType="java.lang.String">
+SELECT PW
+FROM MEMBER
+WHERE EMAIL = #{email}
+</select>
+
+<!-- 마이페이지 비밀번호 재확인 -->
+<!-- <select id="pwCheck" parameterType="java.lang.String" resultType="java.lang.Inteager"> -->
+<!-- SELECT COUNT(*) FROM MEMBER -->
+<!-- WHERE EMAIL= #{email} AND PW = #{pw}; -->
+<!-- </select> -->
+
+</mapper>

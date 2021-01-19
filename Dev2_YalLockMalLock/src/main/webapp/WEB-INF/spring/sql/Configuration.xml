@@ -8,6 +8,7 @@
 
 	<mappers>
 		<!--<mapper resource="/sqls/Statement_Member.xml"/>-->
+		<mapper resource="/com/dev2/ylml/mapper/storagebox/StorageBox.xml"/>
 	</mappers>
 
 </configuration>

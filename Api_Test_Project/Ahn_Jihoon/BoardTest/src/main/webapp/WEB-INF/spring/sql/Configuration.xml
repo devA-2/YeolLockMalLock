@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+
+	<typeAliases>
+		<typeAlias type="com.min.edu.dto.ReportDto" alias="ReportDto"/>
+		<typeAlias type="com.min.edu.dto.LostPropertyDto" alias="LostPropertyDto"/>
+		<typeAlias type="com.min.edu.dto.MemberDto" alias="MemberDto"/>
+	</typeAliases>
+	
+	<mappers>
+		<mapper resource="/sqls/ReportMapper.xml"/>
+		<mapper resource="/sqls/LostPropertyMapper.xml"/>
+		<mapper resource="/sqls/TestLogin.xml"/>
+		<mapper resource="/sqls/SearchMapper.xml"/>
+	</mappers>
+
+</configuration>
