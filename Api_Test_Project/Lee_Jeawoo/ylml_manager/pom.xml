@@ -25,8 +25,29 @@
 		<security.version>4.0.1.RELEASE</security.version>
 	</properties>
 
+	
 
 	<dependencies>
+	
+		<!-- AJAX를 사용시 Map의 타입을 JSON을 쉽게 사용하기 위한 라이브러리 -->
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-core</artifactId>
+		    <version>2.10.0</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.codehaus.jackson</groupId>
+		    <artifactId>jackson-mapper-asl</artifactId>
+		    <version>1.9.13</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-databind</artifactId>
+		    <version>2.10.0</version>
+		</dependency>
+	
 		<!-- spring framework -->
 		<dependency>
 			<groupId>org.springframework</groupId>

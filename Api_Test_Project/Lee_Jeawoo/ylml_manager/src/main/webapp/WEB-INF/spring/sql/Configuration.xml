@@ -4,10 +4,14 @@
 
 	<typeAliases>
 		<typeAlias type="com.dev2.ylml.dto.Manager_MemberDto" alias="ManagerDto"/>
+		<typeAlias type="com.dev2.ylml.dto.Manager_StorageDto" alias="StorageDto"/>
 	</typeAliases>
 	
 	<mappers>
-		<mapper resource="/sqls/Statement_Manager.xml"/>
+		<mapper resource="/sqls/ManagerMapper.xml"/>
+		<mapper resource="/sqls/LockerMapper.xml"/>
+		<mapper resource="/sqls/ManagerLoginMapper.xml"/>
 	</mappers>
-
+		
+	
 </configuration>

@@ -1,4 +1,4 @@
-package com.dev2.ylml.model;
+package com.dev2.ylml.model.dao;
 
 import java.util.List;
 

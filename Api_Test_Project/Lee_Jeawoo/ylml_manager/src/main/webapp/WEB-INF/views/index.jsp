@@ -8,6 +8,6 @@
 </head>
 <body>
 	index.jsp 입니다<br>
-	<h1><a href="./managerMain.do">관리자메인페이지로</a></h1>
+	<h1><a href="movetoLogin.do">관리자로그인페이지로</a></h1>
 </body>
 </html>

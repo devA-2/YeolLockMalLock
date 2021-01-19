@@ -1,4 +1,4 @@
-package com.dev2.ylml.model;
+package com.dev2.ylml.model.dao;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public class Manager_MemberDao implements Manager_MemberIDao {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	private final String NS = "com.dev2.ylml.model.Manager_MemberIDao.";
+	private final String NS = "com.dev2.ylml.model.dao.Manager_MemberIDao.";
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;
@@ -24,36 +24,28 @@ public class Manager_MemberDao implements Manager_MemberIDao {
 	@Override
 	public List<Manager_MemberDto> selectallDelivery() {
 		logger.info("Daoimpl + selectallDelivery");
-		List<Manager_MemberDto> lists = null;
-		lists = sqlSession.selectList(NS+"selectallDelivery");
-		return lists;
+		return sqlSession.selectList(NS+"selectallDelivery");
 	}
 	
 	// 상세 정보조회 id="selectDetail"
 	@Override
 	public Manager_MemberDto selectDetail(String email) {
 		logger.info("Daoimpl + selectDetail");
-		Manager_MemberDto dto = sqlSession.selectOne(NS+"selectDetail", email); 
-		return dto;
+		return sqlSession.selectOne(NS+"selectDetail", email); 
 	}
 	// 배송 정보조회 id="DeliveryInfo"
 	@Override
 	public Manager_MemberDto DeliveryInfo(String email) {
 		logger.info("Daoimpl + DeliveryInfo");
-		Manager_MemberDto dto = sqlSession.selectOne(NS+"DeliveryInfo", email);
-		return dto;
+		return sqlSession.selectOne(NS+"DeliveryInfo", email);
 	}
-	
-	
 	
 	
 	// 임시권한 담당자 및 배송원 정보조회 id="selectTempDelivery"
 	@Override
 	public List<Manager_MemberDto> selectTempDelivery() {
 		logger.info("Daoimpl + selectTempDelivery");
-		List<Manager_MemberDto> lists = null;
-		lists = sqlSession.selectList(NS+"selectTempDelivery");
-		return lists;
+		return sqlSession.selectList(NS+"selectTempDelivery");
 	}
 
 	// 담당자 및 배송원의 임시권한 -> 정식권한 id="modifyAuth"
@@ -70,8 +62,7 @@ public class Manager_MemberDao implements Manager_MemberIDao {
 	@Override
 	public Manager_MemberDto selectIdDelivery(String email) {
 		logger.info("Daoimpl + selectIdDelivery");
-		Manager_MemberDto dto = sqlSession.selectOne(NS+"selectIdDelivery", email);
-		return dto;
+		return sqlSession.selectOne(NS+"selectIdDelivery", email);
 	}
 
 	
