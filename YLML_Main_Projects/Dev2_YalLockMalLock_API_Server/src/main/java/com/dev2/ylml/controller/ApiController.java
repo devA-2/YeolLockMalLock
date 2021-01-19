@@ -249,11 +249,6 @@ public class ApiController {
 		return service.searchId2(map);
 	}
 	@ResponseBody
-	@RequestMapping(value = "insertLostProperty.do")
-	public Map<String, Object> insertLostProperty(Map<String, Object> map) {
-		return service.insertLostProperty(map);
-	}
-	@ResponseBody
 	@RequestMapping(value = "loginMember.do")
 	public Map<String, Object> loginMember(Map<String, Object> map) {
 		return service.loginMember(map);
