@@ -18,3 +18,5 @@ public interface DeliveryIService {
 	 */
 	HashMap<String, String> getSampleData(String id, String pw);
 }
+
+//public boolean insertMember(MemberDto memberDto);

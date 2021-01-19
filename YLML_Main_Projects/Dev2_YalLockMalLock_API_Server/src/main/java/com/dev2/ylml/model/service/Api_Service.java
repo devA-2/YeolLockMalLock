@@ -823,14 +823,13 @@ public class Api_Service implements Api_IService{
 	// TODO : list는 어떻게 해야하는지 몰라 냅둠
 	@Override
 	public Map<String, Object> memberUsing(Map<String, Object> map) {
-//		if(!helper.checkKey(map)) {
-//			return helper.keyFailed();
-//		}
-//		String email =  (String) helper.getData(map);
-//		List<UserGoodsDto> dto = memberDao.memberUsing(email);
-//		
-//		return helper.generateData(dto);
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		String email =  (String) helper.getData(map);
+		List<StorageGoodsDto> dto = memberDao.memberUsing(email);
+		
+		return helper.generateData(dto);
 	}
 
 	
