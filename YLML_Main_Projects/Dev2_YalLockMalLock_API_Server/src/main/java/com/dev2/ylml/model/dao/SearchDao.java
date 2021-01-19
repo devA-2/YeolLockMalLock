@@ -1,4 +1,4 @@
-package src.main.java.com.dev2.ylml.model.dao;
+package com.dev2.ylml.model.dao;
 
 import java.util.List;
 
@@ -6,11 +6,12 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.min.edu.dto.LostPropertyDto;
-import com.min.edu.dto.ReportDto;
+import com.dev2.ylml.dto.LostPropertyDto;
+import com.dev2.ylml.dto.ReportDto;
+
 
 @Repository
-public class SearchDao implements ISearchDao {
+public class SearchDao implements SearchIDao {
 
 	private final String NS="com.min.edu.model.ISearchDao.";
 	

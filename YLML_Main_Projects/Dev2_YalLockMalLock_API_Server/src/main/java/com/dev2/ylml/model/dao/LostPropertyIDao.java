@@ -1,8 +1,9 @@
-package src.main.java.com.dev2.ylml.model.dao;
+package com.dev2.ylml.model.dao;
 
 import java.util.List;
 
-import com.min.edu.dto.LostPropertyDto;
+import com.dev2.ylml.dto.LostPropertyDto;
+
 
 public interface LostPropertyIDao {
 

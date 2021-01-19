@@ -388,7 +388,7 @@ public interface Api_IService {
 	 * @param email
 	 * @return
 	 */
-	public Map<String, Object>/* Manager_MemberDto */ selectDetail(Map<String, Object> map /* String email */);
+	public Map<String, Object>/* Manager_MemberDto */ selectDetailGoReply(Map<String, Object> map /* String email */);
 
 	/**
 	 * 배송 정보조회

@@ -1,4 +1,4 @@
-package src.main.java.com.dev2.ylml.model.dao;
+package com.dev2.ylml.model.dao;
 
 import java.util.List;
 
@@ -6,10 +6,11 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.min.edu.dto.ReportDto;
+import com.dev2.ylml.dto.ReportDto;
+
 
 @Repository
-public class ReportDao implements IReportDao {
+public class ReportDao implements ReportIDao {
 
 	private final String NS="com.min.edu.model.IReportDao.";
 	
@@ -56,7 +57,7 @@ public class ReportDao implements IReportDao {
 	}
 
 	@Override
-	public ReportDto selectDetail(String seq) {
+	public ReportDto selectDetailGoReply(String seq) {
 		return sqlSession.selectOne(NS+"selectDetail", seq);
 	}
 
