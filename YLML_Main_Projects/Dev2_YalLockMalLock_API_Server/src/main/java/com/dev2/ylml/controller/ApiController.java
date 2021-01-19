@@ -234,8 +234,8 @@ public class ApiController {
 		return service.updateProcessStatus(map);
 	}
 	@ResponseBody
-	@RequestMapping(value = "selectReportDetail.do")
-	public Map<String, Object> selectReportDetail(Map<String, Object> map) {
+	@RequestMapping(value = "selectDetailGoReply.do")
+	public Map<String, Object> selectDetailGoReply(Map<String, Object> map) {
 		return service.selectDetailGoReply(map);
 	}
 	@ResponseBody
