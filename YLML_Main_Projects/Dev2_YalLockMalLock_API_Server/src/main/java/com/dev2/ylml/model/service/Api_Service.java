@@ -14,21 +14,18 @@ import com.dev2.ylml.dto.MemberDto;
 import com.dev2.ylml.dto.ReportDto;
 import com.dev2.ylml.dto.LostPropertyDto;
 import com.dev2.ylml.dto.DeliveryDto;
-import com.dev2.ylml.dto.MemberDto;
 import com.dev2.ylml.dto.StorageGoodsDto;
 import com.dev2.ylml.dto.StorageListDto;
 import com.dev2.ylml.dto.UserStorageListDto;
 import com.dev2.ylml.dto.StorageBoxDto;
-import com.dev2.ylml.dto.StorageGoodsDto;
-import com.dev2.ylml.dto.StorageListDto;
 
 
 import com.dev2.ylml.model.dao.StorageDeliveryIDao;
-import com.dev2.ylml.model.dao.LostPropertyDao;
-import com.dev2.ylml.model.dao.MemberDao;
+import com.dev2.ylml.model.dao.LostPropertyIDao;
+import com.dev2.ylml.model.dao.MemberIDao;
 import com.dev2.ylml.model.dao.ReportDao;
-import com.dev2.ylml.model.dao.SearchDao;
-import com.dev2.ylml.model.dao.StorageDao;
+import com.dev2.ylml.model.dao.ReportIDao;
+import com.dev2.ylml.model.dao.SearchIDao;
 import com.dev2.ylml.model.dao.StorageIDao;
 
 
@@ -40,22 +37,22 @@ public class Api_Service implements Api_IService{
 	ApiServerHelper helper;
 	
 	@Autowired
-	StorageIDao storageDao;
+	private StorageIDao storageDao;
 
 	@Autowired
-	LostPropertyDao lostPropertyDao;
+	private LostPropertyIDao lostPropertyDao;
 	
 	@Autowired
-	ReportDao reportDao;
+	private ReportIDao reportDao;
 	
 	@Autowired
-	SearchDao searchDao;
+	private SearchIDao searchDao;
 
 	@Autowired
 	private StorageDeliveryIDao StorageDeliveryDao;
   
-  @Autowired
-	MemberDao memberDao;
+	@Autowired
+	private MemberIDao memberDao;
 
 
 	
@@ -437,7 +434,7 @@ public class Api_Service implements Api_IService{
 		int deliveryQty = StorageDeliveryDao.selectDeliveryQty(deliverymanId);
 		return helper.generateData(deliveryQty);
 	}
-
+	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Object> selectDeliveryTime(Map<String, Object> map) {
 		if(!helper.checkKey(map)) {
