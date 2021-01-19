@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dev2.ylml.dto.MemberDto;
+import com.dev2.ylml.dto.StorageBoxDto;
+import com.dev2.ylml.dto.StorageGoodsDto;
+import com.dev2.ylml.dto.StorageListDto;
 import com.dev2.ylml.util.ApiClientHelper;
 
 
@@ -111,5 +114,74 @@ public class UserService implements UserIService{
 	 */
 	public int quitMember(String email) {
 		return (int)helper.request("quitMember.do", email);
+	}
+
+//	수정하시고 주석 풀어주세요 ~~
+	@Override
+	public List<Map<String, Object>> selectMap() {
+//		return (List<Map<String, Object>>)helper.request("selectMap.do");
+		return null;
+	}
+
+	@Override
+	public List<Map<String, String>> selectStorageList() {
+//		return (List<Map<String, String>>)helper.request("selectStorageList.do");
+		return null;
+	}
+
+	@Override
+	public StorageListDto ajaxCountStorage(String id) {
+		return (StorageListDto)helper.request("ajaxCountStorage.do", id);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<StorageBoxDto> selectStorageStatus(String id) {
+		return (List<StorageBoxDto>)helper.request("selectStorageStatus.do", id);
+	}
+
+	@Override
+	public boolean insertGoods(Map<String, Object> map) {
+		return (boolean)helper.request("insertGoods.do", map);
+	}
+
+	@Override
+	public int updateAllStatus(List<String> list) {
+		return (int)helper.request("updateAllStatus.do", list);
+	}
+
+	@Override
+	public boolean updateExtend(Map<String, Object> map) {
+		return (boolean)helper.request("updateExtend.do", map);
+	}
+
+	@Override
+	public String compareKey(String key) {
+		return (String)helper.request("compareKey.do", key);
+	}
+
+	@Override
+	public boolean updateExtraCost(Map<String, Object> map) {
+		return (boolean)helper.request("updateExtraCost.do", map);
+	}
+
+	@Override
+	public boolean afterPayment(Map<String, String> map) {
+		return (boolean)helper.request("afterPayment.do", map);
+	}
+
+	@Override
+	public String checkOutEmail(String email) {
+		return (String)helper.request("checkOutEmail.do", email);
+	}
+
+	@Override
+	public boolean updateOutUser(Map<String, Object> map) {
+		return (boolean)helper.request("updateOutUser.do", map);
+	}
+
+	@Override
+	public boolean insertReturn(Map<String, String> map) {
+		return (boolean)helper.request("insertReturn.do", map);
 	}
 }
