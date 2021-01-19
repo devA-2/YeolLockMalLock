@@ -371,13 +371,7 @@ public interface Api_IService {
 	public Map<String, Object>/* List<LostPropertyDto> */ searchId2(
 			Map<String, Object> map/* String receipt_user_id */); // 유실물 검색
 
-	/**
-	 * 유실물 입력
-	 * 
-	 * @param dto
-	 * @return
-	 */
-	public Map<String, Object>/* boolean */ insertLostProperty(Map<String, Object> map/* ReportDto dto */);
+
 	/************************************관리자************************************/
 	/************************************재우************************************/
 	/**
