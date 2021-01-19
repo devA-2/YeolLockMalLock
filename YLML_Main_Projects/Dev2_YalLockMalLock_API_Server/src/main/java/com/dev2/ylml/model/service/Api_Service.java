@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import com.dev2.ylml.dto.LostPropertyDto;
 import com.dev2.ylml.dto.DeliveryDto;
 import com.dev2.ylml.dto.MemberDto;
 import com.dev2.ylml.dto.StorageGoodsDto;
@@ -16,11 +17,20 @@ import com.dev2.ylml.model.dao.StorageDeliveryIDao;
 import com.dev2.ylml.dto.MemberDto;
 import com.dev2.ylml.model.dao.MemberDao;
 import com.dev2.ylml.util.ApiServerHelper;
+
+import src.main.java.com.dev2.ylml.model.dao.LostPropertyDao;
+import src.main.java.com.dev2.ylml.model.dao.ReportDao;
+import src.main.java.com.dev2.ylml.model.dao.SearchDao;
+
 @Service
 public class Api_Service implements Api_IService{
+  
 	@Autowired
 	ApiServerHelper helper;
 	
+	LostPropertyDao lostPropertyDao;
+	ReportDao reportDao;
+	SearchDao searchDao;
 
 	@Autowired
 	private StorageDeliveryIDao StorageDeliveryDao;
@@ -362,83 +372,118 @@ public class Api_Service implements Api_IService{
 		return null;
 	}
 
+	
+// --------------------------------------------- 유실물 게시판
 	@Override
 	public Map<String, Object> selectAllLostProperty(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		return helper.generateDate(lostPropertyDao.selectAllLostProperty());
 	}
 
 	@Override
 	public Map<String, Object> selectOneLostProperty(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		String seq = (String)helper.getData(map);
+		return helper.generateData(lostPropertyDao.selectOneLostProperty(seq));
 	}
 
+	// --------------------------------------------- 신고글 게시판
 	@Override
 	public Map<String, Object> insertReport(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		ReportDto dto = (ReportDto)helper.getData(map);
+		return helper.generateData(reportDao.insertReport(dto));
 	}
 
 	@Override
 	public Map<String, Object> replyReport(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		ReportDto dto = (ReportDto)helper.getData(map);
+		boolean isc = reportDao.replyReport(dto);
+		return helper.generateData(isc?true:false);
 	}
 
 	@Override
 	public Map<String, Object> reply(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		ReportDto dto = (ReportDto)helper.getData(map);
+		return helper.generateData(reportDao.reply(dto));
 	}
 
 	@Override
 	public Map<String, Object> modifyReport(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		3if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		ReportDto dto = (ReportDto)helper.getData(map);
+		return helper.generateData(reportDao.modifyReport(dto));
 	}
 
 	@Override
 	public Map<String, Object> selectAllReport(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		return helper.generateData(reportDao.selectAllReport());
 	}
 
 	@Override
 	public Map<String, Object> selectDetailReport(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		String refer = (String)helper.getData(map);
+		return helper.generateData(reportDao.selectDetailReport(refer));
 	}
 
 	@Override
 	public Map<String, Object> updateProcessStatus(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		ReportDto dto = (ReportDto)helper.getData(map);
+		return helper.generateData(reportDao.updateProcessStatus(dto));
 	}
 
 	@Override
-	public Map<String, Object> selectReportDetail(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+	public Map<String, Object> selectDetailGoReply(Map<String, Object> map) {
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		String seq = (String)helper.getData(map);
+		return helper.generateData(reportDao.selectDetail(seq));
 	}
 
+	// --------------------------------------------- 게시판 검색 기능
 	@Override
 	public Map<String, Object> searchId(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		String email = (String)helper.getData(map);
+		return helper.generateData(searchDao.searchId(email));
 	}
 
 	@Override
 	public Map<String, Object> searchId2(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		String receipt_user_id = (String)helper.getData(map);
+		return helper.generateData(searchDao.searchId2(receipt_user_id));
 	}
 
-	@Override
-	public Map<String, Object> insertLostProperty(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	// -----------------------------------------------------------------
 
 	@Override
 	public Map<String, Object> loginMember(Map<String, Object> map) {
