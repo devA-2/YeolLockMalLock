@@ -29,6 +29,12 @@ public class IReportServiceImpl implements IReportService {
 		boolean isc = iDao.replyReport(dto);
 		return isc?true:false;
 	}
+	
+	@Override
+	public boolean reply(ReportDto dto) {
+		log.info("답변 글 달기 실행 : {} ", dto);
+		return iDao.reply(dto);
+	}
 
 	@Override
 	public boolean modifyReport(ReportDto dto) {
@@ -66,10 +72,5 @@ public class IReportServiceImpl implements IReportService {
 		return iDao.selectDetail(seq);
 	}
 
-	@Override
-	public boolean reply(ReportDto dto) {
-		log.info("답변 글 달기 실행 : {} ", dto);
-		return iDao.reply(dto);
-	}
 
 }

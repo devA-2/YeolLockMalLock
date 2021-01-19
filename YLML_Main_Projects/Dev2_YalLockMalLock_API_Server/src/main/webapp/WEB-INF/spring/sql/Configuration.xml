@@ -7,9 +7,9 @@
 	<typeAliases>
 		<!-- <typeAlias type="com.dev2.ylml.dto.Manager_MemberDto" alias="ManagerDto"/> -->
 		<!-- <typeAlias type="com.dev2.ylml.dto.Manager_StorageDto" alias="StorageDto"/> -->
-		<!-- <typeAlias type="com.dev2.ylml.dto.ReportDto" alias="ReportDto"/> -->
-		<!-- <typeAlias type="com.dev2.ylml.dto.LostPropertyDto" alias="LostPropertyDto"/> -->
-		<!-- <typeAlias type="com.dev2.ylml.dto.MemberDto" alias="MemberDto"/> -->
+		<typeAlias type="com.dev2.ylml.dto.ReportDto" alias="ReportDto"/>
+		<typeAlias type="com.dev2.ylml.dto.LostPropertyDto" alias="LostPropertyDto"/>
+		<typeAlias type="com.dev2.ylml.dto.MemberDto" alias="MemberDto"/>
 		<!-- <typeAlias type="com.dev2.ylml.dto.RFIDDto" alias="RFIDDto"/> -->
 	</typeAliases>
 
@@ -17,9 +17,9 @@
 		<!-- <mapper resource="/sqls/ManagerMapper.xml"/> -->
 		<!-- <mapper resource="/sqls/LockerMapper.xml"/> -->
 		<!-- <mapper resource="/sqls/ManagerLoginMapper.xml"/> -->
-		<!-- <mapper resource="/sqls/ReportMapper.xml"/> -->
-		<!-- <mapper resource="/sqls/LostPropertyMapper.xml"/> -->
-		<!-- <mapper resource="/sqls/SearchMapper.xml"/> -->
+		<mapper resource="/sqls/ReportMapper.xml"/>
+		<mapper resource="/sqls/LostPropertyMapper.xml"/>
+		<mapper resource="/sqls/SearchMapper.xml"/>
 		<!-- <mapper resource="/sqls/StorageBox.xml"/> -->
 		<!-- <mapper resource="/sqls/StorageMapper.xml"/> -->
 		<!-- <mapper resource="/sqls/RFIDMapper.xml"/> -->
