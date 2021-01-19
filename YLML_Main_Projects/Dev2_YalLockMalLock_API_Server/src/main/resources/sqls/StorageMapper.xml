@@ -10,14 +10,14 @@
 		select storage_id AS "value" ,storage_name AS "label" ,address||' '||subway||' '||detail AS "desc" from storagebox_list
 	</select>
 
-	<select id="ajaxCountStorage" resultType="com.dev2.ylml.dto.StorageListDto">
+	<select id="ajaxCountStorage" resultType=".StorageListDto">
 		SELECT l.storage_id,l.storage_name,l.subway,l.address,l.detail,e.cnt
 		FROM storagebox_list L,(SELECT COUNT(*) cnt FROM ${id} WHERE
 		box_status='O')e
 		WHERE l.storage_id = #{id}
 	</select>
 
-	<select id="selectStorageStatus" parameterType="java.lang.String" resultType="com.dev2.ylml.dto.StorageBoxDto">
+	<select id="selectStorageStatus" parameterType="java.lang.String" resultType="StorageBoxDto">
 		select box_seq , box_status from ${id} ORDER by box_seq
 <!-- 	select box_seq , trim(box_status) as box_status from ${id} ORDER by box_seq -->
 	</select>
@@ -98,12 +98,12 @@
 	</update>
 	
 	<!-- 	반품할때 결제코드로 정보 가져오기  -->
-	<select id="selectForReturn" parameterType="java.lang.String" resultType="com.dev2.ylml.dto.StorageGoodsDto">
+	<select id="selectForReturn" parameterType="java.lang.String" resultType="StorageGoodsDto">
 		SELECT BOX_SEQ ,STORAGE_ID , IN_USER ,OUT_USER FROM STORAGE_GOODS sg WHERE COST_CODE =#{costCode}
 	</select>
 	
 	<!-- 	반품 등록 -->
-	<insert id="insertReturn" parameterType="com.dev2.ylml.dto.StorageGoodsDto">
+	<insert id="insertReturn" parameterType="StorageGoodsDto">
 		insert into storage_goods(box_seq,storage_id,in_user,out_user,category_code,message)
 		VALUES(#{boxSeq},#{storageId},#{outUser},#{inUser},'R',#{message})
 	</insert>
