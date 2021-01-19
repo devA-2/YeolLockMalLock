@@ -236,7 +236,7 @@ public class ApiController {
 	@ResponseBody
 	@RequestMapping(value = "selectReportDetail.do")
 	public Map<String, Object> selectReportDetail(Map<String, Object> map) {
-		return service.selectReportDetail(map);
+		return service.selectDetailGoReply(map);
 	}
 	@ResponseBody
 	@RequestMapping(value = "searchId.do")
