@@ -1,8 +1,9 @@
-package src.main.java.com.dev2.ylml.model.dao;
+package com.dev2.ylml.model.dao;
 
 import java.util.List;
 
-import com.min.edu.dto.ReportDto;
+import com.dev2.ylml.dto.ReportDto;
+
 
 public interface ReportIDao {
 
@@ -20,7 +21,7 @@ public interface ReportIDao {
 
 	public boolean updateProcessStatus(ReportDto dto);
 	
-	public ReportDto selectDetail(String seq);
+	public ReportDto selectDetailGoReply(String seq);
 	
 	public boolean reply(ReportDto dto);
 

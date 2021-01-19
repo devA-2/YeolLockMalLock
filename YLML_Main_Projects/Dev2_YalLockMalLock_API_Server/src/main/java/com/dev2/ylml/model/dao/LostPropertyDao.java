@@ -1,4 +1,4 @@
-package src.main.java.com.dev2.ylml.model.dao;
+package com.dev2.ylml.model.dao;
 
 import java.util.List;
 
@@ -6,10 +6,11 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.min.edu.dto.LostPropertyDto;
+import com.dev2.ylml.dto.LostPropertyDto;
+
 
 @Repository
-public class LostPropertyDao implements ILostPropertyDao {
+public class LostPropertyDao implements LostPropertyIDao {
 
 	private final String NS="com.min.edu.model.ILostPropertyDao.";
 	

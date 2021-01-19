@@ -11,6 +11,7 @@ import com.dev2.ylml.util.ApiServerHelper;
 
 
 import com.dev2.ylml.dto.MemberDto;
+import com.dev2.ylml.dto.ReportDto;
 import com.dev2.ylml.dto.LostPropertyDto;
 import com.dev2.ylml.dto.DeliveryDto;
 import com.dev2.ylml.dto.MemberDto;
@@ -23,12 +24,12 @@ import com.dev2.ylml.dto.StorageListDto;
 
 
 import com.dev2.ylml.model.dao.StorageDeliveryIDao;
+import com.dev2.ylml.model.dao.LostPropertyDao;
 import com.dev2.ylml.model.dao.MemberDao;
+import com.dev2.ylml.model.dao.ReportDao;
+import com.dev2.ylml.model.dao.SearchDao;
 import com.dev2.ylml.model.dao.StorageDao;
 import com.dev2.ylml.model.dao.StorageIDao;
-import src.main.java.com.dev2.ylml.model.dao.LostPropertyDao;
-import src.main.java.com.dev2.ylml.model.dao.ReportDao;
-import src.main.java.com.dev2.ylml.model.dao.SearchDao;
 
 
 @Service
@@ -38,12 +39,16 @@ public class Api_Service implements Api_IService{
 	@Autowired
 	ApiServerHelper helper;
 	
-
 	@Autowired
 	StorageIDao storageDao;
 
+	@Autowired
 	LostPropertyDao lostPropertyDao;
+	
+	@Autowired
 	ReportDao reportDao;
+	
+	@Autowired
 	SearchDao searchDao;
 
 	@Autowired
@@ -478,7 +483,7 @@ public class Api_Service implements Api_IService{
 		if(!helper.checkKey(map)) {
 			return helper.keyFailed();
 		}
-		return helper.generateDate(lostPropertyDao.selectAllLostProperty());
+		return helper.generateData(lostPropertyDao.selectAllLostProperty());
 	}
 
 	@Override
@@ -521,7 +526,7 @@ public class Api_Service implements Api_IService{
 
 	@Override
 	public Map<String, Object> modifyReport(Map<String, Object> map) {
-		3if(!helper.checkKey(map)) {
+		if(!helper.checkKey(map)) {
 			return helper.keyFailed();
 		}
 		ReportDto dto = (ReportDto)helper.getData(map);
@@ -560,7 +565,7 @@ public class Api_Service implements Api_IService{
 			return helper.keyFailed();
 		}
 		String seq = (String)helper.getData(map);
-		return helper.generateData(reportDao.selectDetail(seq));
+		return helper.generateData(reportDao.selectDetailGoReply(seq));
 	}
 
 	// --------------------------------------------- 게시판 검색 기능
