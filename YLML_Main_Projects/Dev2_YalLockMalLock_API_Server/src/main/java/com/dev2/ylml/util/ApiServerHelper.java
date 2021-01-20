@@ -54,7 +54,12 @@ public class ApiServerHelper {
 		this.KEY = key;
 		this.KEY_UNCHECK = key_uncheck;
 	}
-
+	public Map<String, Object> generateData(){
+		Class<Void> clazz = Void.TYPE;
+		return generateData(clazz);
+		
+	}
+	
 	public <T> Map<String, Object> generateData(T data) {
 		Map<String, Object> map= keySucceed();
 		map.put("data",data);

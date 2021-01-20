@@ -11,6 +11,7 @@ public interface Api_IService {
 	 * @return
 	 */
 	public Map<String, Object> getSampleData(Map<String, Object> map);
+	public Map<String, Object> getSampleData2(Map<String, Object> map);
 
 	/************************************회원관리************************************/
 	/************************************기수************************************/

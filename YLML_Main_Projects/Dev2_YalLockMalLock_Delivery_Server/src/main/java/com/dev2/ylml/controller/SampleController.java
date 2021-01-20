@@ -39,7 +39,11 @@ public class SampleController {
 		return service.getSampleData(id, pw);
 	}
 	
-	
+	@ResponseBody
+	@RequestMapping(value = "sampleData2.do")
+	public String sampleData2(){
+		return service.getSampleData2();
+	}
 	/* 엑셀 다운로드 예제 */
 	@Autowired
 	ExcelDownload excelView;

@@ -15,7 +15,8 @@ import com.dev2.ylml.util.ApiClientHelper;
 public class DeliveryService implements DeliveryIService{
 	@Autowired
 	ApiClientHelper helper;
-
+	
+	@Override
 	@SuppressWarnings("unchecked")
 	public HashMap<String, String> getSampleData(String id, String pw) {
 		//URL+PW로 데이터를 만들어서 전달
@@ -29,7 +30,10 @@ public class DeliveryService implements DeliveryIService{
 		//helper.getData(map)가 캐스팅된 타입이 helper.request("sampleData.do", map)의 map에 들어감
 		return (HashMap<String, String>)helper.request("sampleData.do", map);
 	}
-	
+	@Override
+	public String getSampleData2(){
+		return helper.request("sampleData.do2").getClass().getName();
+	}
 	/*
 	 * 회원가입
 	 */

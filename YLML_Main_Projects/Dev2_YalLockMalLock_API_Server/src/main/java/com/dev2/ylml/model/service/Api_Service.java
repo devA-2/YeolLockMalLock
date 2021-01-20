@@ -68,8 +68,8 @@ public class Api_Service implements Api_IService{
 	@Autowired
 	private MemberIDao memberDao;
 
-	
 	//Certification -> 데이터의 0번째는 key 값 -> 틀리면 Certification:false로 return  한다
+	@Override
 	@SuppressWarnings("unchecked")
 	public Map<String, Object> getSampleData(Map<String, Object> map){
 		//무조건 if(checkKey) return문을 추가해줘야함
@@ -84,6 +84,18 @@ public class Api_Service implements Api_IService{
 		
 		//dao에서 받아온 데이터는 helper.generateData()에 담아서 전달함
 		return helper.generateData(sendData);
+	}
+	@Override
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> getSampleData2(Map<String, Object> map){
+		//무조건 if(checkKey) return문을 추가해줘야함
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		
+		
+		//dao에서 받아온 데이터는 helper.generateData()에 담아서 전달함
+		return helper.generateData();
 	}
 
 	@Override
@@ -831,6 +843,8 @@ public class Api_Service implements Api_IService{
 		
 		return helper.generateData(dto);
 	}
+
+	
 
 	
 	
