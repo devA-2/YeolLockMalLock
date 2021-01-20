@@ -81,7 +81,7 @@
 	</div>
 	
 	<div>
-		<form action="./searchId.do" method="post">
+		<form action="./searchIdReport.do" method="post">
 			<input type="text" value="USER02@NAVER.COM" name="email">
 			<input type="submit" value="검색">
 		</form>
