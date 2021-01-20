@@ -27,6 +27,8 @@ public class ApiClientHelper {
 	public ApiClientHelper(String url, String key) {
 		this.URL=url;
 		this.KEY=key;
+		
+		System.out.println("ApiClientHelper 빈 생성 -> URL : "+URL+", KEY : "+KEY);
 	}
 	public Object request(String path) {
 		Class<Void> clazz = Void.TYPE;
@@ -96,8 +98,11 @@ public class ApiClientHelper {
 	    
 		try {
 			dataStr = mapper.writeValueAsString(data);
+			
+			
 			json.put("data", dataStr);
 			json.put("className", data.getClass().getName());
+			System.out.println("ApiClientHelper requestData -> JSON : "+json.toJSONString());
 			
 			CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 			

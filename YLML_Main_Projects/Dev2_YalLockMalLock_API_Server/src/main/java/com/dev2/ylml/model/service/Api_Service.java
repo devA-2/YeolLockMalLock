@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +39,7 @@ import com.dev2.ylml.model.dao.Manager_StorageIDao;
 @Service
 @Slf4j
 public class Api_Service implements Api_IService{
-  
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	ApiServerHelper helper;
 	
@@ -79,7 +81,7 @@ public class Api_Service implements Api_IService{
 		Map<String, String> reciveData=(Map<String, String>) helper.getData(map);
 		
 		Map<String, String> sendData = reciveData;
-		System.out.println(sendData.get("id")+" / "+ map.get("pw"));
+		//logger.trace(sendData.get("id")+" / "+ sendData.get("pw"));
 		
 		
 		//dao에서 받아온 데이터는 helper.generateData()에 담아서 전달함
@@ -122,6 +124,7 @@ public class Api_Service implements Api_IService{
 
 	@Override
 	public Map<String, Object> idCheck(Map<String, Object> map) {
+		System.out.println("idCheck -> 맴버디티오 : "+map);
 		if(!helper.checkKey(map)) {
 			return helper.keyFailed();
 		}
