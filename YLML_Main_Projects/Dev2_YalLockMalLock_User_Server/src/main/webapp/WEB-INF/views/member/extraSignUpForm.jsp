@@ -20,7 +20,7 @@
 <!-- 휴대폰 인증 유효성 검사를 세션에 담아서 체크하는 거 구현해야함... 메일 보내는 것도.. -->
 	<div id="container">
 		<h1>회원가입</h1>
-		<form action="./insertMember.do" id="joinChkFrm" method="post">
+		<form action="member/insertMember.do" id="joinChkFrm" method="post">
 			<label>아이디: </label>
 				${email }<br>
 				<input type="hidden" id="email" name="email" value="${email}" >
