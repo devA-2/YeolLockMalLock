@@ -7,7 +7,6 @@
 	</typeAliases>
 	
 	<mappers>
-		<!--<mapper resource="/sqls/Statement_Member.xml"/>-->
 	</mappers>
 
 </configuration>

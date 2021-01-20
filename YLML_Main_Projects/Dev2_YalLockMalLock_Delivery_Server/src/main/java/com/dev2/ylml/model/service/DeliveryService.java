@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dev2.ylml.dto.MemberDto;
 import com.dev2.ylml.util.ApiClientHelper;
 
 
@@ -29,10 +30,68 @@ public class DeliveryService implements DeliveryIService{
 		return (HashMap<String, String>)helper.request("sampleData.do", map);
 	}
 	
-	//public boolean insertMember(MemberDto memberDto) {
-	//	return (boolean)helper.request("insertMember.do", memberDto);
-	//}
-	//필요한 dto 들고 오셔야하구여
-	//iService 에 본인이 사용할 메소드들을 api 서버에서 복사해서 input(파라미터) output(리턴) 수정해주시고 구현해주시면 됩니당
+	/*
+	 * 회원가입
+	 */
+	public boolean insertMember(MemberDto memberDto) {
+		return (boolean)helper.request("insertMember.do", memberDto);
+	}
+	
+	/*
+	 * 아이디 중복체크
+	 */
+	public int idCheck(String email) {
+		return (int)helper.request("idCheck.do", email);
+	}
+	
+	/*
+	 * 휴대폰 중복체크
+	 */
+	public int phoneCheck(String phoneNum) {
+		return (int)helper.request("phoneCheck.do", phoneNum);
+		
+	}
+	
+	/*
+	 * 로그인
+	 */
+	public MemberDto login(Map<String, Object> map) {
+		return (MemberDto)helper.request("login.do", map);
+	}
+	
+	/*
+	 * 아이디 찾기
+	 */
+	public String idSearch(Map<String, Object> map) {
+		return (String)helper.request("idSearch,do", map);
+	}
+	
+	/*
+	 * 비밀번호 찾기
+	 */
+	public int pwSearch(Map<String, String> map) {
+		return (int)helper.request("pwSearch.do", map);
+	}
+	
+	/*
+	 * 개인정보 변경
+	 */
+	public int updateInfo(Map<String, Object> map) {
+		return (int)helper.request("updateInfo.do", map);
+	}
+	
+	/*
+	 * 비밀번호 변경
+	 */
+	public int updatePw(MemberDto dto) {
+		return (int)helper.request("updatePw.do", dto);
+	}
+	
+	/*
+	 * 회원탈퇴
+	 */
+	public int quitMember(String email) {
+		return (int)helper.request("quitMember.do", email);
+	}
 	
 }

@@ -42,13 +42,13 @@ public class Api_Service implements Api_IService{
 	ApiServerHelper helper;
 	
 	@Autowired
-	private Manager_StorageIDao manager_storageService;
+	private Manager_StorageIDao manager_storageDao;
   
 	@Autowired
-	private Manager_MemberIDao manager_memberService;
+	private Manager_MemberIDao manager_memberDao;
   
 	@Autowired
-	private ManagerLoginIDao managerLoginService;
+	private ManagerLoginIDao managerLoginDao;
   
 	@Autowired
 	private StorageIDao storageDao;
@@ -644,7 +644,7 @@ public class Api_Service implements Api_IService{
 			return helper.keyFailed();
 		}
 		Map<String, Object> login = (Map<String, Object>)helper.getData(map);
-		Manager_MemberDto dto = managerLoginService.loginMember(login);
+		Manager_MemberDto dto = managerLoginDao.loginMember(login);
 		return helper.generateData(dto);
 	}
 
@@ -654,7 +654,7 @@ public class Api_Service implements Api_IService{
 		if(!helper.checkKey(map)) {
 			return helper.keyFailed();
 		}
-		List<Manager_MemberDto> dto = manager_memberService.selectallDelivery();
+		List<Manager_MemberDto> dto = manager_memberDao.selectallDelivery();
 		return helper.generateData(dto);
 	}
 
@@ -665,7 +665,7 @@ public class Api_Service implements Api_IService{
 			return helper.keyFailed();
 		}
 		String email = (String)helper.getData(map);
-		Manager_MemberDto dto = manager_memberService.selectDetail(email);
+		Manager_MemberDto dto = manager_memberDao.selectDetail(email);
 		return helper.generateData(dto);
 	}
 
@@ -676,7 +676,7 @@ public class Api_Service implements Api_IService{
 			return helper.keyFailed();
 		}
 		String email = (String)helper.getData(map);
-		Manager_MemberDto dto = manager_memberService.DeliveryInfo(email);
+		Manager_MemberDto dto = manager_memberDao.DeliveryInfo(email);
 		return helper.generateData(dto);
 	}
 
@@ -686,7 +686,7 @@ public class Api_Service implements Api_IService{
 		if(!helper.checkKey(map)) {
 			return helper.keyFailed();
 		}
-		List<Manager_MemberDto> dto = manager_memberService.selectTempDelivery();
+		List<Manager_MemberDto> dto = manager_memberDao.selectTempDelivery();
 		return helper.generateData(dto);
 	}
 
@@ -697,7 +697,7 @@ public class Api_Service implements Api_IService{
 			return helper.keyFailed();
 		}
 		String email = (String)helper.getData(map);
-		boolean isc = manager_memberService.modifyAuth(email);
+		boolean isc = manager_memberDao.modifyAuth(email);
 		return helper.generateData(isc);
 	}
 
@@ -708,14 +708,14 @@ public class Api_Service implements Api_IService{
 			return helper.keyFailed();
 		}
 		String email = (String)helper.getData(map);
-		Manager_MemberDto lists = manager_memberService.selectIdDelivery(email);
+		Manager_MemberDto lists = manager_memberDao.selectIdDelivery(email);
 		return helper.generateData(lists);
 	}
 
 	// 보관함 전체 조회
 	@Override
 	public Map<String, Object> selectAllStorage(Map<String, Object> map) {
-		List<Manager_StorageDto> lists = manager_storageService.selectAllStorage();
+		List<Manager_StorageDto> lists = manager_storageDao.selectAllStorage();
 		return helper.generateData(lists);
 	}
 
@@ -726,7 +726,7 @@ public class Api_Service implements Api_IService{
 			return helper.keyFailed();
 		}
 		String storage_id = (String)helper.getData(map);
-		Manager_StorageDto dto = manager_storageService.selectIdStorage(storage_id);
+		Manager_StorageDto dto = manager_storageDao.selectIdStorage(storage_id);
 		return helper.generateData(dto);
 	}
 
@@ -737,7 +737,7 @@ public class Api_Service implements Api_IService{
 			return helper.keyFailed();
 		}
 		String subway = (String)helper.getData(map);
-		Manager_StorageDto dto = manager_storageService.selectSubwayStorage(subway);
+		Manager_StorageDto dto = manager_storageDao.selectSubwayStorage(subway);
 		return helper.generateData(dto);
 	}
 
@@ -748,7 +748,7 @@ public class Api_Service implements Api_IService{
 			return helper.keyFailed();
 		}
 		String storage_id = (String)helper.getData(map);
-		Manager_StorageDto dto = manager_storageService.selectDetailStorage(storage_id);
+		Manager_StorageDto dto = manager_storageDao.selectDetailStorage(storage_id);
 		return helper.generateData(dto);
 	}
 
@@ -759,7 +759,7 @@ public class Api_Service implements Api_IService{
 			return helper.keyFailed();
 		}
 		String storage_id = (String)helper.getData(map);
-		List<Manager_StorageDto> lists = manager_storageService.selectBoxStatus(storage_id);
+		List<Manager_StorageDto> lists = manager_storageDao.selectBoxStatus(storage_id);
 		return helper.generateData(lists);
 	}
 
@@ -770,7 +770,7 @@ public class Api_Service implements Api_IService{
 			return helper.keyFailed();
 		}
 		Manager_StorageDto dto = (Manager_StorageDto)helper.getData(map);
-		boolean isc = manager_storageService.registStorage(dto);
+		boolean isc = manager_storageDao.registStorage(dto);
 		return helper.generateData(isc);
 	}
 
@@ -781,7 +781,7 @@ public class Api_Service implements Api_IService{
 			return helper.keyFailed();
 		}
 		Manager_StorageDto dto = (Manager_StorageDto)helper.getData(map);
-		boolean isc = manager_storageService.modifyStorage(dto);
+		boolean isc = manager_storageDao.modifyStorage(dto);
 		return helper.generateData(isc);
 	}
 
@@ -792,7 +792,7 @@ public class Api_Service implements Api_IService{
 			return helper.keyFailed();
 		}
 		String seq = (String)helper.getData(map);
-		boolean isc = manager_storageService.ActivateStorage(seq);
+		boolean isc = manager_storageDao.ActivateStorage(seq);
 		return helper.generateData(isc);
 	}
 
