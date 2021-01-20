@@ -1,13 +1,29 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+<style type="text/css">
+#container{
+   width : 360px;
+   height: 600px;
+   border: 1px solid black;
+   margin: auto;
+}
+</style>
+<script type="text/javascript">
+
+
+</script>
+
+<title>Test Index</title>
 </head>
 <body>
-	index.jsp 입니다<br>
-	<h1><a href="movetoLogin.do">관리자로그인페이지로</a></h1>
+<div>
+   <div id="container">
+   	<h1><a href="movetoLogin.do">관리자로그인페이지로</a></h1>
+   </div>
+</div>
+
 </body>
 </html>

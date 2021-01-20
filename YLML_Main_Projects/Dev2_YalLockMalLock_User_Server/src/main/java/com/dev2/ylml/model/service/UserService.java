@@ -61,14 +61,14 @@ public class UserService implements UserIService{
 	 * api 간편 로그인
 	 */
 	public MemberDto apiLogin(Map<String, Object> map) {
-		return (MemberDto)helper.request("apiLogin.do", map);
+		return (MemberDto)helper.request("naverCallback.do", map);
 	}
 	
 	/*
 	 * 일반회원 임시권한 변경
 	 */
 	public boolean authUpdate(MemberDto dto) {
-		return (boolean)helper.request("authUpdate.do", dto);
+		return (boolean)helper.request("checkCode.do", dto);
 	}
 	
 	/*
@@ -81,7 +81,7 @@ public class UserService implements UserIService{
 	/*
 	 * 비밀번호 찾기
 	 */
-	public int pwSearch(Map<String, Object> map) {
+	public int pwSearch(Map<String, String> map) {
 		return (int)helper.request("pwSearch.do", map);
 	}
 	
