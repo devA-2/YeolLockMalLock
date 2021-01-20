@@ -10,7 +10,7 @@
 		select storage_id AS "value" ,storage_name AS "label" ,address||' '||subway||' '||detail AS "desc" from storagebox_list
 	</select>
 
-	<select id="ajaxCountStorage" resultType=".StorageListDto">
+	<select id="ajaxCountStorage" resultType="StorageListDto">
 		SELECT l.storage_id,l.storage_name,l.subway,l.address,l.detail,e.cnt
 		FROM storagebox_list L,(SELECT COUNT(*) cnt FROM ${id} WHERE
 		box_status='O')e
