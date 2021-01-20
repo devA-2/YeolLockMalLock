@@ -4,8 +4,10 @@
 package com.dev2.ylml.model.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import com.dev2.ylml.dto.DeliveryDto;
 import com.dev2.ylml.dto.MemberDto;
 
 /**
@@ -89,5 +91,18 @@ public interface DeliveryIService {
 	 * @return int
 	 */
 	public int quitMember(String email);
+	
+	
+	
+	/**
+	 * 배송 정보 조회(사용자, 배송원)
+	 */
+	public List<DeliveryDto> selectDeliveryList(String email, String auth);
+	
+	/**
+	 * 배송 시작 시간 업데이트
+	 */
+	public boolean updatedeliveryStrat(String deliveryCode);
+	
 }
 

@@ -7,10 +7,12 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dev2.ylml.dto.DeliveryDto;
 import com.dev2.ylml.dto.MemberDto;
 import com.dev2.ylml.dto.StorageBoxDto;
 import com.dev2.ylml.dto.StorageGoodsDto;
 import com.dev2.ylml.dto.StorageListDto;
+import com.dev2.ylml.dto.UserStorageListDto;
 import com.dev2.ylml.util.ApiClientHelper;
 
 
@@ -184,4 +186,68 @@ public class UserService implements UserIService{
 	public boolean insertReturn(Map<String, String> map) {
 		return (boolean)helper.request("insertReturn.do", map);
 	}
+
+	
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<UserStorageListDto> selectUserStorageList(String email) {
+		return (List<UserStorageListDto>) helper.request("selectUserStorageList.do", email);
+	}
+
+	@Override
+	public StorageListDto selectStorageBoxList(String storageId) {
+		return (StorageListDto) helper.request("selectStorageBoxList.do", storageId);
+	}
+
+	@Override
+	public StorageGoodsDto selectStorageGoods(Map<String, Object> map) {
+		return (StorageGoodsDto) helper.request("selectStorageGoods.do", map);
+	}
+
+	@Override
+	public int selectTimeTableSeq(String subway) {
+		return (int) helper.request("selectTimeTableSeq.do", subway);
+	}
+
+	@Override
+	public int selectSubwayCnt() {
+		return 0;
+	}
+
+	@Override
+	public List<MemberDto> selectDeliveryMan() {
+		return null;
+	}
+
+	@Override
+	public String selectDeliveryLoc(String deliverymanId) {
+		return (String) helper.request("selectDeliveryLoc.do", deliverymanId);
+	}
+
+	@Override
+	public int selectDeliveryQty(String deliverymanId) {
+		return (int) helper.request("selectDeliveryQty.do", deliverymanId);
+	}
+
+	@Override
+	public int selectDeliveryTime(Map<String, Integer> subwaySeqs) {
+		return (int) helper.request("selectDeliveryTime.do", subwaySeqs);
+	}
+
+	@Override
+	public boolean insertDelivery(DeliveryDto delDto, StorageGoodsDto goodsDto) {
+		return false;
+	}
+
+	@Override
+	public List<DeliveryDto> selectDeliveryList(String email, String auth) {
+		return null;
+	}
+
+	@Override
+	public boolean updateCostStatus(String costCode) {
+		return (boolean)helper.request("updateCostStatus.do", costCode);
+	}
+	
 }

@@ -30,6 +30,7 @@
 		<mapper resource="/sqls/MemberMapper.xml"/>
 		<!-- <mapper resource="/sqls/StorageBox.xml"/> -->
 		<mapper resource="/sqls/StorageMapper.xml"/>
+		<mapper resource="/sqls/DeliveryMapper.xml"/>
 		<!-- <mapper resource="/sqls/RFIDMapper.xml"/> -->
 	</mappers>
 

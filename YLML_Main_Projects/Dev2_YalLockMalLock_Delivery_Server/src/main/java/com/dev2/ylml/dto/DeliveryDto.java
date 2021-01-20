@@ -25,6 +25,6 @@ public class DeliveryDto implements Serializable {
 	String deliverymanId;
 	String outboxId;
 	Date deliveryStart;
-	String deliveryArrive;
+	Date deliveryArrive;
 	
 }
