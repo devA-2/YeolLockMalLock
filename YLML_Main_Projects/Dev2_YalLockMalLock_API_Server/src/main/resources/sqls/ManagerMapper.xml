@@ -13,7 +13,7 @@
 	<!-- 상세 정보조회 -->
 	<select id="selectDetail" parameterType="java.lang.String" 
 	resultType="ManagerDto">
-	SELECT EMAIL, NAME, PHONE_NUM, REG_DATE , LEAVE_DATE, AUTH
+	SELECT EMAIL, NAME, PHONE_NUM, REG_DATE , LEV_DATE, AUTH
 	FROM "MEMBER" m
 	WHERE EMAIL = #{email}
 	</select>
@@ -28,8 +28,6 @@
 	FROM DELIVERY d2
 	WHERE DELIVERYMAN_ID = #{email}
 	</select>
-	
-	
 	
 	
 	<!-- 임시권한 담당자 및 배송원 정보조회 -->
@@ -59,7 +57,7 @@
 	#{email}) AS CURRENT_LOC,
 	(SELECT DELIVERY_CODE FROM DELIVERY D2 WHERE DELIVERYMAN_ID = 
 	#{email}) AS DELIVERY_CODE
-	FROM MEMBER
+	FROM "MEMBER"
 	WHERE EMAIL = #{email}
 	</select>
   	
