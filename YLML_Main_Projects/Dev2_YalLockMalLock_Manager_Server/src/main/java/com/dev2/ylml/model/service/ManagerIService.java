@@ -46,7 +46,7 @@ public interface ManagerIService {
 	/** 담당자 및 배송원 전체 정보조회
 	 * @return
 	 */
-	public List<Manager_MemberDto> selectallDelivery();
+//	public List<Manager_MemberDto> selectallDelivery();
 	
 	
 	
@@ -67,7 +67,7 @@ public interface ManagerIService {
 	/** 임시권한 담당자 및 배송원 정보조회
 	 * @return
 	 */
-	public List<Manager_MemberDto> selectTempDelivery();
+//	public List<Manager_MemberDto> selectTempDelivery();
 	
 	/** 담당자 및 배송원 임시권한 변경
 	 * @param dto
@@ -86,7 +86,7 @@ public interface ManagerIService {
 	/**	보관함 전체조회
 	 * @return
 	 */
-	public List<Manager_StorageDto> selectAllStorage();
+//	public List<Manager_StorageDto> selectAllStorage();
 	
 	/** 보관함 ID 조회
 	 * 보관함 ID, 보관함 지하철역으로 검색하여 리스트 출력

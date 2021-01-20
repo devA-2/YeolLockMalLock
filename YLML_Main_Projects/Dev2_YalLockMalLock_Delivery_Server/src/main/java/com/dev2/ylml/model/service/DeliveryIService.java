@@ -22,6 +22,7 @@ public interface DeliveryIService {
 	 * @return
 	 */
 	HashMap<String, String> getSampleData(String id, String pw);
+	String getSampleData2();
 	
 	/**
 	 * 회원가입 
