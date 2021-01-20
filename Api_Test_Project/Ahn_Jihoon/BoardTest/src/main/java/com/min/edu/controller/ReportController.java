@@ -192,7 +192,7 @@ public class ReportController {
 
 		mailService.sendMail(email, title, content); // 여기가 널포인트가 뜬다 ?
 		
-		return "redirect:/reportList.do";
+		return "redirect:/adminReportList.do";
 	}
 	
 	@RequestMapping(value = "/selectDetail.do", method=RequestMethod.GET)

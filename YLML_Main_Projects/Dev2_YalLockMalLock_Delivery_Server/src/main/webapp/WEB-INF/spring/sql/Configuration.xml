@@ -9,7 +9,6 @@
 	</typeAliases>
 	
 	<mappers>
-		<mapper resource="/sqls/MemberMapper.xml"/>
 	</mappers>
 
 </configuration>
