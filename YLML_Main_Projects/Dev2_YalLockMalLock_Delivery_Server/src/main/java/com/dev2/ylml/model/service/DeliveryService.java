@@ -69,7 +69,7 @@ public class DeliveryService implements DeliveryIService{
 	/*
 	 * 비밀번호 찾기
 	 */
-	public int pwSearch(Map<String, Object> map) {
+	public int pwSearch(Map<String, String> map) {
 		return (int)helper.request("pwSearch.do", map);
 	}
 	
