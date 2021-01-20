@@ -27,7 +27,11 @@ public class ApiClientHelper {
 		this.URL=url;
 		this.KEY=key;
 	}
-
+	public Object request(String path) {
+		Void clazz = null;
+		return request(path, clazz);
+	}
+	
 	public <T> Object request(String path, T data) {
 		JSONObject result = requestData(path, data);
 		boolean cert =(boolean)result.get("Certification");

@@ -39,6 +39,12 @@ public class SampleController {
 	}
 	
 	@ResponseBody
+	@RequestMapping(value = "sampleData2.do")
+	public Map<String, Object> sampleData2(@RequestBody Map<String, Object> map){
+		return service.getSampleData2(map);
+	}
+	
+	@ResponseBody
 	@RequestMapping(value = "sampleDataTest.do")
 	public Map<String, Object> sampleDataTest(){
 		Map<String, Object> map=new HashMap<String, Object>();
