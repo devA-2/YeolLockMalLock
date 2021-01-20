@@ -17,12 +17,24 @@ import com.dev2.ylml.dto.StorageGoodsDto;
 import com.dev2.ylml.dto.UserStorageListDto;
 
 @Repository
-public class StorageGoodsDao implements StorageGoodsIDao {
+public class StorageDeliveryDao implements StorageDeliveryIDao {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;
+	
+	@Override
+	public List<UserStorageListDto> selectUserStorageList(String email) {
+		logger.info("Dao_selectUserStorageList 실행");
+		return sqlSession.selectList("storageBox.selectUserStorageList", email);
+	}
+
+	@Override
+	public List<CostDto> selectCost(String email) {
+		logger.info("Dao_selectCost 실행");
+		return sqlSession.selectList("storageBox.selectCost", email);
+	}
 	
 	@Override
 	public StorageListDto selectStorageBoxList(String storageId) {
@@ -34,18 +46,6 @@ public class StorageGoodsDao implements StorageGoodsIDao {
 	public StorageGoodsDto selectStorageGoods(Map<String, Object> map) {
 		logger.info("Dao_selectStorageGoods 실행");
 		return sqlSession.selectOne("storageBox.selectStorageGoods", map);
-	}
-	
-	@Override
-	public List<UserStorageListDto> selectUserStorageList(Map<String, String> map) {
-		logger.info("Dao_selectUserStorageList 실행");
-		return sqlSession.selectList("storageBox.selectUserStorageList", map);
-	}
-
-	@Override
-	public List<CostDto> selectCost(String email) {
-		logger.info("Dao_selectCost 실행");
-		return sqlSession.selectList("storageBox.selectCost", email);
 	}
 	
 	@Override

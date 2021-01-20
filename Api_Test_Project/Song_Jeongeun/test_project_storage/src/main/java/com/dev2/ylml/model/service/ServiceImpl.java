@@ -15,7 +15,7 @@ import com.dev2.ylml.dto.MemberDto;
 import com.dev2.ylml.dto.StorageListDto;
 import com.dev2.ylml.dto.StorageGoodsDto;
 import com.dev2.ylml.dto.UserStorageListDto;
-import com.dev2.ylml.model.dao.StorageGoodsIDao;
+import com.dev2.ylml.model.dao.StorageDeliveryIDao;
 
 @Service
 public class ServiceImpl implements IService {
@@ -23,24 +23,12 @@ public class ServiceImpl implements IService {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
-	private StorageGoodsIDao sgDao;
+	private StorageDeliveryIDao sgDao;
 
 	@Override
-	public StorageListDto selectStorageBoxList(String storageId) {
-		logger.info("Service_selectStorageBoxList 실행");
-		return sgDao.selectStorageBoxList(storageId);
-	}
-	
-	@Override
-	public StorageGoodsDto selectStorageGoods(Map<String, Object> map) {
-		logger.info("Service_selectStorageGoods 실행");
-		return sgDao.selectStorageGoods(map);
-	}
-	
-	@Override
-	public List<UserStorageListDto> selectUserStorageList(Map<String, String> map) {
-		List<UserStorageListDto> list = sgDao.selectUserStorageList(map);
-		List<CostDto> cost = sgDao.selectCost(map.get("email"));
+	public List<UserStorageListDto> selectUserStorageList(String email) {
+		List<UserStorageListDto> list = sgDao.selectUserStorageList(email);
+		List<CostDto> cost = sgDao.selectCost(email);
 		for (int i = 0; i < list.size(); i++) {
 			for (int j = 0; j < cost.size(); j++) {
 				if (list.get(i).getCostCode().equals(cost.get(j).getCostCode())) {
@@ -59,7 +47,19 @@ public class ServiceImpl implements IService {
 		logger.info("Service_selectUserStorageList 실행");
 		return list;
 	}
-
+	
+	@Override
+	public StorageListDto selectStorageBoxList(String storageId) {
+		logger.info("Service_selectStorageBoxList 실행");
+		return sgDao.selectStorageBoxList(storageId);
+	}
+	
+	@Override
+	public StorageGoodsDto selectStorageGoods(Map<String, Object> map) {
+		logger.info("Service_selectStorageGoods 실행");
+		return sgDao.selectStorageGoods(map);
+	}
+	
 	@Override
 	public int selectTimeTableSeq(String subway) {
 		logger.info("Service_selectTimeTableSeq 실행");

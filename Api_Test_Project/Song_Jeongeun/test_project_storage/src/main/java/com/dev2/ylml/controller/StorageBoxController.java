@@ -39,9 +39,7 @@ public class StorageBoxController {
 	 */
 	@RequestMapping(value = "/userStorageList.do", method = RequestMethod.GET)
 	public String userStorageList(String email, Model model) {
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("email", email);
-		List<UserStorageListDto> storageList = service.selectUserStorageList(map);
+		List<UserStorageListDto> storageList = service.selectUserStorageList(email);
 		model.addAttribute("list", storageList);
 		logger.info("Controller_userStorageList.do 실행");
 		return "list/userStorageList";

@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
 <configuration>
+	
+	<settings>
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+	</settings>
 
 	<typeAliases>
 		<typeAlias type="com.dev2.ylml.dto.UserStorageListDto" alias="UserStorageListDto"/>
 		<typeAlias type="com.dev2.ylml.dto.StorageListDto" alias="StorageListDto"/>
-		<typeAlias type="com.dev2.ylml.dto.StorageBoxDto" alias="StorageBoxDto"/>
 		<typeAlias type="com.dev2.ylml.dto.StorageGoodsDto" alias="StorageGoodsDto"/>
 		<typeAlias type="com.dev2.ylml.dto.CostDto" alias="CostDto"/>
 		<typeAlias type="com.dev2.ylml.dto.DeliveryDto" alias="DeliveryDto"/>

@@ -12,6 +12,11 @@ import com.dev2.ylml.dto.UserStorageListDto;
 public interface IService {
 	
 	/**
+	 * 보관 정보 조회(사용자)
+	 */
+	public List<UserStorageListDto> selectUserStorageList(String email);
+	
+	/**
 	 * 보관함ID로 STORAGEBOX_LIST 조회
 	 */
 	public StorageListDto selectStorageBoxList(String storageId);
@@ -20,11 +25,6 @@ public interface IService {
 	 * 보관함SEQ, 보관함ID로 STORAGEBOX_GOODS 조회
 	 */
 	public StorageGoodsDto selectStorageGoods(Map<String, Object> map);
-
-	/**
-	 * 보관 정보 조회(사용자)
-	 */
-	public List<UserStorageListDto> selectUserStorageList(Map<String, String> map);
 	
 	/**
 	 * 타임테이블 SEQ 조회
