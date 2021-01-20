@@ -28,7 +28,7 @@ public class SearchController {
 		List<ReportDto> lists = service.searchId(email);
 		model.addAttribute("list", lists);
 		
-		return "searchId";
+		return "searchIdReport";
 	}
 	
 	@RequestMapping(value = "/searchId2.do", method = RequestMethod.POST)
@@ -37,6 +37,6 @@ public class SearchController {
 		List<LostPropertyDto> lists = service.searchId2(receipt_user_id);
 		model.addAttribute("list2", lists);
 		
-		return "searchId2";
+		return "searchIdLostProperty";
 	}
 }
