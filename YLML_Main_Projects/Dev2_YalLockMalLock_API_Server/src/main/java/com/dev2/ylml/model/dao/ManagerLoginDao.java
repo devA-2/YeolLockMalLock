@@ -11,7 +11,7 @@ import com.dev2.ylml.dto.Manager_MemberDto;
 @Repository
 public class ManagerLoginDao implements ManagerLoginIDao {
 
-	private final String NS = "com.dev2.ylml.model.ManagerLoginIDao.";
+	private final String NS = "com.dev2.ylml.model.dao.ManagerLoginIDao.";
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;
