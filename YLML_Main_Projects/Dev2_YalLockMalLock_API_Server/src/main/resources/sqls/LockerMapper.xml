@@ -16,7 +16,7 @@
 	<select id="selectIdStorage" parameterType="java.lang.String"
 	resultType="StorageDto">
 		SELECT STORAGE_ID , STORAGE_NAME , ADDRESS , SUBWAY , LAT , LNG , DETAIL, MANAGER, 
-                (SELECT COUNT(BOX_SEQ) FROM STORAGE_CITYHALL sc) AS BOX_AMOUNT
+                (SELECT COUNT(BOX_SEQ) FROM CITYHALL_A sc) AS BOX_AMOUNT
         FROM STORAGEBOX_LIST sl 
                 WHERE STORAGE_ID = #{storage_id}
 	</select>
@@ -27,7 +27,7 @@
 	resultType="StorageDto">
 		SELECT STORAGE_ID , STORAGE_NAME , ADDRESS , SUBWAY , LAT , LNG ,
 		DETAIL, MANAGER,
-		(SELECT COUNT(BOX_SEQ) FROM STORAGE_CITYHALL sc) AS BOX_AMOUNT
+		(SELECT COUNT(BOX_SEQ) FROM CITYHALL_A sc) AS BOX_AMOUNT
 		FROM STORAGEBOX_LIST sl
 		WHERE SUBWAY = #{subway}          
 	</select>
@@ -45,7 +45,7 @@
 	<!-- 보관함 상태조회 -->
 	<select id="selectBoxStatus" parameterType="java.lang.String"
 	resultType="StorageDto">
-		SELECT BOX_SEQ ,BOX_STATUS FROM STORAGE_CITYHALL WHERE STORAGE_ID = #{storage_id}
+		SELECT BOX_SEQ ,BOX_STATUS FROM CITYHALL_A WHERE STORAGE_ID = #{storage_id}
 	</select>
 	
 	<!-- 보관함 등록 -->
@@ -65,7 +65,7 @@
                
 	<!-- 사용불가 보관함이 해결되었을때 관리자가 사용 가능 보관함으로 변경 -->
 	<select id="ActivateStorage" parameterType="java.lang.String">
-		UPDATE STORAGE_CITYHALL SET BOX_STATUS = 'O'
+		UPDATE CITYHALL_A SET BOX_STATUS = 'O'
         WHERE BOX_SEQ = #{box_seq}
 	</select>
 	

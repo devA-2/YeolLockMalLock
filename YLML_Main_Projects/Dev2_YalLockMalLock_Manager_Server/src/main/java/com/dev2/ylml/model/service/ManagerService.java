@@ -51,10 +51,10 @@ public class ManagerService implements ManagerIService{
 	
 	// 담당자 및 배송원 전체 정보조회
 	//TODO : 담당자 및 배송원 전체 정보조회, 파라미터 없음
-//	@Override
-//	public List<Manager_MemberDto> selectallDelivery() {
-//		return (List<Manager_MemberDto>)helper.request("selectallDelivery.do");
-//	}
+	@Override
+	public List<Manager_MemberDto> selectallDelivery() {
+		return (List<Manager_MemberDto>)helper.request("selectallDelivery.do");
+	}
 
 	//  담당자 및 배송원 상세 정보조회
 	@Override
@@ -70,10 +70,10 @@ public class ManagerService implements ManagerIService{
 
 	// 임시권한 담당자 및 배송원 정보조회
 	//TODO : 임시권한 담당자 및 배송원 정보조회, 파라미터 없음
-//	@Override
-//	public List<Manager_MemberDto> selectTempDelivery() {
-//		return (List<Manager_MemberDto>)helper.request("selectTempDelivery.do");
-//	}
+	@Override
+	public List<Manager_MemberDto> selectTempDelivery() {
+		return (List<Manager_MemberDto>)helper.request("selectTempDelivery.do");
+	}
 
 	// 담당자 및 배송원 임시권한 변경
 	@Override
@@ -91,10 +91,10 @@ public class ManagerService implements ManagerIService{
 	
 	// 보관함 전체조회
 	//TODO : 보관함 전체조회, 파라미터 없음
-//	@Override
-//	public List<Manager_StorageDto> selectAllStorage() {
-//		return (List<Manager_StorageDto>)helper.request("selectAllStorage.do");
-//	}
+	@Override
+	public List<Manager_StorageDto> selectAllStorage() {
+		return (List<Manager_StorageDto>)helper.request("selectAllStorage.do");
+	}
 
 	// 보관함 ID 조회
 	@Override
