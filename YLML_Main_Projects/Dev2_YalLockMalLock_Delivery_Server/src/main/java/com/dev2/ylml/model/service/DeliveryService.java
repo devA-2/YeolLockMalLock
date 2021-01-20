@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dev2.ylml.dto.DeliveryDto;
 import com.dev2.ylml.dto.MemberDto;
 import com.dev2.ylml.util.ApiClientHelper;
 
@@ -96,6 +97,18 @@ public class DeliveryService implements DeliveryIService{
 	 */
 	public int quitMember(String email) {
 		return (int)helper.request("quitMember.do", email);
+	}
+	
+	
+	
+	@Override
+	public List<DeliveryDto> selectDeliveryList(String email, String auth) {
+		return null;
+	}
+
+	@Override
+	public boolean updatedeliveryStrat(String deliveryCode) {
+		return (boolean)helper.request("updatedeliveryStrat.do", deliveryCode);
 	}
 	
 }

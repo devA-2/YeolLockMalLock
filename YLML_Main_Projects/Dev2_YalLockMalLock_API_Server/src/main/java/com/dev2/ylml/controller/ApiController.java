@@ -189,6 +189,16 @@ public class ApiController {
 		return service.selectUserDeliveryList(map);
 	}
 	@ResponseBody
+	@RequestMapping(value = "updatedeliveryStrat.do")
+	public Map<String, Object> updatedeliveryStrat(Map<String, Object> map) {
+		return service.updatedeliveryStrat(map);
+	}
+	@ResponseBody
+	@RequestMapping(value = "updateCostStatus.do")
+	public Map<String, Object> updateCostStatus(Map<String, Object> map) {
+		return service.updateCostStatus(map);
+	}
+	@ResponseBody
 	@RequestMapping(value = "selectAllLostProperty.do")
 	public Map<String, Object> selectAllLostProperty(Map<String, Object> map) {
 		return service.selectAllLostProperty(map);

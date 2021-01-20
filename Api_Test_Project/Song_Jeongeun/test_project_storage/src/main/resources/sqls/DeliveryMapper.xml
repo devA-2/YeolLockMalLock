@@ -13,7 +13,13 @@
 		FROM STORAGE_GOODS sg JOIN STORAGEBOX_LIST sl ON sg.STORAGE_ID = sl.STORAGE_ID
 		WHERE IN_USER = #{email} OR OUT_USER = #{email}
 	</select>
-		
+	
+	<!-- 보관 비용 조회 -->
+	<select id="selectCost" parameterType="java.lang.String" resultType="CostDto">
+		SELECT c.COST_CODE as costCode, c.COST as cost FROM COST c LEFT JOIN STORAGE_GOODS sg ON c.COST_CODE = sg.COST_CODE
+		WHERE sg.OUT_USER = #{email}
+	</select>
+	
 	<!-- 보관함ID로 STORAGEBOX_LIST 조회 -->
 	<select id="selectStorageBoxList" parameterType="java.lang.String" resultType="StorageListDto">
 		SELECT STORAGE_ID, STORAGE_NAME, ADDRESS, SUBWAY, DETAIL, MANAGER FROM STORAGEBOX_LIST WHERE STORAGE_ID= #{storageId}
@@ -23,12 +29,6 @@
 	<select id="selectStorageGoods" parameterType="java.util.Map" resultType="StorageGoodsDto">
 		SELECT BOX_SEQ, STORAGE_ID, KEY, IN_USER, OUT_USER, IN_TIME, EX_TIME, DELIVERY_CODE, CATEGORY_CODE, COST_CODE, MESSAGE, EXTEND_CNT
 		FROM STORAGE_GOODS WHERE BOX_SEQ = #{boxSeq} AND STORAGE_ID= #{storageId}
-	</select>
-	
-	<!-- 보관 비용 조회 -->
-	<select id="selectCost" parameterType="java.lang.String" resultType="CostDto">
-		SELECT c.COST_CODE as costCode, c.COST as cost FROM COST c LEFT JOIN STORAGE_GOODS sg ON c.COST_CODE = sg.COST_CODE
-		WHERE sg.OUT_USER = #{email}
 	</select>
 
 	<!-- 타임테이블 SEQ 조회 -->

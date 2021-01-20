@@ -391,4 +391,5 @@ public class MemberController {
 		// TODO : 탈퇴가 정상적으로 처리되었다고 띄어주어야함 어디서 띄우지..?
 		return "redirect:member/logout.do";
 	}
+	
 }
