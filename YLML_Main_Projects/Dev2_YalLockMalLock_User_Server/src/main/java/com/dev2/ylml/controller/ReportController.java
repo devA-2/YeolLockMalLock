@@ -51,10 +51,11 @@ public class ReportController {
 		log.info("------------------ 신고글 목록 ------------------");
 		MemberDto mem = (MemberDto)session.getAttribute("mem");
 		session.setAttribute("mem", mem);
+		
 		List<ReportDto> list = iService.selectAllReport();
 		model.addAttribute("lists", list);
 
-		return "reportList";
+		return "board/reportList";
 	}
 	
 	
@@ -127,7 +128,7 @@ public class ReportController {
 //			}
 
 //			jsonArray.add(jsonObject);
-		return "viewReportList";
+		return "board/viewReportList";
 	}
 	
 //	수정 예정
@@ -135,10 +136,12 @@ public class ReportController {
 	public String selectOneReport(String refer, Model model, HttpSession session) {
 		log.info("------------------ 상세글 ------------------");
 		MemberDto mem = (MemberDto)session.getAttribute("mem"); //
-		List<ReportDto> dto = iService.selectDetailReport(refer);
-		model.addAttribute("dto", dto);
+		
+		List<ReportDto> lists = iService.selectDetailReport(refer);
+		
+		model.addAttribute("lists", lists);
 		session.setAttribute("mem", mem);
-		return "selectDetailReport";
+		return "board/selectDetailReport";
 	}
 	
 	
@@ -151,7 +154,7 @@ public class ReportController {
 		model.addAttribute("dto", rDto);
 		session.setAttribute("mem", mDto);
 		
-		return "reply";
+		return "board/reply";
 	}
 	
 	@RequestMapping(value = "/replyDo.do", method=RequestMethod.GET)
@@ -187,7 +190,7 @@ public class ReportController {
 		
 		
 //		model.addAttribute("dto", dto);
-		return "selectDetailReport";
+		return "board/selectDetailReport";
 	}
 	
 	
@@ -220,7 +223,7 @@ public class ReportController {
 		log.info("------------------ 신고 글 작성 ------------------");
 		MemberDto mDto = (MemberDto)session.getAttribute("mem");
 		session.setAttribute("mem", mDto);
-		return "insertReport";
+		return "board/insertReport";
 	}
 	
 	@RequestMapping(value = "/insert.do", method = RequestMethod.POST)
@@ -230,7 +233,7 @@ public class ReportController {
 		dto.setEmail(mDto.getEmail());
 		iService.insertReport(dto);
 		
-		return "redirect:/reportList.do";
+		return "redirect:/board/reportList.do";
 	}
 	
 	// ---------------------------------- 테스트용 샘플 ----------------------------------
@@ -241,9 +244,9 @@ public class ReportController {
 //		session.setAttribute("mem", mDto); // session에서 로그인 정보 가지고 reportList로 보내는 용도.
 //		return "reportList";
 //	}
-	
-
-	// 신고글게시판 테스트용 로그인
+//	
+//
+//	// 신고글게시판 테스트용 로그인
 //	@RequestMapping(value = "/adminLogin.do", method=RequestMethod.POST)
 //	public String adminLogin(@RequestParam Map<String, Object> map, HttpSession session, Model model) {
 //		MemberDto mDto = iService.loginMember(map);
@@ -281,7 +284,7 @@ public class ReportController {
 //		
 //		return jsonArray;
 //	}
-	
+//	
 //	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
 //	public String login(@RequestParam Map<String, Object> map, HttpSession session, Model model) {
 //		MemberDto mDto = iService.loginMember(map);
@@ -294,8 +297,8 @@ public class ReportController {
 //		
 //		return "reportList";
 //	}
-	
-	// 유실물 테스트용 로그인
+//	
+//	// 유실물 테스트용 로그인
 //	@RequestMapping(value = "/login2.do", method = RequestMethod.POST)
 //	public String login2(@RequestParam Map<String, Object> map, HttpSession session, Model model) {
 //		MemberDto mDto = iService.loginMember(map);
@@ -312,9 +315,9 @@ public class ReportController {
 //		return "lostPropertyList";
 //		
 //	}
-
-	
-	// Admin 신고글 게시판 jqGrid 적용 Ajax 처리 테스트
+//
+//	
+//	// Admin 신고글 게시판 jqGrid 적용 Ajax 처리 테스트
 //	@RequestMapping(value="/adminReportList.do", method=RequestMethod.GET)
 //	public String adminReportList(HttpSession session, Model model) {
 //		

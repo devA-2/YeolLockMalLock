@@ -33,13 +33,13 @@
 	Object obj = session.getAttribute("mem");
 	MemberDto mem = (MemberDto)obj;
 	
-	Object obj2 = session.getAttribute("dto");
-	ReportDto rDto = (ReportDto)obj2;
+	Object obj2 = session.getAttribute("lists");
+	ReportDto lists = (ReportDto)obj2;
 %>
 <body>
 	<div id="container">
 		<table>
-			<c:forEach items="${dto}" var="vo" varStatus="vs">
+			<c:forEach items="${lists}" var="vo">
 				<tr>
 					<td>${vo.regdate}</td>
 					<td>${vo.title}</td>
@@ -48,20 +48,20 @@
 			</c:forEach>
 		</table>
 		<button onclick="historys()">뒤로 가기</button>
-		<%
+<%-- 		<% --%>
 			
-			if(Integer.parseInt(mem.getAuth()) == 20){
-				%>
-					<c:forEach items="${dto}" var="vo" varStatus="vs">
-					<button onclick="replyGo(${vo.seq})">답변 글 작성</button>
-					</c:forEach>
-				<%
-			}
+<!-- 			if(mem.getAuth() == '90'){ -->
+<!-- 				%> -->
+<%-- 					<c:forEach items="${dto}" var="vo" varStatus="vs"> --%>
+<%-- 					<button onclick="replyGo(${vo.seq})">답변 글 작성</button> --%>
+<%-- 					</c:forEach> --%>
+<%-- 				<% --%>
+<!-- 			} -->
 			
-		%>
+<%-- 		%> --%>
 	</div>
-	<div>
-<%-- 		<button onclick="replyGo(${rDto.seq})">답변 글 작성</button> --%>
-	</div>
+<!-- 	<div> -->
+<%-- 		<button onclick="replyGo(${lists.seq})">답변 글 작성</button> --%>
+<!-- 	</div> -->
 </body>
 </html>
