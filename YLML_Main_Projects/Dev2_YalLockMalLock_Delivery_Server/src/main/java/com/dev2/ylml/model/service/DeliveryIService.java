@@ -51,7 +51,7 @@ public interface DeliveryIService {
 	 * @param map
 	 * @return MemberDto
 	 */
-	public MemberDto login(Map<String, Object> map);
+	public MemberDto enDelLogin(Map<String, Object> map);
 	
 	/**
 	 * 아이디 찾기

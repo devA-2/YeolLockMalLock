@@ -31,7 +31,7 @@ public interface ManagerIService {
 	 * @param map
 	 * @return MemberDto
 	 */
-	public MemberDto login(Map<String, Object> map);
+	public MemberDto adminLogin(Map<String, Object> map);
 	
 	/**
 	 * 회원 전체 목록 조회

@@ -25,9 +25,6 @@ public class UserService implements UserIService{
 	@Autowired
 	ApiClientHelper helper;
 	
-	@Autowired
-	private PasswordEncoder pwEncoder;
-
 	@SuppressWarnings("unchecked")
 	public HashMap<String, String> getSampleData(String id, String pw) {
 		//URL+PW로 데이터를 만들어서 전달
@@ -66,8 +63,6 @@ public class UserService implements UserIService{
 	 * 로그인
 	 */
 	public MemberDto login(Map<String, Object> map) {
-		String enPw = pwEncoder.encode((String) map.get("pw"));
-		map.put("pw", enPw);
 		return (MemberDto)helper.request("login.do", map);
 	}
 	

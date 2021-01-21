@@ -38,13 +38,31 @@
 	</select>
 
 
-	<!-- 암호화 로그인 -->
+	<!-- 암호화 일반 로그인 -->
 	<select id="enLogin" parameterType="java.util.Map"
 		resultType="MemberDto">
 		SELECT EMAIL, NAME, AUTH, PHONE_NUM, REG_DATE
 		FROM MEMBER
 		WHERE EMAIL = #{email}
 		AND AUTH IN (10,19)
+		AND DEL_FLAG = 'N'
+	</select>
+	<!-- 암호화 배송원 로그인 -->
+	<select id="enDelLogin" parameterType="java.util.Map"
+		resultType="MemberDto">
+		SELECT EMAIL, NAME, AUTH, PHONE_NUM, REG_DATE
+		FROM MEMBER
+		WHERE EMAIL = #{email}
+		AND AUTH IN (80,89)
+		AND DEL_FLAG = 'N'
+	</select>
+	<!-- 암호화 담당자 및 관리자 로그인 -->
+	<select id="enAdminLogin" parameterType="java.util.Map"
+		resultType="MemberDto">
+		SELECT EMAIL, NAME, AUTH, PHONE_NUM, REG_DATE
+		FROM MEMBER
+		WHERE EMAIL = #{email}
+		AND AUTH IN (100,90,99)
 		AND DEL_FLAG = 'N'
 	</select>
 
@@ -94,6 +112,7 @@
 		WHERE (G.IN_USER = M.EMAIL OR G.OUT_USER = M.EMAIL) AND M.EMAIL = #{email}
 	</select>
 
+	<!-- 회원탈퇴 -->
 	<update id="quitMember" parameterType="java.lang.String">
 		UPDATE MEMBER SET
 		DEL_FLAG = 'Y',

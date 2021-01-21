@@ -39,6 +39,18 @@ public class ApiController {
 	public Map<String, Object> login(@RequestBody Map<String, Object> map) {
 		return service.login(map);
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "delLogin.do")
+	public Map<String, Object> delLogin(@RequestBody Map<String, Object> map) {
+		return service.delLogin(map);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "adminLogin.do")
+	public Map<String, Object> adminLogin(@RequestBody Map<String, Object> map) {
+		return service.adminLogin(map);
+	}
 	@ResponseBody
 	@RequestMapping(value = "apiLogin.do")
 	public Map<String, Object> apiLogin(@RequestBody Map<String, Object> map) {
