@@ -525,9 +525,9 @@ public class StorageController {
 	@RequestMapping(value = "/searchSubway.do", method = RequestMethod.POST)
 	@ResponseBody
 	public StorageListDto searchSubway(@RequestParam("storageId") String storageId) {
-		StorageListDto SBDto = service.selectStorageBoxList(storageId);
+		StorageListDto storageListDto = service.selectStorageBoxList(storageId);
 		log.info("Controller_searchSubway.do 실행");
-		return SBDto;
+		return storageListDto;
 	}
 	
 	/**
@@ -595,8 +595,17 @@ public class StorageController {
 	 * @return
 	 */
 	@RequestMapping(value = "/deliveryList.do", method = RequestMethod.GET)
-	public String userDeliveryList(String email, String auth, Model model) {
-		List<DeliveryDto> deliveryList = service.selectDeliveryList(email, auth);
+	public String userDeliveryList(Model model, HttpSession session) {
+//		MemberDto mDto = (MemberDto) session.getAttribute("mem");
+//		String email = mDto.getEmail();
+//		String auth = Integer.toString(mDto.getAuth());
+		String email = "user01@naver.com";
+		String auth = "10";
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("email", email);
+		map.put("auth", auth);
+		System.out.println("map 확인!! "+map);
+		List<DeliveryDto> deliveryList = service.selectDeliveryList(map);
 		model.addAttribute("deliveryList", deliveryList);
 		model.addAttribute("auth", auth);
 		System.out.println("DTO 확인!!"+deliveryList);

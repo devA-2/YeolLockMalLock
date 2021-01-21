@@ -60,9 +60,9 @@ public class MemberController {
 		/////////////////////////////////////
 		String page ="";
 		if(dto ==null) {
-			page = "redirect:member/signUpForm.do";
+			page = "redirect:./signUpForm.do";
 		}else {
-			page = "redirect:member/index.do";
+			page = "redirect:./index.do";
 		}
 		return page;
 	}	
@@ -106,6 +106,6 @@ public class MemberController {
 			session.invalidate();
 
 		}
-		return "redirect:member/index.do";
+		return "redirect:./index.do";
 	}
 }

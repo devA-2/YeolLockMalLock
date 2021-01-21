@@ -4,10 +4,15 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>배송</title>
+<title>보관정보 확인</title>
 </head>
 <body>
-	<a href="./deliveryInquiry.do">미리 조회</a></br>
-	<a href="./deliveryList.do">배송 내역 조회</a>
+
+<div class="container">
+${map.id }<br>
+${map.boxSeq }<br>
+
+<input type="button" onclick="location.href='./compareKey.do'">	
+</div>
 </body>
 </html>

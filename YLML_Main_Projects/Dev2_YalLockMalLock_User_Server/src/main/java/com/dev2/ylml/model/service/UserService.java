@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.dev2.ylml.dto.DeliveryDto;
@@ -23,6 +24,9 @@ import com.dev2.ylml.util.ApiClientHelper;
 public class UserService implements UserIService{
 	@Autowired
 	ApiClientHelper helper;
+	
+	@Autowired
+	private PasswordEncoder pwEncoder;
 
 	@SuppressWarnings("unchecked")
 	public HashMap<String, String> getSampleData(String id, String pw) {
@@ -62,6 +66,8 @@ public class UserService implements UserIService{
 	 * 로그인
 	 */
 	public MemberDto login(Map<String, Object> map) {
+		String enPw = pwEncoder.encode((String) map.get("pw"));
+		map.put("pw", enPw);
 		return (MemberDto)helper.request("login.do", map);
 	}
 	
@@ -120,18 +126,16 @@ public class UserService implements UserIService{
 	public int quitMember(String email) {
 		return (int)helper.request("quitMember.do", email);
 	}
-
-//	수정하시고 주석 풀어주세요 ~~
+	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Map<String, Object>> selectMap() {
-//		return (List<Map<String, Object>>)helper.request("selectMap.do");
-		return null;
+		return (List<Map<String, Object>>)helper.request("selectMap.do");
 	}
-
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Map<String, String>> selectStorageList() {
-//		return (List<Map<String, String>>)helper.request("selectStorageList.do");
-		return null;
+		return (List<Map<String, String>>)helper.request("selectStorageList.do");
 	}
 
 	@Override
@@ -249,10 +253,7 @@ public class UserService implements UserIService{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<DeliveryDto> selectDeliveryList(String email, String auth) {
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("email", email);
-		map.put("auth", auth);
+	public List<DeliveryDto> selectDeliveryList(Map<String, String> map) {
 		return (List<DeliveryDto>) helper.request("selectDeliveryList.do", map);
 	}
 

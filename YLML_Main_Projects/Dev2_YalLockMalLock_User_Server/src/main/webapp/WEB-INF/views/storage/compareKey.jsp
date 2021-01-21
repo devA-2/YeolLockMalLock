@@ -7,17 +7,14 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<div class="container">
 	<h1>
 		보관함 리더기에<br> NFC를 태그해주세요
 	</h1>
-	<div class="container">
-		<form action="./beforePay.do" method="post">
-			<!-- 	<input type="hidden" name="" value=""> -->
-			<!-- 	<input type="hidden" name="" value=""> -->
-			<input type="hidden" name="overCost" value="${overCost}"> 
-			<input	type="text" name="key" value=""> 
-			<input type="submit" value="가상 키대조 버튼">
-		</form>
+	<form action="">
+		<input type="text" name="">	
+	</form>
+	
 	</div>
 </body>
 </html>

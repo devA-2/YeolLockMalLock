@@ -258,7 +258,7 @@ public interface UserIService {
 	/**
 	 * 배송 정보 조회(사용자, 배송원)
 	 */
-	public List<DeliveryDto> selectDeliveryList(String email, String auth);
+	public List<DeliveryDto> selectDeliveryList(Map<String, String> map);
 	
 	
 	/**
