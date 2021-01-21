@@ -145,13 +145,6 @@ public interface Api_IService {
 	public Map<String, Object>/* List<StorageBoxDto> */ selectStorageStatus(Map<String, Object> map/* String id */);
 
 	/**
-	 * 보관함seq, id, 사용자email 받아서 보관 등록 보관 정보 등록 + 해당보관함 사용중처리 + 결제코드 등록 + 결제코드 수정
-	 * 
-	 * @param boxSeq, id, email
-	 */
-	public Map<String, Object>/* boolean */ insertGoods(Map<String, Object> map/* Map<String, Object> map */);
-
-	/**
 	 * 0시 기준 모든 보관함 사용중,사용대기->사용가능,사용불가로 변경
 	 * 
 	 * @param list
