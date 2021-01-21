@@ -6,6 +6,7 @@
 		<typeAlias type="com.min.edu.dto.ReportDto" alias="ReportDto"/>
 		<typeAlias type="com.min.edu.dto.LostPropertyDto" alias="LostPropertyDto"/>
 		<typeAlias type="com.min.edu.dto.MemberDto" alias="MemberDto"/>
+		<typeAlias type="com.min.edu.dto.RFIDDto" alias="RFIDDto"/>
 	</typeAliases>
 	
 	<mappers>
@@ -13,6 +14,7 @@
 		<mapper resource="/sqls/LostPropertyMapper.xml"/>
 		<mapper resource="/sqls/TestLogin.xml"/>
 		<mapper resource="/sqls/SearchMapper.xml"/>
+		<mapper resource="/sqls/RFIDMapper.xml"/>
 	</mappers>
 
 </configuration>

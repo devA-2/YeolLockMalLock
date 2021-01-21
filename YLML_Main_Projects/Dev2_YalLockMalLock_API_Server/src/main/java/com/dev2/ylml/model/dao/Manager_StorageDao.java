@@ -15,7 +15,7 @@ public class Manager_StorageDao implements Manager_StorageIDao {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	private final String NS = "com.dev2.ylml.model.Manager_StorageIDao.";
+	private final String NS = "com.dev2.ylml.model.dao.Manager_StorageIDao.";
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;
