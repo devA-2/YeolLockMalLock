@@ -155,10 +155,20 @@ public class ApiController {
 		return service.selectStorageBoxList(map);
 	}
 	@ResponseBody
+	@RequestMapping(value = "selectStorageGoods.do")
+	public Map<String, Object> selectStorageGoods(@RequestBody Map<String, Object> map) {
+		return service.selectStorageGoods(map);
+	}
+	@ResponseBody
 	@RequestMapping(value = "selectTimeTableSeq.do")
 	public Map<String, Object> selectTimeTableSeq(@RequestBody Map<String, Object> map) {
 		logger.trace("@@@@@@ selectTimeTableSeq @@@@@@@ "+ map);
 		return service.selectTimeTableSeq(map);
+	}
+	@ResponseBody
+	@RequestMapping(value = "selectSubwayCnt.do")
+	public Map<String, Object> selectSubwayCnt(@RequestBody Map<String, Object> map) {
+		return service.selectSubwayCnt(map);
 	}
 	@ResponseBody
 	@RequestMapping(value = "selectDeliveryMan.do")
