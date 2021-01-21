@@ -36,8 +36,8 @@ function arrive(arrive) {
 }
 
 function calTime() {
-	var startStatin = document.getElementById("start").childNodes[1].innerHTML
-	var arriveStatin = document.getElementById("arrive").childNodes[1].innerHTML
+	var startStatin = document.getElementById("start").innerText
+	var arriveStatin = document.getElementById("arrive").innerText
 	$.ajax({
 		type:"post",
 		url:"./inquiryDelivery.do",

@@ -7,11 +7,7 @@
 <title>배송</title>
 </head>
 <body>
-	<a href="./deliveryInquiry.do">미리 조회</a>
-	<form action="./deliveryList.do">
-		<input type="hidden" name="email" value="user01@naver.com">
-		<input type="hidden" name="auth" value="10">
-		<input type="submit" value="배송 내역 조회">
-	</form>
+	<a href="./deliveryInquiry.do">미리 조회</a></br>
+	<a href="./deliveryList.do">배송 내역 조회</a>
 </body>
 </html>

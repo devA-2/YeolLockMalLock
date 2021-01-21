@@ -407,13 +407,13 @@ public class Api_Service implements Api_IService{
 		return helper.generateData(isc);
 	}
 
-	// TODO : 체크해야 하는 부분
 	@Override
 	public Map<String, Object> selectUserStorageList(Map<String, Object> map) {
 		if(!helper.checkKey(map)) {
 			return helper.keyFailed();
 		}
 		String email = (String) helper.getData(map);
+		log.info("email? "+email);
 		List<UserStorageListDto> list = StorageDeliveryDao.selectUserStorageList(email);
 		List<CostDto> cost = StorageDeliveryDao.selectCost(email);
 		for (int i = 0; i < list.size(); i++) {
@@ -513,11 +513,12 @@ public class Api_Service implements Api_IService{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Map<String, Object> selectUserDeliveryList(Map<String, Object> map) {
+	public Map<String, Object> selectDeliveryList(Map<String, Object> map) {
 		if(!helper.checkKey(map)) {
 			return helper.keyFailed();
 		}
 		Map<String, String> info = (Map<String, String>) helper.getData(map);
+		System.out.println("info 확인 " + info);
 		String email = info.get("email");
 		String auth = info.get("auth");
 		List<DeliveryDto> deliveryDto = new ArrayList<DeliveryDto>();
