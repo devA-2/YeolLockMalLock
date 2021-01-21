@@ -425,7 +425,7 @@ public class Api_Service implements Api_IService{
 			}
 			int overTime = list.get(i).getOverTime();
 			int overH = overTime/60;
-			int overM= overTime%overH;
+			int overM= (overH==0)?0:(overTime%overH);
 			int overCost = overH * 1000;
 			list.get(i).setOverH(overH);
 			list.get(i).setOverM(overM);
