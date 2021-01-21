@@ -27,5 +27,5 @@
 		<div id="result"></div>
 	</form>
 </body>
-<script type="text/javascript" src="js/deliveryMap.js"></script>
+<script type="text/javascript" src="../js/deliveryMap.js"></script>
 </html>
