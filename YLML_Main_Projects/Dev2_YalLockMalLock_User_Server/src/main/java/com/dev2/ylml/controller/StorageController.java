@@ -128,7 +128,7 @@ public class StorageController {
 	@RequestMapping(value = "/NFCtag.do",method = RequestMethod.GET)
 	public String NFCtag() {
 		log.info("보관전 NFC태그 화면으로 이동");
-		return "storage/compareKey";
+		return "storage/NFCtag";
 	}
 	
 
@@ -174,7 +174,7 @@ public class StorageController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/compareKey.do",method = RequestMethod.GET)
+	@RequestMapping(value = "/compareKey.do",method = RequestMethod.POST)
 	public String compareKey(int overCost,Model model) {
 		log.info("키 대조 화면으로 이동");
 		model.addAttribute("overCost",overCost);
@@ -195,7 +195,8 @@ public class StorageController {
 		
 		if(costCode == null||costCode.isBlank()) {
 			log.info("해당 키가 없음 -> 키 대조 실패 -> 전단계?메인페이지?");
-			return "storage/index";
+			//TODO 키가 맞지 않는다고 alert 띄워주기->키 새로등록페이지로 ?
+			return "redirect:/storage/userStorageList.do";
 		}
 		
 		if(overCost>0) {
@@ -209,6 +210,7 @@ public class StorageController {
 		model.addAttribute("costCode",costCode);
 		//dto->costCode로 수정했으니 jsp에서도 확인해주기
 		return "storage/payPage";
+		//로그인 제대로 연결되면 payment랑 연결해야함 @
 	}
 	
 	/**
@@ -252,7 +254,7 @@ public class StorageController {
 			map.put("email", email);
 			boolean isc = service.updateOutUser(map);
 			log.info("수령사용자 등록 결과 : "+isc);
-			return "storage/map";
+			return "redirect:/storage/userStorageList.do";
 		}
 	}
 	/**
@@ -278,7 +280,8 @@ public class StorageController {
 			map.put("costCode", costCode);
 			boolean isc = service.afterPayment(map);
 			log.info("보관함 사용가능처리 + 보관 정보 삭제 결과 : "+isc);
-			return "storage/map";
+			
+			return "storage/closeDoor";
 		}
 	}
 	
@@ -295,7 +298,7 @@ public class StorageController {
 		map.put("message", message);
 		boolean isc = service.insertReturn(map);
 		log.info("반품 등록 service 결과 : "+isc);
-		return "storage/map";
+		return "redirect:/storage/userStorageList.do";
 	}
 
 	
