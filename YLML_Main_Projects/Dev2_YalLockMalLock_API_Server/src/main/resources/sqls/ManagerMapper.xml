@@ -3,7 +3,7 @@
 <mapper namespace="com.dev2.ylml.model.dao.Manager_MemberIDao">
 
 	<!-- 담당자 및 배송원 전체 정보조회 -->
-	<select id="selectallDelivery" parameterType="java.util.Map"
+	<select id="selectAllDelivery" parameterType="java.util.Map"
 	resultType="ManagerDto">
 	SELECT EMAIL, NAME, PHONE_NUM, AUTH
 	FROM "MEMBER" m
@@ -19,7 +19,7 @@
 	</select>
 	
 	<!-- 배송 정보조회 -->
-	<select id="DeliveryInfo" parameterType="java.lang.String"
+	<select id="deliveryInfo" parameterType="java.lang.String"
 	resultType="ManagerDto">
 	SELECT DELIVERY_CODE,
 	(SELECT CURRENT_LOC FROM DELIVERYMAN d WHERE DELIVERYMAN_ID =
