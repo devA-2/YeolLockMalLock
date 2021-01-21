@@ -60,9 +60,9 @@ function loginChk(frm){
 		<h1>열락말락 로그인</h1>
 		<form method="post" name="loginFrm">
 			<div>아이디</div>
-				<input type="text" name="email" id="email" required="required" value="admin@naver.com"/>
+				<input type="text" name="email" id="email" required="required" value="user03@naver.com"/>
 			<div>비밀번호</div>
-				<input type="password" name="pw" id="pw" required="required" value="Admin0101" maxlength="20" size="20"><br>
+				<input type="password" name="pw" id="pw" required="required" value="User0303" maxlength="20" size="20"><br>
 			<a href="./idSearchForm.do">아이디 찾기</a> &nbsp;&nbsp;
 			<a href="./pwSearchForm.do">비밀번호 찾기</a><br><br>
 			
