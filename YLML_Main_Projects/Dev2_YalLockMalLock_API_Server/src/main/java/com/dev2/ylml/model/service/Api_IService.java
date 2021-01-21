@@ -522,6 +522,6 @@ public interface Api_IService {
 	 * @param email
 	 * @return list
 	 */
-	public Map<String, Object>/* List<UserGoodsDto> */ memberUsing(Map<String, Object> map/* String email */);
+	public Map<String, Object>/* List<StorageGoodsDto> */ memberUsing(Map<String, Object> map/* String email */);
 
 }
