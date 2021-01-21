@@ -37,7 +37,7 @@
    <a href="./member/infoAgree.do">회원가입</a><br>
    <a href="./member/allMember.do">회원전체조회</a><br>
    <hr>
-   <a href="#">게시판</a><br>
+   <a href="./reportList.do">게시판</a><br>
    <hr>
 
    <a href="./storage/map.do">보관</a><br>

@@ -266,7 +266,6 @@ public class UserService implements UserIService{
 
 	@Override
 	public List<LostPropertyDto> selectAllLostProperty() {
-		
 		return (List<LostPropertyDto>) helper.request("selectAllLostProperty.do");
 	}
 
@@ -295,11 +294,13 @@ public class UserService implements UserIService{
 		return (boolean)helper.request("modifyReport.do", dto);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<ReportDto> selectAllReport() {
 		return (List<ReportDto>) helper.request("selectAllReport.do");
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<ReportDto> selectDetailReport(String refer) {
 		return (List<ReportDto>) helper.request("selectDetailReport.do", refer);
