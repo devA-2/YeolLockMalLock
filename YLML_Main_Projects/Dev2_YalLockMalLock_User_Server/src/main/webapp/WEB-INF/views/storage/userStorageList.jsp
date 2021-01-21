@@ -31,7 +31,7 @@
 						</span>
 					</div>
 					<div>
-						<button onclick="exchangeBtn(${vs.count})">교환</button>
+						<button onclick="exchangeBtn(this.form)">교환</button>
 						<button onclick="deliveryBtn(${vs.count})">배송</button>
 					</div>
 					<hr>
