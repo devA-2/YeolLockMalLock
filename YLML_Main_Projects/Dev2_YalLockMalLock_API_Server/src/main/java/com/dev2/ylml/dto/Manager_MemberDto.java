@@ -20,7 +20,7 @@ public class Manager_MemberDto implements Serializable{
 	public String delivery_code;
 	public String current_loc;
 	public String reg_date;
-	public String leave_date;
+	public String lev_date;
 	public String delivery_start;
 	public String delivery_arrive;
 	
