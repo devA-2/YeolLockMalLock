@@ -212,12 +212,13 @@ public class UserService implements UserIService{
 
 	@Override
 	public int selectSubwayCnt() {
-		return 0;
+		return (int) helper.request("selectSubwayCnt.do");
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<MemberDto> selectDeliveryMan() {
-		return null;
+		return (List<MemberDto>) helper.request("selectDeliveryMan.do");
 	}
 
 	@Override
@@ -237,12 +238,19 @@ public class UserService implements UserIService{
 
 	@Override
 	public boolean insertDelivery(DeliveryDto delDto, StorageGoodsDto goodsDto) {
-		return false;
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("DeliveryDto", delDto);
+		map.put("StorageGoodsDto", goodsDto);
+		return (boolean) helper.request("insertDelivery.do", map);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<DeliveryDto> selectDeliveryList(String email, String auth) {
-		return null;
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("email", email);
+		map.put("auth", auth);
+		return (List<DeliveryDto>) helper.request("selectDeliveryList.do", map);
 	}
 
 	@Override

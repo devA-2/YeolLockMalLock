@@ -41,5 +41,5 @@
 	</div>
 	
 </body>
-<script type="text/javascript" src="js/inquiryMap.js"></script>
+<script type="text/javascript" src="../js/inquiryMap.js"></script>
 </html>

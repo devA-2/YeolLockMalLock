@@ -7,7 +7,6 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.UserIdSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -273,16 +272,20 @@ public class StorageController {
 	
 	/**
 	 * 보관 정보 조회(사용자)
-	 * @param email
 	 * @param model
+	 * @param session
 	 * @return
 	 */
 	@RequestMapping(value = "/userStorageList.do", method = RequestMethod.GET)
-	public String userStorageList(String email, Model model) {
+	public String userStorageList(Model model, HttpSession session) {
+//		MemberDto mDto = (MemberDto) session.getAttribute("mem");
+//		String email = mDto.getEmail();
+		String email = "user01@naver.com";
+		System.out.println("이메일 확인 !! "+email);
 		List<UserStorageListDto> storageList = service.selectUserStorageList(email);
 		model.addAttribute("list", storageList);
 		log.info("Controller_userStorageList.do 실행");
-		return "userStorageList";
+		return "storage/userStorageList";
 	}
 	
 	/**
@@ -299,7 +302,7 @@ public class StorageController {
 		System.out.println("storageGoodsDto확인!!  "+storageGoodsDto);
 		session.setAttribute("storageGoodsDto", storageGoodsDto);
 		log.info("Controller_deliveryForm.do 실행");
-		return "deliveryTerms";
+		return "delivery/deliveryTerms";
 	}
 	
 	/**
@@ -309,7 +312,7 @@ public class StorageController {
 	@RequestMapping(value = "/searchDeliveryStation.do", method = RequestMethod.GET)
 	public String searchDeliveryStation() {
 		log.info("Controller_searchDeliveryStation.do 실행");
-		return "searchDeliveryStation";
+		return "delivery/searchDeliveryStation";
 	}
 	
 	/**
@@ -491,7 +494,7 @@ public class StorageController {
 	public String deliverySuccess(HttpSession session) {
 		session.removeAttribute("storageGoodsDto");
 		log.info("Controller_deliverySuccess.do 실행");
-		return "deliverySuccess";
+		return "delivery/deliverySuccess";
 	}
 	
 	/**
@@ -501,7 +504,7 @@ public class StorageController {
 	@RequestMapping(value = "/deliveryListMain.do", method = RequestMethod.GET)
 	public String moveDelivery() {
 		log.info("Controller_moveDelivery.do 실행");
-		return "deliveryListMain";
+		return "delivery/deliveryListMain";
 	}
 	
 	/**
@@ -511,7 +514,7 @@ public class StorageController {
 	@RequestMapping(value = "/deliveryInquiry.do", method = RequestMethod.GET)
 	public String deliveryInquiry() {
 		log.info("Controller_deliveryInquiry.do 실행");
-		return "deliveryInquiry";
+		return "delivery/deliveryInquiry";
 	}
 	
 	/**
@@ -598,7 +601,43 @@ public class StorageController {
 		model.addAttribute("auth", auth);
 		System.out.println("DTO 확인!!"+deliveryList);
 		log.info("Controller_checkDeliveryInfo.do 실행");
-		return "deliveryList";
+		return "delivery/deliveryList";
 	}
+	
+	// TODO : 추후 StorageGoodsDto 세션 생성으로 변경해야 함
+		@RequestMapping(value = "/paymentPage.do", method = RequestMethod.GET)
+		public String paymentPage(String phoneNum, String cost, String costCode, HttpSession session) {
+			session.setAttribute("phoneNum", phoneNum);
+			session.setAttribute("cost", cost);
+			session.setAttribute("costCode", costCode);
+			log.info("Controller_paymentPage.do 실행");
+			return "storage/payment";
+		}
+		
+		@RequestMapping(value = "/afterPayment.do", method = RequestMethod.GET)
+		public String afterPayment(String imp_success, HttpSession session) {
+			String costCode = (String) session.getAttribute("costCode");
+			String result;
+			if(imp_success.equals(true)) {
+				service.updateCostStatus(costCode);
+				result = "redirect:./successPayment.do";
+			}else {
+				result = "redirect:./falsePayment.do";
+			}
+			log.info("Controller_afterPayment.do 실행");
+			return result;
+		}
+		
+		@RequestMapping(value = "/successPayment.do", method = RequestMethod.GET)
+		public String successPayment() {
+			log.info("Controller_successPayment.do 실행");
+			return "storage/successPayment";
+		}
+		
+		@RequestMapping(value = "/falsePayment.do", method = RequestMethod.GET)
+		public String falsePayment() {
+			log.info("Controller_falsePayment.do 실행");
+			return "storage/falsePayment";
+		}
 	
 }
