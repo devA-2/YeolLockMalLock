@@ -61,13 +61,14 @@
 								<c:when test="${list.overTime eq 0}"></c:when>
 								<c:when test="${list.overTime ne 0}">${list.overH}시간 ${list.overM}분 초과(결제시 ${list.overCost}원 추가 결제)</c:when>
 							</c:choose>
+							<input type="hidden" name="overCost" value="${list.overCost}">
 						</span>
 					</div>
 					<div>
 						<c:if test="${list.extendCnt<2}">
-							<button onclick="extendBtn(${vs.count})">연장</button>
+							<button onclick="extendBtn(this.form)">연장</button>
 						</c:if>
-						<button onclick="paymentBtn(${vs.count})">결제</button>
+						<button onclick="paymentBtn(this.form)">결제</button>
 					</div>
 					<hr>
 				</form>
