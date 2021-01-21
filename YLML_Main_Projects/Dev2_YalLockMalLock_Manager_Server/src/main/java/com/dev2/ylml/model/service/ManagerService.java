@@ -83,17 +83,17 @@ public class ManagerService implements ManagerIService{
 	//-------------------------------------------------------------
 	
 	// 관리자 로그인 
-//	@Override
-//	public Manager_MemberDto loginMember(Map<String, Object> map) {
-//		return (Manager_MemberDto)helper.request("loginMember.do", map);
-//	}
+	@Override
+	public Manager_MemberDto loginMember(Map<String, Object> map) {
+		return (Manager_MemberDto)helper.request("loginMember.do", map);
+	}
 
 	// -------------------------------담당자 및 배송원---------------------------------
 	
 	// 담당자 및 배송원 전체 정보조회
 	//TODO : 담당자 및 배송원 전체 정보조회, 파라미터 없음
 	@Override
-	public List<Manager_MemberDto> selectallDelivery() {
+	public List<Manager_MemberDto> selectAllDelivery() {
 		return (List<Manager_MemberDto>)helper.request("selectAllDelivery.do");
 	}
 
@@ -176,8 +176,8 @@ public class ManagerService implements ManagerIService{
 
 	// 사용불가 보관함이 해결되었을때 관리자가 사용 가능 보관함으로 변경
 	@Override
-	public boolean ActivateStorage(String seq) {
-		return (boolean)helper.request("ActivateStorage.do", seq);
+	public boolean activateStorage(String seq) {
+		return (boolean)helper.request("activateStorage.do", seq);
 	}
 
 }

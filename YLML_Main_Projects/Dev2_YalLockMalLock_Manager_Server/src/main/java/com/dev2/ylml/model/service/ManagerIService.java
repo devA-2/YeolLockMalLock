@@ -70,14 +70,14 @@ public interface ManagerIService {
 	 * @param map
 	 * @return
 	 */
-//	public Manager_MemberDto loginMember(Map<String, Object> map);
+	public Manager_MemberDto loginMember(Map<String, Object> map);
 	
 	// -------------------------------담당자 및 배송원---------------------------------
 	
 	/** 담당자 및 배송원 전체 정보조회
 	 * @return
 	 */
-	public List<Manager_MemberDto> selectallDelivery();
+	public List<Manager_MemberDto> selectAllDelivery();
 	
 	/** 담당자 및 배송원 상세 정보조회
 	 * @param email
@@ -163,6 +163,6 @@ public interface ManagerIService {
 	 * @param seq
 	 * @return
 	 */
-	public boolean ActivateStorage(String seq);
+	public boolean activateStorage(String seq);
 	
 }
