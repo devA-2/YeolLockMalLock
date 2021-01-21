@@ -38,12 +38,6 @@ public class ReportController {
 	
 	Logger log = LoggerFactory.getLogger(this.getClass());
 
-	@RequestMapping(value = "/index.do")
-	public String index() {
-		log.info("------------------ index page ------------------");
-		return "index";
-	}
-	
 	@RequestMapping(value="/goReportList.do", method=RequestMethod.GET)
 	public String goReportList() {
 		log.info("------------------ 신고글 목록 ------------------");
