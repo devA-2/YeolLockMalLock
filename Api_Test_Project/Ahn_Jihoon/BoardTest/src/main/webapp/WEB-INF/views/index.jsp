@@ -48,7 +48,7 @@
 	   <hr>
 	   <a href="#">보관함</a><br>
 	   <hr>
-	   <a href="#">RFID/NFC</a><br>
+	   <a href="./RFID.do">RFID/NFC</a><br>
 	   <hr>
 	   <a href="#">결제</a>
 	   <hr>

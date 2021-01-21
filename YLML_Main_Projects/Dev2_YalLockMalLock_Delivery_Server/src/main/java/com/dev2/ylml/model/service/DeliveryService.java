@@ -46,6 +46,7 @@ public class DeliveryService implements DeliveryIService{
 	 * 아이디 중복체크
 	 */
 	public int idCheck(String email) {
+		System.out.println("맴버디티오 : "+email);
 		return (int)helper.request("idCheck.do", email);
 	}
 	

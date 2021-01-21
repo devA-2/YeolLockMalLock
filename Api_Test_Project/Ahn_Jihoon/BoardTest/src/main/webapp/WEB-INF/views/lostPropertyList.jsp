@@ -27,7 +27,7 @@
 	
 	<div>
 		<button onclick="location.href='#'">메인으로</button>
-		<form action="./searchId2.do" method="post">
+		<form action="./searchIdLostProperty.do" method="post">
 			<input type="text" value="USER02@NAVER.COM" name="receipt_user_id">
 			<input type="submit" value="검색">
 		</form>
