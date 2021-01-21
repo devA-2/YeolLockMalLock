@@ -20,7 +20,6 @@
 </style>
 <script type="text/javascript">
 	function historys(){
-// 		location.href="./reportList.do";
 		window.history.back();
 	}
 	function replyGo(seq){
@@ -50,15 +49,15 @@
 		<button onclick="historys()">뒤로 가기</button>
 <%-- 		<% --%>
 			
-<!-- 			if(mem.getAuth() == '90'){ -->
+<!-- 			if(mem.getAuth() == 90){ -->
 <!-- 				%> -->
-<%-- 					<c:forEach items="${dto}" var="vo" varStatus="vs"> --%>
+<%-- 					<c:forEach items="${lists}" var="vo" varStatus="vs"> --%>
 <%-- 					<button onclick="replyGo(${vo.seq})">답변 글 작성</button> --%>
 <%-- 					</c:forEach> --%>
 <%-- 				<% --%>
 <!-- 			} -->
 			
-<%-- 		%> --%>
+<!-- 		%> -->
 	</div>
 <!-- 	<div> -->
 <%-- 		<button onclick="replyGo(${lists.seq})">답변 글 작성</button> --%>
