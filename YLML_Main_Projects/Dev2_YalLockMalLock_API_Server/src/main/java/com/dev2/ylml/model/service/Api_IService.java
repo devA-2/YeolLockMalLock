@@ -210,19 +210,30 @@ public interface Api_IService {
 	 * 보관 정보 조회(사용자)
 	 */
 	public Map<String, Object>/* List<UserStorageListDto> */ selectUserStorageList(
-			Map<String, Object> map/* Map<String, String> map */);
+			Map<String, Object> map/* String email */);
 
 	/**
-	 * 보관함ID로 보관함 정보 조회
+	 * 보관함ID로 STORAGEBOX_LIST 조회
 	 */
 	public Map<String, Object>/* StorageListDto */ selectStorageBoxList(
 			Map<String, Object> map/* String storageId */);
-
+	
+	/**
+	 * 보관함SEQ, 보관함ID로 STORAGEBOX_GOODS 조회
+	 */
+	public Map<String, Object>/* StorageGoodsDto */ selectStorageGoods(
+			Map<String, Object> map/* Map<String, Object> map */);
+	
 	/**
 	 * 타임테이블 SEQ 조회
 	 */
 	public Map<String, Object>/* int */ selectTimeTableSeq(Map<String, Object> map/* String subway */);
 
+	/**
+	 * 역 갯수 조회
+	 */
+	public Map<String, Object>/* int */ selectSubwayCnt(Map<String, Object> map);
+	
 	/**
 	 * 전체 배송원 조회
 	 */

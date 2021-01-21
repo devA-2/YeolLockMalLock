@@ -427,7 +427,7 @@ public class Api_Service implements Api_IService{
 			}
 			int overTime = list.get(i).getOverTime();
 			int overH = overTime/60;
-			int overM= overTime%overH;
+			int overM= (overH==0)?0:(overTime%overH);
 			int overCost = overH * 1000;
 			list.get(i).setOverH(overH);
 			list.get(i).setOverM(overM);
@@ -445,6 +445,17 @@ public class Api_Service implements Api_IService{
 		StorageListDto storageListDto = StorageDeliveryDao.selectStorageBoxList(storageId);
 		return helper.generateData(storageListDto);
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public Map<String, Object> selectStorageGoods(Map<String, Object> map) {
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		Map<String, Object> info = (Map<String, Object>) helper.getData(map);
+		StorageGoodsDto storageGoodsDto = StorageDeliveryDao.selectStorageGoods(info);
+		return helper.generateData(storageGoodsDto);
+	}
 
 	@Override
 	public Map<String, Object> selectTimeTableSeq(Map<String, Object> map) {
@@ -454,6 +465,15 @@ public class Api_Service implements Api_IService{
 		String subway = (String) helper.getData(map);
 		int seq = StorageDeliveryDao.selectTimeTableSeq(subway);
 		return helper.generateData(seq);
+	}
+	
+	@Override
+	public Map<String, Object> selectSubwayCnt(Map<String, Object> map) {
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		int cnt = StorageDeliveryDao.selectSubwayCnt();
+		return helper.generateData(cnt);
 	}
 
 	@Override

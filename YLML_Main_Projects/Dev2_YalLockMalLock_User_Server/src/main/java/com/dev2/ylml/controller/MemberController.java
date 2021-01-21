@@ -67,7 +67,7 @@ public class MemberController {
 		return "member/main";
 
 	}
-
+	//테스트완료
 	/**
 	 * 개인정보보호 및 이용약관 동의 폼 이동<br>
 	 * 
@@ -78,7 +78,7 @@ public class MemberController {
 		log.info("move to : infoAgree");
 		return "member/infoAgree";
 	}
-
+	//테스트완료
 	/**
 	 * 회원가입 폼 이동<br>
 	 * 
@@ -89,7 +89,7 @@ public class MemberController {
 		System.out.println("move to : signUpForm");
 		return "member/signUpForm";
 	}
-
+	//테스트완료
 	/**
 	 * 로그인 폼 이동<br>
 	 * 
@@ -101,7 +101,7 @@ public class MemberController {
 		System.out.println("move to : loginForm");
 		return "member/loginForm";
 	}
-
+	
 	/**
 	 * 아이디 찾기 폼 이동<br>
 	 * 
@@ -226,8 +226,10 @@ public class MemberController {
 			page = "redirect:./signUpForm.do";
 		}else if(dto.getAuth()==19) {
 			page = "redirect:./emailAuthForm.do";
+		}else if(dto.getAuth()==0){
+			page = "loginForm.do";
 		}else {
-			page = "redirect:./index.do";
+			page = "redirect:/index.do";
 		}
 		return page;
 	}	
@@ -256,7 +258,7 @@ public class MemberController {
 		}
 		return isc;
 	}
-
+	
 	// TODO: 토큰 삭제 및 토큰 연장 등등... 구현해야함...
 	/**
 	 * 네이버 간편 로그인 <br>
@@ -316,11 +318,11 @@ public class MemberController {
 	public String logOut(HttpSession session) {
 		MemberDto dto = (MemberDto)session.getAttribute("mem");
 		if(dto != null) {
-			//			session.removeAttribute("mem");
+//			session.removeAttribute("mem");
 			session.invalidate();
 
 		}
-		return "redirect:index.do";
+		return "redirect:/index.do";
 	}
 
 	/**
@@ -396,10 +398,10 @@ public class MemberController {
 		if(mailHelper.checkCode4Prove(email, code) == MailSenderHelper.SUCCESS) {
 			log.info("인증번호 전송 :" + dto.getEmail(),code);
 			boolean emailAuth = iService.authUpdate((MemberDto)session.getAttribute("mem"));
-			return "redirect:member/index.do";
+			return "redirect:index.do";
 
 		}else if (mailHelper.checkCode4Reset(email, code) == MailSenderHelper.FAILED) {
-			return "redirect:member/emailAuthForm.do";
+			return "redirect:/memailAuthForm.do";
 		}else {
 			return "member/error";
 		}

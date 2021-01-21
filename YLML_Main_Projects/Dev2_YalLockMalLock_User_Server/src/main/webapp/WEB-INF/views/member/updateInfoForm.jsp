@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script type="text/javascript" src="./js/jquery-3.5.1.js"></script>
+<script type="text/javascript" src="../js/jquery-3.5.1.js"></script>
 <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Insert title here</title>
 <style type="text/css">
