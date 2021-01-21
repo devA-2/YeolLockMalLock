@@ -373,6 +373,7 @@ public class Api_Service implements Api_IService{
 		String chkEmail = storageDao.checkOutEmail(email);
 		return helper.generateData(chkEmail);
 	}
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Object> updateOutUser(Map<String, Object> map) {
@@ -383,6 +384,7 @@ public class Api_Service implements Api_IService{
 		boolean isc = storageDao.updateOutUser(box);
 		return helper.generateData(isc);
 	}
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Object> insertReturn(Map<String, Object> map) {
