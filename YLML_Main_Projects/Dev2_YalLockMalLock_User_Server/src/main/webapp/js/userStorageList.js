@@ -1,8 +1,8 @@
-function exchangeBtn(num) {
+function exchangeBtn(form) {
 	// 키교환할 수령 사용자 입력하기
-	var frm = document.getElementById("storeForm"+num)
-	frm.action='./outUserForm.do';
-	frm.submit();
+//	var frm = document.getElementById("storeForm"+num)
+	form.action='./updateOutUser.do';
+	form.submit();
 }
 
 function deliveryBtn(num) {

@@ -55,26 +55,7 @@ div.btn{
 		}
 	}	
 	
-// 	//모달에 보관정보 넣기
-// 	function updateModal(){
-// 		   var date = new Date();
-// 		   var sysdate = date.getFullYear()+'.'+(date.getMonth()+1)+'.'+date.getDate();
-// 		   var systime = date.getHours()+':'+date.getMinutes();
-// 		   var systime4;
-// 		   if(date.getHours()>19){
-// 			   systime4 = '24:00';
-// 		   }else{
-// 			   systime4 = date.getHours()+4+':'+date.getMinutes();
-// 		   }
-		   
-// // 		   var storageName = document.getElementById('id').value;
-// 		   var boxSeq = document.getElementById('boxSeq').value;
-// 		   document.getElementById('storageInfo').innerHTML= '<h4>${storageInfo.label }보관함 '+boxSeq+' </h4>';
-// 		   document.getElementById('storageTime').innerHTML=sysdate+' '+systime+'->'+sysdate+' '+systime4;
-// 		   document.getElementById('storageCost').innerText='기본 4시간 : 2000원';
-		
-// 	}
-	
+
 	function insertGoods(form){
 		form.submit();
 	}
