@@ -55,11 +55,12 @@ public class MemberController {
 		System.out.println(map.toString()); 		// 맵 정보 확인용
 		MemberDto dto = iService.login(map);
 		log.info("MemberController login : " + dto);
-		session.setAttribute("mem", dto);
 		/////////////////////////////////////
 		String page ="";
 		if(dto.getAuth() == 100) {
+			session.setAttribute("mem", dto);
 			page = "redirect:index.do";
+
 		}else {
 			page = "redirect:loginForm.do";
 		}

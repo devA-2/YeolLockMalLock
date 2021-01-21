@@ -26,9 +26,13 @@ public class SearchController {
 	public String searchId(String email, Model model) {
 		log.info("------------------ 신고글 email 검색 실행 ------------------");
 		List<ReportDto> lists = iService.searchId(email);
-		model.addAttribute("list", lists);
+		model.addAttribute("lists", lists);
 		
-		return "searchIdReport";
+//		if (lists == null) {
+//			
+//		}
+		
+		return "board/searchIdReport";
 	}
 	
 	@RequestMapping(value = "/searchIdLostProperty.do", method = RequestMethod.POST)
@@ -37,6 +41,6 @@ public class SearchController {
 		List<LostPropertyDto> lists = iService.searchId2(receipt_user_id);
 		model.addAttribute("list2", lists);
 		
-		return "searchIdLostProperty";
+		return "board/searchIdLostProperty";
 	}
 }

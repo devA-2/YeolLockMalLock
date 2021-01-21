@@ -719,6 +719,7 @@ public class Api_Service implements Api_IService{
 		}
 		Map<String, Object> login = (Map<String, Object>)helper.getData(map);
 		Manager_MemberDto dto = managerLoginDao.loginMember(login);
+		
 		return helper.generateData(dto);
 	}
 

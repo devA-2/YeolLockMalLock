@@ -16,12 +16,11 @@
 </head>
 <script type="text/javascript">
 	function chkAuth(memEmail, voEmail, auth, refer){
-// 	if (memEmail == voEmail || auth == 10 || auth == 19) {
-// 		location.href="./selectDetailReport.do?refer="+refer;
-// 	}else{
-// 		alert("자신의 게시물만 확인할 수 있습니다.");
-// 	}
+	if (memEmail == voEmail) {
 		location.href="./selectDetailReport.do?refer="+refer;
+	}else{
+		alert("자신의 게시물만 확인할 수 있습니다.");
+	}
 		
 	
 		
@@ -40,7 +39,7 @@
 <body>
 
 <div style="width: 360px; height: 600px; border: 1px solid black; margin:auto;">
-<div>${mem.email}</div>
+<div>${mem.email}, ${mem.auth }</div>
 <%-- 	<% --%>
 	
 <!-- 	  	Object obj = session.getAttribute("mem");  -->
