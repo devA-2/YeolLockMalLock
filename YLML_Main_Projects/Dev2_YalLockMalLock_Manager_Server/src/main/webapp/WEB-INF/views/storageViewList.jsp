@@ -2,11 +2,10 @@
    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
    
-   
-
 
 	<c:set var="lists" value="${lists}"/>
 	<c:if test="${!empty lists}">
+<%-- 	${lists} --%>
 	<table border="1">
 		<tr>
 			<th>보관함 ID</th>
@@ -20,8 +19,8 @@
 		</tr>
 		<c:forEach varStatus="vs" items="${lists}" var="dto">
 			<tr>
-				<td><a title="${dto.storage_id}" href="./storageDetail.do?storage_id=${dto.storage_id}">${dto.storage_id}</a></td>
-				<td>${dto.storage_name}</td>
+				<td><a title="${dto.storageId}" href="./storageDetail.do?storageId=${dto.storageId}">${dto.storageId}</a></td>
+				<td>${dto.storageName}</td>
 				<td>${dto.address}</td>
 				<td>${dto.subway}</td>
 				<td>${dto.lat}</td>
@@ -54,8 +53,8 @@
 			<th>담당자</th>
 		</tr>
 			<tr>
-				<td><a title="${list.storage_id}" href="./storageDetail.do?storage_id=${list.storage_id}">${list.storage_id}</a></td>
-				<td>${list.storage_name}</td>
+				<td><a title="${list.storageId}" href="./storageDetail.do?storageId=${list.storageId}">${list.storageId}</a></td>
+				<td>${list.storageName}</td>
 				<td>${list.address}</td>
 				<td>${list.subway}</td>
 				<td>${list.lat}</td>

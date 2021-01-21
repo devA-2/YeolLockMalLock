@@ -14,11 +14,11 @@ registStorage.jsp<br>
 <form action="registNewStorage.do" method="post">
         <div >
              <label>보관함 ID : </label>
-              <input type="text" name="storage_id" placeholder="보관함 ID를 입력하세요" required="required">
+              <input type="text" name="storageId" placeholder="보관함 ID를 입력하세요" required="required">
         </div>
         <div >
             <label>보관함 이름</label>
-            <input type="text" name="storage_name" placeholder="보관함 이름을 입력하세요"  required="required">
+            <input type="text" name="storageName" placeholder="보관함 이름을 입력하세요"  required="required">
         </div>
         <div >
             <label>주 소</label>
