@@ -5,8 +5,8 @@
 <head>
 <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Insert title here</title>
-<script type="text/javascript" src="./js/jquery-3.5.1.js"></script>
-<script type="text/javascript" src="./js/signUp.js"></script>
+<script type="text/javascript" src="../js/jquery-3.5.1.js"></script>
+<script type="text/javascript" src="../js/signUp.js"></script>
 </head>
 <style type="text/css">
 #container{
@@ -20,7 +20,7 @@
 <!-- 휴대폰 인증 유효성 검사를 세션에 담아서 체크하는 거 구현해야함... 메일 보내는 것도.. -->
 	<div id="container">
 		<h1>회원가입</h1>
-		<form action="member/insertMember.do" id="joinChkFrm" method="post">
+		<form action="./insertMember.do" id="joinChkFrm" method="post">
 			<label>아이디: </label>
 				${email }<br>
 				<input type="hidden" id="email" name="email" value="${email}" >

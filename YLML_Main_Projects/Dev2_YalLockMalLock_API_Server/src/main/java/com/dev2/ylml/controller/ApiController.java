@@ -185,9 +185,9 @@ public class ApiController {
 		return service.insertDelivery(map);
 	}
 	@ResponseBody
-	@RequestMapping(value = "selectUserDeliveryList.do")
-	public Map<String, Object> selectUserDeliveryList(@RequestBody Map<String, Object> map) {
-		return service.selectUserDeliveryList(map);
+	@RequestMapping(value = "selectDeliveryList.do")
+	public Map<String, Object> selectDeliveryList(@RequestBody Map<String, Object> map) {
+		return service.selectDeliveryList(map);
 	}
 	@ResponseBody
 	@RequestMapping(value = "updatedeliveryStrat.do")

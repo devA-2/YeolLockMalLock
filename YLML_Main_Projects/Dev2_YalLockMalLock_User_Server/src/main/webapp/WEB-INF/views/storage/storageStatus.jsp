@@ -50,30 +50,30 @@ div.btn{
 		if(document.getElementById('boxSeq').value == 0){
 			alert('사용할 보관함을 선택해주세요');
 		}else{
-			updateModal();
+// 			updateModal();
 			$('#myModal').modal();
 		}
 	}	
 	
-	//모달에 보관정보 넣기
-	function updateModal(){
-		   var date = new Date();
-		   var sysdate = date.getFullYear()+'.'+(date.getMonth()+1)+'.'+date.getDate();
-		   var systime = date.getHours()+':'+date.getMinutes();
-		   var systime4;
-		   if(date.getHours()>19){
-			   systime4 = '24:00';
-		   }else{
-			   systime4 = date.getHours()+4+':'+date.getMinutes();
-		   }
+// 	//모달에 보관정보 넣기
+// 	function updateModal(){
+// 		   var date = new Date();
+// 		   var sysdate = date.getFullYear()+'.'+(date.getMonth()+1)+'.'+date.getDate();
+// 		   var systime = date.getHours()+':'+date.getMinutes();
+// 		   var systime4;
+// 		   if(date.getHours()>19){
+// 			   systime4 = '24:00';
+// 		   }else{
+// 			   systime4 = date.getHours()+4+':'+date.getMinutes();
+// 		   }
 		   
-// 		   var storageName = document.getElementById('id').value;
-		   var boxSeq = document.getElementById('boxSeq').value;
-		   document.getElementById('storageInfo').innerHTML= '<h4>${storageInfo.label }보관함 '+boxSeq+' </h4>';
-		   document.getElementById('storageTime').innerHTML=sysdate+' '+systime+'->'+sysdate+' '+systime4;
-		   document.getElementById('storageCost').innerText='기본 4시간 : 2000원';
+// // 		   var storageName = document.getElementById('id').value;
+// 		   var boxSeq = document.getElementById('boxSeq').value;
+// 		   document.getElementById('storageInfo').innerHTML= '<h4>${storageInfo.label }보관함 '+boxSeq+' </h4>';
+// 		   document.getElementById('storageTime').innerHTML=sysdate+' '+systime+'->'+sysdate+' '+systime4;
+// 		   document.getElementById('storageCost').innerText='기본 4시간 : 2000원';
 		
-	}
+// 	}
 	
 	function insertGoods(form){
 		form.submit();
@@ -84,7 +84,7 @@ div.btn{
 	<h1>${storageInfo.label }</h1>
 	<h4>${storageInfo.desc }</h4>
 	<hr>
-	<form action="./insertGoods.do" method="post">
+	<form action="./storageInfoCheck.do" method="post">
 		<div class="storageBox">
 			<c:forEach var="box" items="${statusList}">
 				<c:choose>
@@ -97,7 +97,8 @@ div.btn{
 				</c:choose>
 			</c:forEach>
 		</div>
-		<input type="hidden" name="email" value="user02@naver.com">
+<%-- 		<input type="hidden" name="email" value="${mem.email}"> --%>
+		<input type="hidden" name="email" value="user01@naver.com">
 		<input type="hidden" id='id' name="id" value="${storageInfo.value}">
 		<input type="hidden" name="boxSeq" id="boxSeq" value="0">
 		<input type="button" class="btn btn-info btn-lg" onclick="clickCheck()" value="다음">
@@ -109,15 +110,13 @@ div.btn{
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h5 class="modal-title">보관 정보 확인</h5>
+          <h5 class="modal-title">보관 이용 약관</h5>
         </div>
         <div class="modal-body">
-          <p id="storageInfo">보관함정보</p>
-          <p id="storageTime">시간</p>
-          <p id="storageCost">금액</p>
+			이용약관 !@@!@!!!!!!!!!!!!!!!!!!~~~~~~~~~~~~~~~~~
         </div>
         <div class="modal-footer">
-          <input type="button" class="btn btn-success" data-dismiss="modal" value="보관" onclick="insertGoods(this.form)">
+          <input type="button" class="btn btn-success" data-dismiss="modal" value="동의" onclick="insertGoods(this.form)">
         </div>
       </div>
       

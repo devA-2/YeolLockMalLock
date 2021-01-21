@@ -37,16 +37,24 @@ public interface MemberIDao {
 	public MemberDto login(Map<String, Object> map);
 	
 	/**
-	 * api 간편 로그인
+	 * 암호화 패스워드 찾기
 	 * @param map
-	 * @return dto
+	 * @return
+	 */
+	public boolean enPw(Map<String, Object> map);
+	
+	/**
+	 * API로그인
+	 * @param map
+	 * @return
 	 */
 	public MemberDto apiLogin(Map<String, Object> map);
 	
+	
 	/**
-	 * 일반회원 임시권한 변경
+	 * 권한변경
 	 * @param dto
-	 * @return boolean
+	 * @return
 	 */
 	public boolean authUpdate(MemberDto dto);
 	
