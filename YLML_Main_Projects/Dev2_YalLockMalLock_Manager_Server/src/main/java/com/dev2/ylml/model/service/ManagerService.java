@@ -5,11 +5,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.dev2.ylml.dto.Manager_MemberDto;
 import com.dev2.ylml.dto.Manager_StorageDto;
 import com.dev2.ylml.dto.MemberDto;
+import com.dev2.ylml.dto.StorageGoodsDto;
 import com.dev2.ylml.util.ApiClientHelper;
 
 
@@ -17,6 +19,9 @@ import com.dev2.ylml.util.ApiClientHelper;
 public class ManagerService implements ManagerIService{
 	@Autowired
 	ApiClientHelper helper;
+	
+	@Autowired
+	private PasswordEncoder pwEncoder;
 
 	@SuppressWarnings("unchecked")
 	public HashMap<String, String> getSampleData(String id, String pw) {
@@ -35,17 +40,53 @@ public class ManagerService implements ManagerIService{
 	/*
 	 * 로그인
 	 */
+	@Override
 	public MemberDto login(Map<String, Object> map) {
+		String enPw = pwEncoder.encode((String) map.get("pw"));
+		map.put("pw", enPw);
 		return (MemberDto)helper.request("login.do", map);
 	}
+	
+	/*
+	 * 회원 전체리스트
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<MemberDto> selectAll(String email) {
+		return (List<MemberDto>)helper.request("selectAll.do", email);
+
+	}
+	
+	/*
+	 * 회원 아이디로 검색
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<String> memberIdSearch() {
+		return (List<String>)helper.request("memberIdSearch.do");
+	}
+
+	@Override
+	public MemberDto detailMember(String email) {
+		return (MemberDto)helper.request("detail.do", email);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<StorageGoodsDto> memberUsing(String email) {
+		return (List<StorageGoodsDto>)helper.request("memberUsing.do",email);
+	}
+	
+	
+	
 
 	//-------------------------------------------------------------
 	
 	// 관리자 로그인 
-	@Override
-	public Manager_MemberDto loginMember(Map<String, Object> map) {
-		return (Manager_MemberDto)helper.request("loginMember.do", map);
-	}
+//	@Override
+//	public Manager_MemberDto loginMember(Map<String, Object> map) {
+//		return (Manager_MemberDto)helper.request("loginMember.do", map);
+//	}
 
 	// -------------------------------담당자 및 배송원---------------------------------
 	
@@ -138,6 +179,5 @@ public class ManagerService implements ManagerIService{
 	public boolean ActivateStorage(String seq) {
 		return (boolean)helper.request("ActivateStorage.do", seq);
 	}
-	
-	
+
 }

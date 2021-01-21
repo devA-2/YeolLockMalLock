@@ -75,10 +75,6 @@
    
    </bean>
 	
-	
-
-
-	
 	<bean id="apiServerHelper" class="com.dev2.ylml.util.ApiServerHelper">
 		<constructor-arg name="key" value="1234"/>
 		<constructor-arg name="key_uncheck" type="java.lang.Boolean" 

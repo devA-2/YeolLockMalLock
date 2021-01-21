@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.dev2.ylml.dto.DeliveryDto;
@@ -23,6 +24,9 @@ import com.dev2.ylml.util.ApiClientHelper;
 public class UserService implements UserIService{
 	@Autowired
 	ApiClientHelper helper;
+	
+	@Autowired
+	private PasswordEncoder pwEncoder;
 
 	@SuppressWarnings("unchecked")
 	public HashMap<String, String> getSampleData(String id, String pw) {
@@ -62,6 +66,8 @@ public class UserService implements UserIService{
 	 * 로그인
 	 */
 	public MemberDto login(Map<String, Object> map) {
+		String enPw = pwEncoder.encode((String) map.get("pw"));
+		map.put("pw", enPw);
 		return (MemberDto)helper.request("login.do", map);
 	}
 	

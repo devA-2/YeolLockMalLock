@@ -10,6 +10,7 @@ import java.util.Map;
 import com.dev2.ylml.dto.Manager_MemberDto;
 import com.dev2.ylml.dto.Manager_StorageDto;
 import com.dev2.ylml.dto.MemberDto;
+import com.dev2.ylml.dto.StorageGoodsDto;
 
 /**
  * @author nerdhead
@@ -32,23 +33,51 @@ public interface ManagerIService {
 	 */
 	public MemberDto login(Map<String, Object> map);
 	
+	/**
+	 * 회원 전체 목록 조회
+	 * 
+	 * @param email
+	 * @return list
+	 */
+	public List<MemberDto> selectAll(String email);
+
+	/**
+	 * 회원 아이디로 검색
+	 * 
+	 * @return list
+	 */
+	public List<String> memberIdSearch();
+
+	/**
+	 * 회원 상세 정보 조회
+	 * 
+	 * @param email
+	 * @return dto
+	 */
+	public MemberDto detailMember(String email);
+
+	/**
+	 * 회원 사용중인 서비스 조회
+	 * 
+	 * @param email
+	 * @return list
+	 */
+	public List<StorageGoodsDto> memberUsing(String email);
+	
 	//-------------------------------------------------------------
 	
 	/** 관리자 로그인 
 	 * @param map
 	 * @return
 	 */
-	public Manager_MemberDto loginMember(Map<String, Object> map);
+//	public Manager_MemberDto loginMember(Map<String, Object> map);
 	
 	// -------------------------------담당자 및 배송원---------------------------------
 	
-
 	/** 담당자 및 배송원 전체 정보조회
 	 * @return
 	 */
 	public List<Manager_MemberDto> selectallDelivery();
-	
-	
 	
 	/** 담당자 및 배송원 상세 정보조회
 	 * @param email
@@ -61,8 +90,6 @@ public interface ManagerIService {
 	 * @return
 	 */
 	public Manager_MemberDto DeliveryInfo(String email);
-	
-	
 	
 	/** 임시권한 담당자 및 배송원 정보조회
 	 * @return

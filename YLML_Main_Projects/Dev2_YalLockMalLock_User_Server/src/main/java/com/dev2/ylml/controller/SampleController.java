@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -15,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.dev2.ylml.abstractView.ExcelDownload;
 import com.dev2.ylml.dto.ExcelDto;
 import com.dev2.ylml.model.service.UserIService;
+import com.dev2.ylml.naver.NaverLoginBO;
 
 
 @Controller
@@ -23,9 +27,21 @@ public class SampleController {
 	@Autowired
 	UserIService service;
 	
+	private NaverLoginBO naverLoginBO;
+	
+	@Autowired
+	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
+		this.naverLoginBO = naverLoginBO;
+	}
+	
+	
 	
 	@RequestMapping(value = "index.do")
-	public String index() {
+	public String index(HttpSession session, Model model) {
+		// TODO : 추후에 로그인 폼과 관련된 페이지를 제외하고 다른 페이지에 접근 할 경우에는 세션이 false가 되도록 적용할것 
+		session.setAttribute("allowed", false);
+		String naverUrl = naverLoginBO.getAuthorizationUrl(session);
+		model.addAttribute("naverUrl", naverUrl);
 		return "index";
 	}
 	
