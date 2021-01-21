@@ -1,7 +1,5 @@
 package com.dev2.ylml.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -12,10 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
-import com.dev2.ylml.abstractView.ExcelDownload;
-import com.dev2.ylml.dto.ExcelDto;
 import com.dev2.ylml.dto.Manager_MemberDto;
 import com.dev2.ylml.model.service.ManagerIService;
 
@@ -92,7 +87,7 @@ public class Manager_DeliveryMemberController {
 		logger.info("list.do 검색결과 : " + param);
 		
 		if (param == null) {
-			List<Manager_MemberDto> lists = service.selectallDelivery();
+			List<Manager_MemberDto> lists = service.selectAllDelivery();
 			model.addAttribute("lists", lists);
 	      }
 			else {

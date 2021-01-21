@@ -63,8 +63,14 @@ public class ApiClientHelper {
 	private Object getData(JSONObject result) {
 		String responseData=result.get("data").toString();
 		try {
-			Class<?> clazz=Class.forName((String) result.get("className"));
-			return getData(responseData, clazz);
+			
+			if(result.get("className").equals("null")) {
+				System.out.println("왜ㅐㅐㅐㅐㅐ NULL을 쓰새오 앵간하면 쓰지 말아주새오 엉엉 빼애애애앵");
+				return null;
+			}else {
+				Class<?> clazz=Class.forName((String) result.get("className"));
+				return getData(responseData, clazz);
+			}
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -73,11 +79,18 @@ public class ApiClientHelper {
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	private <T> T getData(String responseData, Class<T> clazz) {
 		ObjectMapper mapper = new ObjectMapper();
 
 		try {
-			return mapper.readValue(responseData, clazz);
+			if(clazz.getName()=="java.lang.String") {
+				System.out.println("@@@@@@@ String은 그냥 바로 리턴 해! : "+clazz.getName());
+				return (T) responseData;
+			}else{
+				System.out.println("@@@@@@@ String이 아니면 readValue로 바인딩해서 리턴 해!");
+				return mapper.readValue(responseData, clazz);
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

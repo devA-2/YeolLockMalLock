@@ -31,7 +31,7 @@
 						</span>
 					</div>
 					<div>
-						<button onclick="exchangeBtn(${vs.count})">교환</button>
+						<button onclick="exchangeBtn(this.form)">교환</button>
 						<button onclick="deliveryBtn(${vs.count})">배송</button>
 					</div>
 					<hr>
@@ -65,9 +65,9 @@
 					</div>
 					<div>
 						<c:if test="${list.extendCnt<2}">
-							<button onclick="extendBtn(this.form)">연장</button>
+							<button onclick="extendBtn(${vs.count})">연장</button>
 						</c:if>
-						<button onclick="paymentBtn(this.form)">결제</button>
+						<button onclick="paymentBtn(${vs.count})">결제</button>
 					</div>
 					<hr>
 				</form>

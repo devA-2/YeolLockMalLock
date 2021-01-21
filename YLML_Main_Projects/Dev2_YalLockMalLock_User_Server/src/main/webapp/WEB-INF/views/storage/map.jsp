@@ -44,20 +44,5 @@
 <!-- 자동완성, map 자바스크립트파일 -> 지도 div 밑에 있어야함 -->
 <script src="../js/map.js"></script>
 
-결제완료후 흐름
-<div>
-	<form action="./afterPayment.do" method="post">
-		<input type="text" name="costCode" placeholder="결제코드">
-		<input type="submit">
-	</form>
-</div>
-수령 사용자 이메일 입력하기
-<div>
-	<form action="./updateOutUser.do" method="get">
-		<input type="text" name="storageId" value="CITYHALL_B">
-		<input type="text" name="boxSeq" value="2">
-		<input type="submit">
-	</form>
-</div>
 </body>
 </html>

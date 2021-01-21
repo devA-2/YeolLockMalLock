@@ -23,6 +23,7 @@
 <div>
    <div id="container">
    	<h1><a href="movetoLogin.do">로그인하기</a></h1>
+   	<h1><a href="login.do">바로 로그인하기</a></h1>
    </div>
 </div>
 

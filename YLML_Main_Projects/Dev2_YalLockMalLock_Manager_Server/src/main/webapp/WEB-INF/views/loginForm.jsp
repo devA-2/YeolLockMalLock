@@ -63,8 +63,8 @@ function loginChk(frm){
 				<input type="text" name="email" id="email" required="required" value="admin01@naver.com"/>
 			<div>비밀번호</div>
 				<input type="password" name="pw" id="pw" required="required" value="Admin0101" maxlength="20" size="20"><br>
-			<a href="./idSearchForm.do">아이디 찾기</a> &nbsp;&nbsp;
-			<a href="./pwSearchForm.do">비밀번호 찾기</a><br><br>
+			<a href="/idSearchForm.do">아이디 찾기</a> &nbsp;&nbsp;
+			<a href="/pwSearchForm.do">비밀번호 찾기</a><br><br>
 			
 			<input type="button" id="login" name="login" class="btn btn-success" value="로그인" onclick="loginChk(this.form)">&nbsp;&nbsp;
 		</form>
