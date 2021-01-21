@@ -53,7 +53,7 @@ public class ManagerService implements ManagerIService{
 	//TODO : 담당자 및 배송원 전체 정보조회, 파라미터 없음
 	@Override
 	public List<Manager_MemberDto> selectallDelivery() {
-		return (List<Manager_MemberDto>)helper.request("selectallDelivery.do");
+		return (List<Manager_MemberDto>)helper.request("selectAllDelivery.do");
 	}
 
 	//  담당자 및 배송원 상세 정보조회
