@@ -304,6 +304,7 @@ public class Api_Service implements Api_IService{
 		boolean isc =  isc1 && isc2 && isc3 && isc4;
 		return helper.generateData(isc);
 	}
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Object> updateAllStatus(Map<String, Object> map) {
