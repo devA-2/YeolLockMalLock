@@ -23,6 +23,7 @@
 		frm.action ="login.do"; 
 		
 		var result = "";
+		alert(pw);
 		
 		if(email == "" || email.trim()==""){
 			document.getElementById("InputId").focus();
@@ -42,11 +43,11 @@
 					if(msg.isc == "성공"){
 						frm.submit();
 					}else{
-						alert("로그인 실패","해당 사용자는 존재하지 않습니다.");
+						alert("로그인 실패1 해당 사용자는 존재하지 않습니다.");
 					}
 				},
 				error:function(){
-					alert("로그인 실패","로그인에 문제가 발생 했습니다");
+					alert("로그인 실패2 로그인에 문제가 발생 했습니다");
 				}
 			});
 			

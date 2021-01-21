@@ -22,7 +22,6 @@ import com.dev2.ylml.model.service.ManagerIService;
 //로그인 세션 mem
 //마이페이지 접근 세션 : Allowed
 @Controller
-@RequestMapping("/member")
 public class MemberController {
 
 	private Logger log = LoggerFactory.getLogger(getClass());
@@ -39,7 +38,7 @@ public class MemberController {
 	@RequestMapping(value = "/loginForm.do", method = RequestMethod.GET)
 	public String loginForm(HttpServletRequest request){	
 		System.out.println("move to : loginForm");
-		return "member/loginForm";
+		return "loginForm";
 	}
 
 	/**
@@ -60,9 +59,10 @@ public class MemberController {
 		String page ="";
 		if(dto.getAuth() == 100) {
 			session.setAttribute("mem", dto);
-			page = "redirect:./index.do";
+			page = "redirect:index.do";
+
 		}else {
-			page = "redirect:./index.do";
+			page = "redirect:loginForm.do";
 		}
 		return page;
 	}	
@@ -102,10 +102,10 @@ public class MemberController {
 	public String logOut(HttpSession session) {
 		MemberDto dto = (MemberDto)session.getAttribute("mem");
 		if(dto != null) {
-			//			session.removeAttribute("mem");
+			//session.removeAttribute("mem");
 			session.invalidate();
 
 		}
-		return "redirect:./index.do";
+		return "redirect:index.do";
 	}
 }
