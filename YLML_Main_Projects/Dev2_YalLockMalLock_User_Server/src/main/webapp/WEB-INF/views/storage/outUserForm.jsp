@@ -46,7 +46,7 @@ function checkEmail(){
 
 </script>
 	<div class='container'>
-		<form action="./updateOutUser.do">
+		<form method="post" action="./updateOutUser.do">
 			<h2>수령할 사용자를 이메일을 입력해주세요</h2>
 			<input type="hidden" name="storageId" value="${map.id }">
 			<input type="hidden" name="boxSeq" value="${map.boxSeq }">

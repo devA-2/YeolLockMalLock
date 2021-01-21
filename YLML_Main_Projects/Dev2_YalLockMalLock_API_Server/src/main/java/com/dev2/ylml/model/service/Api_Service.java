@@ -345,8 +345,8 @@ public class Api_Service implements Api_IService{
 		if(!helper.checkKey(map)) {
 			return helper.keyFailed();
 		}
-		Map<String, Object> cost = (Map<String, Object>) helper.getData(map);
-		boolean isc = storageDao.updateExtendCost(cost);
+		Map<String, Object> box = (Map<String, Object>) helper.getData(map);
+		boolean isc = storageDao.updateExtraCost(box);
 		return helper.generateData(isc);
 	}
 	@SuppressWarnings("unchecked")
