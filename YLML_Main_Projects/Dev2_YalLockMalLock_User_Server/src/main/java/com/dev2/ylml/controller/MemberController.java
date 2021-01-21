@@ -173,7 +173,7 @@ public class MemberController {
 		System.out.println(dto);
 		log.info("MemberController insertMember" + dto);
 		boolean isc = iService.insertMember(dto);
-		return isc ? "redirect:member/loginForm.do" : "redirect:member/signUpForm.do";
+		return isc ? "redirect:./loginForm.do" : "redirect:./signUpForm.do";
 	}
 
 	/**
@@ -223,11 +223,11 @@ public class MemberController {
 		/////////////////////////////////////
 		String page ="";
 		if(dto ==null) {
-			page = "redirect:member/signUpForm.do";
+			page = "redirect:./signUpForm.do";
 		}else if(dto.getAuth()==19) {
-			page = "redirect:member/emailAuthForm.do";
+			page = "redirect:./emailAuthForm.do";
 		}else {
-			page = "redirect:member/index.do";
+			page = "redirect:./index.do";
 		}
 		return page;
 	}	
@@ -320,7 +320,7 @@ public class MemberController {
 			session.invalidate();
 
 		}
-		return "redirect:member/index.do";
+		return "redirect:index.do";
 	}
 
 	/**
@@ -379,7 +379,7 @@ public class MemberController {
 		String mail = ((MemberDto) session.getAttribute("mem")).getEmail();
 		log.info("세션에서 가져온 이메일 값 :" + mail);
 		mailHelper.sendCode4Prove(mail);	// 메일보내기, 인증번호 기억해두는거 // java.lang.NullPointerException 클래스에서 먼가 잘못된듯?
-		return "redirect:member/emailAuthForm.do";
+		return "redirect:./emailAuthForm.do";
 	}
 
 	/**
@@ -436,7 +436,7 @@ public class MemberController {
 	public String myPage(HttpSession session) {	
 		//		System.out.println("move to : myPage -> " + (boolean)session.getAttribute("myPageAllowed"));
 		boolean isc = (session.getAttribute("allowed")!= null)?(boolean)session.getAttribute("allowed"):false;
-		return isc ? "member/myPage" : "redirect:member/myPageCheck.do";
+		return isc ? "member/myPage" : "redirect:./myPageCheck.do";
 	}
 
 	/**
@@ -490,9 +490,9 @@ public class MemberController {
 		int result = iService.updateInfo(infoMap);
 		if(result>0) {
 			dto.setPhoneNum(phoneNum);
-			return "redirect:member/myPage.do";
+			return "redirect:./myPage.do";
 		}
-		return "member/updateInfoForm.do";
+		return "./updateInfoForm.do";
 	}
 
 	/**
@@ -518,10 +518,10 @@ public class MemberController {
 			dto.setPw(pw);
 			int result = iService.updatePw(dto);
 			if(result>0) {
-				return "redirect:member/myPage.do";
+				return "redirect:./myPage.do";
 			}
 		}
-		return "member/updatePwForm.do";
+		return "./updatePwForm.do";
 	}
 
 	/**
@@ -548,6 +548,6 @@ public class MemberController {
 		String email = ((MemberDto)session.getAttribute("mem")).getEmail();
 		int result = iService.quitMember(email);
 		// TODO : 탈퇴가 정상적으로 처리되었다고 띄어주어야함 어디서 띄우지..?
-		return "redirect:member/logout.do";
+		return "redirect:./logout.do";
 	}
 }
