@@ -126,18 +126,16 @@ public class UserService implements UserIService{
 	public int quitMember(String email) {
 		return (int)helper.request("quitMember.do", email);
 	}
-
-//	수정하시고 주석 풀어주세요 ~~
+	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Map<String, Object>> selectMap() {
-//		return (List<Map<String, Object>>)helper.request("selectMap.do");
-		return null;
+		return (List<Map<String, Object>>)helper.request("selectMap.do");
 	}
-
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Map<String, String>> selectStorageList() {
-//		return (List<Map<String, String>>)helper.request("selectStorageList.do");
-		return null;
+		return (List<Map<String, String>>)helper.request("selectStorageList.do");
 	}
 
 	@Override

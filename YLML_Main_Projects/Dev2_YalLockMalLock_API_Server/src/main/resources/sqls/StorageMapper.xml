@@ -88,7 +88,7 @@
 	<!-- 수령 사용자 아이디 체크 -->
 	<select id="checkOutEmail" parameterType="java.lang.String" resultType="java.lang.String">
 <!-- 		SELECT EMAIL FROM MEMBER WHERE email=#{email} -->
-		SELECT EMAIL FROM MEM WHERE email=#{email}
+		SELECT EMAIL FROM MEMBER WHERE email=#{email}
 	</select>
 	
 <!-- 	수령사용자 email 보관물품에 입력 -->
