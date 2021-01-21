@@ -517,4 +517,11 @@ public interface Api_IService {
 	 */
 	public Map<String, Object>/* List<StorageGoodsDto> */ memberUsing(Map<String, Object> map/* String email */);
 
+	
+	/**
+	 * 물품 등록
+	 * @param map
+	 * @return
+	 */
+	public Map<String, Object> insertGoods(Map<String, Object> map);
 }
