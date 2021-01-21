@@ -24,20 +24,20 @@ public class SampleController {
 	ManagerIService service;
 	
 	
-	@RequestMapping(value = "index.do")
-	public String index() {
-		return "index";
-	}
+//	@RequestMapping(value = "index.do")
+//	public String index() {
+//		return "index";
+//	}
 	
-	@ResponseBody
-	@RequestMapping(value = "sampleData.do")
-	public HashMap<String, String> sampleData(){
-		String id= "wntjd337@gmail.com";
-		String pw= "1234";
-		
-		
-		return service.getSampleData(id, pw);
-	}
+//	@ResponseBody
+//	@RequestMapping(value = "sampleData.do")
+//	public HashMap<String, String> sampleData(){
+//		String id= "wntjd337@gmail.com";
+//		String pw= "1234";
+//		
+//		
+//		return service.getSampleData(id, pw);
+//	}
 	
 	
 	/* 엑셀 다운로드 예제 */
