@@ -103,11 +103,12 @@ public class ApiClientHelper {
 			json.put("data", dataStr);
 			json.put("className", data.getClass().getName());
 			System.out.println("ApiClientHelper requestData -> JSON : "+json.toJSONString());
+			System.out.println("ApiClientHelper requestData -> DATA : "+data);
 			
 			CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 			
 		  //data -> String
-			params = new StringEntity(json.toString());
+			params = new StringEntity(json.toString(), "UTF-8");
 			//TODO : 추후 header 추가 따로 설정으로 뺄것..
 			request.addHeader("content-type", "application/json; charset=UTF-8");
 		    request.setEntity(params);
