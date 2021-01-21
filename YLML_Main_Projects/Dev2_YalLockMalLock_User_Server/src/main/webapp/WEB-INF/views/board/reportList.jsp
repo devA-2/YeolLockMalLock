@@ -1,4 +1,4 @@
-<%@page import="com.min.edu.dto.MemberDto"%>
+<%@page import="com.dev2.ylml.dto.MemberDto"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
