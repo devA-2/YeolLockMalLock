@@ -70,7 +70,7 @@ managerLogin.jsp<br>
 		<input type="text" name="email" id="InputId" value="admin@naver.com" placeholder="아이디입력"><br>
 		<div id="pw">비밀번호</div>
 		
-		<input type="password" name="pw" id="InputPw" value="admin" onkeyup="enterKey()"><br>
+		<input type="password" name="pw" id="InputPw" value="$2a$10$BRDwr8nIkOmkwapVdXKuweLbiafw/Jyj7KSPUod3zIYvSJqRysegu" onkeyup="enterKey()"><br>
 		
 		<input type="button" id="login" name="login" value="로그인"
 		 onclick="loginCheck()"><br>

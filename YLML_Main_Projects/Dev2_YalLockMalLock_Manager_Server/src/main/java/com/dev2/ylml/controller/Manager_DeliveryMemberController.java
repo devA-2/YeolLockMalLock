@@ -67,16 +67,15 @@ public class Manager_DeliveryMemberController {
 	 */
 	@RequestMapping(value = "deliveryDetail.do", method = RequestMethod.GET)
 	public String deliveryDetail(Model model, @RequestParam String email) {
-		logger.info("allDeleveryList.do : 상세조회 이동 : " + email);
-
+		logger.info("deliveryDetail.do : 상세조회 이동 : " + email);
 
 		Manager_MemberDto list1 = service.selectDetail(email);
 		Manager_MemberDto list2 = service.DeliveryInfo(email);
 		model.addAttribute("list1", list1);
 		model.addAttribute("list2", list2);
 
-		logger.info("allDeleveryList.do : 상세조회 -> list1 : " + list1);
-		logger.info("allDeleveryList.do : 배송정보 -> list2 : " + list2);
+		logger.info("deliveryDetail.do : 상세조회 -> list1 : " + list1);
+		logger.info("deliveryDetail.do : 배송정보 -> list2 : " + list2);
 		return "deliveryDetail";
 	}
 

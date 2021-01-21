@@ -65,7 +65,7 @@ public class ManagerService implements ManagerIService{
 	// 배송 정보조회
 	@Override
 	public Manager_MemberDto DeliveryInfo(String email) {
-		return (Manager_MemberDto)helper.request("DeliveryInfo.do", email);
+		return (Manager_MemberDto)helper.request("deliveryInfo.do", email);
 	}
 
 	// 임시권한 담당자 및 배송원 정보조회
