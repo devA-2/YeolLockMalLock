@@ -63,8 +63,14 @@ public class ApiClientHelper {
 	private Object getData(JSONObject result) {
 		String responseData=result.get("data").toString();
 		try {
-			Class<?> clazz=Class.forName((String) result.get("className"));
-			return getData(responseData, clazz);
+			
+			if(result.get("className").equals("null")) {
+				System.out.println("왜ㅐㅐㅐㅐㅐ NULL을 쓰새오 앵간하면 쓰지 말아주새오 엉엉 빼애애애앵");
+				return null;
+			}else {
+				Class<?> clazz=Class.forName((String) result.get("className"));
+				return getData(responseData, clazz);
+			}
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
