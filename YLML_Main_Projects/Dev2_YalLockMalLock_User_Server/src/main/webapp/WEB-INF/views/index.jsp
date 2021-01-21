@@ -39,7 +39,7 @@
    <hr>
    <a href="#">게시판</a><br>
    <hr>
-   <a href="#">보관함</a><br>
+   <a href="./storage/map.do">보관함</a><br>
    <hr>
    <a href="#">RFID/NFC</a><br>
    <hr>
