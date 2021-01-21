@@ -1,5 +1,6 @@
 package com.dev2.ylml.model.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,7 @@ import com.dev2.ylml.util.ApiServerHelper;
 import com.dev2.ylml.dto.MemberDto;
 import com.dev2.ylml.dto.ReportDto;
 import com.dev2.ylml.dto.LostPropertyDto;
+import com.dev2.ylml.dto.CostDto;
 import com.dev2.ylml.dto.DeliveryDto;
 import com.dev2.ylml.dto.StorageGoodsDto;
 import com.dev2.ylml.dto.StorageListDto;
@@ -411,7 +413,24 @@ public class Api_Service implements Api_IService{
 		if(!helper.checkKey(map)) {
 			return helper.keyFailed();
 		}
-		return null;
+		String email = (String) helper.getData(map);
+		List<UserStorageListDto> list = StorageDeliveryDao.selectUserStorageList(email);
+		List<CostDto> cost = StorageDeliveryDao.selectCost(email);
+		for (int i = 0; i < list.size(); i++) {
+			for (int j = 0; j < cost.size(); j++) {
+				if (list.get(i).getCostCode().equals(cost.get(j).getCostCode())) {
+					list.get(i).setCost(cost.get(j).getCost());
+				}
+			}
+			int overTime = list.get(i).getOverTime();
+			int overH = overTime/60;
+			int overM= overTime%overH;
+			int overCost = overH * 1000;
+			list.get(i).setOverH(overH);
+			list.get(i).setOverM(overM);
+			list.get(i).setOverCost(overCost);
+		}
+		return helper.generateData(list);
 	}
 
 	@Override
@@ -492,13 +511,29 @@ public class Api_Service implements Api_IService{
 		return helper.generateData((isc1 || isc2 || isc3)? true:false);
 	}
 
-	// TODO : 체크해야 하는 부분
+	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Object> selectUserDeliveryList(Map<String, Object> map) {
 		if(!helper.checkKey(map)) {
 			return helper.keyFailed();
 		}
-		return null;
+		Map<String, String> info = (Map<String, String>) helper.getData(map);
+		String email = info.get("email");
+		String auth = info.get("auth");
+		List<DeliveryDto> deliveryDto = new ArrayList<DeliveryDto>();
+		StorageListDto storageListDto = new StorageListDto();
+		if(auth.equals("10")) {
+			deliveryDto = StorageDeliveryDao.selectUserDeliveryList(email);
+		}else if(auth.equals("80")) {
+			deliveryDto = StorageDeliveryDao.selectDelmanDeliveryList(email);
+			for (int i = 0; i < deliveryDto.size(); i++) {
+				String station = deliveryDto.get(i).getOutboxId();
+				storageListDto = StorageDeliveryDao.selectStorageBoxList(station);
+				station = storageListDto.getSubway();
+				deliveryDto.get(i).setOutboxId(station);
+			}
+		}
+		return helper.generateData(deliveryDto);
 	}
 	
 	@Override
