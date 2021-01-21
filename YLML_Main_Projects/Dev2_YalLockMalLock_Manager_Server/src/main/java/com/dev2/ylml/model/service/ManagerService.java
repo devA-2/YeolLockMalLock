@@ -40,7 +40,6 @@ public class ManagerService implements ManagerIService{
 	/*
 	 * 로그인
 	 */
-	@Override
 	public MemberDto login(Map<String, Object> map) {
 		String enPw = pwEncoder.encode((String) map.get("pw"));
 		map.put("pw", enPw);

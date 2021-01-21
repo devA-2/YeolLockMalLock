@@ -226,10 +226,10 @@ public class MemberController {
 			page = "redirect:./signUpForm.do";
 		}else if(dto.getAuth()==19) {
 			page = "redirect:./emailAuthForm.do";
-		}else if(dto.getAuth()==0){
-			page = "loginForm.do";
-		}else {
+		}else if(dto.getAuth()==10){
 			page = "redirect:/index.do";
+		}else {
+			page = "loginForm.do";
 		}
 		return page;
 	}	
