@@ -246,10 +246,7 @@ public class UserService implements UserIService{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<DeliveryDto> selectDeliveryList(String email, String auth) {
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("email", email);
-		map.put("auth", auth);
+	public List<DeliveryDto> selectDeliveryList(Map<String, String> map) {
 		return (List<DeliveryDto>) helper.request("selectDeliveryList.do", map);
 	}
 

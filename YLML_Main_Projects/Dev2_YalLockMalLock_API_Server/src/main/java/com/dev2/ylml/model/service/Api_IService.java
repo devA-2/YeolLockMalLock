@@ -260,8 +260,8 @@ public interface Api_IService {
 	/**
 	 * 배송 정보 조회(사용자, 배송원)
 	 */
-	public Map<String, Object>/* List<DeliveryDto> */ selectUserDeliveryList(
-			Map<String, Object> map/* String email, String auth */);
+	public Map<String, Object>/* List<DeliveryDto> */ selectDeliveryList(
+			Map<String, Object> map/* (Map<String, String> map */);
 	
 	/**
 	 * 배송 시작 시간 업데이트

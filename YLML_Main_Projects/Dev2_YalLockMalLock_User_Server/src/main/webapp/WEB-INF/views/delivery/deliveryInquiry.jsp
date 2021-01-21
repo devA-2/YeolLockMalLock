@@ -27,11 +27,11 @@
 	<div>
 		<div>
 			<label for="start">출발 : </label>
-			<span id="start"></span>
+			<span id="start">시청역</span>
 		</div>
 		<div>
 			<label for="arrive">도착 : </label>
-			<span id="arrive"></span>
+			<span id="arrive">을지로3가역</span>
 		</div>
 	</div>
 	<div id="result"></div>
