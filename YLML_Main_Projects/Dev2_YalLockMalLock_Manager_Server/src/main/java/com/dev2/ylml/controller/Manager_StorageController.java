@@ -83,7 +83,7 @@ public class Manager_StorageController {
 		
 		service.modifyStorage(dto);
 		
-		return "redirect:storageDetail.do?storage_id="+dto.getStorage_id();
+		return "redirect:storageDetail.do?storage_id="+dto.getStorageId();
 	}
 	
 	//	보관함 새로 등록하기 이동 registStorage.do
@@ -101,7 +101,7 @@ public class Manager_StorageController {
 		
 		service.registStorage(dto);
 		
-		return "redirect:storageDetail.do?storage_id="+dto.getStorage_id();
+		return "redirect:storageDetail.do?storage_id="+dto.getStorageId();
 	}
 	
 	//	사용불가 보관함이 해결되었을때 관리자가 사용 가능 보관함으로 변경
@@ -112,7 +112,7 @@ public class Manager_StorageController {
 		logger.info("ActivateStorage.do 상태변경할 보관함번호 : " + box_seq);
 		logger.info("ActivateStorage.do 상태변경되는 보관함 id  : " + storage_id);
 		
-		service.ActivateStorage(box_seq);
+		service.activateStorage(box_seq);
 		
 		return "redirect:storageDetail.do?storage_id="+storage_id;
 	}
