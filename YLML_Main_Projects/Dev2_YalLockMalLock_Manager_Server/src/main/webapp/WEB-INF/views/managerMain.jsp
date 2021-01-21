@@ -20,7 +20,7 @@
 		
       function accessDeliveryList() {
 		console.log(auth);
-		if(auth != "90"){
+		if(auth != "100"){
 			alert("해당 메뉴의 접근권한이 없습니다.");
 		}
 		else {
@@ -30,7 +30,7 @@
       
       function accessStorageList() {
     	  console.log(auth);
-  		if(auth != "99"){
+  		if(auth != "100"){
   			alert("해당 메뉴의 접근권한이 없습니다.");
   		}
   		else {
@@ -40,7 +40,7 @@
       
       function accessStorageRegist() {
     	  console.log(auth);
-  		if(auth != "99"){
+  		if(auth != "100"){
   			alert("해당 메뉴의 접근권한이 없습니다.");
   		}
   		else {

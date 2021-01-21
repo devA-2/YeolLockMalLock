@@ -54,16 +54,13 @@ public class MemberDao implements MemberIDao {
 	@Override
 	public MemberDto login(Map<String, Object> map) {
 		log.info("MemberDaoImpl login : " + map);		
-		MemberDto dto = null;
-//		System.out.println("~~~~~~~~~~~~~~"+map);
-		String enPw = pwEncoder.encode((String) map.get("pw"));
+		return sqlSession.selectOne("member.enLogin",map);
+	}
+	
+	@Override
+	public boolean enPw(Map<String, Object> map) {
 		String dbPw = sqlSession.selectOne("member.enPw", map.get("email"));
-//		System.out.println(dbPw+"~~~~~~~~~~~~~~"+enPw);
-		if(pwEncoder.matches((String) map.get("pw"), dbPw)) {
-			dto = sqlSession.selectOne("member.enLogin",map);
-//			log.info(map+"oooooooooooooooooooo"+dto);
-		}
-		return dto;
+		return pwEncoder.matches((String) map.get("pw"), dbPw);
 	}
 	
 	@Override

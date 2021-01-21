@@ -4,12 +4,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>도착 지점 선택</title>
+<title>미리 조회</title>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <!-- kakaoMap API 고유키 설정 -->
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=17fa16b302b947b735f86c5f96eb39b1"></script>
 </head>
 <body>
+
 	<!-- 검색창 div -->
 	<div class="input-group">
 		<input type="text" class="form-control" placeholder="보관함 검색" id="search">
@@ -19,13 +20,26 @@
             </button>
 		</div>
 	</div>
-	
+
 	<!-- 지도 표시하는 div  -->
-	<div id="map" style="width: 600px; height: 600px;"></div>	
+	<div id="map" style="width: 600px; height: 600px;"></div>
 	
-	<form action="./delivery.do" method="post">
-		<div id="result"></div>
-	</form>
+	<div>
+		<div>
+			<label for="start">출발 : </label>
+			<span id="start">시청역</span>
+		</div>
+		<div>
+			<label for="arrive">도착 : </label>
+			<span id="arrive">을지로3가역</span>
+		</div>
+	</div>
+	<div id="result"></div>
+	<div>
+		<button onclick="calTime()">계산</button>
+		<button onclick="reset()">다시 선택</button>
+	</div>
+	
 </body>
-<script type="text/javascript" src="js/deliveryMap.js"></script>
+<script type="text/javascript" src="../js/inquiryMap.js"></script>
 </html>

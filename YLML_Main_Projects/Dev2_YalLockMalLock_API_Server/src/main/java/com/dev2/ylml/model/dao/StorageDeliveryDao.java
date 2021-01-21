@@ -37,9 +37,9 @@ public class StorageDeliveryDao implements StorageDeliveryIDao {
 	}
 	
 	@Override
-	public List<UserStorageListDto> selectUserStorageList(Map<String, String> map) {
+	public List<UserStorageListDto> selectUserStorageList(String email) {
 		logger.info("Dao_selectUserStorageList 실행");
-		return sqlSession.selectList("storageBox.selectUserStorageList", map);
+		return sqlSession.selectList("storageBox.selectUserStorageList", email);
 	}
 
 	@Override

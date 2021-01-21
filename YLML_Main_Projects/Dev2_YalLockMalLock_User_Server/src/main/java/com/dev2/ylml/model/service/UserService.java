@@ -5,10 +5,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.dev2.ylml.dto.DeliveryDto;
+import com.dev2.ylml.dto.LostPropertyDto;
 import com.dev2.ylml.dto.MemberDto;
+import com.dev2.ylml.dto.RFIDDto;
+import com.dev2.ylml.dto.ReportDto;
 import com.dev2.ylml.dto.StorageBoxDto;
 import com.dev2.ylml.dto.StorageGoodsDto;
 import com.dev2.ylml.dto.StorageListDto;
@@ -20,6 +24,9 @@ import com.dev2.ylml.util.ApiClientHelper;
 public class UserService implements UserIService{
 	@Autowired
 	ApiClientHelper helper;
+	
+	@Autowired
+	private PasswordEncoder pwEncoder;
 
 	@SuppressWarnings("unchecked")
 	public HashMap<String, String> getSampleData(String id, String pw) {
@@ -59,6 +66,8 @@ public class UserService implements UserIService{
 	 * 로그인
 	 */
 	public MemberDto login(Map<String, Object> map) {
+		String enPw = pwEncoder.encode((String) map.get("pw"));
+		map.put("pw", enPw);
 		return (MemberDto)helper.request("login.do", map);
 	}
 	
@@ -210,12 +219,13 @@ public class UserService implements UserIService{
 
 	@Override
 	public int selectSubwayCnt() {
-		return 0;
+		return (int) helper.request("selectSubwayCnt.do");
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<MemberDto> selectDeliveryMan() {
-		return null;
+		return (List<MemberDto>) helper.request("selectDeliveryMan.do");
 	}
 
 	@Override
@@ -235,17 +245,125 @@ public class UserService implements UserIService{
 
 	@Override
 	public boolean insertDelivery(DeliveryDto delDto, StorageGoodsDto goodsDto) {
-		return false;
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("DeliveryDto", delDto);
+		map.put("StorageGoodsDto", goodsDto);
+		return (boolean) helper.request("insertDelivery.do", map);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<DeliveryDto> selectDeliveryList(String email, String auth) {
-		return null;
+	public List<DeliveryDto> selectDeliveryList(Map<String, String> map) {
+		return (List<DeliveryDto>) helper.request("selectDeliveryList.do", map);
 	}
 
 	@Override
 	public boolean updateCostStatus(String costCode) {
 		return (boolean)helper.request("updateCostStatus.do", costCode);
+	}
+	
+	// ------------------------------ AJH -------------------------------------
+
+	@Override
+	public List<LostPropertyDto> selectAllLostProperty() {
+		
+		return (List<LostPropertyDto>) helper.request("selectAllLostProperty.do");
+	}
+
+	@Override
+	public LostPropertyDto selectOneLostProperty(String seq) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean insertReport(ReportDto dto) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean replyReport(ReportDto dto) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean reply(ReportDto dto) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean modifyReport(ReportDto dto) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<ReportDto> selectAllReport() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ReportDto> selectDetailReport(String refer) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean updateProcessStatus(ReportDto dto) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public ReportDto selectDetail(String seq) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ReportDto> searchId(String email) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<LostPropertyDto> searchId2(String receipt_user_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean insertLostProperty(ReportDto dto) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean insertGoods(RFIDDto dto) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean insertKey(RFIDDto dto) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean updateOutUser(RFIDDto dto) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean updateKey(RFIDDto dto) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 }
