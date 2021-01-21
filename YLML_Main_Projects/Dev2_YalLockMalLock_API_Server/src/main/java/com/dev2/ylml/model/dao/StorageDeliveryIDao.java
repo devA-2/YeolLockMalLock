@@ -25,7 +25,7 @@ public interface StorageDeliveryIDao {
 	/**
 	 * 보관 정보 조회(사용자)
 	 */
-	public List<UserStorageListDto> selectUserStorageList(Map<String, String> map);
+	public List<UserStorageListDto> selectUserStorageList(String email);
 	
 	/**
 	 * 보관 비용 조회(사용자)

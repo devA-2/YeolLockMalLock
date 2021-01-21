@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>보관 내역</title>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script type="text/javascript" src="js/userStorageList.js"></script>
+<script type="text/javascript" src="../js/userStorageList.js"></script>
 </head>
 <body>
 	<c:forEach var="list" items="${list}" varStatus="vs">
