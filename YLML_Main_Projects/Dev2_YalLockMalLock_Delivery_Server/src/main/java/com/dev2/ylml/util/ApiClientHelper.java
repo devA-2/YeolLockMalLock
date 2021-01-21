@@ -109,7 +109,7 @@ public class ApiClientHelper {
 		  //data -> String
 			params = new StringEntity(json.toString());
 			//TODO : 추후 header 추가 따로 설정으로 뺄것..
-			request.addHeader("content-type", "application/json");
+			request.addHeader("content-type", "application/json; charset=UTF-8");
 		    request.setEntity(params);
 		    //POST 전송(URL+path, StringData)
 		    CloseableHttpResponse response = httpClient.execute(request);
