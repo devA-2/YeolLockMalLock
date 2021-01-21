@@ -34,21 +34,6 @@ public class Manager_LoginController {
 		return "managerLoginMain";
 	}
 	
-	// 관리자로 로그인하기 managerlogin.do
-//	@RequestMapping(value = "managerlogin.do", method = RequestMethod.POST)
-//	public String managerlogin(Manager_MemberDto dto, HttpSession session) {
-//		logger.info("managerLogin.do : 관리자로그인시도");
-//		logger.info("managerLogin.do : 관리자로그인 입력정보 : "+ dto);
-//		Manager_MemberDto loginDto = service.loginMember(dto);
-//		logger.info("managerLogin.do : 관리자로그인 확인정보 : "+ loginDto);
-//		session.setAttribute("mangerLogin", loginDto);
-//		System.out.println("로그인 된 값 : \t "+ loginDto);
-//		
-//		if(session != null) {
-//		logger.info("managerLogin.do : 관리자로그인성공");
-//		}
-//		return "managerMain";
-//	}
 	// 로그인 성공
 		@RequestMapping(value = "/login.do", method = RequestMethod.POST)
 		public String login(@RequestParam Map<String, Object> map, HttpSession session) {
