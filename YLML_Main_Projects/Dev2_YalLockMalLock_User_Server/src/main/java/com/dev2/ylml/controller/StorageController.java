@@ -323,10 +323,9 @@ public class StorageController {
 	 */
 	@RequestMapping(value = "/checkDeliveryInfo.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> checkdeliveryTime(@RequestParam("arriveStation") String arriveStation, HttpSession session) {
+	public Map<String, Object> checkDeliveryInfo(@RequestParam("arriveStation") String arriveStation, HttpSession session) {
 		// 사용자 현재 보관함 정보
 		StorageGoodsDto storageGoodsDto = (StorageGoodsDto) session.getAttribute("storageGoodsDto");
-		System.out.println("storageGoodsDto확인!!  "+storageGoodsDto);
 		String userStorageId = storageGoodsDto.getStorageId();
 		StorageListDto userSBListDto = service.selectStorageBoxList(userStorageId);
 		String userStorageSubway = userSBListDto.getSubway();
@@ -346,6 +345,7 @@ public class StorageController {
 			// 1. 배송원 현재 위치 > 사용자 보관함 거리 계산
 			//  1) 전체 배송원 조회
 			List<MemberDto> deliveryMans = service.selectDeliveryMan();
+			System.out.println("배송원 리스트!! "+deliveryMans);
 			//  2) 사용자 보관함과 가까운 배송원 탐색
 			int deliverymanDist;								// 사용자 위치 seq - 배송원 위치 seq
 			int num = 1000;										// 가까운 배송원을 가리기 위한 허수
@@ -353,11 +353,16 @@ public class StorageController {
 			Map<String, Object> delManInfo = new HashMap<String, Object>();
 			for (int i = 0; i < deliveryMans.size(); i++) {
 				//  2-1) 배송원 ID, 이름 탐색
+				System.out.println("배송원 정보 확인!! "+deliveryMans.get(i));
+				System.out.println("배송원 정보 확인!! "+deliveryMans.get(i).getEmail());
 				String deliverymanId = deliveryMans.get(i).getEmail();
+				System.out.println("배송원 이메일!! "+deliverymanId);
 				String deliverymanName = deliveryMans.get(i).getName();
 				// 2-2) 배송원 위치 탐색
 				String deliverymanSubway = service.selectDeliveryLoc(deliverymanId);
+				System.out.println("배송원 위치 확인!! "+deliverymanSubway);
 				int deliverymanLocSeq = service.selectTimeTableSeq(deliverymanSubway);
+				System.out.println("배송원 위치 확인!! "+deliverymanLocSeq);
 				// 2-3) 사용자 위치와 배송원 위치 비교 후 가장 가까운 위치의 배송원 찾기
 				if(userLocSeq != deliverymanLocSeq) {
 					if(userLocSeq > deliverymanLocSeq) {		
@@ -417,6 +422,8 @@ public class StorageController {
 			Map<String, Integer> userDelLoc = new HashMap<String, Integer>();
 			int userDelTime;											// 사용자 보관함 > 배송 보관함 이동 시간
 			int deliveryCost;											// 배송 비용
+			System.out.println("시퀀스 확인!! "+userLocSeq);
+			System.out.println("시퀀스 확인!! "+deliveryLocSeq);
 			if(userLocSeq < deliveryLocSeq) {
 				userDelLoc.put("startSeq", userLocSeq);
 				userDelLoc.put("arriveSeq", deliveryLocSeq-1);
