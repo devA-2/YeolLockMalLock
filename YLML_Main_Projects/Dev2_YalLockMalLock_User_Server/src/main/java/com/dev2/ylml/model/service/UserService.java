@@ -264,97 +264,97 @@ public class UserService implements UserIService{
 	
 	// ------------------------------ AJH -------------------------------------
 
-//	@Override
-//	public List<LostPropertyDto> selectAllLostProperty() {
-//		
-//		return (List<LostPropertyDto>) helper.request("selectAllLostProperty.do");
-//	}
-//
-//	@Override
-//	public LostPropertyDto selectOneLostProperty(String seq) {
-//		return (LostPropertyDto) helper.request("selectOneLostProperty.do", seq);
-//	}
-//
-//	@Override
-//	public boolean insertReport(ReportDto dto) {
-//		return (boolean) helper.request("insertReport.do", dto);
-//	}
-//
-//	@Override
-//	public boolean replyReport(ReportDto dto) {
-//		return (boolean) helper.request("replyReport.do", dto);
-//	}
-//
-//	@Override
-//	public boolean reply(ReportDto dto) {
-//		return (boolean)helper.request("reply.do", dto);
-//	}
-//
-//	@Override
-//	public boolean modifyReport(ReportDto dto) {
-//		return (boolean)helper.request("modifyReport.do", dto);
-//	}
-//
-//	@Override
-//	public List<ReportDto> selectAllReport() {
-//		return (List<ReportDto>) helper.request("selectAllReport.do");
-//	}
-//
-//	@Override
-//	public List<ReportDto> selectDetailReport(String refer) {
-//		return (List<ReportDto>) helper.request("selectDetailReport.do", refer);
-//	}
-//
-//	@Override
-//	public boolean updateProcessStatus(ReportDto dto) {
-//		return (boolean) helper.request("updateProcessStatus.do", dto);
-//	}
-//
-//	@Override
-//	public ReportDto selectDetail(String seq) {
-//		return (ReportDto) helper.request("selectDetail.do", seq);
-//	}
-//
-//	@Override
-//	public List<ReportDto> searchId(String email) {
-//		return (List<ReportDto>) helper.request("searchId.do", email);
-//	}
-//
-//	@Override
-//	public List<LostPropertyDto> searchId2(String receipt_user_id) {
-//		return (List<LostPropertyDto>) helper.request("searchId2.do", receipt_user_id);
-//	}
-//
-//	// 대기
-//	@Override
-//	public boolean insertLostProperty(ReportDto dto) {
-//		// TODO Auto-generated method stub
-//		return false;
-//	}
-//
-//
-//	@Override
-//	public boolean insertKey(RFIDDto dto) {
-//		// TODO Auto-generated method stub
-//		return false;
-//	}
-//
-//	@Override
-//	public boolean updateOutUser(RFIDDto dto) {
-//		// TODO Auto-generated method stub
-//		return false;
-//	}
-//
-//	@Override
-//	public boolean updateKey(RFIDDto dto) {
-//		// TODO Auto-generated method stub
-//		return false;
-//	}
-//
-//	@Override
-//	public boolean insertGoods(RFIDDto dto) {
-//		// TODO Auto-generated method stub
-//		return false;
-//	}
+	@Override
+	public List<LostPropertyDto> selectAllLostProperty() {
+		
+		return (List<LostPropertyDto>) helper.request("selectAllLostProperty.do");
+	}
+
+	@Override
+	public LostPropertyDto selectOneLostProperty(String seq) {
+		return (LostPropertyDto) helper.request("selectOneLostProperty.do", seq);
+	}
+
+	@Override
+	public boolean insertReport(ReportDto dto) {
+		return (boolean) helper.request("insertReport.do", dto);
+	}
+
+	@Override
+	public boolean replyReport(ReportDto dto) {
+		return (boolean) helper.request("replyReport.do", dto);
+	}
+
+	@Override
+	public boolean reply(ReportDto dto) {
+		return (boolean)helper.request("reply.do", dto);
+	}
+
+	@Override
+	public boolean modifyReport(ReportDto dto) {
+		return (boolean)helper.request("modifyReport.do", dto);
+	}
+
+	@Override
+	public List<ReportDto> selectAllReport() {
+		return (List<ReportDto>) helper.request("selectAllReport.do");
+	}
+
+	@Override
+	public List<ReportDto> selectDetailReport(String refer) {
+		return (List<ReportDto>) helper.request("selectDetailReport.do", refer);
+	}
+
+	@Override
+	public boolean updateProcessStatus(ReportDto dto) {
+		return (boolean) helper.request("updateProcessStatus.do", dto);
+	}
+
+	@Override
+	public ReportDto selectDetail(String seq) {
+		return (ReportDto) helper.request("selectDetail.do", seq);
+	}
+
+	@Override
+	public List<ReportDto> searchId(String email) {
+		return (List<ReportDto>) helper.request("searchId.do", email);
+	}
+
+	@Override
+	public List<LostPropertyDto> searchId2(String receipt_user_id) {
+		return (List<LostPropertyDto>) helper.request("searchId2.do", receipt_user_id);
+	}
+
+	// 대기
+	@Override
+	public boolean insertLostProperty(ReportDto dto) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public boolean insertKey(RFIDDto dto) {
+		// TODO Auto-generated method stub
+		return (boolean) helper.request("insertKey.do", dto);
+	}
+
+	@Override
+	public boolean updateOutUser(RFIDDto dto) {
+		return (boolean) helper.request("updateOutUser.do", dto);
+	}
+
+	@Override
+	public boolean updateKey(RFIDDto dto) {
+		return (boolean) helper.request("updateKey.do", dto);
+	}
+
+	// 대기
+	@Override
+	public boolean insertGoods(RFIDDto dto) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 	
 }
