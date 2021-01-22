@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.dev2.ylml.dto.CostDto;
 import com.dev2.ylml.dto.StorageBoxDto;
 import com.dev2.ylml.dto.StorageGoodsDto;
 import com.dev2.ylml.dto.StorageListDto;
@@ -71,7 +72,7 @@ public class StorageDao implements StorageIDao {
 	}
 
 	@Override
-	public String compareKey(String key) {
+	public CostDto compareKey(String key) {
 		return sqlSession.selectOne("storage.compareKey",key);
 	}
 

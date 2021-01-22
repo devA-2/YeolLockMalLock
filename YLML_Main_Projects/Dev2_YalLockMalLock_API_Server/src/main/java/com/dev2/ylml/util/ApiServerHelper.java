@@ -63,9 +63,21 @@ public class ApiServerHelper {
 	public <T> Map<String, Object> generateData(T data) {
 		Map<String, Object> map= keySucceed();
 		//팀원들에게 Null을 쓰지말라고 전파하였으나 null을 유용하게 사용하고있어서 null 값도 처리하게 (억지로) 수정함..
-		map.put("data",(data!=null)?data:"null");
-		map.put("className", (data!=null)?data.getClass().getName():"null");
+		if(data!=null) {
+			map.put("data",data);
+			if(data.getClass().getName().equals("java.util.ArrayList")) {
+				map.put("dto", ((List<?>)data).get(0).getClass().getName());
+			}
 
+			
+			
+			map.put("className", data.getClass().getName());
+		}else {
+			map.put("data","null");
+			map.put("className", "null");
+		}
+		
+		
 		return map;
 	}
 

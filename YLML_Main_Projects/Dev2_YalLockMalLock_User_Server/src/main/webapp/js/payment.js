@@ -14,6 +14,6 @@ $("#check_module").click(function () {
 		buyer_name: '',
 		buyer_tel: phoneNum,
 		buyer_postcode: '',
-		m_redirect_url: 'http://localhost:8095/nerdhead-archetype-webapp-custom/afterPayment.do'
+		m_redirect_url: 'http://localhost:8095/nerdhead-archetype-webapp-custom/resultPayment.do'
 	});
 });

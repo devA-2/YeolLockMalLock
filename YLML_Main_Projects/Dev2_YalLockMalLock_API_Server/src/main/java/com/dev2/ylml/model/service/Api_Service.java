@@ -362,8 +362,8 @@ public class Api_Service implements Api_IService{
 			return helper.keyFailed();
 		}
 		String key = (String) helper.getData(map);
-		String code = storageDao.compareKey(key);
-		return helper.generateData(code);
+		CostDto costDto = storageDao.compareKey(key);
+		return helper.generateData(costDto);
 	}
 	@SuppressWarnings("unchecked")
 	@Override
