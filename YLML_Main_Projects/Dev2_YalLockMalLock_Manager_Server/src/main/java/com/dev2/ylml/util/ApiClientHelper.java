@@ -2,8 +2,7 @@ package com.dev2.ylml.util;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -11,13 +10,14 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 public class ApiClientHelper {
 	private final String URL;
@@ -67,6 +67,9 @@ public class ApiClientHelper {
 			if(result.get("className").equals("null")) {
 				System.out.println("왜ㅐㅐㅐㅐㅐ NULL을 쓰새오 앵간하면 쓰지 말아주새오 엉엉 빼애애애앵");
 				return null;
+			}else if(result.containsKey("dto")){
+				Class<?> dtoName = (Class<?>) Class.forName((String) result.get("dto"));
+				return getListData(responseData, dtoName);
 			}else {
 				Class<?> clazz=Class.forName((String) result.get("className"));
 				return getData(responseData, clazz);
@@ -79,6 +82,15 @@ public class ApiClientHelper {
 	}
 	
 	
+	private <T> List<T> getListData(String responseData, Class<T> dtoName) {
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			return mapper.readValue(responseData, new TypeReference<List<T>>() {});
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	@SuppressWarnings("unchecked")
 	private <T> T getData(String responseData, Class<T> clazz) {
 		ObjectMapper mapper = new ObjectMapper();
