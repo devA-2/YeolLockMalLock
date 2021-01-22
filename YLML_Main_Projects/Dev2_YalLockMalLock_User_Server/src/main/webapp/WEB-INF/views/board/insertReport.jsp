@@ -17,28 +17,28 @@
 		history.go(-1);
 	}
 	
-	<script type="text/javascript">
 	var isShow = true;
 	function validateForm() {
 		var form = document.forms[0];
-		var id = document.getElementById("email");
+		var email = document.getElementById("email");
 		var title = document.getElementById("title");
-		var content = document.getElementById("content"); // 위치 탐색
-		content.value = oEditors.getById["content"].getIR(); // 값을 가져와서 content에 넣어줌
+		var content = document.getElementById("ir1"); // 위치 탐색
+		content.value = oEditors.getById["ir1"].getIR(); // 값을 가져와서 content에 넣어줌
 
 		//trim 어떻게 하는지 모르겠다 (공백 (&nbsp;)만 들어갈 때 유효성 검사)
 		//글등록때 뜨는 alert(사이트 나가시겠습니까?) 없애기: oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);를 적용하면 해결된다.
 		
-		if (id.value == "" || title.value == "" || content.value == "" || content.value == "<p><br></p>") { // 위치탐색 후 값을 넣어준뒤 비어있는 값인지 확인 (유효성 검사)
+		if (email.value == "" || title.value == "" || content.value == "" || content.value == "<p><br></p>") { // 위치탐색 후 값을 넣어준뒤 비어있는 값인지 확인 (유효성 검사)
 			alert("필수 값을 입력해 주세요");
 		} else {
-//				var str = content.value;
-//				str = str.replace(/(?:\r\n|\r|\n)/g,"<br>");
+// 				var str = content.value;
+// 				str = str.replace(/(?:\r\n|\r|\n)/g,"<br>");
 			//값 확인
-//				ir1.textContent = str;
-//				document.getElementById("resultView").textContent = str;
+// 				ir1.textContent = str;
+// 				document.getElementById("resultView").textContent = str;
 			isShow = false;
-			oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
+			oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
+			alert("실행 완료했습니다."+content);
 			form.submit();
 		}
 	}
@@ -49,25 +49,36 @@
 		}
 	}
 	
+	
 </script>
 </script>
 </head>
 <body>
-<div style="width: 360px; height: 600px; border: 1px solid black; margin:auto;">
+<div id="resultView">
+</div>
+<div id="container" style="width: 360px; height: 600px; border: 1px solid black; margin:auto;">
 	<div>
 		<form action="./insert.do" method="post">
 					<br><br>
 					<span>아이디 : <input type="text" value="${mem.email}" name="email" id="email"></span><br>
 					<span>제목 : <input type="text" placeholder="제목" name="title" id="title"></span>
-						<textarea rows="10" cols="40" id="content" name="content"></textarea>
-	<!-- 					<input type="text" placeholder="내용" name="content"> -->
+					
+						<textarea rows="10" cols="40" id="ir1" name="ir1"></textarea>
+<!-- 						<textarea rows="10" cols="40" id="content" name="content"></textarea> -->
+<!-- 						<span><input type="text" placeholder="내용" name="content" id="content"></span> -->
+						
 					<span>카테고리 : <input type="text" value="1" name="category" id="category"></span>
-	<!-- 			<tr> -->
-	<!-- 				<th>이미지<th> -->
-	<!-- 				<td><input type="text" value="1" name="image" id="image"></td> -->
-	<!-- 			</tr> -->
+<!-- 					<tr> -->
+<!-- 					<th>이미지<th> -->
+<!-- 					<td><input type="text" value="1" name="image" id="image"></td> -->
+<!-- 					</tr> -->
 					<br><br>
-					<input type="submit" value="확인">
+					
+
+					
+					
+					
+					<input type="button" value="확인" onclick="validateForm()">
 					<input type="button" onclick="goBack()" value="뒤로가기">
 		</form>
 	</div>
@@ -77,14 +88,14 @@
 var oEditors = [];
 nhn.husky.EZCreator.createInIFrame({
  oAppRef: oEditors,
- elPlaceHolder: "content",
+ elPlaceHolder: "ir1",
 //SmartEditor2Skin.html 파일이 존재하는 경로
  sSkinURI: "SE2/SmartEditor2Skin.html",
  fCreator: "createSEditor2"
 });
 
 function writeReset(){
-		oEditors.getById["content"].exec("SET_IR", [""]);
+		oEditors.getById["ir1"].exec("SET_IR", [""]);
 }
 </script>
 </html>

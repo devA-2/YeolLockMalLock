@@ -227,13 +227,16 @@ public class ReportController {
 	}
 	
 	@RequestMapping(value = "/insert.do", method = RequestMethod.POST)
-	public String insert(ReportDto dto, HttpSession session) {
+	public String insert(ReportDto dto, HttpSession session, String ir1) {
 		log.info("------------------ 신고 글 작성 후 신고 글 목록으로 이동 ------------------");
 		MemberDto mDto = (MemberDto)session.getAttribute("mem");
 		dto.setEmail(mDto.getEmail());
-		iService.insertReport(dto);
 		
-		return "redirect:/board/reportList.do";
+		dto.setContent(ir1);
+		
+		boolean isc = iService.insertReport(dto);
+		
+		return isc?"redirect:reportList.do":"redirect:insertReport.do";
 	}
 	
 	// ---------------------------------- 테스트용 샘플 ----------------------------------

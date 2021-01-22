@@ -43,6 +43,7 @@
 					<td>${vo.regdate}</td>
 					<td>${vo.title}</td>
 					<td>${vo.email}</td>
+					<td>${vo.content }</td>
 				</tr>
 			</c:forEach>
 		</table>
