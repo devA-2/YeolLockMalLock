@@ -179,9 +179,9 @@ public interface Api_IService {
 	 * 회수전 키 대조
 	 * 
 	 * @param key
-	 * @return cost_code
+	 * @return cost_code,cost
 	 */
-	public Map<String, Object>/* String */ compareKey(Map<String, Object> map/* String key */);
+	public Map<String, Object>/* CostDto */ compareKey(Map<String, Object> map/* String key */);
 
 	/**
 	 * 키 일치할때 결제 전에 할증비용 추가

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.dev2.ylml.dto.CostDto;
 import com.dev2.ylml.dto.DeliveryDto;
 import com.dev2.ylml.dto.LostPropertyDto;
 import com.dev2.ylml.dto.MemberDto;
@@ -160,8 +161,8 @@ public class UserService implements UserIService{
 	}
 
 	@Override
-	public String compareKey(String key) {
-		return (String)helper.request("compareKey.do", key);
+	public CostDto compareKey(String key) {
+		return (CostDto)helper.request("compareKey.do", key);
 	}
 
 	@Override
