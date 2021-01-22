@@ -63,8 +63,8 @@
 	  </foreach>
 	</update>
 
-	<select id="compareKey" resultType="java.lang.String" parameterType="java.lang.String">
-		SELECT cost_code FROM storage_goods WHERE key=#{key}
+	<select id="compareKey" resultType="CostDto" parameterType="java.lang.String">
+		SELECT c.cost_code ,c.cost FROM cost c,storage_goods g WHERE c.cost_code=g.cost_code and key=#{key}
 	</select>
 
 	<update id="updateExtraCost" parameterType="java.util.HashMap">

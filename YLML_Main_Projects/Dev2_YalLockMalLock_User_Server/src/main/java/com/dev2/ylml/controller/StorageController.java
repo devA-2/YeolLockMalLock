@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dev2.ylml.dto.CostDto;
 import com.dev2.ylml.dto.DeliveryDto;
 import com.dev2.ylml.dto.MemberDto;
 import com.dev2.ylml.dto.StorageBoxDto;
@@ -168,50 +169,6 @@ public class StorageController {
 		log.info("연장 결과 : "+isc);		
 		return "redirect:/storage/userStorageList.do";
 	}
-	/**
-	 * 추가비용 가지고 키대조 화면으로 이동하는 컨트롤러
-	 * @param overCost
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(value = "/compareKey.do",method = RequestMethod.POST)
-	public String compareKey(int overCost,Model model) {
-		log.info("키 대조 화면으로 이동");
-		model.addAttribute("overCost",overCost);
-		return "storage/compareKey";
-	}
-	/**
-	 * 결제전 키 대조, 불일치시 페이지이동
-	 * 할증비용 있을때 결제전 할증비용 추가
-	 * @param key
-	 * @param overCost
-	 * @return
-	 */
-	@RequestMapping(value = "/beforePay.do",method = RequestMethod.POST)
-	public String beforePay(String key,int overCost,Model model) {
-		log.info("받은 key : "+key + " overCost : "+overCost);
-		String costCode = service.compareKey(key);
-		log.info("키 대조 결과 (결제코드) : "+costCode);
-		
-		if(costCode == null||costCode.isBlank()) {
-			log.info("해당 키가 없음 -> 키 대조 실패 -> 전단계?메인페이지?");
-			//TODO 키가 맞지 않는다고 alert 띄워주기->키 새로등록페이지로 ?
-			return "redirect:/storage/userStorageList.do";
-		}
-		
-		if(overCost>0) {
-			log.info("보관만료시간 초과");
-			Map<String,Object> map = new HashMap<String, Object>();
-			map.put("costCode", costCode);
-			map.put("overCost", overCost);
-			boolean isc = service.updateExtraCost(map);
-			log.info("보관시간 만료 이후 할증 금액 수정 결과 : "+ isc);
-		}
-		model.addAttribute("costCode",costCode);
-		//dto->costCode로 수정했으니 jsp에서도 확인해주기
-		return "storage/payPage";
-		//로그인 제대로 연결되면 payment랑 연결해야함 @
-	}
 	
 	/**
 	 * ajax 수령 사용자 이메일 확인
@@ -257,31 +214,77 @@ public class StorageController {
 			return "redirect:/storage/userStorageList.do";
 		}
 	}
+	
+	/**
+	 * 추가비용 가지고 키대조 화면으로 이동하는 컨트롤러
+	 * @param overCost
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/compareKey.do",method = RequestMethod.POST)
+	public String compareKey(int overCost,Model model) {
+		log.info("키 대조 화면으로 이동");
+		model.addAttribute("overCost",overCost);
+		return "storage/compareKey";
+	}
+	/**
+	 * 결제전 키 대조, 불일치시 페이지이동
+	 * 할증비용 있을때 결제전 할증비용 추가
+	 * @param key
+	 * @param overCost
+	 * @return
+	 */
+	@RequestMapping(value = "/beforePay.do",method = RequestMethod.POST)
+	public String beforePay(String key,int overCost,HttpSession session) {
+		log.info("받은 key : "+key + " overCost : "+overCost);
+		CostDto costDto = service.compareKey(key);
+		log.info("키 대조 결과 (결제코드,금액) : "+costDto);
+		
+		
+		if(costDto==null) {
+			log.info("해당 키가 없음 -> 키 대조 실패 -> 전단계?메인페이지?");
+			//TODO 키가 맞지 않는다고 alert 띄워주기->키 새로등록페이지로 ?
+			return "redirect:./userStorageList.do";
+		}
+		
+		if(overCost>0) {
+			log.info("보관만료시간 초과");
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("overCost", overCost);
+			map.put("costCode", costDto.getCostCode());
+			boolean isc = service.updateExtraCost(map);
+			log.info("보관시간 만료 이후 할증 금액 수정 결과 : "+ isc);
+			session.setAttribute("cost",costDto.getCost()+overCost);
+		}
+		session.setAttribute("costCode",costDto.getCostCode());
+		return "storage/payment";
+	}
 	/**
 	 * 결제후 반품여부 없으면 결제완료페이지로 이동
 	 * 결제페이지에서 반품여부 Y -> 반품페이지로 이동
 	 * 결제페이지에서 반품여부 N -> 보관함 사용가능 처리, 보관물품 정보 삭제
-	 * @param costCode, returnFlag
+	 * @param returnFlag
 	 * @return
 	 */
-	@RequestMapping(value = "/afterPayment.do",method = RequestMethod.POST)
-	public String afterPayment(String returnFlag,String costCode,Model model) {
+	@RequestMapping(value = "/successPayment.do",method = RequestMethod.POST)
+	public String successPayment(String returnFlag, HttpSession session) {
+	
 		if(returnFlag==null ||returnFlag.isBlank()) {
-			//반품여부 없으면 결제 완료 페이지로
-			model.addAttribute("costCode",costCode);
-			return "storage/afterPayment";
+			//반품여부 없으면 결제 완료 페이지로(회수완료)->반품여부 받기 
+			return "storage/successPayment";
 		}else if(returnFlag.equals("Y")) {
 			//반품여부 확인-> 결제코드 담고 반품페이지로
-			model.addAttribute("costCode",costCode);
 			return "storage/returnPage";
 		}else {
-			//반품여부 N 이면 사용끝!
+			//반품여부 N 이면 사용끝!->보관함 사용가능처리, 삭제후 메인으로 
+			//TODO alert 띄워주기
 			Map<String,String> map = new HashMap<String, String>();
-			map.put("costCode", costCode);
+			map.put("costCode", (String)session.getAttribute("costCode"));
 			boolean isc = service.afterPayment(map);
+			session.removeAttribute("costCode");
+			session.removeAttribute("cost");
 			log.info("보관함 사용가능처리 + 보관 정보 삭제 결과 : "+isc);
-			
-			return "storage/closeDoor";
+			return "storage/map.do";
 		}
 	}
 	
@@ -301,7 +304,7 @@ public class StorageController {
 		return "redirect:/storage/userStorageList.do";
 	}
 
-	
+	//************************************************************************************************88
 	
 	
 	/**
@@ -386,17 +389,14 @@ public class StorageController {
 			int subwayCnt = service.selectSubwayCnt();			// 전체 역 갯수
 			Map<String, Object> delManInfo = new HashMap<String, Object>();
 			for (int i = 0; i < deliveryMans.size(); i++) {
-				//  2-1) 배송원 ID, 이름 탐색
-				System.out.println("배송원 정보 확인!! "+deliveryMans.get(i));
-				System.out.println("배송원 정보 확인!! "+deliveryMans.get(i).getEmail());
+				//  2-1) 배송원 ID, 이름 탐
+//				System.out.println("배송원 정보 확인!! "+((HashMap<String, String>)(Object)deliveryMans.get(i)).get("email"));
+				System.out.println("배송원 이메일 확인!! "+deliveryMans.get(i).getEmail());
 				String deliverymanId = deliveryMans.get(i).getEmail();
-				System.out.println("배송원 이메일!! "+deliverymanId);
 				String deliverymanName = deliveryMans.get(i).getName();
 				// 2-2) 배송원 위치 탐색
 				String deliverymanSubway = service.selectDeliveryLoc(deliverymanId);
-				System.out.println("배송원 위치 확인!! "+deliverymanSubway);
 				int deliverymanLocSeq = service.selectTimeTableSeq(deliverymanSubway);
-				System.out.println("배송원 위치 확인!! "+deliverymanLocSeq);
 				// 2-3) 사용자 위치와 배송원 위치 비교 후 가장 가까운 위치의 배송원 찾기
 				if(userLocSeq != deliverymanLocSeq) {
 					if(userLocSeq > deliverymanLocSeq) {		
@@ -653,41 +653,37 @@ public class StorageController {
 		log.info("Controller_checkDeliveryInfo.do 실행");
 		return "delivery/deliveryList";
 	}
+		
+	@RequestMapping(value = "/paymentPage.do", method = RequestMethod.GET)
+	public String paymentPage() {
+		log.info("Controller_paymentPage.do 실행");
+		return "storage/payment";
+	}
 	
-	// TODO : 추후 StorageGoodsDto 세션 생성으로 변경해야 함
-		@RequestMapping(value = "/paymentPage.do", method = RequestMethod.GET)
-		public String paymentPage(String phoneNum, String cost, String costCode, HttpSession session) {
-			session.setAttribute("phoneNum", phoneNum);
-			session.setAttribute("cost", cost);
-			session.setAttribute("costCode", costCode);
-			log.info("Controller_paymentPage.do 실행");
-			return "storage/payment";
+	@RequestMapping(value = "/resultPayment.do", method = RequestMethod.POST)
+	public String afterPayment(String imp_success, HttpSession session) {
+		String costCode = (String) session.getAttribute("costCode");
+		String result;
+		if(imp_success.equals(true)) {
+			service.updateCostStatus(costCode);
+			result = "redirect:./successPayment.do";
+		}else {
+			result = "redirect:./falsePayment.do";
 		}
-		
-		@RequestMapping(value = "/afterPayment.do", method = RequestMethod.GET)
-		public String afterPayment(String imp_success, HttpSession session) {
-			String costCode = (String) session.getAttribute("costCode");
-			String result;
-			if(imp_success.equals(true)) {
-				service.updateCostStatus(costCode);
-				result = "redirect:./successPayment.do";
-			}else {
-				result = "redirect:./falsePayment.do";
-			}
-			log.info("Controller_afterPayment.do 실행");
-			return result;
-		}
-		
-		@RequestMapping(value = "/successPayment.do", method = RequestMethod.GET)
-		public String successPayment() {
-			log.info("Controller_successPayment.do 실행");
-			return "storage/successPayment";
-		}
-		
-		@RequestMapping(value = "/falsePayment.do", method = RequestMethod.GET)
-		public String falsePayment() {
-			log.info("Controller_falsePayment.do 실행");
-			return "storage/falsePayment";
-		}
+		log.info("Controller_afterPayment.do 실행");
+		return result;
+	}
 	
+//	@RequestMapping(value = "/successPayment.do", method = RequestMethod.GET)
+//	public String successPayment() {
+//		log.info("Controller_successPayment.do 실행");
+//		return "storage/successPayment";
+//	}
+	
+	@RequestMapping(value = "/falsePayment.do", method = RequestMethod.GET)
+	public String falsePayment() {
+		log.info("Controller_falsePayment.do 실행");
+		return "storage/falsePayment";
+	}
+
 }

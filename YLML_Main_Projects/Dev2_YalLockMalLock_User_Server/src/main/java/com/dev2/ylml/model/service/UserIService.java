@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.dev2.ylml.dto.CostDto;
 import com.dev2.ylml.dto.DeliveryDto;
 import com.dev2.ylml.dto.MemberDto;
 import com.dev2.ylml.dto.StorageBoxDto;
@@ -171,9 +172,9 @@ public interface UserIService {
 	/**
 	 * 회수전 키 대조
 	 * @param key
-	 * @return cost_code
+	 * @return cost_code,cost
 	 */
-	public String compareKey(String key);
+	public CostDto compareKey(String key);
 	/**
 	 * 키 일치할때 결제 전에 할증비용 추가 
 	 * @param costCode, overCost
