@@ -631,7 +631,8 @@ public class Api_Service implements Api_IService{
 			return helper.keyFailed();
 		}
 		ReportDto dto = (ReportDto)helper.getData(map);
-		return helper.generateData(reportDao.insertReport(dto));
+		boolean isc = reportDao.insertReport(dto);
+		return helper.generateData(isc);
 	}
 
 	@Override

@@ -24,11 +24,11 @@ public class SampleController {
 	ManagerIService service;
 	
 	
-//	@RequestMapping(value = "index.do")
-//	public String index() {
-//		return "index";
-//	}
-	
+	@RequestMapping(value = "index.do")
+	public String index() {
+		return "index";
+	}
+//	
 //	@ResponseBody
 //	@RequestMapping(value = "sampleData.do")
 //	public HashMap<String, String> sampleData(){

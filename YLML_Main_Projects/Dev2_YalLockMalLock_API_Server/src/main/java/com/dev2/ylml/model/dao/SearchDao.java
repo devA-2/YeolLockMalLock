@@ -13,7 +13,7 @@ import com.dev2.ylml.dto.ReportDto;
 @Repository
 public class SearchDao implements SearchIDao {
 
-	private final String NS="com.min.edu.model.ISearchDao.";
+	private final String NS="com.dev2.ylml.dao.SearchIDao.";
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;

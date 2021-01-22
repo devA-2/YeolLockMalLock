@@ -36,7 +36,9 @@
 	   <a href="./member/infoAgree.do">회원가입</a><br>
    </c:if>
    <hr>
+   <c:if test="${mem != null}">
    <a href="./reportList.do">게시판</a><br>
+   </c:if>
    <hr>
 
    <a href="./storage/map.do">보관</a><br>
