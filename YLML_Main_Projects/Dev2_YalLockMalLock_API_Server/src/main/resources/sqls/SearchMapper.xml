@@ -3,13 +3,13 @@
 <mapper namespace="com.min.edu.model.ISearchDao">
   
   <select id="searchId" parameterType="java.lang.String" resultType="ReportDto">
-	SELECT SEQ, EMAIL, TITLE, REGDATE, PROCESS_STATUS
+	SELECT *
 	FROM REPORT r 
 	WHERE EMAIL = #{email}
 </select>
 
   <select id="searchId2" parameterType="java.lang.String" resultType="LostPropertyDto">
-	SELECT SEQ, LOST_REGDATE, RECEIPT_USER_ID, LOST_STATUS
+	SELECT *
 	FROM LOSTPROPERTY l 
 	WHERE RECEIPT_USER_ID =#{receipt_user_id}
 </select>
