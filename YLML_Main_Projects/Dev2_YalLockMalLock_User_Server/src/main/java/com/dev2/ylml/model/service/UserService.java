@@ -25,9 +25,6 @@ public class UserService implements UserIService{
 	@Autowired
 	ApiClientHelper helper;
 	
-	@Autowired
-	private PasswordEncoder pwEncoder;
-
 	@SuppressWarnings("unchecked")
 	public HashMap<String, String> getSampleData(String id, String pw) {
 		//URL+PW로 데이터를 만들어서 전달
@@ -66,8 +63,6 @@ public class UserService implements UserIService{
 	 * 로그인
 	 */
 	public MemberDto login(Map<String, Object> map) {
-		String enPw = pwEncoder.encode((String) map.get("pw"));
-		map.put("pw", enPw);
 		return (MemberDto)helper.request("login.do", map);
 	}
 	
@@ -75,21 +70,21 @@ public class UserService implements UserIService{
 	 * api 간편 로그인
 	 */
 	public MemberDto apiLogin(Map<String, Object> map) {
-		return (MemberDto)helper.request("naverCallback.do", map);
+		return (MemberDto)helper.request("apiLogin.do", map);
 	}
 	
 	/*
 	 * 일반회원 임시권한 변경
 	 */
 	public boolean authUpdate(MemberDto dto) {
-		return (boolean)helper.request("checkCode.do", dto);
+		return (boolean)helper.request("authUpdate.do", dto);
 	}
 	
 	/*
 	 * 아이디 찾기
 	 */
 	public String idSearch(Map<String, Object> map) {
-		return (String)helper.request("idSearch,do", map);
+		return (String)helper.request("idSearch.do", map);
 	}
 	
 	/*
@@ -266,7 +261,6 @@ public class UserService implements UserIService{
 
 	@Override
 	public List<LostPropertyDto> selectAllLostProperty() {
-		
 		return (List<LostPropertyDto>) helper.request("selectAllLostProperty.do");
 	}
 
@@ -295,11 +289,13 @@ public class UserService implements UserIService{
 		return (boolean)helper.request("modifyReport.do", dto);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<ReportDto> selectAllReport() {
 		return (List<ReportDto>) helper.request("selectAllReport.do");
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<ReportDto> selectDetailReport(String refer) {
 		return (List<ReportDto>) helper.request("selectDetailReport.do", refer);

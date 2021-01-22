@@ -29,7 +29,7 @@ function checkEmail(){
 		  data : { "email" : email },
 		  success : function(checkedEmail) {
 // 			  console.log(checkedEmail)
-// 			var result = document.getElementById('result').innerHTML;
+			var result = document.getElementById('result').innerHTML;
 			if(checkedEmail==''){
 				document.getElementById('result').innerHTML = '해당 사용자가 없습니다. <br> 다시 입력해주세요'
 			}else{
@@ -46,10 +46,10 @@ function checkEmail(){
 
 </script>
 	<div class='container'>
-		<form action="./updateOutUser.do">
+		<form method="post" action="./updateOutUser.do">
 			<h2>수령할 사용자를 이메일을 입력해주세요</h2>
-			<input type="hidden" name="storageId" value="${id }">
-			<input type="hidden" name="boxSeq" value="${boxSeq }">
+			<input type="hidden" name="storageId" value="${map.id }">
+			<input type="hidden" name="boxSeq" value="${map.boxSeq }">
 			<input type="text" name='email' id="searchOutUser"> 
 			<input type="button" value="입력" onclick="checkEmail()">
 			<div>

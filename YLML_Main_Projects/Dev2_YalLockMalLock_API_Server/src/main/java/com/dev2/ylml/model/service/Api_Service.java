@@ -154,7 +154,33 @@ public class Api_Service implements Api_IService{
 			return helper.keyFailed();
 		}
 		Map<String, Object> res = (Map<String, Object>) helper.getData(map);
-		MemberDto dto = memberDao.login(res);
+			MemberDto dto = (memberDao.enPw(res))?memberDao.login(res):null;
+			System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+memberDao.enPw(res));
+			System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+memberDao.login(res));
+			return helper.generateData(dto);
+		
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public Map<String, Object> delLogin(Map<String, Object> map) {
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		Map<String, Object> res = (Map<String, Object>) helper.getData(map);
+		MemberDto dto = memberDao.delLogin(res);
+		
+		return helper.generateData(dto);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public Map<String, Object> adminLogin(Map<String, Object> map) {
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		Map<String, Object> res = (Map<String, Object>) helper.getData(map);
+		MemberDto dto = memberDao.adminLogin(res);
 		
 		return helper.generateData(dto);
 	}
@@ -345,8 +371,8 @@ public class Api_Service implements Api_IService{
 		if(!helper.checkKey(map)) {
 			return helper.keyFailed();
 		}
-		Map<String, Object> cost = (Map<String, Object>) helper.getData(map);
-		boolean isc = storageDao.updateExtendCost(cost);
+		Map<String, Object> box = (Map<String, Object>) helper.getData(map);
+		boolean isc = storageDao.updateExtraCost(box);
 		return helper.generateData(isc);
 	}
 	@SuppressWarnings("unchecked")
@@ -373,6 +399,7 @@ public class Api_Service implements Api_IService{
 		String chkEmail = storageDao.checkOutEmail(email);
 		return helper.generateData(chkEmail);
 	}
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Object> updateOutUser(Map<String, Object> map) {
@@ -383,6 +410,7 @@ public class Api_Service implements Api_IService{
 		boolean isc = storageDao.updateOutUser(box);
 		return helper.generateData(isc);
 	}
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Object> insertReturn(Map<String, Object> map) {
@@ -425,7 +453,7 @@ public class Api_Service implements Api_IService{
 			}
 			int overTime = list.get(i).getOverTime();
 			int overH = overTime/60;
-			int overM= overTime%overH;
+			int overM= (overH==0)?0:(overTime%overH);
 			int overCost = overH * 1000;
 			list.get(i).setOverH(overH);
 			list.get(i).setOverM(overM);
@@ -443,6 +471,17 @@ public class Api_Service implements Api_IService{
 		StorageListDto storageListDto = StorageDeliveryDao.selectStorageBoxList(storageId);
 		return helper.generateData(storageListDto);
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public Map<String, Object> selectStorageGoods(Map<String, Object> map) {
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		Map<String, Object> info = (Map<String, Object>) helper.getData(map);
+		StorageGoodsDto storageGoodsDto = StorageDeliveryDao.selectStorageGoods(info);
+		return helper.generateData(storageGoodsDto);
+	}
 
 	@Override
 	public Map<String, Object> selectTimeTableSeq(Map<String, Object> map) {
@@ -452,6 +491,15 @@ public class Api_Service implements Api_IService{
 		String subway = (String) helper.getData(map);
 		int seq = StorageDeliveryDao.selectTimeTableSeq(subway);
 		return helper.generateData(seq);
+	}
+	
+	@Override
+	public Map<String, Object> selectSubwayCnt(Map<String, Object> map) {
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		int cnt = StorageDeliveryDao.selectSubwayCnt();
+		return helper.generateData(cnt);
 	}
 
 	@Override
@@ -697,7 +745,6 @@ public class Api_Service implements Api_IService{
 		}
 		Map<String, Object> login = (Map<String, Object>)helper.getData(map);
 		Manager_MemberDto dto = managerLoginDao.loginMember(login);
-		System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% : "+ dto);
 		return helper.generateData(dto);
 	}
 
@@ -852,14 +899,22 @@ public class Api_Service implements Api_IService{
 	
 	@Override
 	public Map<String, Object> selectAll(Map<String, Object> map) {
-		//파라미터 없어서 냅둠 // 기수
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		String email = (String)helper.getData(map);
+		List<MemberDto> list = memberDao.selectAll(email);
+		return helper.generateData(list);
 	}
 
 	@Override
 	public Map<String, Object> memberIdSearch(Map<String, Object> map) {
-		//파라미터 없어서 냅둠 // 기수
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		String email = (String)helper.getData(map);
+		List<String> list = memberDao.memberIdSearch();
+		return helper.generateData(list);
 	}
 
 	@Override
@@ -869,11 +924,9 @@ public class Api_Service implements Api_IService{
 		}
 		String email =  (String) helper.getData(map);
 		MemberDto dto = memberDao.detailMember(email);
-		
 		return helper.generateData(dto);
 	}
 
-	// TODO : list는 어떻게 해야하는지 몰라 냅둠
 	@Override
 	public Map<String, Object> memberUsing(Map<String, Object> map) {
 		if(!helper.checkKey(map)) {
@@ -881,7 +934,6 @@ public class Api_Service implements Api_IService{
 		}
 		String email =  (String) helper.getData(map);
 		List<StorageGoodsDto> dto = memberDao.memberUsing(email);
-		
 		return helper.generateData(dto);
 	}
 

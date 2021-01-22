@@ -17,7 +17,7 @@ $( function() {
 					$( "#search" ).val( ui.item.label );
 					location.href='./selectStorageStatus.do?id='+ui.item.value;
 					return false;
-					}
+				}
 			})
 			.autocomplete( "instance" )._renderItem = function( ul, item ) {
 				return $( "<li>" )
@@ -33,16 +33,16 @@ $( function() {
 
 //지도에 마커표시
 $.get("./selectMap.do", function(markers) {
-//			console.log(markers);
+//	console.log(markers);
 	addMarker(markers);
 });
 
 var container = document.getElementById('map');
 var options = {
-	//지도의 중심좌표(학원위치)
-	center : new kakao.maps.LatLng(37.56586056914695, 126.9768273395538),
-	level : 3
-	//지도의 확대 레벨 
+		//지도의 중심좌표(학원위치)
+		center : new kakao.maps.LatLng(37.56570275817552, 126.97685084761777),
+		level :5
+		//지도의 확대 레벨 
 };
 
 var map = new kakao.maps.Map(container, options); // 지도생성
@@ -50,40 +50,41 @@ var map = new kakao.maps.Map(container, options); // 지도생성
 if (navigator.geolocation) { // HTML5의 geolocation으로 사용할 수 있는지 확인합니다 
 	navigator.geolocation.getCurrentPosition(function(position) {
 
-	var lat = position.coords.latitude, // 위도
-	lon = position.coords.longitude; // 경도
+		var lat = position.coords.latitude, // 위도
+		lon = position.coords.longitude; // 경도
 
-	var locPosition = new kakao.maps.LatLng(lat, lon);
-	//현재위치 생성
+		var locPosition = new kakao.maps.LatLng(lat, lon);
+		//현재위치 생성
 
-	map.panTo(locPosition); // 지도 중심을 부드럽게 이동시킵니다
+		map.panTo(locPosition); // 지도 중심을 부드럽게 이동시킵니다
 	});
 } else {// HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
 	alert('현재위치를 찾을수 없습니다');
 }
-      
+
 //마커 추가하는 함수
 var addMarker = function(markers) {
 	//마커 이미지의 이미지 주소입니다
 	var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
 
 	for (i in markers) {
+
 		// 마커 이미지의 이미지 크기 입니다
 		var imageSize = new kakao.maps.Size(24, 35);
-	
+
 		// 마커 이미지를 생성합니다    
 		var markerImage = new kakao.maps.MarkerImage(imageSrc,imageSize);
-	
+
 		// 마커를 생성합니다
 		var marker = new kakao.maps.Marker({
 			map : map, // 마커를 표시할 지도
-			position : new kakao.maps.LatLng(markers[i].lng,markers[i].lat), // 마커를 표시할 위치
+			position : new kakao.maps.LatLng(markers[i].lat,markers[i].lng), // 마커를 표시할 위치
 			image : markerImage,// 마커 이미지 
 			clickable : true,
-			title : markers[i].id
 			// 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
+			title : markers[i].id
 		});
-	
+
 		// 마커에 이벤트를 등록하는 함수 만들고 즉시 호출하여 클로저를 만듭니다
 		// 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
 		(function(marker) {

@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="./js/jquery-3.5.1.js"></script>
+<script type="text/javascript" src="../js/jquery-3.5.1.js"></script>
 <style type="text/css">
 #container{
    width : 360px;
@@ -25,7 +25,7 @@ function sendCodeToMail(){
 <body>
 	<div id=container>
 	<h1>이메일 인증폼</h1>
-		<form action="member/checkCode.do" method="post">
+		<form action="./checkCode.do" method="post">
 			<input type="text" name="code"><br>
 			<input type="button" name="sendMailBtn" onclick='sendCodeToMail()' value="인증메일 보내기">
 			<input type="submit" name="checkCodeBtn" value="인증하기">

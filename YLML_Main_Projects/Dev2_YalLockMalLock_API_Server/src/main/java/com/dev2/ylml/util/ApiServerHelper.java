@@ -62,8 +62,9 @@ public class ApiServerHelper {
 	
 	public <T> Map<String, Object> generateData(T data) {
 		Map<String, Object> map= keySucceed();
-		map.put("data",data);
-		map.put("className", data.getClass().getName());
+		//팀원들에게 Null을 쓰지말라고 전파하였으나 null을 유용하게 사용하고있어서 null 값도 처리하게 (억지로) 수정함..
+		map.put("data",(data!=null)?data:"null");
+		map.put("className", (data!=null)?data.getClass().getName():"null");
 
 		return map;
 	}
@@ -87,7 +88,7 @@ public class ApiServerHelper {
 	private Map<String, Object> generateArray(boolean certification) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("Certification", certification);
-
+		
 
 		return map;
 	};

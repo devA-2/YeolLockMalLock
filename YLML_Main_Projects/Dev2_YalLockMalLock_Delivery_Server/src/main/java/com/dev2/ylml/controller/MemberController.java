@@ -174,13 +174,13 @@ public class MemberController {
 
 		//		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		System.out.println(map.toString()); 		// 맵 정보 확인용
-		MemberDto dto = iService.login(map);
+		MemberDto dto = iService.enDelLogin(map);
 		log.info("MemberController login : " + dto);
 		session.setAttribute("mem", dto);
 		/////////////////////////////////////
 		String page ="";
-		if(dto ==null) {
-			page = "redirect:./signUpForm.do";
+		if(dto.getAuth() == 89) {
+			page = "member/loginForm";
 		}else {
 			page = "redirect:./index.do";
 		}
@@ -200,7 +200,7 @@ public class MemberController {
 		Map<String,Object> iMap = new HashMap<String, Object>();
 		iMap.put("email", email);
 		iMap.put("pw", pw);
-		MemberDto dto = iService.login(iMap);
+		MemberDto dto = iService.enDelLogin(iMap);
 		System.out.println("로그인 된 값: \t"+ dto);
 		boolean isc;
 		// TODO : boolean 이용하여 true, false로 수정할것 (해당 값은 loginForm에 있는 ajax에서 고쳐야함)

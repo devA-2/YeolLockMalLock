@@ -39,6 +39,18 @@ public class ApiController {
 	public Map<String, Object> login(@RequestBody Map<String, Object> map) {
 		return service.login(map);
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "delLogin.do")
+	public Map<String, Object> delLogin(@RequestBody Map<String, Object> map) {
+		return service.delLogin(map);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "adminLogin.do")
+	public Map<String, Object> adminLogin(@RequestBody Map<String, Object> map) {
+		return service.adminLogin(map);
+	}
 	@ResponseBody
 	@RequestMapping(value = "apiLogin.do")
 	public Map<String, Object> apiLogin(@RequestBody Map<String, Object> map) {
@@ -155,9 +167,20 @@ public class ApiController {
 		return service.selectStorageBoxList(map);
 	}
 	@ResponseBody
+	@RequestMapping(value = "selectStorageGoods.do")
+	public Map<String, Object> selectStorageGoods(@RequestBody Map<String, Object> map) {
+		return service.selectStorageGoods(map);
+	}
+	@ResponseBody
 	@RequestMapping(value = "selectTimeTableSeq.do")
 	public Map<String, Object> selectTimeTableSeq(@RequestBody Map<String, Object> map) {
+		logger.trace("@@@@@@ selectTimeTableSeq @@@@@@@ "+ map);
 		return service.selectTimeTableSeq(map);
+	}
+	@ResponseBody
+	@RequestMapping(value = "selectSubwayCnt.do")
+	public Map<String, Object> selectSubwayCnt(@RequestBody Map<String, Object> map) {
+		return service.selectSubwayCnt(map);
 	}
 	@ResponseBody
 	@RequestMapping(value = "selectDeliveryMan.do")

@@ -8,5 +8,10 @@
 </head>
 <body>
 결제페이지
+<form action="./afterPayment.do" method="post">
+<input type="hidden" name="costCode" value="${costCode }">
+<input type="submit" value="결제완료">
+
+</form>
 </body>
 </html>

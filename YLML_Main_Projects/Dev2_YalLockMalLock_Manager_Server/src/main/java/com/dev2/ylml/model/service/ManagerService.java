@@ -40,11 +40,10 @@ public class ManagerService implements ManagerIService{
 	/*
 	 * 로그인
 	 */
-	@Override
-	public MemberDto login(Map<String, Object> map) {
+	public MemberDto adminLogin(Map<String, Object> map) {
 		String enPw = pwEncoder.encode((String) map.get("pw"));
 		map.put("pw", enPw);
-		return (MemberDto)helper.request("login.do", map);
+		return (MemberDto)helper.request("adminLogin.do", map);
 	}
 	
 	/*
@@ -54,7 +53,6 @@ public class ManagerService implements ManagerIService{
 	@Override
 	public List<MemberDto> selectAll(String email) {
 		return (List<MemberDto>)helper.request("selectAll.do", email);
-
 	}
 	
 	/*

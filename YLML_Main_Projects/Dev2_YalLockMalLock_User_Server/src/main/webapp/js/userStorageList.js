@@ -1,8 +1,7 @@
-function exchangeBtn(num) {
+function exchangeBtn(form) {
 	// 키교환할 수령 사용자 입력하기
-	var frm = document.getElementById("storeForm"+num)
-	frm.action='./outUserForm.do';
-	frm.submit();
+	form.action='./updateOutUser.do';
+	form.submit();
 }
 
 function deliveryBtn(num) {
@@ -17,6 +16,7 @@ function deliveryBtn(num) {
 }
    
 function extendBtn(form) {
+//	var frm = document.getElementById("receiptForm"+num)
 	//연장하기
 	if(confirm('연장 비용은 2시간에 1500원 입니다. 연장하시겠습니까?')){
 		form.action='./updateExtend.do';
@@ -24,7 +24,8 @@ function extendBtn(form) {
 	}
 }
    
-function paymentBtn(num) {
+function paymentBtn(form) {
+//	var frm = document.getElementById("receiptForm"+num)
 	//결제전 키 대조 화면으로 이동 
 	form.action='./compareKey.do';
 	form.submit();

@@ -31,7 +31,7 @@
 						</span>
 					</div>
 					<div>
-						<button onclick="exchangeBtn(${vs.count})">교환</button>
+						<button onclick="exchangeBtn(this.form)">교환</button>
 						<button onclick="deliveryBtn(${vs.count})">배송</button>
 					</div>
 					<hr>
@@ -61,6 +61,7 @@
 								<c:when test="${list.overTime eq 0}"></c:when>
 								<c:when test="${list.overTime ne 0}">${list.overH}시간 ${list.overM}분 초과(결제시 ${list.overCost}원 추가 결제)</c:when>
 							</c:choose>
+							<input type="hidden" name="overCost" value="${list.overCost}">
 						</span>
 					</div>
 					<div>

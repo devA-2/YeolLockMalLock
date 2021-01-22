@@ -104,6 +104,35 @@ public class StorageController {
 	}
 	
 	/**
+	 * box,Seq,email session에 담고 보관정보 확인하기 
+	 * @param boxSeq
+	 * @param id
+	 * @param email
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "/storageInfoCheck.do",method = RequestMethod.POST)
+	public String storageInfoCheck(int boxSeq, String id, String email,HttpSession session) {
+		log.info(boxSeq+","+id+" "+email);
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("boxSeq", boxSeq);
+		map.put("id", id);
+		map.put("email", email);
+		session.setAttribute("map", map);
+		return "storage/storageInfoCheck";
+	}
+	/**
+	 * 보관정보 확인하고 NFC 태그페이지로이동 
+	 * @return
+	 */
+	@RequestMapping(value = "/NFCtag.do",method = RequestMethod.GET)
+	public String NFCtag() {
+		log.info("보관전 NFC태그 화면으로 이동");
+		return "storage/NFCtag";
+	}
+	
+
+	/**
 	 * TODO 보관 물품 정보에 key 등록해야함
 	 * 보관물품 등록
 	 * @param boxSeq
@@ -111,17 +140,17 @@ public class StorageController {
 	 * @param email
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/insertGoods.do",method = RequestMethod.POST)
-	public String insertGoods(int boxSeq, String id, String email) {
-		log.info(boxSeq+","+id+" "+email);
-		Map<String,Object> map = new HashMap<String, Object>();
-		map.put("boxSeq", boxSeq);
-		map.put("id", id);
-		map.put("email", email);
-		log.info("map은 ?" + map);
+	public String insertGoods(String NFC,HttpSession session) {
+		log.info("NFC태그값 : "+NFC);
+		//nfc 값 받아서 수정해야함
+		Map<String,Object> map = (Map<String, Object>) session.getAttribute("map");
+		log.info("세션에서 받은 map은 ? "+map);
 		boolean isc = service.insertGoods(map);
 		log.info("insertGoods 결과는 ? "+ isc);
-		return "storage/index";
+		session.removeAttribute("map");
+		return "storage/closeDoor";
 	}
 	/**
 	 * 연장하기
@@ -137,7 +166,7 @@ public class StorageController {
 		map.put("id", id);
 		boolean isc = service.updateExtend(map);
 		log.info("연장 결과 : "+isc);		
-		return "storage/index";
+		return "redirect:/storage/userStorageList.do";
 	}
 	/**
 	 * 추가비용 가지고 키대조 화면으로 이동하는 컨트롤러
@@ -145,11 +174,9 @@ public class StorageController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/compareKey.do",method = RequestMethod.GET)
-//	public String compareKey(@RequestParam("storageId") String id,int boxSeq, int overCost,Model model) {
+	@RequestMapping(value = "/compareKey.do",method = RequestMethod.POST)
 	public String compareKey(int overCost,Model model) {
 		log.info("키 대조 화면으로 이동");
-		//추후 id, boxSeq 필요시 map 으로 던지기
 		model.addAttribute("overCost",overCost);
 		return "storage/compareKey";
 	}
@@ -168,7 +195,8 @@ public class StorageController {
 		
 		if(costCode == null||costCode.isBlank()) {
 			log.info("해당 키가 없음 -> 키 대조 실패 -> 전단계?메인페이지?");
-			return "storage/index";
+			//TODO 키가 맞지 않는다고 alert 띄워주기->키 새로등록페이지로 ?
+			return "redirect:/storage/userStorageList.do";
 		}
 		
 		if(overCost>0) {
@@ -182,6 +210,7 @@ public class StorageController {
 		model.addAttribute("costCode",costCode);
 		//dto->costCode로 수정했으니 jsp에서도 확인해주기
 		return "storage/payPage";
+		//로그인 제대로 연결되면 payment랑 연결해야함 @
 	}
 	
 	/**
@@ -192,12 +221,13 @@ public class StorageController {
 	@ResponseBody
 	@RequestMapping(value="/checkOutUser.do",method = RequestMethod.GET)
 	public String checkOutEmail(String email) {
+		System.out.println(email+"zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
 		String checkedEmail = service.checkOutEmail(email);
 		log.info("수령 사용자 이메일 확인 -> "+email+ " 받아온 이메일 : "+ checkedEmail);
 		return checkedEmail;
 	}
 	/**
-	 * TODO 키 udpate
+	 * TODO 키 udpate!!
 	 * 이메일이 없으면 이메일입력 폼으로
 	 * 이메일이 있으면 수령사용자 이메일 등록
 	 * @param id
@@ -205,23 +235,26 @@ public class StorageController {
 	 * @param email
 	 * @return
 	 */
-	@RequestMapping(value = "/updateOutUser.do",method = RequestMethod.GET)
+	@RequestMapping(value = "/updateOutUser.do",method = RequestMethod.POST)
 	public String updateOutUser(Model model,@RequestParam("storageId") String id,
 			int boxSeq, @RequestParam(required=false) String email) {
 		log.info("받아온 id: "+id+" boxSeq: "+boxSeq+" outUSerEmail: "+email);
-		//이메일이 없으면 수령 사용자 이메일 입력 폼으로
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("boxSeq", boxSeq);
+		map.put("id", id);
 		if(email == null || email.isBlank()) {
-			model.addAttribute("id",id);
-			model.addAttribute("boxSeq",boxSeq);
+			//이메일이 없으면 수령 사용자 이메일 입력 폼으로
+//			model.addAttribute("id",id);
+//			model.addAttribute("boxSeq",boxSeq);
+			model.addAttribute("map",map);
 			return "storage/outUserForm";
 		}else {
-			Map<String,Object> map = new HashMap<String, Object>();
-			map.put("boxSeq", boxSeq);
-			map.put("id", id);
+			//이메일이 있으면 OutUser 등록 
+			//TODO key update 같이 해주기 
 			map.put("email", email);
 			boolean isc = service.updateOutUser(map);
 			log.info("수령사용자 등록 결과 : "+isc);
-			return "storage/map";
+			return "redirect:/storage/userStorageList.do";
 		}
 	}
 	/**
@@ -247,7 +280,8 @@ public class StorageController {
 			map.put("costCode", costCode);
 			boolean isc = service.afterPayment(map);
 			log.info("보관함 사용가능처리 + 보관 정보 삭제 결과 : "+isc);
-			return "storage/map";
+			
+			return "storage/closeDoor";
 		}
 	}
 	
@@ -264,7 +298,7 @@ public class StorageController {
 		map.put("message", message);
 		boolean isc = service.insertReturn(map);
 		log.info("반품 등록 service 결과 : "+isc);
-		return "storage/map";
+		return "redirect:/storage/userStorageList.do";
 	}
 
 	
@@ -323,10 +357,9 @@ public class StorageController {
 	 */
 	@RequestMapping(value = "/checkDeliveryInfo.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> checkdeliveryTime(@RequestParam("arriveStation") String arriveStation, HttpSession session) {
+	public Map<String, Object> checkDeliveryInfo(@RequestParam("arriveStation") String arriveStation, HttpSession session) {
 		// 사용자 현재 보관함 정보
 		StorageGoodsDto storageGoodsDto = (StorageGoodsDto) session.getAttribute("storageGoodsDto");
-		System.out.println("storageGoodsDto확인!!  "+storageGoodsDto);
 		String userStorageId = storageGoodsDto.getStorageId();
 		StorageListDto userSBListDto = service.selectStorageBoxList(userStorageId);
 		String userStorageSubway = userSBListDto.getSubway();
@@ -346,6 +379,7 @@ public class StorageController {
 			// 1. 배송원 현재 위치 > 사용자 보관함 거리 계산
 			//  1) 전체 배송원 조회
 			List<MemberDto> deliveryMans = service.selectDeliveryMan();
+			System.out.println("배송원 리스트!! "+deliveryMans);
 			//  2) 사용자 보관함과 가까운 배송원 탐색
 			int deliverymanDist;								// 사용자 위치 seq - 배송원 위치 seq
 			int num = 1000;										// 가까운 배송원을 가리기 위한 허수
@@ -353,11 +387,16 @@ public class StorageController {
 			Map<String, Object> delManInfo = new HashMap<String, Object>();
 			for (int i = 0; i < deliveryMans.size(); i++) {
 				//  2-1) 배송원 ID, 이름 탐색
+				System.out.println("배송원 정보 확인!! "+deliveryMans.get(i));
+				System.out.println("배송원 정보 확인!! "+deliveryMans.get(i).getEmail());
 				String deliverymanId = deliveryMans.get(i).getEmail();
+				System.out.println("배송원 이메일!! "+deliverymanId);
 				String deliverymanName = deliveryMans.get(i).getName();
 				// 2-2) 배송원 위치 탐색
 				String deliverymanSubway = service.selectDeliveryLoc(deliverymanId);
+				System.out.println("배송원 위치 확인!! "+deliverymanSubway);
 				int deliverymanLocSeq = service.selectTimeTableSeq(deliverymanSubway);
+				System.out.println("배송원 위치 확인!! "+deliverymanLocSeq);
 				// 2-3) 사용자 위치와 배송원 위치 비교 후 가장 가까운 위치의 배송원 찾기
 				if(userLocSeq != deliverymanLocSeq) {
 					if(userLocSeq > deliverymanLocSeq) {		
@@ -417,6 +456,8 @@ public class StorageController {
 			Map<String, Integer> userDelLoc = new HashMap<String, Integer>();
 			int userDelTime;											// 사용자 보관함 > 배송 보관함 이동 시간
 			int deliveryCost;											// 배송 비용
+			System.out.println("시퀀스 확인!! "+userLocSeq);
+			System.out.println("시퀀스 확인!! "+deliveryLocSeq);
 			if(userLocSeq < deliveryLocSeq) {
 				userDelLoc.put("startSeq", userLocSeq);
 				userDelLoc.put("arriveSeq", deliveryLocSeq-1);

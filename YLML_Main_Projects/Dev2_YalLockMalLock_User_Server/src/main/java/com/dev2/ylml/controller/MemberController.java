@@ -8,6 +8,10 @@ import java.util.Random;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -56,18 +60,7 @@ public class MemberController {
 		this.naverLoginBO = naverLoginBO;
 	}
 
-	/***
-	 *  메인으로 이동
-	 */
-	@RequestMapping(value = "/main.do", method = RequestMethod.GET)
-	public String main(Model model, HttpSession session) {
-		log.info("move to : main");
-		String naverUrl = naverLoginBO.getAuthorizationUrl(session);
-		model.addAttribute("naverUrl", naverUrl);
-		return "member/main";
-
-	}
-
+	//테스트완료
 	/**
 	 * 개인정보보호 및 이용약관 동의 폼 이동<br>
 	 * 
@@ -78,7 +71,7 @@ public class MemberController {
 		log.info("move to : infoAgree");
 		return "member/infoAgree";
 	}
-
+	//테스트완료
 	/**
 	 * 회원가입 폼 이동<br>
 	 * 
@@ -89,7 +82,7 @@ public class MemberController {
 		System.out.println("move to : signUpForm");
 		return "member/signUpForm";
 	}
-
+	//테스트완료
 	/**
 	 * 로그인 폼 이동<br>
 	 * 
@@ -101,7 +94,7 @@ public class MemberController {
 		System.out.println("move to : loginForm");
 		return "member/loginForm";
 	}
-
+	//테스트완료
 	/**
 	 * 아이디 찾기 폼 이동<br>
 	 * 
@@ -227,7 +220,7 @@ public class MemberController {
 		}else if(dto.getAuth()==19) {
 			page = "redirect:./emailAuthForm.do";
 		}else {
-			page = "redirect:./index.do";
+			page = "redirect:/index.do";
 		}
 		return page;
 	}	
@@ -248,7 +241,7 @@ public class MemberController {
 		MemberDto dto = iService.login(iMap);
 		System.out.println("로그인 된 값: \t"+ dto);
 		boolean isc;
-		// TODO : boolean 이용하여 true, false로 수정할것 (해당 값은 loginForm에 있는 ajax에서 고쳐야함)
+		
 		if(dto == null) {
 			isc = false;
 		}else {
@@ -256,7 +249,7 @@ public class MemberController {
 		}
 		return isc;
 	}
-
+	
 	// TODO: 토큰 삭제 및 토큰 연장 등등... 구현해야함...
 	/**
 	 * 네이버 간편 로그인 <br>
@@ -274,7 +267,10 @@ public class MemberController {
 	public String naverCallback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws IOException, ParseException {
 		OAuth2AccessToken oauthToken = naverLoginBO.getAccessToken(session, code, state);
 		String apiResult = naverLoginBO.getUserProfile(oauthToken);
-
+		//////////////////////////////////////////////////
+		session.setAttribute("token", oauthToken.getAccessToken());
+		System.out.println(oauthToken.getAccessToken());
+		
 		// String형식인 apiResult를 json형태로 바꿈
 		JSONParser parser = new JSONParser();
 		Object obj = parser.parse(apiResult);
@@ -296,32 +292,66 @@ public class MemberController {
 			model.addAttribute("email",email);
 			return "member/extraSignUpForm";
 		}else {
-			//이메일이나 이름을 dto 가져오는 서비스,다오 만들어얗ㅁ 
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("email", email);
 			MemberDto dto = iService.apiLogin(map);
 			session.setAttribute("mem", dto);
 			// 세션 스토리지 이용하여 쿠키 삭제 할 수 있음 좀더 찾아봐야ㅏㅁ
-			return "member/callback";
+			return "redirect:/index.do";
 		}
 	}
 
 	/**
-	 * 로그아웃<br>
-	 * 저장된 세션을 지워줌
-	 * @param session
-	 * @return
-	 */
-	@RequestMapping(value = "/logout.do", method = RequestMethod.GET)
-	public String logOut(HttpSession session) {
-		MemberDto dto = (MemberDto)session.getAttribute("mem");
-		if(dto != null) {
-			//			session.removeAttribute("mem");
-			session.invalidate();
+     * 로그아웃<br>
+     * 저장된 세션을 지워줌
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/logout.do", method = RequestMethod.GET)
+    public String logOut(HttpSession session) {
+        MemberDto dto = (MemberDto)session.getAttribute("mem");
+        if(dto != null) {
+            /////////////////////////////////////////////////////////
+            String CLIENT_ID = "MjtIKzlgcXfeqVpARjUP";
+            String CLIENT_SECRET = "RjTB8TBANJ";
+            String USER_AGENT = "Mozila/5.0";
 
-		}
-		return "redirect:index.do";
-	}
+
+            
+            String GET_URL = "https://nid.naver.com/oauth2.0/token?grant_type=delete"
+                    + "&client_id="+CLIENT_ID
+                    + "&client_secret="+CLIENT_SECRET
+                    + "&access_token="+session.getAttribute("token")
+                    + "&service_provider=NAVER"; 
+
+            //http client 생성
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+
+            //get 메서드와 URL 설정
+            HttpGet httpGet = new HttpGet(GET_URL);
+
+            //agent 정보 설정
+            httpGet.addHeader("User-Agent", USER_AGENT);
+
+            //get 요청
+            CloseableHttpResponse httpResponse;
+            try {
+                httpResponse = httpClient.execute(httpGet);
+
+                System.out.println("::GET Response Status::");
+
+                //response의 status 코드 출력
+                System.out.println(httpResponse.getStatusLine().getStatusCode());
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            /////////////////////////////////////////////////////////
+            session.invalidate();
+
+        }
+        return "redirect:/index.do";
+    }
 
 	/**
 	 * 아이디 찾기 <br>
@@ -396,10 +426,10 @@ public class MemberController {
 		if(mailHelper.checkCode4Prove(email, code) == MailSenderHelper.SUCCESS) {
 			log.info("인증번호 전송 :" + dto.getEmail(),code);
 			boolean emailAuth = iService.authUpdate((MemberDto)session.getAttribute("mem"));
-			return "redirect:member/index.do";
+			return "redirect:/index.do";
 
 		}else if (mailHelper.checkCode4Reset(email, code) == MailSenderHelper.FAILED) {
-			return "redirect:member/emailAuthForm.do";
+			return "redirect:/memailAuthForm.do";
 		}else {
 			return "member/error";
 		}
@@ -462,8 +492,7 @@ public class MemberController {
 	@RequestMapping(value = "/pwChk.do", method = RequestMethod.POST)
 	public Boolean pwChk(HttpSession session, String pw) {
 		// loginCheckMap에서 비슷한 로직이 있어서 재활용함
-		boolean result = 
-				loginCheckMap(((MemberDto)session.getAttribute("mem")).getEmail(), pw);
+		boolean result = loginCheckMap(((MemberDto)session.getAttribute("mem")).getEmail(), pw);
 		
 		if(result) {
 			session.setAttribute("allowed", true);
