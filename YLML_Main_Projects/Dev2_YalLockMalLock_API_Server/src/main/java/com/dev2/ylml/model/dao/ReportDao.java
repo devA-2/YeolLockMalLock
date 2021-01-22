@@ -12,7 +12,7 @@ import com.dev2.ylml.dto.ReportDto;
 @Repository
 public class ReportDao implements ReportIDao {
 
-	private final String NS="com.min.edu.model.IReportDao.";
+	private final String NS="com.dev2.ylml.dao.ReportIDao.";
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;

@@ -12,7 +12,7 @@ import com.dev2.ylml.dto.LostPropertyDto;
 @Repository
 public class LostPropertyDao implements LostPropertyIDao {
 
-	private final String NS="com.min.edu.model.ILostPropertyDao.";
+	private final String NS="com.dev2.ylml.dao.LostPropertyIDao.";
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;
