@@ -320,7 +320,6 @@ public class StorageController {
 		return result;
 	}
 	
-	
 	@RequestMapping(value = "/falsePayment.do", method = RequestMethod.GET)
 	public String falsePayment() {
 		log.info("Controller_falsePayment.do 실행");
@@ -335,9 +334,8 @@ public class StorageController {
 	 */
 	@RequestMapping(value = "/userStorageList.do", method = RequestMethod.GET)
 	public String userStorageList(Model model, HttpSession session) {
-//		MemberDto mDto = (MemberDto) session.getAttribute("mem");
-//		String email = mDto.getEmail();
-		String email = "user01@naver.com";
+		MemberDto mDto = (MemberDto) session.getAttribute("mem");
+		String email = mDto.getEmail();
 		System.out.println("이메일 확인 !! "+email);
 		List<UserStorageListDto> storageList = service.selectUserStorageList(email);
 		model.addAttribute("list", storageList);
@@ -402,7 +400,6 @@ public class StorageController {
 			// 1. 배송원 현재 위치 > 사용자 보관함 거리 계산
 			//  1) 전체 배송원 조회
 			List<MemberDto> deliveryMans = service.selectDeliveryMan();
-			System.out.println("배송원 리스트!! "+deliveryMans);
 			//  2) 사용자 보관함과 가까운 배송원 탐색
 			int deliverymanDist;								// 사용자 위치 seq - 배송원 위치 seq
 			int num = 1000;										// 가까운 배송원을 가리기 위한 허수
@@ -411,12 +408,15 @@ public class StorageController {
 			for (int i = 0; i < deliveryMans.size(); i++) {
 				//  2-1) 배송원 ID, 이름 탐
 //				System.out.println("배송원 정보 확인!! "+((HashMap<String, String>)(Object)deliveryMans.get(i)).get("email"));
-				System.out.println("배송원 이메일 확인!! "+deliveryMans.get(i).getEmail());
 				String deliverymanId = deliveryMans.get(i).getEmail();
 				String deliverymanName = deliveryMans.get(i).getName();
 				// 2-2) 배송원 위치 탐색
 				String deliverymanSubway = service.selectDeliveryLoc(deliverymanId);
 				int deliverymanLocSeq = service.selectTimeTableSeq(deliverymanSubway);
+				System.out.println("########################################################");
+				System.out.println(deliverymanSubway);
+				System.out.println(deliverymanLocSeq);
+				System.out.println(deliverymanId);
 				// 2-3) 사용자 위치와 배송원 위치 비교 후 가장 가까운 위치의 배송원 찾기
 				if(userLocSeq != deliverymanLocSeq) {
 					if(userLocSeq > deliverymanLocSeq) {		
@@ -427,7 +427,6 @@ public class StorageController {
 					
 					if(deliverymanDist < num) {
 						num = deliverymanDist;
-						
 						if(deliverymanDist == num){
 						delManInfo.put("deliverymanId", deliverymanId);
 						delManInfo.put("deliverymanName", deliverymanName);
@@ -537,13 +536,12 @@ public class StorageController {
 	 * @return
 	 */
 	@RequestMapping(value = "/delivery.do", method = RequestMethod.POST)
-	public String delivery(DeliveryDto delDto, String message, HttpSession session) {
+	public String delivery(DeliveryDto deliveryDto, String message, HttpSession session) {
 		StorageGoodsDto storageGoods = (StorageGoodsDto) session.getAttribute("storageGoodsDto");
 		storageGoods.setMessage(message);
-		System.out.println("보관함 정보 확인!! " +storageGoods);
-		boolean isc = service.insertDelivery(delDto, storageGoods);
+		boolean isc = service.insertDelivery(deliveryDto, storageGoods);
 		log.info("Controller_delivery.do 실행");
-		return isc?"redirect:/deliverySuccess.do":"redirect:/userStorageList.do";
+		return isc?"redirect:/storage/deliverySuccess.do":"redirect:/storage/userStorageList.do";
 	}
 	
 	/**
@@ -657,19 +655,23 @@ public class StorageController {
 	 */
 	@RequestMapping(value = "/deliveryList.do", method = RequestMethod.GET)
 	public String userDeliveryList(Model model, HttpSession session) {
-//		MemberDto mDto = (MemberDto) session.getAttribute("mem");
-//		String email = mDto.getEmail();
-//		String auth = Integer.toString(mDto.getAuth());
-		String email = "deli@naver.com";
-		String auth = "80";
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("email", email);
-		map.put("auth", auth);
-		System.out.println("map 확인!! "+map);
-		List<DeliveryDto> deliveryList = service.selectDeliveryList(map);
-		model.addAttribute("deliveryList", deliveryList);
-		model.addAttribute("auth", auth);
-		System.out.println("DTO 확인!!"+deliveryList);
+		MemberDto mDto = (MemberDto) session.getAttribute("mem");
+		String email = mDto.getEmail();
+		String auth = Integer.toString(mDto.getAuth());
+//		String email = "deli@naver.com";
+//		String auth = "80";
+		if(mDto.getAuth() == 10 || mDto.getAuth() == 80) {
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("email", email);
+			map.put("auth", auth);
+			System.out.println("map 확인!! "+map);
+			List<DeliveryDto> deliveryList = service.selectDeliveryList(map);
+			model.addAttribute("deliveryList", deliveryList);
+			model.addAttribute("auth", auth);
+			System.out.println("deliveryList DTO 확인!!"+deliveryList);
+		}else {
+			model.addAttribute("auth", auth);
+		}
 		log.info("Controller_checkDeliveryInfo.do 실행");
 		return "delivery/deliveryList";
 	}
