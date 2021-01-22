@@ -14,7 +14,7 @@
 <script type="text/javascript" src="<%=ctx %>/SE2/js/HuskyEZCreator.js" charset="utf-8"></script>
 <script type="text/javascript">
 	function goBack(){
-		history.go(-1);
+		location.href="./reportList.do?";
 	}
 	
 	var isShow = true;

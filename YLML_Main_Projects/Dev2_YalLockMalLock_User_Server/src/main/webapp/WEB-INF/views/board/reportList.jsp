@@ -21,11 +21,9 @@
 	}else{
 		alert("자신의 게시물만 확인할 수 있습니다.");
 	}
-		
 	
-		
 	}
-
+	
       // 익명함수, 페이지 로드될 때 실행됨 -> 전체리스트 호출
       $(function() {
          $.get("reportListAjax.do", function(data) {

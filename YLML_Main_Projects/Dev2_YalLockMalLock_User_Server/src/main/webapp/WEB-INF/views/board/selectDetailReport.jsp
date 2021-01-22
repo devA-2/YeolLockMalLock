@@ -17,28 +17,31 @@
 		text-align: center;
 		margin: auto;
 	}
+	
+/* 	image{ */
+/* 		width: 100%; */
+/* 		height: 100%; */
+/* 	} */
 </style>
 <script type="text/javascript">
-	function historys(){
-		window.history.back();
+// 	function historys(){
+// 		window.history.back();
+// 	}
+	
+	function goHome(){
+		location.href="./reportList.do?";
 	}
 </script>
 
 </head>
 <body>
 	<div style="width: 360px; height: 600px; border: 1px solid black; margin:auto;">
-		<table>
 			<c:forEach items="${lists}" var="vo">
-				<tr>
-					<td>${vo.regdate}</td>
-					<td>${vo.title}</td>
-					<td>${vo.email}</td>
-				</tr>
-				<tr>
-					<td>${vo.content }</td>
-				</tr>
+					<span>작성일 : ${vo.regdate}</span><br>
+					<span>제목 : ${vo.title}</span><br>
+					<span>작성자 : ${vo.email}</span><br>
+					<span>내용 : ${vo.content }</span><br>
 			</c:forEach>
-		</table>
-		<button onclick="historys()">뒤로 가기</button>
+		<button onclick="goHome()">Home</button>
 </body>
 </html>

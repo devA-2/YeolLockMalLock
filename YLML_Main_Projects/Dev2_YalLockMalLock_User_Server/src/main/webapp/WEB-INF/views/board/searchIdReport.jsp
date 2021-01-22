@@ -6,6 +6,11 @@
 <head>
 <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ID 검색 페이지</title>
+<script type="text/javascript">
+	function goDetail(refer){
+		location.href="./selectDetailReport.do?refer="+refer;
+	}
+</script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 </head>
 <body>
@@ -17,7 +22,6 @@
 					<td>${vo.regdate}</td>
 					<td>${vo.title}</td>
 					<td>${vo.email}</td>
-					<td>${vo.refer }</td>
 				</tr>
 			</c:forEach>
 		</table>
