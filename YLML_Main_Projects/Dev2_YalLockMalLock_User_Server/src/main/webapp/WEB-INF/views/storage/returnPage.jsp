@@ -22,7 +22,6 @@
 <div class="container">
 	<h3>보관한 상대방에게 반품 처리됩니다.<br> 반품 메세지를 입력해주세요</h3>
 	<form action="./insertReturn.do" method="post">
-		<input type="hidden" name='costCode' value='${costCode}'>
 		<textarea class="form-control" rows="5" name="message" placeholder="반품합니다"></textarea>
 		<input type="submit" class="btn btn-success" value="반품완료"> 	
 	</form>

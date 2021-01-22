@@ -3,6 +3,7 @@ package com.dev2.ylml.model.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.dev2.ylml.dto.CostDto;
 import com.dev2.ylml.dto.MemberDto;
 import com.dev2.ylml.dto.StorageBoxDto;
 import com.dev2.ylml.dto.StorageGoodsDto;
@@ -71,9 +72,9 @@ public interface StorageIDao {
 	/**
 	 * 회수전 키 대조
 	 * @param key
-	 * @return cost_code
+	 * @return cost_code,cost
 	 */
-	public String compareKey(String key);
+	public CostDto compareKey(String key);
 	/**
 	 * 보관시간 만료 이후 회수시 키 대조후 결제 전에 할증비용 추가 
 	 * @param costCode, overCost
