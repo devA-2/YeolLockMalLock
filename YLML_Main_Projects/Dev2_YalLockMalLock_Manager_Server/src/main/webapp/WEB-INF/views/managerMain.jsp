@@ -16,7 +16,8 @@
   		location.href="index.do"
 	}
   
-  	var auth = "${mangerLogin.auth}";
+//   	var auth = "${mangerLogin.auth}";
+  	var auth = "100";
 		
       function accessDeliveryList() {
 		console.log(auth);
