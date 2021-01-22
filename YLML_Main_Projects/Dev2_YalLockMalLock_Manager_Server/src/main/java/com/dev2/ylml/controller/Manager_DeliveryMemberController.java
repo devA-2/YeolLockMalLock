@@ -22,10 +22,7 @@ public class Manager_DeliveryMemberController {
 	@Autowired
 	private ManagerIService service;
 
-	@RequestMapping(value = "index.do")
-	public String index() {
-		return "index";
-	}
+	
 
 	/**
 	 * 관리자 메인으로 managerMain.do
