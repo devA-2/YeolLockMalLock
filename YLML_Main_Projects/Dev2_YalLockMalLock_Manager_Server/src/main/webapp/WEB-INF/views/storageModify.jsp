@@ -14,11 +14,11 @@
 	<form action="./storageModifyRegist.do" method="post">
         <div >
              <label>보관함 ID : </label>
-              <input type="text" name="storage_id" value="${list.storage_id}" readonly>
+              <input type="text" name="storageId" value="${list.storageId}" readonly>
         </div>
         <div >
             <label>보관함 이름</label>
-            <input type="text" name="storage_name" value="${list.storage_name}" >
+            <input type="text" name="storageName" value="${list.storageName}" >
         </div>
         <div >
             <label>주 소</label>
@@ -46,7 +46,7 @@
         </div>
         <div >
             <label>보관함 갯수</label>
-            <input type="text" name="box_amount" value="${list.box_amount}" >
+            <input type="text" name="boxAmount" value="${list.boxAmount}" readonly>
         </div>
         
         

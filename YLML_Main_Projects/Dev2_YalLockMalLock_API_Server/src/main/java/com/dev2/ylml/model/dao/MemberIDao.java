@@ -30,11 +30,32 @@ public interface MemberIDao {
 	public int phoneCheck(String phoneNum);
 	
 	/**
-	 * 로그인
+	 * 일반회원 로그인
 	 * @param map
 	 * @return dto
 	 */
 	public MemberDto login(Map<String, Object> map);
+	
+	/**
+	 * 배송원 로그인
+	 * @param map
+	 * @return dto
+	 */
+	public MemberDto delLogin(Map<String, Object> map);
+	
+	/**
+	 * 관리자 로그인
+	 * @param map
+	 * @return dto
+	 */
+	public MemberDto adminLogin(Map<String, Object> map);
+	
+	/**
+	 * API로그인
+	 * @param map
+	 * @return
+	 */
+	public MemberDto apiLogin(Map<String, Object> map);
 	
 	/**
 	 * 암호화 패스워드 찾기
@@ -43,12 +64,6 @@ public interface MemberIDao {
 	 */
 	public boolean enPw(Map<String, Object> map);
 	
-	/**
-	 * API로그인
-	 * @param map
-	 * @return
-	 */
-	public MemberDto apiLogin(Map<String, Object> map);
 	
 	
 	/**

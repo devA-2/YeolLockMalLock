@@ -46,6 +46,22 @@ public interface Api_IService {
 	 * @return dto
 	 */
 	public Map<String, Object>/* MemberDto */ login(Map<String, Object> map/* Map<String, Object> map */);
+	
+	/**
+	 * 배송원 로그인
+	 * 
+	 * @param map
+	 * @return dto
+	 */
+	public Map<String, Object>/* MemberDto */ delLogin(Map<String, Object> map/* Map<String, Object> map */);
+	
+	/**
+	 * 관리자 로그인
+	 * 
+	 * @param map
+	 * @return dto
+	 */
+	public Map<String, Object>/* MemberDto */ adminLogin(Map<String, Object> map/* Map<String, Object> map */);
 
 	/**
 	 * api 간편 로그인

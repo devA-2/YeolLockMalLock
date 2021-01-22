@@ -40,10 +40,10 @@ public class ManagerService implements ManagerIService{
 	/*
 	 * 로그인
 	 */
-	public MemberDto login(Map<String, Object> map) {
+	public MemberDto adminLogin(Map<String, Object> map) {
 		String enPw = pwEncoder.encode((String) map.get("pw"));
 		map.put("pw", enPw);
-		return (MemberDto)helper.request("login.do", map);
+		return (MemberDto)helper.request("adminLogin.do", map);
 	}
 	
 	/*
@@ -53,7 +53,6 @@ public class ManagerService implements ManagerIService{
 	@Override
 	public List<MemberDto> selectAll(String email) {
 		return (List<MemberDto>)helper.request("selectAll.do", email);
-
 	}
 	
 	/*
@@ -138,8 +137,8 @@ public class ManagerService implements ManagerIService{
 
 	// 보관함 ID 조회
 	@Override
-	public Manager_StorageDto selectIdStorage(String storage_id) {
-		return (Manager_StorageDto)helper.request("selectIdStorage.do", storage_id);
+	public Manager_StorageDto selectIdStorage(String storageId) {
+		return (Manager_StorageDto)helper.request("selectIdStorage.do", storageId);
 	}
 
 	// 보관함 지하철역으로 조회
@@ -150,15 +149,15 @@ public class ManagerService implements ManagerIService{
 
 	// 보관함 상세정보 조회
 	@Override
-	public Manager_StorageDto selectDetailStorage(String storage_id) {
-		return (Manager_StorageDto)helper.request("selectDetailStorage.do", storage_id);
+	public Manager_StorageDto selectDetailStorage(String storageId) {
+		return (Manager_StorageDto)helper.request("selectDetailStorage.do", storageId);
 	}
 
 	// 보관함 상태조회
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Manager_StorageDto> selectBoxStatus(String storage_id) {
-		return (List<Manager_StorageDto>)helper.request("selectBoxStatus.do", storage_id);
+	public List<Manager_StorageDto> selectBoxStatus(String storageId) {
+		return (List<Manager_StorageDto>)helper.request("selectBoxStatus.do", storageId);
 	}
 
 	// 보관함 등록

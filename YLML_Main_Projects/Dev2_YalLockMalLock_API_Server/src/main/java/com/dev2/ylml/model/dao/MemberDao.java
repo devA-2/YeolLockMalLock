@@ -58,16 +58,31 @@ public class MemberDao implements MemberIDao {
 	}
 	
 	@Override
-	public boolean enPw(Map<String, Object> map) {
-		String dbPw = sqlSession.selectOne("member.enPw", map.get("email"));
-		return pwEncoder.matches((String) map.get("pw"), dbPw);
-	}
-	
-	@Override
 	public MemberDto apiLogin(Map<String, Object> map) {
 		log.info("MemberDaoImpl apiLogin : " + map);		
 		return sqlSession.selectOne("member.enLogin",map);
 	}
+	
+	@Override
+	public MemberDto delLogin(Map<String, Object> map) {
+		log.info("MemberDaoImpl enDelLogin : " + map);		
+		return sqlSession.selectOne("member.enDelLogin",map);
+	}
+	
+	@Override
+	public MemberDto adminLogin(Map<String, Object> map) {
+		log.info("MemberDaoImpl adminLogin : " + map);		
+		return sqlSession.selectOne("member.enAdminLogin",map);
+	}
+	
+	
+	@Override
+	public boolean enPw(Map<String, Object> map) {
+		String dbPw = sqlSession.selectOne("member.enPw", map.get("email"));
+		System.out.println("@@@@@@@@@@@@@" + dbPw);
+		return pwEncoder.matches((String) map.get("pw"), dbPw);
+	}
+	
 
 	@Override
 	public String idSearch(Map<String, Object> map) {

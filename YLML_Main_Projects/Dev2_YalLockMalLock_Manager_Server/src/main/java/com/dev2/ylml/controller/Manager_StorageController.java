@@ -52,11 +52,11 @@ public class Manager_StorageController {
 	//  보관함 상세조회 : ID로 조회 storageDetail.do
 	//	+보관함 상태조회 : ID로 조회
 	@RequestMapping(value = "storageDetail.do", method = RequestMethod.GET)
-	public String storageDetail(Model model,@RequestParam String storage_id) {
-		logger.info("storageDetail.do storage_id 검색id : " + storage_id);
+	public String storageDetail(Model model,@RequestParam String storageId) {
+		logger.info("storageDetail.do storageId 검색id : " + storageId);
 		
-		List<Manager_StorageDto> lists = service.selectBoxStatus(storage_id);
-		Manager_StorageDto list = service.selectDetailStorage(storage_id);
+		List<Manager_StorageDto> lists = service.selectBoxStatus(storageId);
+		Manager_StorageDto list = service.selectDetailStorage(storageId);
 		
 		logger.info("storageDetail.do box_status : " + lists);
 		
@@ -68,10 +68,10 @@ public class Manager_StorageController {
 	
 	// 보관함 상세보기에서 수정페이지 이동 modifyStorage
 	@RequestMapping(value = "storageModify.do", method = RequestMethod.GET)
-	public String modifyStorage(Model model,@RequestParam String storage_id) {
-		logger.info("storageDetail.do 상세보기->수정페이지 이동 : " + storage_id);
+	public String modifyStorage(Model model,@RequestParam String storageId) {
+		logger.info("storageDetail.do 상세보기->수정페이지 이동 : " + storageId);
 		
-		Manager_StorageDto list = service.selectDetailStorage(storage_id);
+		Manager_StorageDto list = service.selectDetailStorage(storageId);
 		model.addAttribute("list", list);
 		return "storageModify";
 	}
@@ -81,9 +81,9 @@ public class Manager_StorageController {
 	public String storageModifyRegist(Model model, Manager_StorageDto dto) {
 		logger.info("storageModifyRegist.do 수정내용등록 : " + dto);
 		
-		service.modifyStorage(dto);
-		
-		return "redirect:storageDetail.do?storage_id="+dto.getStorageId();
+		boolean isc = service.modifyStorage(dto);
+		System.out.println("보관함 수정결과 -> : "+isc);
+		return "redirect:storageDetail.do?storageId="+dto.getStorageId();
 	}
 	
 	//	보관함 새로 등록하기 이동 registStorage.do
@@ -101,20 +101,20 @@ public class Manager_StorageController {
 		
 		service.registStorage(dto);
 		
-		return "redirect:storageDetail.do?storage_id="+dto.getStorageId();
+		return "redirect:storageDetail.do?storageId="+dto.getStorageId();
 	}
 	
 	//	사용불가 보관함이 해결되었을때 관리자가 사용 가능 보관함으로 변경
 	// ActivateStorage.do
-	@RequestMapping(value = "ActivateStorage.do", method = RequestMethod.GET)
-	public String ActivateStorage(Model model, @RequestParam String box_seq, 
-			@RequestParam String storage_id) {
-		logger.info("ActivateStorage.do 상태변경할 보관함번호 : " + box_seq);
-		logger.info("ActivateStorage.do 상태변경되는 보관함 id  : " + storage_id);
+	@RequestMapping(value = "activateStorage.do", method = RequestMethod.GET)
+	public String ActivateStorage(Model model, @RequestParam String boxSeq, 
+			@RequestParam String storageId) {
+		logger.info("ActivateStorage.do 상태변경할 보관함번호 : " + boxSeq);
+		logger.info("ActivateStorage.do 상태변경되는 보관함 id  : " + storageId);
 		
-		service.activateStorage(box_seq);
+		service.activateStorage(boxSeq);
 		
-		return "redirect:storageDetail.do?storage_id="+storage_id;
+		return "redirect:storageDetail.do?storageId="+storageId;
 	}
 	
 	// 지하철역으로 검색 viewSubway.do

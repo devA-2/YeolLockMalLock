@@ -154,7 +154,33 @@ public class Api_Service implements Api_IService{
 			return helper.keyFailed();
 		}
 		Map<String, Object> res = (Map<String, Object>) helper.getData(map);
-		MemberDto dto = memberDao.login(res);
+			MemberDto dto = (memberDao.enPw(res))?memberDao.login(res):null;
+			System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+memberDao.enPw(res));
+			System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+memberDao.login(res));
+			return helper.generateData(dto);
+		
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public Map<String, Object> delLogin(Map<String, Object> map) {
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		Map<String, Object> res = (Map<String, Object>) helper.getData(map);
+		MemberDto dto = memberDao.delLogin(res);
+		
+		return helper.generateData(dto);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public Map<String, Object> adminLogin(Map<String, Object> map) {
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		Map<String, Object> res = (Map<String, Object>) helper.getData(map);
+		MemberDto dto = memberDao.adminLogin(res);
 		
 		return helper.generateData(dto);
 	}
@@ -545,17 +571,17 @@ public class Api_Service implements Api_IService{
 		String email = info.get("email");
 		String auth = info.get("auth");
 		List<DeliveryDto> deliveryDto = new ArrayList<DeliveryDto>();
-		StorageListDto storageListDto = new StorageListDto();
+//		StorageListDto storageListDto = new StorageListDto();
 		if(auth.equals("10")) {
 			deliveryDto = StorageDeliveryDao.selectUserDeliveryList(email);
 		}else if(auth.equals("80")) {
 			deliveryDto = StorageDeliveryDao.selectDelmanDeliveryList(email);
-			for (int i = 0; i < deliveryDto.size(); i++) {
-				String station = deliveryDto.get(i).getOutboxId();
-				storageListDto = StorageDeliveryDao.selectStorageBoxList(station);
-				station = storageListDto.getSubway();
-				deliveryDto.get(i).setOutboxId(station);
-			}
+//			for (int i = 0; i < deliveryDto.size(); i++) {
+//				String station = deliveryDto.get(i).getOutboxId();
+//				storageListDto = StorageDeliveryDao.selectStorageBoxList(station);
+//				station = storageListDto.getSubway();
+//				deliveryDto.get(i).setOutboxId(station);
+//			}
 		}
 		return helper.generateData(deliveryDto);
 	}
@@ -720,7 +746,6 @@ public class Api_Service implements Api_IService{
 		}
 		Map<String, Object> login = (Map<String, Object>)helper.getData(map);
 		Manager_MemberDto dto = managerLoginDao.loginMember(login);
-		
 		return helper.generateData(dto);
 	}
 
@@ -730,7 +755,7 @@ public class Api_Service implements Api_IService{
 		if(!helper.checkKey(map)) {
 			return helper.keyFailed();
 		}
-		List<Manager_MemberDto> dto = manager_memberDao.selectallDelivery();
+		List<Manager_MemberDto> dto = manager_memberDao.selectAllDelivery();
 		return helper.generateData(dto);
 	}
 
@@ -752,7 +777,7 @@ public class Api_Service implements Api_IService{
 			return helper.keyFailed();
 		}
 		String email = (String)helper.getData(map);
-		Manager_MemberDto dto = manager_memberDao.DeliveryInfo(email);
+		Manager_MemberDto dto = manager_memberDao.deliveryInfo(email);
 		return helper.generateData(dto);
 	}
 
@@ -868,21 +893,29 @@ public class Api_Service implements Api_IService{
 			return helper.keyFailed();
 		}
 		String seq = (String)helper.getData(map);
-		boolean isc = manager_storageDao.ActivateStorage(seq);
+		boolean isc = manager_storageDao.activateStorage(seq);
 		return helper.generateData(isc);
 	}
 
 	
 	@Override
 	public Map<String, Object> selectAll(Map<String, Object> map) {
-		//파라미터 없어서 냅둠 // 기수
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		String email = (String)helper.getData(map);
+		List<MemberDto> list = memberDao.selectAll(email);
+		return helper.generateData(list);
 	}
 
 	@Override
 	public Map<String, Object> memberIdSearch(Map<String, Object> map) {
-		//파라미터 없어서 냅둠 // 기수
-		return null;
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		String email = (String)helper.getData(map);
+		List<String> list = memberDao.memberIdSearch();
+		return helper.generateData(list);
 	}
 
 	@Override
@@ -892,11 +925,9 @@ public class Api_Service implements Api_IService{
 		}
 		String email =  (String) helper.getData(map);
 		MemberDto dto = memberDao.detailMember(email);
-		
 		return helper.generateData(dto);
 	}
 
-	// TODO : list는 어떻게 해야하는지 몰라 냅둠
 	@Override
 	public Map<String, Object> memberUsing(Map<String, Object> map) {
 		if(!helper.checkKey(map)) {
@@ -904,7 +935,6 @@ public class Api_Service implements Api_IService{
 		}
 		String email =  (String) helper.getData(map);
 		List<StorageGoodsDto> dto = memberDao.memberUsing(email);
-		
 		return helper.generateData(dto);
 	}
 
