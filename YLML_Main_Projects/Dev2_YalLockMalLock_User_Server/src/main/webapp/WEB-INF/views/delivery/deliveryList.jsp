@@ -35,7 +35,7 @@
 				</c:if>
 			</div>
 		</c:if>
-		<c:if test="${auth eq 80}">
+		<c:if test="${auth eq '80'}">
 			<div>
 				<span>${list.storageName}-${list.boxSeq}</span>
 				<span>/ ${list.subway} ${list.detail}</span>

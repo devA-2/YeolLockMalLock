@@ -640,8 +640,8 @@ public class StorageController {
 //		MemberDto mDto = (MemberDto) session.getAttribute("mem");
 //		String email = mDto.getEmail();
 //		String auth = Integer.toString(mDto.getAuth());
-		String email = "user01@naver.com";
-		String auth = "10";
+		String email = "deli@naver.com";
+		String auth = "80";
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("email", email);
 		map.put("auth", auth);

@@ -545,17 +545,17 @@ public class Api_Service implements Api_IService{
 		String email = info.get("email");
 		String auth = info.get("auth");
 		List<DeliveryDto> deliveryDto = new ArrayList<DeliveryDto>();
-		StorageListDto storageListDto = new StorageListDto();
+//		StorageListDto storageListDto = new StorageListDto();
 		if(auth.equals("10")) {
 			deliveryDto = StorageDeliveryDao.selectUserDeliveryList(email);
 		}else if(auth.equals("80")) {
 			deliveryDto = StorageDeliveryDao.selectDelmanDeliveryList(email);
-			for (int i = 0; i < deliveryDto.size(); i++) {
-				String station = deliveryDto.get(i).getOutboxId();
-				storageListDto = StorageDeliveryDao.selectStorageBoxList(station);
-				station = storageListDto.getSubway();
-				deliveryDto.get(i).setOutboxId(station);
-			}
+//			for (int i = 0; i < deliveryDto.size(); i++) {
+//				String station = deliveryDto.get(i).getOutboxId();
+//				storageListDto = StorageDeliveryDao.selectStorageBoxList(station);
+//				station = storageListDto.getSubway();
+//				deliveryDto.get(i).setOutboxId(station);
+//			}
 		}
 		return helper.generateData(deliveryDto);
 	}

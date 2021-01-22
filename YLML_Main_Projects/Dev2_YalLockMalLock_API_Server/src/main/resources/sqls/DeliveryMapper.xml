@@ -42,7 +42,7 @@
 	</select>
 	
 	<!-- 전체 배송원 EMAIL, NAME 조회 -->
-	<select id="selectDeliveryMan" resultType="com.dev2.ylml.dto.MemberDto">
+	<select id="selectDeliveryMan" resultType="MemberDto">
 		SELECT EMAIL, NAME FROM "MEMBER" WHERE AUTH = 80
 	</select>
 	
@@ -118,7 +118,7 @@
 		UPDATE COST SET COST_STATUS = 'Y' WHERE DELIVERY_CODE = #{costCode}
 	</update>
 
-	<!-- 지도 복붙 테스트 -->
+	<!-- 지도 -->
 	<select id="selectStorageList" resultType="java.util.HashMap">
 		select storage_id AS "value" ,storage_name AS "label" ,address||' '||subway||' '||detail AS "desc" from storagebox_list
 	</select>
