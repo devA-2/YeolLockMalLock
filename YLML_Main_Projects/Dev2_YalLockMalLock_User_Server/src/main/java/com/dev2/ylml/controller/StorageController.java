@@ -389,17 +389,14 @@ public class StorageController {
 			int subwayCnt = service.selectSubwayCnt();			// 전체 역 갯수
 			Map<String, Object> delManInfo = new HashMap<String, Object>();
 			for (int i = 0; i < deliveryMans.size(); i++) {
-				//  2-1) 배송원 ID, 이름 탐색
-				System.out.println("배송원 정보 확인!! "+deliveryMans.get(i));
-				System.out.println("배송원 정보 확인!! "+deliveryMans.get(i).getEmail());
+				//  2-1) 배송원 ID, 이름 탐
+//				System.out.println("배송원 정보 확인!! "+((HashMap<String, String>)(Object)deliveryMans.get(i)).get("email"));
+				System.out.println("배송원 이메일 확인!! "+deliveryMans.get(i).getEmail());
 				String deliverymanId = deliveryMans.get(i).getEmail();
-				System.out.println("배송원 이메일!! "+deliverymanId);
 				String deliverymanName = deliveryMans.get(i).getName();
 				// 2-2) 배송원 위치 탐색
 				String deliverymanSubway = service.selectDeliveryLoc(deliverymanId);
-				System.out.println("배송원 위치 확인!! "+deliverymanSubway);
 				int deliverymanLocSeq = service.selectTimeTableSeq(deliverymanSubway);
-				System.out.println("배송원 위치 확인!! "+deliverymanLocSeq);
 				// 2-3) 사용자 위치와 배송원 위치 비교 후 가장 가까운 위치의 배송원 찾기
 				if(userLocSeq != deliverymanLocSeq) {
 					if(userLocSeq > deliverymanLocSeq) {		
@@ -656,41 +653,37 @@ public class StorageController {
 		log.info("Controller_checkDeliveryInfo.do 실행");
 		return "delivery/deliveryList";
 	}
+		
+	@RequestMapping(value = "/paymentPage.do", method = RequestMethod.GET)
+	public String paymentPage() {
+		log.info("Controller_paymentPage.do 실행");
+		return "storage/payment";
+	}
 	
-	// TODO : 추후 StorageGoodsDto 세션 생성으로 변경해야 함
-		@RequestMapping(value = "/paymentPage.do", method = RequestMethod.GET)
-		public String paymentPage(String phoneNum, String cost, String costCode, HttpSession session) {
-			session.setAttribute("phoneNum", phoneNum);
-			session.setAttribute("cost", cost);
-			session.setAttribute("costCode", costCode);
-			log.info("Controller_paymentPage.do 실행");
-			return "storage/payment";
+	@RequestMapping(value = "/resultPayment.do", method = RequestMethod.POST)
+	public String afterPayment(String imp_success, HttpSession session) {
+		String costCode = (String) session.getAttribute("costCode");
+		String result;
+		if(imp_success.equals(true)) {
+			service.updateCostStatus(costCode);
+			result = "redirect:./successPayment.do";
+		}else {
+			result = "redirect:./falsePayment.do";
 		}
-		
-		@RequestMapping(value = "/afterPayment.do", method = RequestMethod.GET)
-		public String afterPayment(String imp_success, HttpSession session) {
-			String costCode = (String) session.getAttribute("costCode");
-			String result;
-			if(imp_success.equals(true)) {
-				service.updateCostStatus(costCode);
-				result = "redirect:./successPayment.do";
-			}else {
-				result = "redirect:./falsePayment.do";
-			}
-			log.info("Controller_afterPayment.do 실행");
-			return result;
-		}
-		
-//		@RequestMapping(value = "/successPayment.do", method = RequestMethod.GET)
-//		public String successPayment() {
-//			log.info("Controller_successPayment.do 실행");
-//			return "storage/successPayment";
-//		}
-		
-		@RequestMapping(value = "/falsePayment.do", method = RequestMethod.GET)
-		public String falsePayment() {
-			log.info("Controller_falsePayment.do 실행");
-			return "storage/falsePayment";
-		}
+		log.info("Controller_afterPayment.do 실행");
+		return result;
+	}
 	
+//	@RequestMapping(value = "/successPayment.do", method = RequestMethod.GET)
+//	public String successPayment() {
+//		log.info("Controller_successPayment.do 실행");
+//		return "storage/successPayment";
+//	}
+	
+	@RequestMapping(value = "/falsePayment.do", method = RequestMethod.GET)
+	public String falsePayment() {
+		log.info("Controller_falsePayment.do 실행");
+		return "storage/falsePayment";
+	}
+
 }
