@@ -266,7 +266,7 @@ public class StorageController {
 	 * @param returnFlag
 	 * @return
 	 */
-	@RequestMapping(value = "/successPayment.do",method = RequestMethod.POST)
+	@RequestMapping(value = "/successPayment.do",method = {RequestMethod.GET, RequestMethod.POST})
 	public String successPayment(String returnFlag, HttpSession session) {
 	
 		if(returnFlag==null ||returnFlag.isBlank()) {
@@ -306,6 +306,26 @@ public class StorageController {
 
 	//************************************************************************************************88
 	
+	@RequestMapping(value = "/resultPayment.do", method = RequestMethod.GET)
+	public String afterPayment(String imp_success, HttpSession session) {
+//		String costCode = (String) session.getAttribute("costCode");
+		String result;
+		if(imp_success.equals("true")) {
+//			service.updateCostStatus(costCode);
+			result = "redirect:./successPayment.do";
+		}else {
+			result = "redirect:./falsePayment.do";
+		}
+		log.info("Controller_resultPayment.do 실행");
+		return result;
+	}
+	
+	
+	@RequestMapping(value = "/falsePayment.do", method = RequestMethod.GET)
+	public String falsePayment() {
+		log.info("Controller_falsePayment.do 실행");
+		return "storage/falsePayment";
+	}
 	
 	/**
 	 * 보관 정보 조회(사용자)
@@ -658,32 +678,6 @@ public class StorageController {
 	public String paymentPage() {
 		log.info("Controller_paymentPage.do 실행");
 		return "storage/payment";
-	}
-	
-	@RequestMapping(value = "/resultPayment.do", method = RequestMethod.POST)
-	public String afterPayment(String imp_success, HttpSession session) {
-		String costCode = (String) session.getAttribute("costCode");
-		String result;
-		if(imp_success.equals(true)) {
-			service.updateCostStatus(costCode);
-			result = "redirect:./successPayment.do";
-		}else {
-			result = "redirect:./falsePayment.do";
-		}
-		log.info("Controller_afterPayment.do 실행");
-		return result;
-	}
-	
-//	@RequestMapping(value = "/successPayment.do", method = RequestMethod.GET)
-//	public String successPayment() {
-//		log.info("Controller_successPayment.do 실행");
-//		return "storage/successPayment";
-//	}
-	
-	@RequestMapping(value = "/falsePayment.do", method = RequestMethod.GET)
-	public String falsePayment() {
-		log.info("Controller_falsePayment.do 실행");
-		return "storage/falsePayment";
 	}
 
 }
