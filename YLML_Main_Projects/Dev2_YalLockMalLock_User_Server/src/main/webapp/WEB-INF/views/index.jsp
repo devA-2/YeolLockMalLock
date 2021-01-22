@@ -37,10 +37,13 @@
    </c:if>
    <hr>
    <c:if test="${mem != null}">
-   <a href="./reportList.do">게시판</a><br>
+   <a href="./reportList.do">신고 게시판</a><br>
    </c:if>
    <hr>
-
+      <c:if test="${mem != null}">
+   <a href="#">유실물 게시판</a><br>
+   </c:if>
+   <hr>
    <a href="./storage/map.do">보관</a><br>
   <hr>
    <a href="./storage/userStorageList.do">보관조회</a><br>

@@ -14,7 +14,11 @@
 <script type="text/javascript" src="<%=ctx %>/SE2/js/HuskyEZCreator.js" charset="utf-8"></script>
 <script type="text/javascript">
 	function goBack(){
-		location.href="./reportList.do?";
+		if (confirm("글을 입력하지 않고 돌아가시겠습니까?")==true) {
+			location.href="./reportList.do?";
+		}else{
+			return;
+		}
 	}
 	
 	var isShow = true;
