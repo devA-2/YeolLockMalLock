@@ -65,10 +65,10 @@ public class DeliveryService implements DeliveryIService{
 	/*
 	 * 로그인
 	 */
-	public MemberDto login(Map<String, Object> map) {
+	public MemberDto enDelLogin(Map<String, Object> map) {
 		String enPw = pwEncoder.encode((String) map.get("pw"));
 		map.put("pw", enPw);
-		return (MemberDto)helper.request("login.do", map);
+		return (MemberDto)helper.request("enDelLogin.do", map);
 	}
 	
 	/*

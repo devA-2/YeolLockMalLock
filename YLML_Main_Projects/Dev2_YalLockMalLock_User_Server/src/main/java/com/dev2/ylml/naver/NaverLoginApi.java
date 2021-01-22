@@ -24,5 +24,7 @@ public class NaverLoginApi extends DefaultApi20 {
 	protected String getAuthorizationBaseUrl() {
 		return "https://nid.naver.com/oauth2.0/authorize";
 	}
+	
+	
 
 }

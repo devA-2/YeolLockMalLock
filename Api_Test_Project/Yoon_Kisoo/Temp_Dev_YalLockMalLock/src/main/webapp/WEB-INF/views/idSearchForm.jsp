@@ -30,7 +30,7 @@ if(result!='true'){
 			<div>이름</div>
 				<input type="text" name="name" required="required" value="윤기수"/>
 			<div>휴대폰 번호</div>
-				<input type="text" name="phone_num" id="phone_num" required="required" value="01026169251" maxlength="20" size="20"><br>
+				<input type="text" name="phoneNum" id="phoneNum" required="required" maxlength="20" size="20"><br>
 			
 			<input type="submit" id="login" name="login" class="btn btn-success" value="해당정보로 아이디 찾기">&nbsp;&nbsp;
 		</form>
