@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.min.edu.model.RFIDIDao">
+<mapper namespace="com.dev2.ylml.dao.RFIDIDao">
 	
 	<insert id="insertGoods" parameterType="RFIDDto">
 		INSERT INTO STORAGE_GOODS

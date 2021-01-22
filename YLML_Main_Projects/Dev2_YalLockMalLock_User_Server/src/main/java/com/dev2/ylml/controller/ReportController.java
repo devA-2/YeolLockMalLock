@@ -66,8 +66,8 @@ public class ReportController {
 		model.addAttribute("dto", dto);
 		session.setAttribute("mem", mem);
 		
-//		return "viewReportDetail";
-		return "adminReportList";
+		return "selectDetailReport";
+//		return "adminReportList";
 	}
 	
 //	@SuppressWarnings("unchecked")

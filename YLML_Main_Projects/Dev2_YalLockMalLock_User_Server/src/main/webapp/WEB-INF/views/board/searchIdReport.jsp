@@ -11,12 +11,13 @@
 <body>
 	<div style="width: 360px; height: 600px; border: 1px solid black; margin:auto;">
 		<table class="table table-hover">
-			<c:forEach items="${lists}" var="vo" varStatus="vs">
-				<tr onclick="location.href='./selectOneReport.do?seq=${vo.seq}'">
+			<c:forEach items="${lists}" var="vo">
+				<tr onclick="goDetail(${vo.refer})">
 					<td>${vo.seq}</td>
 					<td>${vo.regdate}</td>
 					<td>${vo.title}</td>
 					<td>${vo.email}</td>
+					<td>${vo.refer }</td>
 				</tr>
 			</c:forEach>
 		</table>

@@ -22,46 +22,23 @@
 	function historys(){
 		window.history.back();
 	}
-	function replyGo(seq){
-		location.href='./replyReport.do?seq='+seq;
-	}
 </script>
 
 </head>
-<%
-	Object obj = session.getAttribute("mem");
-	MemberDto mem = (MemberDto)obj;
-	
-	Object obj2 = session.getAttribute("lists");
-	ReportDto lists = (ReportDto)obj2;
-%>
 <body>
-	<div id="container">
+	<div style="width: 360px; height: 600px; border: 1px solid black; margin:auto;">
 		<table>
 			<c:forEach items="${lists}" var="vo">
 				<tr>
 					<td>${vo.regdate}</td>
 					<td>${vo.title}</td>
 					<td>${vo.email}</td>
+				</tr>
+				<tr>
 					<td>${vo.content }</td>
 				</tr>
 			</c:forEach>
 		</table>
 		<button onclick="historys()">뒤로 가기</button>
-<%-- 		<% --%>
-			
-<!-- 			if(mem.getAuth() == 90){ -->
-<!-- 				%> -->
-<%-- 					<c:forEach items="${lists}" var="vo" varStatus="vs"> --%>
-<%-- 					<button onclick="replyGo(${vo.seq})">답변 글 작성</button> --%>
-<%-- 					</c:forEach> --%>
-<%-- 				<% --%>
-<!-- 			} -->
-			
-<!-- 		%> -->
-	</div>
-<!-- 	<div> -->
-<%-- 		<button onclick="replyGo(${lists.seq})">답변 글 작성</button> --%>
-<!-- 	</div> -->
 </body>
 </html>
