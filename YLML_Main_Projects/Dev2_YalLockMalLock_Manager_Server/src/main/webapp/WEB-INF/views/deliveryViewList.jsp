@@ -7,7 +7,7 @@
 
 	<c:set var="lists" value="${lists}"/>
 	<c:if test="${!empty lists}">
-	${lists}
+<%-- 	${lists} --%>
 	<table border="1">
 		<tr>
 			<th>이메일</th>

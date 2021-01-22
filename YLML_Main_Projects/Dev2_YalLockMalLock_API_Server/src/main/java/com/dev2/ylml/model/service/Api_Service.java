@@ -745,7 +745,6 @@ public class Api_Service implements Api_IService{
 		}
 		Map<String, Object> login = (Map<String, Object>)helper.getData(map);
 		Manager_MemberDto dto = managerLoginDao.loginMember(login);
-		
 		return helper.generateData(dto);
 	}
 
@@ -755,7 +754,7 @@ public class Api_Service implements Api_IService{
 		if(!helper.checkKey(map)) {
 			return helper.keyFailed();
 		}
-		List<Manager_MemberDto> dto = manager_memberDao.selectallDelivery();
+		List<Manager_MemberDto> dto = manager_memberDao.selectAllDelivery();
 		return helper.generateData(dto);
 	}
 
@@ -777,7 +776,7 @@ public class Api_Service implements Api_IService{
 			return helper.keyFailed();
 		}
 		String email = (String)helper.getData(map);
-		Manager_MemberDto dto = manager_memberDao.DeliveryInfo(email);
+		Manager_MemberDto dto = manager_memberDao.deliveryInfo(email);
 		return helper.generateData(dto);
 	}
 
@@ -893,7 +892,7 @@ public class Api_Service implements Api_IService{
 			return helper.keyFailed();
 		}
 		String seq = (String)helper.getData(map);
-		boolean isc = manager_storageDao.ActivateStorage(seq);
+		boolean isc = manager_storageDao.activateStorage(seq);
 		return helper.generateData(isc);
 	}
 

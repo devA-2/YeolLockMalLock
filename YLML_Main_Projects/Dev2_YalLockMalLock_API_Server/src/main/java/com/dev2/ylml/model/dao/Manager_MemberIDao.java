@@ -10,7 +10,7 @@ public interface Manager_MemberIDao {
 	/** 담당자 및 배송원 전체 정보조회
 	 * @return
 	 */
-	public List<Manager_MemberDto> selectallDelivery();
+	public List<Manager_MemberDto> selectAllDelivery();
 	
 	/** 상세 정보조회
 	 * @param email
@@ -22,7 +22,7 @@ public interface Manager_MemberIDao {
 	 * @param email
 	 * @return
 	 */
-	public Manager_MemberDto DeliveryInfo(String email);
+	public Manager_MemberDto deliveryInfo(String email);
 	
 	
 	/**임시권한 담당자 및 배송원 정보조회

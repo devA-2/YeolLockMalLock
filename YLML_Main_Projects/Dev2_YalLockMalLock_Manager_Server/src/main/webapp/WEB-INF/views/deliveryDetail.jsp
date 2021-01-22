@@ -47,18 +47,18 @@ ${isc}
 	<div>
 	<p>아이디 : ${list1.email}</p>
 	<p>이  름  : ${list1.name}</p>
-	<p>전화번호 : ${list1.phone_num}</p>
-	<p>등록일 : ${list1.reg_date}</p>
-	<p>탈퇴일 : ${list1.leave_date}</p>
+	<p>전화번호 : ${list1.phoneNum}</p>
+	<p>등록일 : ${list1.regDate}</p>
+	<p>탈퇴일 : ${list1.levDate}</p>
 	<p>권  한 : ${list1.auth}</p>
 	</div>
 <hr>
 <h1>배송정보</h1>
 	<div>
-	<p>배송코드 : ${list2.delivery_code}</p>
-	<p>현재위치  : ${list2.current_loc}</p>
-	<p>배송시작 : ${list2.delivery_start}</p>
-	<p>배송완료 : ${list2.delivery_arrive}</p>
+	<p>배송코드 : ${list2.deliveryCode}</p>
+	<p>현재위치  : ${list2.currentLoc}</p>
+	<p>배송시작 : ${list2.deliveryStart}</p>
+	<p>배송완료 : ${list2.deliveryArrive}</p>
 	</div>
 	
 <button style="color:blue; font-size: large; font-weight: bold;" onclick="authCheck()">임시권한 변경</button>

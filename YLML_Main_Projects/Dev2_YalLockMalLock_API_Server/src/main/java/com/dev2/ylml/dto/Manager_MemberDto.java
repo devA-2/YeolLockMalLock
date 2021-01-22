@@ -14,15 +14,15 @@ public class Manager_MemberDto implements Serializable{
 	public String email;
 	public String pw;
 	public String name;
-	public String phone_num;
+	public String phoneNum;
 	public String auth;
-	public String deliveryman_id;
-	public String delivery_code;
-	public String current_loc;
-	public String reg_date;
-	public String lev_date;
-	public String delivery_start;
-	public String delivery_arrive;
+	public String deliverymanId;
+	public String deliveryCode;
+	public String currentLoc;
+	public String regDate;
+	public String levDate;
+	public String deliveryStart;
+	public String deliveryArrive;
 	
 	
 }

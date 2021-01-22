@@ -22,9 +22,9 @@ public class Manager_MemberDao implements Manager_MemberIDao {
 	
 	// 담당자 및 배송원 전체 정보조회 id="selectDelivery" 
 	@Override
-	public List<Manager_MemberDto> selectallDelivery() {
-		logger.info("Daoimpl + selectallDelivery");
-		return sqlSession.selectList(NS+"selectallDelivery");
+	public List<Manager_MemberDto> selectAllDelivery() {
+		logger.info("Daoimpl + selectAllDelivery");
+		return sqlSession.selectList(NS+"selectAllDelivery");
 	}
 	
 	// 상세 정보조회 id="selectDetail"
@@ -35,9 +35,9 @@ public class Manager_MemberDao implements Manager_MemberIDao {
 	}
 	// 배송 정보조회 id="DeliveryInfo"
 	@Override
-	public Manager_MemberDto DeliveryInfo(String email) {
-		logger.info("Daoimpl + DeliveryInfo");
-		return sqlSession.selectOne(NS+"DeliveryInfo", email);
+	public Manager_MemberDto deliveryInfo(String email) {
+		logger.info("Daoimpl + deliveryInfo");
+		return sqlSession.selectOne(NS+"deliveryInfo", email);
 	}
 	
 	

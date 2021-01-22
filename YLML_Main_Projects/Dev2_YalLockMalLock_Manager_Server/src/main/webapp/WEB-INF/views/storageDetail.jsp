@@ -9,16 +9,16 @@
 <title>보관함 상세조회</title>
 <script type="text/javascript">
 	// box_seq = ${vs.index+1} 클릭한 버튼의 인덱스
-	function statusChange(box_seq) {
+	function statusChange(boxSeq) {
 // 		console.log(box_seq);
 		
-		var storage_id = "${list.storage_id}";
+		var storageId = "${list.storageId}";
 // 		console.log(storage_id);
 		var answer = confirm("보관함 상태를 사용가능으로 변경하시겠습니까?");
 		
 		if(answer){
-			var url = 'ActivateStorage.do?box_seq=' + box_seq +
-					  '&storage_id=' + storage_id;
+			var url = 'activateStorage.do?boxSeq=' + boxSeq +
+					  '&storageId=' + storageId;
 // 			console.log(url);
 			
 			location.href = url;
@@ -33,15 +33,15 @@
 <h1>보관함 상세조회</h1>
 <hr>
 <div>
-	<p>보관함 ID : ${list.storage_id}</p>
-	<p>보관함 이름 : ${list.storage_name}</p>
+	<p>보관함 ID : ${list.storageId}</p>
+	<p>보관함 이름 : ${list.storageName}</p>
 	<p>주 소 : ${list.address}</p>
 	<p>상세주소 : ${list.detail}</p>
 	<p>지하철역 : ${list.subway}</p>
 	<p>좌표 LAT : ${list.lat}</p>
 	<p>좌표 LNG : ${list.lng}</p>
 	<p>담당자 : ${list.manager}</p>
-	<p>보관함 갯수 : ${list.box_amount}</p>
+	<p>보관함 갯수 : ${list.boxAmount}</p>
 </div>
 <hr>
 
@@ -61,8 +61,8 @@
 	
 <c:forEach varStatus="vs" items="${lists}" var="dto">
 	<tr>
-		<td align="center">${dto.box_seq}</td>
-		<td align="center">${dto.box_status}</td>
+		<td align="center">${dto.boxSeq}</td>
+		<td align="center">${dto.boxStatus}</td>
 		<td align="center">
 			<button onclick="statusChange(${vs.index+1})">보관함 상태변경</button>
 		</td>
@@ -81,7 +81,7 @@
 
 
 <hr>
-<input style="font-size: large;" type="button" value="수정하기" onclick="location.href='./storageModify.do?storage_id=${list.storage_id}'">
+<input style="font-size: large;" type="button" value="수정하기" onclick="location.href='./storageModify.do?storageId=${list.storageId}'">
 <input style="font-size: large;" type="button" value="전체리스트" onclick="location.href='./allStorageList.do'">
 </body>
 </html>
