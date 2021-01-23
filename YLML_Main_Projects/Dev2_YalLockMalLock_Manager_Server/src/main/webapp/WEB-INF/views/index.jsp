@@ -34,6 +34,8 @@
    <c:if test="${mem == null}">
 	   <a href="./loginForm.do">로그인</a><br>
 	   <hr>
+	   <a href="managerMain.do">바로 메인으로</a><br>
+	   <hr>
    </c:if>
    </div>
 </div>
