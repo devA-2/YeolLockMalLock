@@ -41,8 +41,6 @@ public class ManagerService implements ManagerIService{
 	 * 로그인
 	 */
 	public MemberDto adminLogin(Map<String, Object> map) {
-		String enPw = pwEncoder.encode((String) map.get("pw"));
-		map.put("pw", enPw);
 		return (MemberDto)helper.request("adminLogin.do", map);
 	}
 	
@@ -63,19 +61,23 @@ public class ManagerService implements ManagerIService{
 	public List<String> memberIdSearch() {
 		return (List<String>)helper.request("memberIdSearch.do");
 	}
-
+	
+	/*
+	 *  회원상세정보
+	 */
 	@Override
 	public MemberDto detailMember(String email) {
 		return (MemberDto)helper.request("detail.do", email);
 	}
-
+	
+	/*
+	 * 회원상세정보(사용유무)
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<StorageGoodsDto> memberUsing(String email) {
 		return (List<StorageGoodsDto>)helper.request("memberUsing.do",email);
 	}
-	
-	
 	
 
 	//-------------------------------------------------------------

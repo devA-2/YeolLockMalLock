@@ -212,14 +212,15 @@ public class MemberController {
 		System.out.println(map.toString()); 		// 맵 정보 확인용
 		MemberDto dto = iService.login(map);
 		log.info("MemberController login : " + dto);
-		session.setAttribute("mem", dto);
 		/////////////////////////////////////
 		String page ="";
 		if(dto ==null) {
 			page = "redirect:./signUpForm.do";
 		}else if(dto.getAuth()==19) {
+			session.setAttribute("mem", dto);
 			page = "redirect:./emailAuthForm.do";
 		}else {
+			session.setAttribute("mem", dto);
 			page = "redirect:/index.do";
 		}
 		return page;

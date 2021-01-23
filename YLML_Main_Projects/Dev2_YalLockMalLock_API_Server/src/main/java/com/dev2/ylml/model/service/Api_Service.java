@@ -165,9 +165,9 @@ public class Api_Service implements Api_IService{
 			return helper.keyFailed();
 		}
 		Map<String, Object> res = (Map<String, Object>) helper.getData(map);
-		MemberDto dto = memberDao.delLogin(res);
+			MemberDto dto = (memberDao.enPw(res))?memberDao.delLogin(res):null;
+			return helper.generateData(dto);
 		
-		return helper.generateData(dto);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -177,9 +177,9 @@ public class Api_Service implements Api_IService{
 			return helper.keyFailed();
 		}
 		Map<String, Object> res = (Map<String, Object>) helper.getData(map);
-		MemberDto dto = memberDao.adminLogin(res);
+			MemberDto dto = (memberDao.enPw(res))?memberDao.adminLogin(res):null;
+			return helper.generateData(dto);
 		
-		return helper.generateData(dto);
 	}
 	
 	@SuppressWarnings("unchecked")

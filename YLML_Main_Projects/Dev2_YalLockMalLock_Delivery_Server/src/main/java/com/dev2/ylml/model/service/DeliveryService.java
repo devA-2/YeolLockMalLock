@@ -21,6 +21,7 @@ public class DeliveryService implements DeliveryIService{
 	@Autowired
 	private PasswordEncoder pwEncoder;
 	
+	
 	@Override
 	@SuppressWarnings("unchecked")
 	public HashMap<String, String> getSampleData(String id, String pw) {
@@ -65,10 +66,8 @@ public class DeliveryService implements DeliveryIService{
 	/*
 	 * 로그인
 	 */
-	public MemberDto enDelLogin(Map<String, Object> map) {
-		String enPw = pwEncoder.encode((String) map.get("pw"));
-		map.put("pw", enPw);
-		return (MemberDto)helper.request("enDelLogin.do", map);
+	public MemberDto delLogin(Map<String, Object> map) {
+		return (MemberDto)helper.request("delLogin.do", map);
 	}
 	
 	/*
