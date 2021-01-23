@@ -182,7 +182,7 @@ public class MemberController {
 		if(dto.getAuth() == 89) {
 			page = "member/loginForm";
 		}else {
-			page = "redirect:./index.do";
+			page = "redirect:/index.do";
 		}
 		return page;
 	}	
@@ -388,8 +388,10 @@ public class MemberController {
 	public String quitMember(HttpSession session) {
 		String email = ((MemberDto)session.getAttribute("mem")).getEmail();
 		int result = iService.quitMember(email);
-		// TODO : 탈퇴가 정상적으로 처리되었다고 띄어주어야함 어디서 띄우지..?
-		return "redirect:./logout.do";
+		if(result>0) {
+			return "redirect:./logout.do";
+		}
+		return "redirect:./myPage.do";
 	}
 	
 }

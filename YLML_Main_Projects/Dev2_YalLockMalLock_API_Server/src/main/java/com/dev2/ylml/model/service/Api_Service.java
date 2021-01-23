@@ -13,8 +13,7 @@ import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 
 import com.dev2.ylml.util.ApiServerHelper;
-
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.dev2.ylml.dto.MemberDto;
 import com.dev2.ylml.dto.ReportDto;
 import com.dev2.ylml.dto.LostPropertyDto;
@@ -155,8 +154,6 @@ public class Api_Service implements Api_IService{
 		}
 		Map<String, Object> res = (Map<String, Object>) helper.getData(map);
 			MemberDto dto = (memberDao.enPw(res))?memberDao.login(res):null;
-			System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+memberDao.enPw(res));
-			System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+memberDao.login(res));
 			return helper.generateData(dto);
 		
 	}
@@ -268,7 +265,7 @@ public class Api_Service implements Api_IService{
 			return helper.keyFailed();
 		}
 		String email = (String) helper.getData(map);
-		int isc = memberDao.usingCheck(email);
+		int isc = memberDao.quitMember(email);
 		
 		return helper.generateData(isc);
 	}
@@ -541,22 +538,25 @@ public class Api_Service implements Api_IService{
 		return helper.generateData(time);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Object> insertDelivery(Map<String, Object> map) {
 		if(!helper.checkKey(map)) {
 			return helper.keyFailed();
 		}
-		DeliveryDto delDto = (DeliveryDto) helper.getData(map);
-		StorageGoodsDto goodsDto = (StorageGoodsDto) helper.getData(map);
-		boolean isc1 = StorageDeliveryDao.insertDelivery(delDto);
-		goodsDto.setDeliveryCode(delDto.getDeliveryCode());
-		if(goodsDto.getCategoryCode().equals("R")) {
-			goodsDto.setCategoryCode("RD");
+		Map<String, Object> dtos = (Map<String, Object>) helper.getData(map);
+		ObjectMapper mapper = new ObjectMapper();
+		DeliveryDto deliveryDto = mapper.convertValue(dtos.get("DeliveryDto"), DeliveryDto.class);
+		StorageGoodsDto storageGoodsDto = mapper.convertValue(dtos.get("StorageGoodsDto"), StorageGoodsDto.class);
+		boolean isc1 = StorageDeliveryDao.insertDelivery(deliveryDto);
+		storageGoodsDto.setDeliveryCode(deliveryDto.getDeliveryCode());
+		if(storageGoodsDto.getCategoryCode().equals("R")) {
+			storageGoodsDto.setCategoryCode("RD");
 		}else {
-			goodsDto.setCategoryCode("D");
+			storageGoodsDto.setCategoryCode("D");
 		}
-		boolean isc2 = StorageDeliveryDao.updateDeliveryCode(goodsDto);
-		boolean isc3 = StorageDeliveryDao.updateDeliveryCost(goodsDto);
+		boolean isc2 = StorageDeliveryDao.updateDeliveryCode(storageGoodsDto);
+		boolean isc3 = StorageDeliveryDao.updateDeliveryCost(storageGoodsDto);
 		return helper.generateData((isc1 || isc2 || isc3)? true:false);
 	}
 
@@ -631,7 +631,8 @@ public class Api_Service implements Api_IService{
 			return helper.keyFailed();
 		}
 		ReportDto dto = (ReportDto)helper.getData(map);
-		return helper.generateData(reportDao.insertReport(dto));
+		boolean isc = reportDao.insertReport(dto);
+		return helper.generateData(isc);
 	}
 
 	@Override
@@ -912,7 +913,6 @@ public class Api_Service implements Api_IService{
 		if(!helper.checkKey(map)) {
 			return helper.keyFailed();
 		}
-		String email = (String)helper.getData(map);
 		List<String> list = memberDao.memberIdSearch();
 		return helper.generateData(list);
 	}

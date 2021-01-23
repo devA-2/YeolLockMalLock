@@ -17,50 +17,23 @@
 		text-align: center;
 		margin: auto;
 	}
+	
 </style>
 <script type="text/javascript">
-	function historys(){
-		window.history.back();
-	}
-	function replyGo(seq){
-		location.href='./replyReport.do?seq='+seq;
+	function goHome(){
+		location.href="./reportList.do?";
 	}
 </script>
 
 </head>
-<%
-	Object obj = session.getAttribute("mem");
-	MemberDto mem = (MemberDto)obj;
-	
-	Object obj2 = session.getAttribute("lists");
-	ReportDto lists = (ReportDto)obj2;
-%>
 <body>
-	<div id="container">
-		<table>
+	<div style="width: 360px; height: 600px; border: 1px solid black; margin:auto;">
 			<c:forEach items="${lists}" var="vo">
-				<tr>
-					<td>${vo.regdate}</td>
-					<td>${vo.title}</td>
-					<td>${vo.email}</td>
-				</tr>
+					<span>작성일 : ${vo.regdate}</span><br>
+					<span>제목 : ${vo.title}</span><br>
+					<span>작성자 : ${vo.email}</span><br>
+					<span>내용 : ${vo.content }</span><br>
 			</c:forEach>
-		</table>
-		<button onclick="historys()">뒤로 가기</button>
-<%-- 		<% --%>
-			
-<!-- 			if(mem.getAuth() == 90){ -->
-<!-- 				%> -->
-<%-- 					<c:forEach items="${lists}" var="vo" varStatus="vs"> --%>
-<%-- 					<button onclick="replyGo(${vo.seq})">답변 글 작성</button> --%>
-<%-- 					</c:forEach> --%>
-<%-- 				<% --%>
-<!-- 			} -->
-			
-<!-- 		%> -->
-	</div>
-<!-- 	<div> -->
-<%-- 		<button onclick="replyGo(${lists.seq})">답변 글 작성</button> --%>
-<!-- 	</div> -->
+		<button onclick="goHome()">Home</button>
 </body>
 </html>

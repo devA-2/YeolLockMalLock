@@ -105,6 +105,8 @@ function istStation(storageId){
 		data: {"arriveStation":storageId},
 		success : function(info){
 			if(info.isc == "success"){
+				console.log(typeof info.boxSeq)
+				console.log(typeof info.deliveryCost)
 				html = "<div>"
 				html += "<input type='hidden' name='boxSeq' value='"+info.boxSeq+"'>"
 				html += "<input type='hidden' name='storageId' value='"+info.storageId+"'>"
@@ -124,11 +126,12 @@ function istStation(storageId){
 				html += "</div>"
 				html += "<div>"
 				html += "<label for='deliveryCost'>배송 비용 : </label>"
-				html += "<span id='deliveryCost' name='deliveryCost'>"+info.deliveryCost+"원</span>"
+				html += "<span id='deliveryCost'>"+info.deliveryCost+"원</span>"
+				html += "<input type='hidden' name='deliveryCost' value='"+info.deliveryCost+"'>"
 				html += "</div>"
 				html += "<div>"
 				html += "<label for='deliverymanName'>담당 배달원 : </label>"
-				html += "<span id='deliverymanName' >"+info.delManInfo.deliverymanName+"배달원</span>"
+				html += "<span id='deliverymanName'>"+info.delManInfo.deliverymanName+"배달원</span>"
 				html += "<input type='hidden' name='deliverymanId' value='"+info.delManInfo.deliverymanId+"'>"
 				html += "</div>"
 				html += "<div>"
@@ -155,7 +158,7 @@ function istStation(storageId){
 				html += "<label for='msg'></label>"
 				html += "<span>동일 역을 선택했습니다.</span>"
 				html += "</div>"
-				$('#result').html(html)	
+				$('#result').html(html)
 			}
 		},
 		error: function(){
