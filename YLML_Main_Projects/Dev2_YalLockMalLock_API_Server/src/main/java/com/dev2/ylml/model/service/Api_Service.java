@@ -33,7 +33,6 @@ import com.dev2.ylml.model.dao.ReportDao;
 import com.dev2.ylml.model.dao.ReportIDao;
 import com.dev2.ylml.model.dao.SearchIDao;
 import com.dev2.ylml.model.dao.StorageIDao;
-import com.dev2.ylml.model.dao.ManagerLoginIDao;
 import com.dev2.ylml.model.dao.Manager_MemberIDao;
 import com.dev2.ylml.model.dao.Manager_StorageIDao;
 
@@ -50,8 +49,6 @@ public class Api_Service implements Api_IService{
 	@Autowired
 	private Manager_MemberIDao manager_memberDao;
   
-	@Autowired
-	private ManagerLoginIDao managerLoginDao;
   
 	@Autowired
 	private StorageIDao storageDao;
@@ -722,32 +719,7 @@ public class Api_Service implements Api_IService{
 	
 	/************************************관리자************************************/
 	/************************************재우************************************/
-	/*사용 예제*//*service.insertMember -> insertMember.do 와 매핑*/
 	
-	/* if문은 무조건 있어야함 */
-	//if(!helper.checkKey(map)) {
-	//	return helper.keyFailed();
-	//}
-	/* 데이터는 helper.getData로 웹에서 받은 데이터를 가져옴 */
-	//MemberDto dto = (MemberDto)helper.getData(map);
-	/* 전달할 값은 그냥 편하게 작성*/
-	//boolean isc=memberDao.insertMember(dto);
-	
-	
-	/* 전달할 값을 helper.generateData(-----)에 넣어서 return 하면 됨 */
-	//return helper.generateData(isc);
-	
-	@SuppressWarnings("unchecked")
-	// 관리자 로그인
-	@Override
-	public Map<String, Object> loginMember(Map<String, Object> map) {
-		if(!helper.checkKey(map)) {
-			return helper.keyFailed();
-		}
-		Map<String, Object> login = (Map<String, Object>)helper.getData(map);
-		Manager_MemberDto dto = managerLoginDao.loginMember(login);
-		return helper.generateData(dto);
-	}
 
 	// 담당자 및 배송원 전체 정보조회
 	@Override
