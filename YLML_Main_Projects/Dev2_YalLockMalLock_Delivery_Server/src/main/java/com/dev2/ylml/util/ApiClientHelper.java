@@ -108,8 +108,6 @@ public class ApiClientHelper {
 			System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@"+array.getClass().getName()+"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 			List<T> langList = new ArrayList(Arrays.asList(dtos));
 			
-			
-			
 			System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@"+result.get(0).getClass().getName()+"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 			System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@"+langList.get(0).getClass().getName()+"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 			return langList;

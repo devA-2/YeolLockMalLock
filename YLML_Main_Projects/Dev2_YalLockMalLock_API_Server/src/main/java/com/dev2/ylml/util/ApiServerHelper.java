@@ -1,23 +1,9 @@
 package com.dev2.ylml.util;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
+import java.lang.reflect.Type;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.util.EntityUtils;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -60,18 +46,12 @@ public class ApiServerHelper {
 		
 	}
 	
-	public <T> Map<String, Object> generateData(T data) {
+	public Map<String, Object> generateData(Object data) {
 		Map<String, Object> map= keySucceed();
 		//팀원들에게 Null을 쓰지말라고 전파하였으나 null을 유용하게 사용하고있어서 null 값도 처리하게 (억지로) 수정함..
 		if(data!=null) {
 			map.put("data",data);
-			if(data.getClass().getName().equals("java.util.ArrayList")) {
-				map.put("dto", ((List<?>)data).get(0).getClass().getName());
-			}
-
-			
-			
-			map.put("className", data.getClass().getName());
+			Type[] types = data.getClass().getGenericInterfaces();
 		}else {
 			map.put("data","null");
 			map.put("className", "null");
