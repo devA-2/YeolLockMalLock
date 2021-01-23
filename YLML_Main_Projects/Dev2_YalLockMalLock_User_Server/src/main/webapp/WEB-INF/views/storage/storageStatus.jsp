@@ -78,8 +78,8 @@ div.btn{
 				</c:choose>
 			</c:forEach>
 		</div>
-<%-- 		<input type="hidden" name="email" value="${mem.email}"> --%>
-		<input type="hidden" name="email" value="user01@naver.com">
+		<input type="hidden" name="email" value="${mem.email}">
+<!-- 		<input type="hidden" name="email" value="user01@naver.com"> -->
 		<input type="hidden" id='id' name="id" value="${storageInfo.value}">
 		<input type="hidden" name="boxSeq" id="boxSeq" value="0">
 		<input type="button" class="btn btn-info btn-lg" onclick="clickCheck()" value="다음">

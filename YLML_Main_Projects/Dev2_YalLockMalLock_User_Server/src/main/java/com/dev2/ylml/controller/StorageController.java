@@ -178,7 +178,6 @@ public class StorageController {
 	@ResponseBody
 	@RequestMapping(value="/checkOutUser.do",method = RequestMethod.GET)
 	public String checkOutEmail(String email) {
-		System.out.println(email+"zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
 		String checkedEmail = service.checkOutEmail(email);
 		log.info("수령 사용자 이메일 확인 -> "+email+ " 받아온 이메일 : "+ checkedEmail);
 		return checkedEmail;
@@ -305,7 +304,39 @@ public class StorageController {
 	}
 
 	//************************************************************************************************88
-	
+
+
+	@RequestMapping(value = "/paymentPage.do", method = RequestMethod.GET)
+	public String paymentPage() {
+		log.info("Controller_paymentPage.do 실행");
+		return "storage/payment";
+	}
+
+	@RequestMapping(value = "/resultPayment.do", method = RequestMethod.POST)
+	public String afterPayment(String imp_success, HttpSession session) {
+		String costCode = (String) session.getAttribute("costCode");
+		String result;
+		if(imp_success.equals(true)) {
+			service.updateCostStatus(costCode);
+			result = "redirect:./successPayment.do";
+		}else {
+			result = "redirect:./falsePayment.do";
+		}
+		log.info("Controller_afterPayment.do 실행");
+		return result;
+	}
+
+	//@RequestMapping(value = "/successPayment.do", method = RequestMethod.GET)
+	//public String successPayment() {
+	//	log.info("Controller_successPayment.do 실행");
+	//	return "storage/successPayment";
+	//}
+
+	@RequestMapping(value = "/falsePayment.do", method = RequestMethod.GET)
+	public String falsePayment() {
+		log.info("Controller_falsePayment.do 실행");
+		return "storage/falsePayment";
+	}
 	
 	/**
 	 * 보관 정보 조회(사용자)
@@ -315,9 +346,9 @@ public class StorageController {
 	 */
 	@RequestMapping(value = "/userStorageList.do", method = RequestMethod.GET)
 	public String userStorageList(Model model, HttpSession session) {
-//		MemberDto mDto = (MemberDto) session.getAttribute("mem");
-//		String email = mDto.getEmail();
-		String email = "user01@naver.com";
+		MemberDto mDto = (MemberDto) session.getAttribute("mem");
+		String email = mDto.getEmail();
+//		String email = "user01@naver.com";
 		System.out.println("이메일 확인 !! "+email);
 		List<UserStorageListDto> storageList = service.selectUserStorageList(email);
 		model.addAttribute("list", storageList);
@@ -653,37 +684,6 @@ public class StorageController {
 		log.info("Controller_checkDeliveryInfo.do 실행");
 		return "delivery/deliveryList";
 	}
-		
-	@RequestMapping(value = "/paymentPage.do", method = RequestMethod.GET)
-	public String paymentPage() {
-		log.info("Controller_paymentPage.do 실행");
-		return "storage/payment";
-	}
-	
-	@RequestMapping(value = "/resultPayment.do", method = RequestMethod.POST)
-	public String afterPayment(String imp_success, HttpSession session) {
-		String costCode = (String) session.getAttribute("costCode");
-		String result;
-		if(imp_success.equals(true)) {
-			service.updateCostStatus(costCode);
-			result = "redirect:./successPayment.do";
-		}else {
-			result = "redirect:./falsePayment.do";
-		}
-		log.info("Controller_afterPayment.do 실행");
-		return result;
-	}
-	
-//	@RequestMapping(value = "/successPayment.do", method = RequestMethod.GET)
-//	public String successPayment() {
-//		log.info("Controller_successPayment.do 실행");
-//		return "storage/successPayment";
-//	}
-	
-	@RequestMapping(value = "/falsePayment.do", method = RequestMethod.GET)
-	public String falsePayment() {
-		log.info("Controller_falsePayment.do 실행");
-		return "storage/falsePayment";
-	}
+
 
 }
