@@ -7,6 +7,6 @@
 <title>배송 성공</title>
 </head>
 <body>
-
+배송이 완료되었습니다.
 </body>
 </html>

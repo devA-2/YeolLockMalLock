@@ -11,7 +11,7 @@
 </head>
 <body>
 	<c:forEach var="list" items="${list}" varStatus="vs">
-			<c:if test="${list.inUser eq 'user01@naver.com'}">
+			<c:if test="${list.inUser eq mem.email}">
 				<form id="storeForm${vs.count}" method="post">
 					<div>
 						<span>보관</span><br>
@@ -37,7 +37,7 @@
 					<hr>
 				</form>
 			</c:if>
-			<c:if test="${list.outUser eq 'user01@naver.com'}">
+			<c:if test="${list.outUser eq mem.email}">
 				<form id="receiptForm${vs.count}" method="post">
 					<div>
 						<span>수령</span><br>

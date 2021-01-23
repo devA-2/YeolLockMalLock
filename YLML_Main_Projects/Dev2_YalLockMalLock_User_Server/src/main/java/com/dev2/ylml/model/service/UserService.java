@@ -240,10 +240,10 @@ public class UserService implements UserIService{
 	}
 
 	@Override
-	public boolean insertDelivery(DeliveryDto delDto, StorageGoodsDto goodsDto) {
+	public boolean insertDelivery(DeliveryDto deliveryDto, StorageGoodsDto storageGoodsDto) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("DeliveryDto", delDto);
-		map.put("StorageGoodsDto", goodsDto);
+		map.put("DeliveryDto", deliveryDto);
+		map.put("StorageGoodsDto", storageGoodsDto);
 		return (boolean) helper.request("insertDelivery.do", map);
 	}
 
