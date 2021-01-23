@@ -155,8 +155,6 @@ public class Api_Service implements Api_IService{
 		}
 		Map<String, Object> res = (Map<String, Object>) helper.getData(map);
 			MemberDto dto = (memberDao.enPw(res))?memberDao.login(res):null;
-			System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+memberDao.enPw(res));
-			System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+memberDao.login(res));
 			return helper.generateData(dto);
 		
 	}
@@ -268,7 +266,7 @@ public class Api_Service implements Api_IService{
 			return helper.keyFailed();
 		}
 		String email = (String) helper.getData(map);
-		int isc = memberDao.usingCheck(email);
+		int isc = memberDao.quitMember(email);
 		
 		return helper.generateData(isc);
 	}
@@ -913,7 +911,6 @@ public class Api_Service implements Api_IService{
 		if(!helper.checkKey(map)) {
 			return helper.keyFailed();
 		}
-		String email = (String)helper.getData(map);
 		List<String> list = memberDao.memberIdSearch();
 		return helper.generateData(list);
 	}
