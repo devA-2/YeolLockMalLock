@@ -17,9 +17,9 @@ var timer = null;
 var isRunning = false;
 
 $(document).ready(function(){
-	
-	$("#sendPhone_num").attr("disabled",true);
+	$("#checkSMS").hide();
 //	$("#signUpBtn").attr("disabled",true); // 회원가입 테스트 용이하게 하기 위함
+	$("#sendPhone_num").attr("disabled",true);
 	
 	        $('#sendPhone_num').click(function(){
 	            let phoneNumber = $('#phone_num').val();

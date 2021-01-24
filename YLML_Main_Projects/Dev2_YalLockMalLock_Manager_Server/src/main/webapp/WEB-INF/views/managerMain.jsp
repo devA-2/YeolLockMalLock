@@ -72,8 +72,7 @@
       
        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">회원 관리 <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a onclick="#">회원 1-1</a></li>
-          <li><a href="#">회원 1-2</a></li>
+          <li><a href="./allMember.do">회원조회</a></li>
         </ul>
       </li>
       

@@ -35,7 +35,7 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 
 		if(obj == null) {
 			// 로그인이 안되어 있는 상태이므로 로그인 폼으로 다시 돌려보냄
-			response.sendRedirect("/Dev2_YalLockMalLock_Delivery_Server/member/loginForm.do");
+			response.sendRedirect("/Dev2_YalLockMalLock_Manager_Server/member/loginForm.do");
 			return false; // 더 이상 컨트롤러로 요청이 가지 않도록 false 반환함 
 		}
 		// 컨트롤러로 이동
