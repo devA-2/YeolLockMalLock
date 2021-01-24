@@ -120,8 +120,13 @@ public interface MemberIDao {
 	 * @param email
 	 * @return list
 	 */
-	public List<MemberDto> selectAll(String email);
+	public List<MemberDto> selectAll(Map<String, Object> map);
 	
+	/**
+	 * 페이징처리 위한 전체 회원수 조회
+	 * @return
+	 */
+	public int countMember(String email);
 	/**
 	 * 회원 아이디로 검색
 	 * @return list

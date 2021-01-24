@@ -49,10 +49,16 @@ public class ManagerService implements ManagerIService{
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<MemberDto> selectAll(String email) {
-		return (List<MemberDto>)helper.request("selectAll.do", email);
+	public List<MemberDto> selectAll(Map<String, Object> map) {
+		return (List<MemberDto>)helper.request("selectAll.do", map);
 	}
-	
+	/*
+	 * 전체 회원수  
+	 */
+	@Override
+	public int countMember(String email) {
+		return (int) helper.request("countMember.do",email);
+	}
 	/*
 	 * 회원 아이디로 검색
 	 */
@@ -179,5 +185,7 @@ public class ManagerService implements ManagerIService{
 	public boolean activateStorage(String seq) {
 		return (boolean)helper.request("activateStorage.do", seq);
 	}
+
+
 
 }

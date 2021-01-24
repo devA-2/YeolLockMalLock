@@ -6,6 +6,7 @@
 # ide config file
 .dbeaver-data-sources*.xml
 .dbeaver/
+/Scripts/**/*.sql
 ### Eclipse ###
 .metadata
 bin/

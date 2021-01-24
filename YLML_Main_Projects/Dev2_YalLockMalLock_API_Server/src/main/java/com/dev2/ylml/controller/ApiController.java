@@ -358,6 +358,11 @@ public class ApiController {
 		return service.selectAll(map);
 	}
 	@ResponseBody
+	@RequestMapping(value = "countMember.do")
+	public Map<String, Object> countMember(@RequestBody Map<String, Object> map) {
+		return service.countMember(map);
+	}
+	@ResponseBody
 	@RequestMapping(value = "memberIdSearch.do")
 	public Map<String, Object> memberIdSearch(@RequestBody Map<String, Object> map) {
 		return service.memberIdSearch(map);
@@ -371,5 +376,17 @@ public class ApiController {
 	@RequestMapping(value = "memberUsing.do")
 	public Map<String, Object> memberUsing(@RequestBody Map<String, Object> map) {
 		return service.memberUsing(map);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "countReport.do")
+	public Map<String, Object> countReport(@RequestBody Map<String, Object> map) {
+		return service.countReport(map);
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "selectReport.do")
+	public Map<String, Object> selectReport(@RequestBody Map<String, Object> map) {
+		return service.selectReport(map);
 	}
 }

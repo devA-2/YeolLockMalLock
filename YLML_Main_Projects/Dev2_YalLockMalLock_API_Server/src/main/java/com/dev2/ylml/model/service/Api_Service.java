@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 
 import com.dev2.ylml.util.ApiServerHelper;
+import com.dev2.ylml.util.PagingVO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.dev2.ylml.dto.MemberDto;
 import com.dev2.ylml.dto.ReportDto;
@@ -714,8 +715,25 @@ public class Api_Service implements Api_IService{
 		return helper.generateData(searchDao.searchId2(receipt_user_id));
 	}
 
-	// -----------------------------------------------------------------
+	// ------------------------------------------------------페이징 기능
 
+	@Override
+	public Map<String, Object> countReport(Map<String, Object> map) {
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		int cnt = reportDao.countReport();
+		return helper.generateData(cnt);
+	}
+	@Override
+	public Map<String, Object> selectReport(Map<String, Object> map) {
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		PagingVO vo = (PagingVO)helper.getData(map);
+		List<ReportDto> list = reportDao.selectReport(vo);
+		return helper.generateData(list);
+	}
 	
 	/************************************관리자************************************/
 	/************************************재우************************************/
@@ -870,16 +888,25 @@ public class Api_Service implements Api_IService{
 	}
 
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Object> selectAll(Map<String, Object> map) {
 		if(!helper.checkKey(map)) {
 			return helper.keyFailed();
 		}
-		String email = (String)helper.getData(map);
-		List<MemberDto> list = memberDao.selectAll(email);
+		Map<String, Object> map2 = (Map<String, Object>) helper.getData(map);
+		List<MemberDto> list = memberDao.selectAll(map2);
 		return helper.generateData(list);
 	}
-
+	@Override
+	public Map<String, Object> countMember(Map<String, Object> map) {
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		String email = (String)helper.getData(map);
+		int cnt = memberDao.countMember(email);
+		return helper.generateData(cnt);
+	}
 	@Override
 	public Map<String, Object> memberIdSearch(Map<String, Object> map) {
 		if(!helper.checkKey(map)) {
@@ -908,6 +935,8 @@ public class Api_Service implements Api_IService{
 		List<StorageGoodsDto> dto = memberDao.memberUsing(email);
 		return helper.generateData(dto);
 	}
+
+
 
 	
 

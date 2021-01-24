@@ -27,6 +27,7 @@ import com.dev2.ylml.dto.MemberDto;
 import com.dev2.ylml.dto.ReportDto;
 import com.dev2.ylml.model.service.UserIService;
 import com.dev2.ylml.util.MailService;
+import com.dev2.ylml.util.PagingVO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -43,6 +44,29 @@ public class ReportController {
 		log.info("------------------ 신고글 목록 ------------------");
 		return "reportList";
 	}
+	
+	@RequestMapping(value="/pagingReportList.do")
+	public String pagingReportList(PagingVO vo, Model model,HttpSession session
+			, @RequestParam(value="nowPage", required=false)String nowPage
+			, @RequestParam(value="cntPerPage", required=false)String cntPerPage) {
+		
+		log.info("------------------ 신고글 목록 ------------------");
+		
+		int total = iService.countReport();
+		if (nowPage == null && cntPerPage == null) {
+			nowPage = "1";
+			cntPerPage = "5";
+		} else if (nowPage == null) {
+			nowPage = "1";
+		} else if (cntPerPage == null) { 
+			cntPerPage = "5";
+		}
+		vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+		model.addAttribute("paging", vo);
+		model.addAttribute("viewAll", iService.selectReport(vo));
+		return "board/pagingReportList";
+	}
+	
 	
 	// login session들고다니면서 테스트 진행함에 따라 사용하지 않는 상태. 취합할때 이걸로 변경해야함.
 	@RequestMapping(value="/reportList.do", method=RequestMethod.GET)

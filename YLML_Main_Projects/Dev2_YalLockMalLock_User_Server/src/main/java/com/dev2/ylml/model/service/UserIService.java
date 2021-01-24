@@ -14,6 +14,7 @@ import com.dev2.ylml.dto.StorageBoxDto;
 import com.dev2.ylml.dto.StorageGoodsDto;
 import com.dev2.ylml.dto.StorageListDto;
 import com.dev2.ylml.dto.UserStorageListDto;
+import com.dev2.ylml.util.PagingVO;
 import com.dev2.ylml.dto.LostPropertyDto;
 import com.dev2.ylml.dto.RFIDDto;
 import com.dev2.ylml.dto.ReportDto;
@@ -377,4 +378,15 @@ public interface UserIService {
 	 */
 	public boolean updateKey(RFIDDto dto);
 	
+	/**
+	 * 페이징 - 전체 게시글 갯수 가져오기
+	 * @return
+	 */
+	public int countReport();
+	/**
+	 * 페이징 - begin~end 만큼의 VO 가져오기
+	 * @param vo
+	 * @return
+	 */
+	public List<ReportDto> selectReport(PagingVO vo);
 }

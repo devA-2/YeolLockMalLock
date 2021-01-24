@@ -38,7 +38,7 @@
 				</form>
 			</c:if>
 			<c:if test="${list.outUser eq mem.email}">
-				<form id="receiptForm${vs.count}" method="get">
+				<form id="receiptForm${vs.count}" method="post">
 					<div>
 						<span>수령</span><br>
 						<input type="hidden" name="boxSeq" value="${list.boxSeq}">
@@ -66,7 +66,8 @@
 					</div>
 					<div>
 						<c:if test="${list.extendCnt<2}">
-							<button onclick="extendBtn(${vs.count})">연장</button>
+<!-- 						버튼 태그가 폼전체를 넘어가게 하는듯 -> input으로 수정함  -->
+							<input type="button" value="연장" onclick="extendBtn(${vs.count})">
 						</c:if>
 						<button onclick="paymentBtn(this.form)">결제</button>
 					</div>
