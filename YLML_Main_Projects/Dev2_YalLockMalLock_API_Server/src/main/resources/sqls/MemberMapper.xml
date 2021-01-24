@@ -4,14 +4,14 @@
 
 	<!-- 회원가입 (임시 : id_num 가져올수 없어서 테스트용으로 씀) -->
 	<insert id="insertMember" parameterType="MemberDto">
-		INSERT INTO MEMBER(ID_NUM, EMAIL, PW, NAME, PHONE_NUM)
-		VALUES (#{idNum}, #{email}, #{pw}, #{name},#{phoneNum})
+		INSERT INTO MEMBER(ID_NUM, EMAIL, PW, NAME, PHONE_NUM, AUTH)
+		VALUES (#{idNum}, #{email}, #{pw}, #{name},#{phoneNum}, #{auth})
 	</insert>
 
 	<!-- 회원가입 (자동으로 id_num 가져 올때 -->
 	<!-- <insert id="insertMember" parameterType="com.dev2.ylml.dto.MemberDto"> -->
-	<!-- INSERT INTO MEMBER(ID_NUM, EMAIL, PW, NAME, PHONE_NUM) -->
-	<!-- VALUES ('#{id_num}',#{email}, #{pw}, #{name},#{phone_num}) -->
+	<!-- INSERT INTO MEMBER(ID_NUM, EMAIL, PW, NAME, PHONE_NUM, AUTH) -->
+	<!-- VALUES ('#{id_num}',#{email}, #{pw}, #{name},#{phone_num}, #{auth}) -->
 	<!-- </insert> -->
 
 	<!-- 권한변경 -->
