@@ -107,9 +107,10 @@ public class DeliveryService implements DeliveryIService{
 	
 	
 	
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<DeliveryDto> selectDeliveryList(String email, String auth) {
-		return null;
+	public List<DeliveryDto> selectDeliveryList(Map<String, String> map) {
+		return (List<DeliveryDto>) helper.request("selectDeliveryList.do", map);
 	}
 
 	@Override

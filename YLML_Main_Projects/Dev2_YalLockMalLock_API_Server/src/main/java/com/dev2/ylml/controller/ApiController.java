@@ -283,11 +283,6 @@ public class ApiController {
 		return service.searchId2(map);
 	}
 	@ResponseBody
-	@RequestMapping(value = "loginMember.do")
-	public Map<String, Object> loginMember(@RequestBody Map<String, Object> map) {
-		return service.loginMember(map);
-	}
-	@ResponseBody
 	@RequestMapping(value = "selectAllDelivery.do")
 	public Map<String, Object> selectAllDelivery(@RequestBody Map<String, Object> map) {
 		return service.selectAllDelivery(map);

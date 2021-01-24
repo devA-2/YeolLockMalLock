@@ -58,5 +58,6 @@ function loginChk(frm){
 			<input type="button" id="login" name="login" class="btn btn-success" value="로그인" onclick="loginChk(this.form)">&nbsp;&nbsp;
 		</form>
 	</div>
+
 </body>
 </html>
