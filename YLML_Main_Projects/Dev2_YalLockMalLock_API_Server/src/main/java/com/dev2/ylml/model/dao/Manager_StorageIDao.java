@@ -27,7 +27,7 @@ public interface Manager_StorageIDao {
 	 * @param subway
 	 * @return
 	 */
-	public Manager_StorageDto selectSubwayStorage(String subway);
+	public List<Manager_StorageDto> selectSubwayStorage(String subway);
 	
 	/**	보관함 상세정보 조회
 	 * (보관함 ID, 이름, 지하철역, 좌표, 좌표, 

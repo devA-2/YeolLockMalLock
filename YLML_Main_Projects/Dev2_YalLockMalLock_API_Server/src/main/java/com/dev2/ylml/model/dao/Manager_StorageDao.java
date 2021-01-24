@@ -23,7 +23,7 @@ public class Manager_StorageDao implements Manager_StorageIDao {
 	// 보관함 전체조회
 	@Override
 	public List<Manager_StorageDto> selectAllStorage() {
-		logger.info("ManagerStorage_Daoimpl + selectAllStorage 실행");
+		logger.info("API서버 ManagerStorage_Daoimpl + selectAllStorage 실행");
 		return sqlSession.selectList(NS+"selectAllStorage");
 	}
 	
@@ -32,7 +32,8 @@ public class Manager_StorageDao implements Manager_StorageIDao {
 	// (보관함 ID, 이름, 지하철역, 좌표, 좌표)
 	@Override
 	public Manager_StorageDto selectIdStorage(String storage_id) {
-		logger.info("ManagerStorage_Daoimpl + selectIdStorage 실행");
+		logger.info("API서버 ManagerStorage_Daoimpl + "
+				+ "selectIdStorage 실행 + 입력값 : "+storage_id);
 		return sqlSession.selectOne(NS+"selectIdStorage", storage_id);
 	}
 	
@@ -40,23 +41,25 @@ public class Manager_StorageDao implements Manager_StorageIDao {
 	// 보관함 지하철역으로 검색하여 리스트 출력
 	// (보관함 ID, 이름, 지하철역, 좌표, 좌표)
 	@Override
-	public Manager_StorageDto selectSubwayStorage(String subway) {
-		logger.info("ManagerStorage_Daoimpl + selectSubwayStorage 실행");
-		return sqlSession.selectOne(NS+"selectIdStorage", subway);
+	public List<Manager_StorageDto> selectSubwayStorage(String subway) {
+		logger.info("API서버 ManagerStorage_Daoimpl + "
+				+ "selectSubwayStorage 실행 + 입력값 : "+subway);
+		return sqlSession.selectList(NS+"selectSubwayStorage", subway);
 	}
 
 	//	보관함 상세정보 조회
 	//	(보관함 ID, 이름, 지하철역, 좌표, 좌표, 보관함 갯수, 보관함 상태, 담당자)
 	@Override
 	public Manager_StorageDto selectDetailStorage(String storage_id) {
-		logger.info("ManagerStorage_Daoimpl + selectDetailStorage 실행");
+		logger.info("API서버 ManagerStorage_Daoimpl + "
+				+ "selectDetailStorage 실행 + 입력값 : "+storage_id);
 		return  sqlSession.selectOne(NS+"selectDetailStorage", storage_id);
 	}
 	
 	//	보관함 상태조회
 	@Override
 	public List<Manager_StorageDto> selectBoxStatus(String storage_id) {
-		logger.info("ManagerStorage_Daoimpl + selectBoxStatus 실행");
+		logger.info("API서버 ManagerStorage_Daoimpl + selectBoxStatus 실행");
 		return sqlSession.selectList(NS+"selectBoxStatus",storage_id);
 	}
 
@@ -65,7 +68,7 @@ public class Manager_StorageDao implements Manager_StorageIDao {
 	//	실제주소, 상세주소, LNG, LAT, 담당자)
 	@Override
 	public boolean registStorage(Manager_StorageDto dto) {
-		logger.info("ManagerStorage_Daoimpl + registStorage 실행");
+		logger.info("API서버 ManagerStorage_Daoimpl + registStorage 실행");
 		int isc = sqlSession.insert(NS+"registStorage", dto);
 		return isc>0?true:false;
 	}
@@ -75,7 +78,7 @@ public class Manager_StorageDao implements Manager_StorageIDao {
 	//	(보관함ID로 검색)후 선택하여 수정
 	@Override
 	public boolean modifyStorage(Manager_StorageDto dto) {
-		logger.info("ManagerStorage_Daoimpl + modifyStorage 실행");
+		logger.info("API서버 ManagerStorage_Daoimpl + modifyStorage 실행");
 		int isc = sqlSession.update(NS+"modifyStorage", dto);
 		return isc>0?true:false;
 	}
@@ -83,7 +86,7 @@ public class Manager_StorageDao implements Manager_StorageIDao {
 	//	사용불가 보관함이 해결되었을때 관리자가 사용 가능 보관함으로 변경
 	@Override
 	public boolean activateStorage(Manager_StorageDto dto) {
-		logger.info("ManagerStorage_Daoimpl + activateStorage 실행");
+		logger.info("API서버 ManagerStorage_Daoimpl + activateStorage 실행");
 		int isc = sqlSession.update(NS+"activateStorage", dto);
 		return isc>0?true:false;
 	}

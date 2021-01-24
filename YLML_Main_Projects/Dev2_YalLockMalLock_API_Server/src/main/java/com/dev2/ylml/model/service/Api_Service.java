@@ -810,8 +810,8 @@ public class Api_Service implements Api_IService{
 			return helper.keyFailed();
 		}
 		String subway = (String)helper.getData(map);
-		Manager_StorageDto dto = manager_storageDao.selectSubwayStorage(subway);
-		return helper.generateData(dto);
+		List<Manager_StorageDto> lists = manager_storageDao.selectSubwayStorage(subway);
+		return helper.generateData(lists);
 	}
 
 	// 보관함 상세정보 조회

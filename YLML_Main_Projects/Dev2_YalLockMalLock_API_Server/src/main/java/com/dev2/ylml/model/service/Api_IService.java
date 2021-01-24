@@ -465,7 +465,7 @@ public interface Api_IService {
 	 * @param subway
 	 * @return
 	 */
-	public Map<String, Object>/* Manager_StorageDto */ selectSubwayStorage(Map<String, Object> map/* String subway */);
+	public Map<String, Object>/* List<Manager_StorageDto>*/ selectSubwayStorage(Map<String, Object> map/* String subway */);
 
 	/**
 	 * 보관함 상세정보 조회 (보관함 ID, 이름, 지하철역, 좌표, 좌표, 보관함 갯수, 보관함 상태, 담당자)
