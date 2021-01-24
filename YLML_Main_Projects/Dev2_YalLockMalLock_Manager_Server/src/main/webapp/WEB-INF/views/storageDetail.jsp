@@ -51,7 +51,7 @@
 
 <c:choose>
 <c:when test="${empty lists}">
-	<p style="font-size: large;">표시할 보관함이 없습니다.</p>
+	<p style="font-size: large;">상태를 표시할 보관함이 없습니다.</p>
 </c:when>
 </c:choose>
 	

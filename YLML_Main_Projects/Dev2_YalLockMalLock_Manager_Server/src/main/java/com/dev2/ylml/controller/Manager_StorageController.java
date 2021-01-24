@@ -101,7 +101,8 @@ public class Manager_StorageController {
 		
 		service.registStorage(dto);
 		
-		return "redirect:storageDetail.do?storageId="+dto.getStorageId();
+//		return "redirect:storageDetail.do?storageId="+dto.getStorageId();
+		return "storageList";
 	}
 	
 	//	사용불가 보관함이 해결되었을때 관리자가 사용 가능 보관함으로 변경
