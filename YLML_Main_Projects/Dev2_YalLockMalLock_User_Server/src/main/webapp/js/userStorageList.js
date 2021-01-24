@@ -15,18 +15,36 @@ function deliveryBtn(num) {
 	}
 }
    
-function extendBtn(form) {
-//	var frm = document.getElementById("receiptForm"+num)
+function extendBtn(num) {
 	//연장하기
+	var frm = document.getElementById("receiptForm"+num)
+	var id = frm.elements['storageId'].value
+	var boxSeq = frm.elements['boxSeq'].value
 	if(confirm('연장 비용은 2시간에 1500원 입니다. 연장하시겠습니까?')){
-		form.action='./updateExtend.do';
-		form.submit();
-	}
+		$.ajax({
+		  url : './updateExtend.do',
+		  type : 'get',
+		  data : { "id" : id ,
+			  		"boxSeq" : boxSeq},
+		  success : function(isc) {
+			  if(isc){
+				  alert("연장 되었습니다");
+				  location.href="./userStorageList.do";
+			  }
+			  
+		  },
+		  error : function() {
+			  alert("연장에 실패했습니다.");
+		  }
+	  });//ajax
+	
+
+	}//if문 
 }
    
 function paymentBtn(form) {
 //	var frm = document.getElementById("receiptForm"+num)
 	//결제전 키 대조 화면으로 이동 
-	form.action='./compareKey.do';
+	form.action='./beforePay.do';
 	form.submit();
 }
