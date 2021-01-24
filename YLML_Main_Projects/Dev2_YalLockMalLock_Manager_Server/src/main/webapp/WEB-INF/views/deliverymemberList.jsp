@@ -74,7 +74,7 @@ allDeleveryList.do<br>
     <div id='container'>
    <button onclick="viewTempAuth()">임시권한회원보기</button>&nbsp;
    <input id="searchID" type="text"  placeholder="검색어를 입력하세요"/>
-   <button onclick="search(),setTimeout(nullChk,1500);">확인</button>&nbsp;
+   <button onclick="search(),setTimeout(nullChk,1000);">확인</button>&nbsp;
    <button onclick="viewAllList()">전체리스트</button>
    <div id=list></div>
    </div>
