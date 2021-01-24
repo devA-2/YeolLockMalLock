@@ -18,7 +18,7 @@
 		SELECT STORAGE_ID , STORAGE_NAME , ADDRESS , SUBWAY , LAT , LNG , DETAIL, MANAGER, 
                 (SELECT COUNT(BOX_SEQ) FROM CITYHALL_A sc) AS BOX_AMOUNT
         FROM STORAGEBOX_LIST sl 
-                WHERE STORAGE_ID = #{storage_id}
+                WHERE STORAGE_ID = #{storageId}
 	</select>
 	
 	<!-- 보관함 지하철역으로 조회 -->
@@ -38,35 +38,35 @@
 	<select id="selectDetailStorage" parameterType="java.lang.String" 
 	resultType="StorageDto">
 		SELECT STORAGE_ID, STORAGE_NAME, ADDRESS, SUBWAY, DETAIL, MANAGER, LNG, LAT,
-		(SELECT COUNT(BOX_SEQ) FROM CITYHALL_A sc WHERE STORAGE_ID = #{storage_id}) AS BOX_AMOUNT
+		(SELECT COUNT(BOX_SEQ) FROM CITYHALL_A sc WHERE STORAGE_ID = #{storageId}) AS BOX_AMOUNT
 		FROM STORAGEBOX_LIST sl
-		WHERE STORAGE_ID = #{storage_id}
+		WHERE STORAGE_ID = #{storageId}
 	</select>
 	<!-- 보관함 상태조회 -->
 	<select id="selectBoxStatus" parameterType="java.lang.String"
 	resultType="StorageDto">
-		SELECT BOX_SEQ ,BOX_STATUS FROM CITYHALL_A WHERE STORAGE_ID = #{storage_id}
+		SELECT BOX_SEQ ,BOX_STATUS FROM CITYHALL_A WHERE STORAGE_ID = #{storageId}
 	</select>
 	
 	<!-- 보관함 등록 -->
 	<!-- 신규 보관함 등록(보관함 ID, 이름, 지하철역, 실제주소, 상세주소, LNG, LAT, 담당자) -->
 	<select id="registStorage" parameterType="StorageDto">
 		INSERT INTO STORAGEBOX_LIST 
-		VALUES(#{storage_id}, #{storage_name}, #{address}, #{detail}, #{subway}, #{manager}, #{lng}, #{lat})
+		VALUES(#{storageId}, #{storageName}, #{address}, #{detail}, #{subway}, #{manager}, #{lng}, #{lat})
 	</select>
 
 	<!-- 보관함 수정 -->
 	<!-- 변동사항이 있다면 물품 보관함에서 조회(보관함ID로 검색) 후 선택하여 수정 -->
 	<select id="modifyStorage" parameterType="StorageDto">
-		UPDATE STORAGEBOX_LIST SET STORAGE_NAME = #{storage_name}, ADDRESS = #{address}, SUBWAY = #{subway}, 
+		UPDATE STORAGEBOX_LIST SET STORAGE_NAME = #{storageName}, ADDRESS = #{address}, SUBWAY = #{subway}, 
 		DETAIL = #{detail}, LNG = #{lng}, LAT = #{lat}, MANAGER = #{manager}
-        WHERE STORAGE_ID = #{storage_id}
+        WHERE STORAGE_ID = #{storageId}
 	</select>
                
 	<!-- 사용불가 보관함이 해결되었을때 관리자가 사용 가능 보관함으로 변경 -->
 	<select id="activateStorage" parameterType="java.lang.String">
 		UPDATE CITYHALL_A SET BOX_STATUS = 'O'
-        WHERE BOX_SEQ = #{box_seq}
+        WHERE BOX_SEQ = #{boxSeq}
 	</select>
 	
 </mapper>

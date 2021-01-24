@@ -11,8 +11,8 @@
 </head>
 <body>
 	<c:forEach var="list" items="${list}" varStatus="vs">
-			<c:if test="${list.inUser eq 'user01@naver.com'}">
-				<form id="storeForm${vs.count}" method="post">
+			<c:if test="${list.inUser eq mem.email}">
+				<form id="storeForm${vs.count}" method="get">
 					<div>
 						<span>보관</span><br>
 						<input type="hidden" name="boxSeq" value="${list.boxSeq}">
@@ -37,8 +37,8 @@
 					<hr>
 				</form>
 			</c:if>
-			<c:if test="${list.outUser eq 'user01@naver.com'}">
-				<form id="receiptForm${vs.count}" method="post">
+			<c:if test="${list.outUser eq mem.email}">
+				<form id="receiptForm${vs.count}" method="get">
 					<div>
 						<span>수령</span><br>
 						<input type="hidden" name="boxSeq" value="${list.boxSeq}">
@@ -66,7 +66,7 @@
 					</div>
 					<div>
 						<c:if test="${list.extendCnt<2}">
-							<button onclick="extendBtn(this.form)">연장</button>
+							<button onclick="extendBtn(${vs.count})">연장</button>
 						</c:if>
 						<button onclick="paymentBtn(this.form)">결제</button>
 					</div>

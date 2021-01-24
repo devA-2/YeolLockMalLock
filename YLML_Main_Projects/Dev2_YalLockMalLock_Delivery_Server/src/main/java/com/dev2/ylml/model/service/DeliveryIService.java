@@ -51,7 +51,7 @@ public interface DeliveryIService {
 	 * @param map
 	 * @return MemberDto
 	 */
-	public MemberDto enDelLogin(Map<String, Object> map);
+	public MemberDto delLogin(Map<String, Object> map);
 	
 	/**
 	 * 아이디 찾기
@@ -98,7 +98,7 @@ public interface DeliveryIService {
 	/**
 	 * 배송 정보 조회(사용자, 배송원)
 	 */
-	public List<DeliveryDto> selectDeliveryList(String email, String auth);
+	public List<DeliveryDto> selectDeliveryList(Map<String, String> map);
 	
 	/**
 	 * 배송 시작 시간 업데이트

@@ -13,8 +13,7 @@ import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 
 import com.dev2.ylml.util.ApiServerHelper;
-
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.dev2.ylml.dto.MemberDto;
 import com.dev2.ylml.dto.ReportDto;
 import com.dev2.ylml.dto.LostPropertyDto;
@@ -34,7 +33,6 @@ import com.dev2.ylml.model.dao.ReportDao;
 import com.dev2.ylml.model.dao.ReportIDao;
 import com.dev2.ylml.model.dao.SearchIDao;
 import com.dev2.ylml.model.dao.StorageIDao;
-import com.dev2.ylml.model.dao.ManagerLoginIDao;
 import com.dev2.ylml.model.dao.Manager_MemberIDao;
 import com.dev2.ylml.model.dao.Manager_StorageIDao;
 
@@ -51,8 +49,6 @@ public class Api_Service implements Api_IService{
 	@Autowired
 	private Manager_MemberIDao manager_memberDao;
   
-	@Autowired
-	private ManagerLoginIDao managerLoginDao;
   
 	@Autowired
 	private StorageIDao storageDao;
@@ -155,8 +151,6 @@ public class Api_Service implements Api_IService{
 		}
 		Map<String, Object> res = (Map<String, Object>) helper.getData(map);
 			MemberDto dto = (memberDao.enPw(res))?memberDao.login(res):null;
-			System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+memberDao.enPw(res));
-			System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+memberDao.login(res));
 			return helper.generateData(dto);
 		
 	}
@@ -168,9 +162,9 @@ public class Api_Service implements Api_IService{
 			return helper.keyFailed();
 		}
 		Map<String, Object> res = (Map<String, Object>) helper.getData(map);
-		MemberDto dto = memberDao.delLogin(res);
+			MemberDto dto = (memberDao.enPw(res))?memberDao.delLogin(res):null;
+			return helper.generateData(dto);
 		
-		return helper.generateData(dto);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -180,9 +174,9 @@ public class Api_Service implements Api_IService{
 			return helper.keyFailed();
 		}
 		Map<String, Object> res = (Map<String, Object>) helper.getData(map);
-		MemberDto dto = memberDao.adminLogin(res);
+			MemberDto dto = (memberDao.enPw(res))?memberDao.adminLogin(res):null;
+			return helper.generateData(dto);
 		
-		return helper.generateData(dto);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -268,7 +262,7 @@ public class Api_Service implements Api_IService{
 			return helper.keyFailed();
 		}
 		String email = (String) helper.getData(map);
-		int isc = memberDao.usingCheck(email);
+		int isc = memberDao.quitMember(email);
 		
 		return helper.generateData(isc);
 	}
@@ -541,22 +535,25 @@ public class Api_Service implements Api_IService{
 		return helper.generateData(time);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Object> insertDelivery(Map<String, Object> map) {
 		if(!helper.checkKey(map)) {
 			return helper.keyFailed();
 		}
-		DeliveryDto delDto = (DeliveryDto) helper.getData(map);
-		StorageGoodsDto goodsDto = (StorageGoodsDto) helper.getData(map);
-		boolean isc1 = StorageDeliveryDao.insertDelivery(delDto);
-		goodsDto.setDeliveryCode(delDto.getDeliveryCode());
-		if(goodsDto.getCategoryCode().equals("R")) {
-			goodsDto.setCategoryCode("RD");
+		Map<String, Object> dtos = (Map<String, Object>) helper.getData(map);
+		ObjectMapper mapper = new ObjectMapper();
+		DeliveryDto deliveryDto = mapper.convertValue(dtos.get("DeliveryDto"), DeliveryDto.class);
+		StorageGoodsDto storageGoodsDto = mapper.convertValue(dtos.get("StorageGoodsDto"), StorageGoodsDto.class);
+		boolean isc1 = StorageDeliveryDao.insertDelivery(deliveryDto);
+		storageGoodsDto.setDeliveryCode(deliveryDto.getDeliveryCode());
+		if(storageGoodsDto.getCategoryCode().equals("R")) {
+			storageGoodsDto.setCategoryCode("RD");
 		}else {
-			goodsDto.setCategoryCode("D");
+			storageGoodsDto.setCategoryCode("D");
 		}
-		boolean isc2 = StorageDeliveryDao.updateDeliveryCode(goodsDto);
-		boolean isc3 = StorageDeliveryDao.updateDeliveryCost(goodsDto);
+		boolean isc2 = StorageDeliveryDao.updateDeliveryCode(storageGoodsDto);
+		boolean isc3 = StorageDeliveryDao.updateDeliveryCost(storageGoodsDto);
 		return helper.generateData((isc1 || isc2 || isc3)? true:false);
 	}
 
@@ -722,32 +719,7 @@ public class Api_Service implements Api_IService{
 	
 	/************************************관리자************************************/
 	/************************************재우************************************/
-	/*사용 예제*//*service.insertMember -> insertMember.do 와 매핑*/
 	
-	/* if문은 무조건 있어야함 */
-	//if(!helper.checkKey(map)) {
-	//	return helper.keyFailed();
-	//}
-	/* 데이터는 helper.getData로 웹에서 받은 데이터를 가져옴 */
-	//MemberDto dto = (MemberDto)helper.getData(map);
-	/* 전달할 값은 그냥 편하게 작성*/
-	//boolean isc=memberDao.insertMember(dto);
-	
-	
-	/* 전달할 값을 helper.generateData(-----)에 넣어서 return 하면 됨 */
-	//return helper.generateData(isc);
-	
-	@SuppressWarnings("unchecked")
-	// 관리자 로그인
-	@Override
-	public Map<String, Object> loginMember(Map<String, Object> map) {
-		if(!helper.checkKey(map)) {
-			return helper.keyFailed();
-		}
-		Map<String, Object> login = (Map<String, Object>)helper.getData(map);
-		Manager_MemberDto dto = managerLoginDao.loginMember(login);
-		return helper.generateData(dto);
-	}
 
 	// 담당자 및 배송원 전체 정보조회
 	@Override
@@ -913,7 +885,6 @@ public class Api_Service implements Api_IService{
 		if(!helper.checkKey(map)) {
 			return helper.keyFailed();
 		}
-		String email = (String)helper.getData(map);
 		List<String> list = memberDao.memberIdSearch();
 		return helper.generateData(list);
 	}

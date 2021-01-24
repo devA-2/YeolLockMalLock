@@ -174,15 +174,17 @@ public class MemberController {
 
 		//		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		System.out.println(map.toString()); 		// 맵 정보 확인용
-		MemberDto dto = iService.enDelLogin(map);
+		MemberDto dto = iService.delLogin(map);
 		log.info("MemberController login : " + dto);
-		session.setAttribute("mem", dto);
 		/////////////////////////////////////
 		String page ="";
-		if(dto.getAuth() == 89) {
+		if(dto==null) {
+			page = "redirect:./signUpForm.do";
+		}else if(dto.getAuth() == 89) {
 			page = "member/loginForm";
 		}else {
-			page = "redirect:./index.do";
+			session.setAttribute("mem", dto);
+			page = "redirect:/index.do";
 		}
 		return page;
 	}	
@@ -200,7 +202,7 @@ public class MemberController {
 		Map<String,Object> iMap = new HashMap<String, Object>();
 		iMap.put("email", email);
 		iMap.put("pw", pw);
-		MemberDto dto = iService.enDelLogin(iMap);
+		MemberDto dto = iService.delLogin(iMap);
 		System.out.println("로그인 된 값: \t"+ dto);
 		boolean isc;
 		// TODO : boolean 이용하여 true, false로 수정할것 (해당 값은 loginForm에 있는 ajax에서 고쳐야함)
@@ -222,7 +224,6 @@ public class MemberController {
 	public String logOut(HttpSession session) {
 		MemberDto dto = (MemberDto)session.getAttribute("mem");
 		if(dto != null) {
-			//			session.removeAttribute("mem");
 			session.invalidate();
 
 		}
@@ -388,8 +389,10 @@ public class MemberController {
 	public String quitMember(HttpSession session) {
 		String email = ((MemberDto)session.getAttribute("mem")).getEmail();
 		int result = iService.quitMember(email);
-		// TODO : 탈퇴가 정상적으로 처리되었다고 띄어주어야함 어디서 띄우지..?
-		return "redirect:./logout.do";
+		if(result>0) {
+			return "redirect:./logout.do";
+		}
+		return "redirect:./myPage.do";
 	}
 	
 }

@@ -159,7 +159,7 @@ public class StorageController {
 	 * @param boxSeq
 	 * @return
 	 */
-	@RequestMapping(value = "/updateExtend.do",method = RequestMethod.POST)
+	@RequestMapping(value = "/updateExtend.do",method = RequestMethod.GET)
 	public String updateExtend(@RequestParam("storageId") String id, int boxSeq) {
 		log.info("boxSeq : "+boxSeq+",id : "+id);
 		Map<String,Object> map = new HashMap<String, Object>();
@@ -178,7 +178,6 @@ public class StorageController {
 	@ResponseBody
 	@RequestMapping(value="/checkOutUser.do",method = RequestMethod.GET)
 	public String checkOutEmail(String email) {
-		System.out.println(email+"zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
 		String checkedEmail = service.checkOutEmail(email);
 		log.info("수령 사용자 이메일 확인 -> "+email+ " 받아온 이메일 : "+ checkedEmail);
 		return checkedEmail;
@@ -192,7 +191,7 @@ public class StorageController {
 	 * @param email
 	 * @return
 	 */
-	@RequestMapping(value = "/updateOutUser.do",method = RequestMethod.POST)
+	@RequestMapping(value = "/updateOutUser.do",method = RequestMethod.GET)
 	public String updateOutUser(Model model,@RequestParam("storageId") String id,
 			int boxSeq, @RequestParam(required=false) String email) {
 		log.info("받아온 id: "+id+" boxSeq: "+boxSeq+" outUSerEmail: "+email);
@@ -234,7 +233,7 @@ public class StorageController {
 	 * @param overCost
 	 * @return
 	 */
-	@RequestMapping(value = "/beforePay.do",method = RequestMethod.POST)
+	@RequestMapping(value = "/beforePay.do",method = {RequestMethod.POST,RequestMethod.GET})
 	public String beforePay(String key,int overCost,HttpSession session) {
 		log.info("받은 key : "+key + " overCost : "+overCost);
 		CostDto costDto = service.compareKey(key);
@@ -266,7 +265,7 @@ public class StorageController {
 	 * @param returnFlag
 	 * @return
 	 */
-	@RequestMapping(value = "/successPayment.do",method = RequestMethod.POST)
+	@RequestMapping(value = "/successPayment.do",method = {RequestMethod.GET, RequestMethod.POST})
 	public String successPayment(String returnFlag, HttpSession session) {
 	
 		if(returnFlag==null ||returnFlag.isBlank()) {
@@ -304,8 +303,31 @@ public class StorageController {
 		return "redirect:/storage/userStorageList.do";
 	}
 
-	//************************************************************************************************88
+	//************************************************************************************************
+
 	
+	@RequestMapping(value = "/resultPayment.do", method = RequestMethod.GET)
+	public String afterPayment(String imp_success, HttpSession session) {
+//		String costCode = (String) session.getAttribute("costCode");
+		String result;
+		if(imp_success.equals("true")) {
+//			service.updateCostStatus(costCode);
+
+			result = "redirect:./successPayment.do";
+		}else {
+			result = "redirect:./falsePayment.do";
+		}
+
+		log.info("Controller_resultPayment.do 실행");
+		return result;
+	}
+	
+
+	@RequestMapping(value = "/falsePayment.do", method = RequestMethod.GET)
+	public String falsePayment() {
+		log.info("Controller_falsePayment.do 실행");
+		return "storage/falsePayment";
+	}
 	
 	/**
 	 * 보관 정보 조회(사용자)
@@ -313,11 +335,10 @@ public class StorageController {
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value = "/userStorageList.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/userStorageList.do", method = {RequestMethod.GET, RequestMethod.POST})
 	public String userStorageList(Model model, HttpSession session) {
-//		MemberDto mDto = (MemberDto) session.getAttribute("mem");
-//		String email = mDto.getEmail();
-		String email = "user01@naver.com";
+		MemberDto mDto = (MemberDto) session.getAttribute("mem");
+		String email = mDto.getEmail();
 		System.out.println("이메일 확인 !! "+email);
 		List<UserStorageListDto> storageList = service.selectUserStorageList(email);
 		model.addAttribute("list", storageList);
@@ -382,7 +403,6 @@ public class StorageController {
 			// 1. 배송원 현재 위치 > 사용자 보관함 거리 계산
 			//  1) 전체 배송원 조회
 			List<MemberDto> deliveryMans = service.selectDeliveryMan();
-			System.out.println("배송원 리스트!! "+deliveryMans);
 			//  2) 사용자 보관함과 가까운 배송원 탐색
 			int deliverymanDist;								// 사용자 위치 seq - 배송원 위치 seq
 			int num = 1000;										// 가까운 배송원을 가리기 위한 허수
@@ -391,12 +411,15 @@ public class StorageController {
 			for (int i = 0; i < deliveryMans.size(); i++) {
 				//  2-1) 배송원 ID, 이름 탐
 //				System.out.println("배송원 정보 확인!! "+((HashMap<String, String>)(Object)deliveryMans.get(i)).get("email"));
-				System.out.println("배송원 이메일 확인!! "+deliveryMans.get(i).getEmail());
 				String deliverymanId = deliveryMans.get(i).getEmail();
 				String deliverymanName = deliveryMans.get(i).getName();
 				// 2-2) 배송원 위치 탐색
 				String deliverymanSubway = service.selectDeliveryLoc(deliverymanId);
 				int deliverymanLocSeq = service.selectTimeTableSeq(deliverymanSubway);
+				System.out.println("########################################################");
+				System.out.println(deliverymanSubway);
+				System.out.println(deliverymanLocSeq);
+				System.out.println(deliverymanId);
 				// 2-3) 사용자 위치와 배송원 위치 비교 후 가장 가까운 위치의 배송원 찾기
 				if(userLocSeq != deliverymanLocSeq) {
 					if(userLocSeq > deliverymanLocSeq) {		
@@ -407,7 +430,6 @@ public class StorageController {
 					
 					if(deliverymanDist < num) {
 						num = deliverymanDist;
-						
 						if(deliverymanDist == num){
 						delManInfo.put("deliverymanId", deliverymanId);
 						delManInfo.put("deliverymanName", deliverymanName);
@@ -463,25 +485,18 @@ public class StorageController {
 				userDelLoc.put("arriveSeq", deliveryLocSeq-1);
 				userDelTime = service.selectDeliveryTime(userDelLoc);
 				deliveryCost = (deliveryLocSeq - userLocSeq) * 200;		// 배송비용 = 정거장 수 * 200원
-				System.out.println("배송 시간 확인!! "+userDelTime);
-				System.out.println("배송 비용 확인!! "+deliveryCost);
+				System.out.println("CASE1 배송 시간 확인!! "+userDelTime);
+				System.out.println("CASE1 배송 비용 확인!! "+deliveryCost);
 			}else {
-				userDelLoc.put("startSeq", userLocSeq-1);
-				userDelLoc.put("arriveSeq", subwayCnt);
+				userDelLoc.put("startSeq", userLocSeq);
+				userDelLoc.put("arriveSeq", subwayCnt-1);
 				int arroundTime1 = service.selectDeliveryTime(userDelLoc);	// 사용자 보관함 seq > 끝 seq 이동 시간
 				int arroundCost1 = (subwayCnt - userLocSeq) * 200;			// 사용자 보관함 seq > 끝 seq 이동 비용
 				Map<String, Integer> userDelLoc1 = new HashMap<String, Integer>();
-				int arroundTime2;											// 처음 seq > 배송 보관함 seq 이동 시간
-				int arroundCost2;											// 처음 seq > 배송 보관함 seq 이동 비용
-				if(userLocSeq != 1) {
-					userDelLoc1.put("startSeq", 1);
-					userDelLoc1.put("arriveSeq", deliveryLocSeq-1);
-					arroundTime2 = service.selectDeliveryTime(userDelLoc1);
-					arroundCost2 = (deliveryLocSeq - 1) * 200;
-				}else {
-					arroundTime2 = 0;
-					arroundCost2 = 0;
-				}
+				userDelLoc1.put("startSeq", 1);
+				userDelLoc1.put("arriveSeq", deliveryLocSeq);
+				int arroundTime2 = service.selectDeliveryTime(userDelLoc1);	// 처음 seq > 배송 보관함 seq 이동 시간
+				int arroundCost2 = (deliveryLocSeq - 1) * 200;				// 처음 seq > 배송 보관함 seq 이동 비용
 				userDelTime = arroundTime1+arroundTime2;
 				deliveryCost = arroundCost1 + arroundCost2;
 				System.out.println("배송 시간 확인!! "+userDelTime);
@@ -517,13 +532,12 @@ public class StorageController {
 	 * @return
 	 */
 	@RequestMapping(value = "/delivery.do", method = RequestMethod.POST)
-	public String delivery(DeliveryDto delDto, String message, HttpSession session) {
+	public String delivery(DeliveryDto deliveryDto, String message, HttpSession session) {
 		StorageGoodsDto storageGoods = (StorageGoodsDto) session.getAttribute("storageGoodsDto");
 		storageGoods.setMessage(message);
-		System.out.println("보관함 정보 확인!! " +storageGoods);
-		boolean isc = service.insertDelivery(delDto, storageGoods);
+		boolean isc = service.insertDelivery(deliveryDto, storageGoods);
 		log.info("Controller_delivery.do 실행");
-		return isc?"redirect:/deliverySuccess.do":"redirect:/userStorageList.do";
+		return isc?"redirect:/storage/deliverySuccess.do":"redirect:/storage/userStorageList.do";
 	}
 	
 	/**
@@ -595,29 +609,22 @@ public class StorageController {
 			sationSeqs1.put("arriveSeq", arriveSeq-1);
 			deliveryTime = service.selectDeliveryTime(sationSeqs1);
 			deliveryCost = (arriveSeq - startSeq) * 200;
-			System.out.println("배송 시간 확인!! "+deliveryTime);
-			System.out.println("배송 비용 확인!! "+deliveryCost);
+			System.out.println("CASE1 배송 시간 확인!! "+deliveryTime);
+			System.out.println("CASE1 배송 비용 확인!! "+deliveryCost);
 		}else {
-			sationSeqs1.put("startSeq", startSeq-1);
-			sationSeqs1.put("arriveSeq", subwayCnt);
+			sationSeqs1.put("startSeq", startSeq);
+			sationSeqs1.put("arriveSeq", subwayCnt-1);
 			int arroundTime1 = service.selectDeliveryTime(sationSeqs1);		// 사용자 보관함 seq > 끝 seq 이동 시간
 			int arroundCost1 = (subwayCnt - startSeq) * 200;				// 사용자 보관함 seq > 끝 seq 이동 비용
 			Map<String, Integer> sationSeqs2 = new HashMap<String, Integer>();
-			int arroundTime2;												// 처음 seq > 배송 보관함 seq 이동 시간
-			int arroundCost2;												// 처음 seq > 배송 보관함 seq 이동 비용
-			if(startSeq != 1) {
-				sationSeqs2.put("startSeq", 1);
-				sationSeqs2.put("arriveSeq", arriveSeq-1);
-				arroundTime2 = service.selectDeliveryTime(sationSeqs2);
-				arroundCost2 = (arriveSeq - 1) * 200;
-			}else {
-				arroundTime2 = 0;
-				arroundCost2 = 0;
-			}
+			sationSeqs2.put("startSeq", 1);
+			sationSeqs2.put("arriveSeq", arriveSeq);
+			int arroundTime2 = service.selectDeliveryTime(sationSeqs2);		// 처음 seq > 배송 보관함 seq 이동 시간
+			int arroundCost2 = arriveSeq * 200;								// 처음 seq > 배송 보관함 seq 이동 비용
 			deliveryTime = arroundTime1+arroundTime2;
 			deliveryCost = arroundCost1 + arroundCost2;
-			System.out.println("배송 시간 확인!! "+deliveryTime);
-			System.out.println("배송 비용 확인!! "+deliveryCost);
+			System.out.println("CASE2 배송 시간 확인!! "+deliveryTime);
+			System.out.println("CASE2 배송 비용 확인!! "+deliveryCost);
 		}
 		
 		// 화면에 전달할 값 저장
@@ -630,60 +637,38 @@ public class StorageController {
 	
 	/**
 	 * 배송 메인 > 배송 조회(사용자)
-	 * 배송 메인 > 배송 조회(배송원)
 	 * @param email
 	 * @param model
 	 * @return
 	 */
 	@RequestMapping(value = "/deliveryList.do", method = RequestMethod.GET)
 	public String userDeliveryList(Model model, HttpSession session) {
-//		MemberDto mDto = (MemberDto) session.getAttribute("mem");
-//		String email = mDto.getEmail();
-//		String auth = Integer.toString(mDto.getAuth());
-		String email = "deli@naver.com";
-		String auth = "80";
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("email", email);
-		map.put("auth", auth);
-		System.out.println("map 확인!! "+map);
-		List<DeliveryDto> deliveryList = service.selectDeliveryList(map);
-		model.addAttribute("deliveryList", deliveryList);
-		model.addAttribute("auth", auth);
-		System.out.println("DTO 확인!!"+deliveryList);
+		MemberDto mDto = (MemberDto) session.getAttribute("mem");
+		String email = mDto.getEmail();
+		String auth = Integer.toString(mDto.getAuth());
+//		String email = "deli@naver.com";
+//		String auth = "80";
+		if(mDto.getAuth() == 10 || mDto.getAuth() == 80) {
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("email", email);
+			map.put("auth", auth);
+			System.out.println("map 확인!! "+map);
+			List<DeliveryDto> deliveryList = service.selectDeliveryList(map);
+			model.addAttribute("deliveryList", deliveryList);
+			model.addAttribute("auth", auth);
+			System.out.println("deliveryList DTO 확인!!"+deliveryList);
+		}else {
+			model.addAttribute("auth", auth);
+		}
 		log.info("Controller_checkDeliveryInfo.do 실행");
 		return "delivery/deliveryList";
 	}
-		
+
 	@RequestMapping(value = "/paymentPage.do", method = RequestMethod.GET)
 	public String paymentPage() {
 		log.info("Controller_paymentPage.do 실행");
 		return "storage/payment";
 	}
-	
-	@RequestMapping(value = "/resultPayment.do", method = RequestMethod.POST)
-	public String afterPayment(String imp_success, HttpSession session) {
-		String costCode = (String) session.getAttribute("costCode");
-		String result;
-		if(imp_success.equals(true)) {
-			service.updateCostStatus(costCode);
-			result = "redirect:./successPayment.do";
-		}else {
-			result = "redirect:./falsePayment.do";
-		}
-		log.info("Controller_afterPayment.do 실행");
-		return result;
-	}
-	
-//	@RequestMapping(value = "/successPayment.do", method = RequestMethod.GET)
-//	public String successPayment() {
-//		log.info("Controller_successPayment.do 실행");
-//		return "storage/successPayment";
-//	}
-	
-	@RequestMapping(value = "/falsePayment.do", method = RequestMethod.GET)
-	public String falsePayment() {
-		log.info("Controller_falsePayment.do 실행");
-		return "storage/falsePayment";
-	}
+
 
 }

@@ -16,7 +16,7 @@
   		location.href="index.do"
 	}
   
-//   	var auth = "${mangerLogin.auth}";
+//   	var auth = "${mem.auth}";
   	var auth = "100";
 		
       function accessDeliveryList() {
@@ -52,14 +52,14 @@
 </head>
 <body>
 	현재페이지 : managerMain.jsp<br>
-	접속ID : ${mangerLogin.email}<br>
-        접속비번 : ${mangerLogin.pw}<br>
-	접속권한 : ${mangerLogin.auth}<br> 
+	접속ID : ${mem.email}<br>
+        접속비번 : ${mem.pw}<br>
+	접속권한 : ${mem.auth}<br> 
 
 	<div id="container">
 <!-- 	<a href="./index.do">로그아웃</a><br><br> -->
 	<a onclick="logOut()">로그아웃</a><br><br>
-	<p id="managerLogInfo">${mangerLogin.email}님 접속하셨습니다.</p>
+	<p id="managerLogInfo">${mem.email}님 접속하셨습니다.</p>
 	
 	
 	<nav class="navbar navbar-inverse">
@@ -69,6 +69,14 @@
     </div>
     <ul class="nav navbar-nav">
       <li class="active"><a href="#">Home</a></li>
+      
+       <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">회원 관리 <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a onclick="#">회원 1-1</a></li>
+          <li><a href="#">회원 1-2</a></li>
+        </ul>
+      </li>
+      
       <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">담당자 및 배송원 관리 <span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a onclick="accessDeliveryList()">담당자 및 배송원 전체조회</a></li>

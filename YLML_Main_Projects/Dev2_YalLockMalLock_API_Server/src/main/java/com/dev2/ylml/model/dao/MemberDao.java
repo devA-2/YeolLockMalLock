@@ -65,7 +65,7 @@ public class MemberDao implements MemberIDao {
 	
 	@Override
 	public MemberDto delLogin(Map<String, Object> map) {
-		log.info("MemberDaoImpl enDelLogin : " + map);		
+		log.info("MemberDaoImpl delLogin : " + map);		
 		return sqlSession.selectOne("member.enDelLogin",map);
 	}
 	

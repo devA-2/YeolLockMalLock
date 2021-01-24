@@ -32,14 +32,12 @@
    <hr>
    <c:if test="${mem == null}">
 	   <a href="./member/loginForm.do">로그인</a><br>
-	   <a href="${naverUrl}">네이버 간편 로그인</a><br>
    </c:if>
    <a href="./member/infoAgree.do">회원가입</a><br>
-   <a href="./member/allMember.do">회원전체조회</a><br>
    <hr>
    <a href="#">게시판</a><br>
    <hr>
-   <a href="#">보관함</a><br>
+   <a href="./storage/deliveryList.do">배송</a><br>
    <hr>
    <a href="#">RFID/NFC</a><br>
    <hr>

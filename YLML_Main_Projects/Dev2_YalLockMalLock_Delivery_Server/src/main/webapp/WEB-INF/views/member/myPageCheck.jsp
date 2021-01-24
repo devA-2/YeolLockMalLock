@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Insert title here</title>
-<script type="text/javascript" src="./js/jquery-3.5.1.js"></script>
+<script type="text/javascript" src="../js/jquery-3.5.1.js"></script>
 <style type="text/css">
 #container{
    width : 360px;
@@ -47,7 +47,7 @@ function myPageChk(){
 <body>
 	<div id="container">
 		<h1>마이페이지</h1>
-			<div>비밀번호: </div><input type="password" id="pw" name="pw" maxlength="20" size="20" value="User010101"><br><br>
+			<div>비밀번호: </div><input type="password" id="pw" name="pw" maxlength="20" size="20" value="Deli0101"><br><br>
 			<input type="button" id="myPageChk" name="myPageChk" value="확인" onclick="myPageChk()">
 	</div>	
 </body>
