@@ -1,9 +1,6 @@
 package com.dev2.ylml.model.service;
 
-import java.util.List;
 import java.util.Map;
-
-import com.dev2.ylml.util.PagingVO;
 
 public interface Api_IService {
 	/**
@@ -520,8 +517,16 @@ public interface Api_IService {
 	 * @param email
 	 * @return list
 	 */
-	public Map<String, Object>/* List<MemberDto> */ selectAll(Map<String, Object> map/* String email */);
+	public Map<String, Object>/* List<MemberDto> */ selectAll(Map<String, Object> map/* Map<String, Object> map */);
 
+	/**
+	 * 전체 회원 수 조회
+	 * @param 
+	 * @return int
+	 */
+	public Map<String, Object>/* int */ countMember(Map<String, Object> map/*String email*/);
+
+	
 	/**
 	 * 회원 아이디로 검색
 	 * 

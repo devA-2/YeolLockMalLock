@@ -120,16 +120,29 @@
 		WHERE EMAIL = #{email}
 	</update>
 	<!-- 회원전체조회 -->
-	<select id="selectAll" parameterType="java.lang.String"
-		resultType="MemberDto">
+	<select id="selectAll" parameterType="java.util.Map" resultType="MemberDto">
 		SELECT EMAIL, NAME, PHONE_NUM, AUTH,
 		TO_CHAR(reg_Date,'yyyy-mm-dd hh24:mi:ss') as reg_date,
-		TO_CHAR(LEV_DATE,'yyyy-mm-dd hh24:mi:ss') as LEV_DATE, DEL_FLAG FROM MEMBER m
-		where AUTH IN (10,19)
-		<if test="email != null">
-			AND EMAIL LIKE '%'||#{email}||'%'
-		</if>
-		ORDER BY REG_DATE DESC
+		TO_CHAR(LEV_DATE,'yyyy-mm-dd hh24:mi:ss') as LEV_DATE, DEL_FLAG  
+			FROM (
+				SELECT ROWNUM RN, A.* 
+					FROM (
+						SELECT * FROM MEMBER m
+						where AUTH IN (10,19)
+						<if test="email != null">
+							AND EMAIL LIKE '%'||#{email}||'%'
+						</if>
+						ORDER BY REG_DATE DESC
+						) A
+				)
+		WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+	
+	<select id="countMember" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM MEMBER where AUTH IN (10,19)
+			<if test="email != null">
+				AND EMAIL LIKE '%'||#{email}||'%'
+			</if>
 	</select>
 	<!-- 회원 아이디로 상세정보 검색 -->
 	<select id="memberIdSearch" resultType="java.lang.String">

@@ -358,6 +358,11 @@ public class ApiController {
 		return service.selectAll(map);
 	}
 	@ResponseBody
+	@RequestMapping(value = "countMember.do")
+	public Map<String, Object> countMember(@RequestBody Map<String, Object> map) {
+		return service.countMember(map);
+	}
+	@ResponseBody
 	@RequestMapping(value = "memberIdSearch.do")
 	public Map<String, Object> memberIdSearch(@RequestBody Map<String, Object> map) {
 		return service.memberIdSearch(map);

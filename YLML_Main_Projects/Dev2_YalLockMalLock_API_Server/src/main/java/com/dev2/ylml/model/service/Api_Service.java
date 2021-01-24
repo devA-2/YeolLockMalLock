@@ -888,16 +888,25 @@ public class Api_Service implements Api_IService{
 	}
 
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Object> selectAll(Map<String, Object> map) {
 		if(!helper.checkKey(map)) {
 			return helper.keyFailed();
 		}
-		String email = (String)helper.getData(map);
-		List<MemberDto> list = memberDao.selectAll(email);
+		Map<String, Object> map2 = (Map<String, Object>) helper.getData(map);
+		List<MemberDto> list = memberDao.selectAll(map2);
 		return helper.generateData(list);
 	}
-
+	@Override
+	public Map<String, Object> countMember(Map<String, Object> map) {
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		String email = (String)helper.getData(map);
+		int cnt = memberDao.countMember(email);
+		return helper.generateData(cnt);
+	}
 	@Override
 	public Map<String, Object> memberIdSearch(Map<String, Object> map) {
 		if(!helper.checkKey(map)) {
@@ -926,6 +935,7 @@ public class Api_Service implements Api_IService{
 		List<StorageGoodsDto> dto = memberDao.memberUsing(email);
 		return helper.generateData(dto);
 	}
+
 
 
 	
