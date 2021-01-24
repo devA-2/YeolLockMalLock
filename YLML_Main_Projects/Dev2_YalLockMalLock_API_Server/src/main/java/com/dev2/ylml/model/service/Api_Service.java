@@ -864,8 +864,8 @@ public class Api_Service implements Api_IService{
 		if(!helper.checkKey(map)) {
 			return helper.keyFailed();
 		}
-		String seq = (String)helper.getData(map);
-		boolean isc = manager_storageDao.activateStorage(seq);
+		Manager_StorageDto dto = (Manager_StorageDto)helper.getData(map);
+		boolean isc = manager_storageDao.activateStorage(dto);
 		return helper.generateData(isc);
 	}
 

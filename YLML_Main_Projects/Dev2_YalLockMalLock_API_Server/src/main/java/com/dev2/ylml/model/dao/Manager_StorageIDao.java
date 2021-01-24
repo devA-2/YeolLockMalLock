@@ -61,5 +61,5 @@ public interface Manager_StorageIDao {
 	 * @param seq
 	 * @return
 	 */
-	public boolean activateStorage(String seq);
+	public boolean activateStorage(Manager_StorageDto dto);
 }

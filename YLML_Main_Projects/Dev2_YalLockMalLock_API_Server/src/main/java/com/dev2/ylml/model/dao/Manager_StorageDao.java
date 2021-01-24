@@ -82,9 +82,9 @@ public class Manager_StorageDao implements Manager_StorageIDao {
 
 	//	사용불가 보관함이 해결되었을때 관리자가 사용 가능 보관함으로 변경
 	@Override
-	public boolean activateStorage(String seq) {
+	public boolean activateStorage(Manager_StorageDto dto) {
 		logger.info("ManagerStorage_Daoimpl + activateStorage 실행");
-		int isc = sqlSession.update(NS+"activateStorage", seq);
+		int isc = sqlSession.update(NS+"activateStorage", dto);
 		return isc>0?true:false;
 	}
 
