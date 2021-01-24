@@ -159,7 +159,7 @@ public class StorageController {
 	 * @param boxSeq
 	 * @return
 	 */
-	@RequestMapping(value = "/updateExtend.do",method = RequestMethod.POST)
+	@RequestMapping(value = "/updateExtend.do",method = RequestMethod.GET)
 	public String updateExtend(@RequestParam("storageId") String id, int boxSeq) {
 		log.info("boxSeq : "+boxSeq+",id : "+id);
 		Map<String,Object> map = new HashMap<String, Object>();
@@ -191,7 +191,7 @@ public class StorageController {
 	 * @param email
 	 * @return
 	 */
-	@RequestMapping(value = "/updateOutUser.do",method = RequestMethod.POST)
+	@RequestMapping(value = "/updateOutUser.do",method = RequestMethod.GET)
 	public String updateOutUser(Model model,@RequestParam("storageId") String id,
 			int boxSeq, @RequestParam(required=false) String email) {
 		log.info("받아온 id: "+id+" boxSeq: "+boxSeq+" outUSerEmail: "+email);
@@ -233,7 +233,7 @@ public class StorageController {
 	 * @param overCost
 	 * @return
 	 */
-	@RequestMapping(value = "/beforePay.do",method = RequestMethod.POST)
+	@RequestMapping(value = "/beforePay.do",method = {RequestMethod.POST,RequestMethod.GET})
 	public String beforePay(String key,int overCost,HttpSession session) {
 		log.info("받은 key : "+key + " overCost : "+overCost);
 		CostDto costDto = service.compareKey(key);
@@ -303,7 +303,7 @@ public class StorageController {
 		return "redirect:/storage/userStorageList.do";
 	}
 
-	//************************************************************************************************88
+	//************************************************************************************************
 
 	
 	@RequestMapping(value = "/resultPayment.do", method = RequestMethod.GET)
@@ -335,7 +335,7 @@ public class StorageController {
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value = "/userStorageList.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/userStorageList.do", method = {RequestMethod.GET, RequestMethod.POST})
 	public String userStorageList(Model model, HttpSession session) {
 		MemberDto mDto = (MemberDto) session.getAttribute("mem");
 		String email = mDto.getEmail();
@@ -485,25 +485,18 @@ public class StorageController {
 				userDelLoc.put("arriveSeq", deliveryLocSeq-1);
 				userDelTime = service.selectDeliveryTime(userDelLoc);
 				deliveryCost = (deliveryLocSeq - userLocSeq) * 200;		// 배송비용 = 정거장 수 * 200원
-				System.out.println("배송 시간 확인!! "+userDelTime);
-				System.out.println("배송 비용 확인!! "+deliveryCost);
+				System.out.println("CASE1 배송 시간 확인!! "+userDelTime);
+				System.out.println("CASE1 배송 비용 확인!! "+deliveryCost);
 			}else {
-				userDelLoc.put("startSeq", userLocSeq-1);
-				userDelLoc.put("arriveSeq", subwayCnt);
+				userDelLoc.put("startSeq", userLocSeq);
+				userDelLoc.put("arriveSeq", subwayCnt-1);
 				int arroundTime1 = service.selectDeliveryTime(userDelLoc);	// 사용자 보관함 seq > 끝 seq 이동 시간
 				int arroundCost1 = (subwayCnt - userLocSeq) * 200;			// 사용자 보관함 seq > 끝 seq 이동 비용
 				Map<String, Integer> userDelLoc1 = new HashMap<String, Integer>();
-				int arroundTime2;											// 처음 seq > 배송 보관함 seq 이동 시간
-				int arroundCost2;											// 처음 seq > 배송 보관함 seq 이동 비용
-				if(userLocSeq != 1) {
-					userDelLoc1.put("startSeq", 1);
-					userDelLoc1.put("arriveSeq", deliveryLocSeq-1);
-					arroundTime2 = service.selectDeliveryTime(userDelLoc1);
-					arroundCost2 = (deliveryLocSeq - 1) * 200;
-				}else {
-					arroundTime2 = 0;
-					arroundCost2 = 0;
-				}
+				userDelLoc1.put("startSeq", 1);
+				userDelLoc1.put("arriveSeq", deliveryLocSeq);
+				int arroundTime2 = service.selectDeliveryTime(userDelLoc1);	// 처음 seq > 배송 보관함 seq 이동 시간
+				int arroundCost2 = (deliveryLocSeq - 1) * 200;				// 처음 seq > 배송 보관함 seq 이동 비용
 				userDelTime = arroundTime1+arroundTime2;
 				deliveryCost = arroundCost1 + arroundCost2;
 				System.out.println("배송 시간 확인!! "+userDelTime);
@@ -616,29 +609,22 @@ public class StorageController {
 			sationSeqs1.put("arriveSeq", arriveSeq-1);
 			deliveryTime = service.selectDeliveryTime(sationSeqs1);
 			deliveryCost = (arriveSeq - startSeq) * 200;
-			System.out.println("배송 시간 확인!! "+deliveryTime);
-			System.out.println("배송 비용 확인!! "+deliveryCost);
+			System.out.println("CASE1 배송 시간 확인!! "+deliveryTime);
+			System.out.println("CASE1 배송 비용 확인!! "+deliveryCost);
 		}else {
-			sationSeqs1.put("startSeq", startSeq-1);
-			sationSeqs1.put("arriveSeq", subwayCnt);
+			sationSeqs1.put("startSeq", startSeq);
+			sationSeqs1.put("arriveSeq", subwayCnt-1);
 			int arroundTime1 = service.selectDeliveryTime(sationSeqs1);		// 사용자 보관함 seq > 끝 seq 이동 시간
 			int arroundCost1 = (subwayCnt - startSeq) * 200;				// 사용자 보관함 seq > 끝 seq 이동 비용
 			Map<String, Integer> sationSeqs2 = new HashMap<String, Integer>();
-			int arroundTime2;												// 처음 seq > 배송 보관함 seq 이동 시간
-			int arroundCost2;												// 처음 seq > 배송 보관함 seq 이동 비용
-			if(startSeq != 1) {
-				sationSeqs2.put("startSeq", 1);
-				sationSeqs2.put("arriveSeq", arriveSeq-1);
-				arroundTime2 = service.selectDeliveryTime(sationSeqs2);
-				arroundCost2 = (arriveSeq - 1) * 200;
-			}else {
-				arroundTime2 = 0;
-				arroundCost2 = 0;
-			}
+			sationSeqs2.put("startSeq", 1);
+			sationSeqs2.put("arriveSeq", arriveSeq);
+			int arroundTime2 = service.selectDeliveryTime(sationSeqs2);		// 처음 seq > 배송 보관함 seq 이동 시간
+			int arroundCost2 = arriveSeq * 200;								// 처음 seq > 배송 보관함 seq 이동 비용
 			deliveryTime = arroundTime1+arroundTime2;
 			deliveryCost = arroundCost1 + arroundCost2;
-			System.out.println("배송 시간 확인!! "+deliveryTime);
-			System.out.println("배송 비용 확인!! "+deliveryCost);
+			System.out.println("CASE2 배송 시간 확인!! "+deliveryTime);
+			System.out.println("CASE2 배송 비용 확인!! "+deliveryCost);
 		}
 		
 		// 화면에 전달할 값 저장
@@ -651,7 +637,6 @@ public class StorageController {
 	
 	/**
 	 * 배송 메인 > 배송 조회(사용자)
-	 * 배송 메인 > 배송 조회(배송원)
 	 * @param email
 	 * @param model
 	 * @return

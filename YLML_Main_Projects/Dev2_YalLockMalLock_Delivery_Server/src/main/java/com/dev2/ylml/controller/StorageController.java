@@ -1,6 +1,10 @@
 package com.dev2.ylml.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dev2.ylml.dto.DeliveryDto;
+import com.dev2.ylml.dto.MemberDto;
 import com.dev2.ylml.model.service.DeliveryIService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -24,20 +29,25 @@ public class StorageController {
 	private DeliveryIService service;
 	
 	/**
-	 * 배송 메인 > 배송 조회(사용자)
 	 * 배송 메인 > 배송 조회(배송원)
 	 * @param email
 	 * @param model
 	 * @return
 	 */
 	@RequestMapping(value = "/deliveryList.do", method = RequestMethod.GET)
-	public String userDeliveryList(String email, String auth, Model model) {
-		List<DeliveryDto> deliveryList = service.selectDeliveryList(email, auth);
+	public String userDeliveryList(Model model, HttpSession session) {
+		MemberDto mDto = (MemberDto) session.getAttribute("mem");
+		String email = mDto.getEmail();
+		String auth = Integer.toString(mDto.getAuth());
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("email", email);
+		map.put("auth", auth);
+		System.out.println("map 확인!! "+map);
+		List<DeliveryDto> deliveryList = service.selectDeliveryList(map);
 		model.addAttribute("deliveryList", deliveryList);
-		model.addAttribute("auth", auth);
-		System.out.println("DTO 확인!!"+deliveryList);
-		log.info("Controller_checkDeliveryInfo.do 실행");
-		return "deliveryList";
+		System.out.println("deliveryList 확인!! "+deliveryList);
+		log.info("Controller_deliveryList.do 실행");
+		return "delivery/deliveryList";
 	}
 	
 	/**

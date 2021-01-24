@@ -32,16 +32,9 @@ public class MemberController {
 	@Autowired
 	ManagerIService iService;
 
-	/**
-	 * 로그인 폼 이동<br>
-	 * 
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping(value = "/loginForm.do", method = RequestMethod.GET)
-	public String loginForm(HttpServletRequest request){	
-		System.out.println("move to : loginForm");
-		return "loginForm";
+	@RequestMapping(value = "index.do")
+	public String index() {
+		return "index";
 	}
 
 	/**
@@ -61,11 +54,14 @@ public class MemberController {
 		session.setAttribute("mem", dto);
 		/////////////////////////////////////
 		String page ="";
-		if(dto.getAuth() == 99) {
-			page = "redirect:loginForm.do";
+		if(dto==null) {
+			page = "redirect:index.do";
+			
+		}else if(dto.getAuth() == 99) {
+			page = "redirect:index.do";
 
 		}else{
-			page = "redirect:index.do";
+			page = "redirect:managerMain.do";
 		}
 		return page;
 	}	
@@ -138,10 +134,10 @@ public class MemberController {
 	 */
 	@RequestMapping(value = "/memberDetail.do",method = RequestMethod.GET)
 	public String memberDetail(String email,Model model) {
-		MemberDto mDto = iService.detailMember(email);
+		MemberDto dto = iService.detailMember(email);
 		List<StorageGoodsDto> usingList = iService.memberUsing(email);
 		
-		model.addAttribute("mDto",mDto);
+		model.addAttribute("dto",dto);
 		model.addAttribute("usingList",usingList);
 		return "memberDetail";
 	}

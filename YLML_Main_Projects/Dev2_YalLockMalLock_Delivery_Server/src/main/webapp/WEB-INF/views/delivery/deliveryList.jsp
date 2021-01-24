@@ -25,27 +25,22 @@
 </head>
 <body>
 	<c:forEach var="list" items="${deliveryList}">
-		<c:if test="${auth eq '10'}">
-			<div>
-				<span>${list.storageName}-${list.boxSeq}</span>
-				<span>/ ${list.subway} ${list.detail}</span>
-				<span>/ 배송 담당자 ${list.deliverymanId}</span>
-				<c:if test="${list.deliveryArrive ne null}">
-					<span>/ 물품 도착시간 ${list.deliveryArrive}</span>
-				</c:if>
-			</div>
-		</c:if>
-		<c:if test="${auth eq 80}">
-			<div>
-				<span>${list.storageName}-${list.boxSeq}</span>
-				<span>/ ${list.subway} ${list.detail}</span>
-				<span>/ 배송역 ${list.outboxId}</span>
-			</div>
-			<div>
-				<button onclick="receiptBtn('${list.deliveryCode}')">수령</button>
-			</div>
-		</c:if>
-		<hr>
+		<c:choose>
+			<c:when test="${list ne null}">
+				<div>
+					<span>${list.storageName}-${list.boxSeq}</span>
+					<span>/ ${list.subway} ${list.detail}</span>
+					<span>/ 배송역 ${list.outboxId}</span>
+				</div>
+				<div>
+					<button onclick="receiptBtn('${list.deliveryCode}')">수령</button>
+				</div>
+				<hr>
+			</c:when>
+			<c:otherwise>
+			내역이 없습니다.
+		</c:otherwise>
+		</c:choose>
 	</c:forEach>
 </body>
 </html>
