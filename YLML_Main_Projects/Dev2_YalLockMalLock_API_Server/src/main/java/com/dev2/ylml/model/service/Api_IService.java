@@ -395,13 +395,6 @@ public interface Api_IService {
 
 	/************************************관리자************************************/
 	/************************************재우************************************/
-	/**
-	 * 관리자 로그인
-	 * 
-	 * @param map
-	 * @return
-	 */
-	public Map<String, Object>/* Manager_MemberDto */ loginMember(Map<String, Object> map/* Map<String, Object> map */);
 
 	/**
 	 * 담당자 및 배송원 전체 정보조회
