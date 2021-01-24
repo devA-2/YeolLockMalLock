@@ -39,7 +39,12 @@ public interface ManagerIService {
 	 * @param email
 	 * @return list
 	 */
-	public List<MemberDto> selectAll(String email);
+	public List<MemberDto> selectAll(Map<String, Object> map);
+	/**
+	 * 전체 회원 수 조회
+	 * @return
+	 */
+	public int countMember(String email);
 
 	/**
 	 * 회원 아이디로 검색

@@ -52,4 +52,25 @@
 	SET PROCESS_STATUS = #{process_status}
 </update>
 
+<!-- 페이징 : 총 게시글 갯수 출력 -->
+<select id="countReport" resultType="java.lang.Integer">
+	SELECT COUNT(*) FROM REPORT
+</select>
+
+<!-- 페이징 : 페이징 처리 후 게시글 조회 -->
+<select id="selectReport" parameterType="com.dev2.ylml.util.PagingVO" resultType="ReportDto">
+	SELECT * 
+		FROM (
+			SELECT ROWNUM RN, A.* 
+				FROM (
+						SELECT * 
+						FROM REPORT 
+						WHERE DELFLAG = 'N' AND STEP = 0
+						ORDER BY SEQ DESC, STEP
+						) A
+				)
+	WHERE RN BETWEEN #{start} AND #{end}
+</select>
+
+
 </mapper>

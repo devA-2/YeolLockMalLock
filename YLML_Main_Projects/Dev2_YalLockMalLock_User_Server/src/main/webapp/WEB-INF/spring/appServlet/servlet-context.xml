@@ -38,26 +38,31 @@
 		<mvc:interceptor>
 		<!-- mvc:mapping + bean은 필수, mvc:exclude-mapping 선택 -->
 		<!--1. 인터셉터가 적용 될 url -->
-			<mvc:mapping path="/*.do"/>
+			<mvc:mapping path="/**"/>
 		<!--2. 인터셉터가 제외 될 url-->
 		<!-- 회원관련 -->
 			<mvc:exclude-mapping path="/index.do" />
-			<mvc:exclude-mapping path="*/loginForm.do" />
-			<mvc:exclude-mapping path="*/login.do" />
-			<mvc:exclude-mapping path="*/loginCheckMap.do" />
-			<mvc:exclude-mapping path="*/infoAgree.do" />
-			<mvc:exclude-mapping path="*/signUpForm.do" />
-			<mvc:exclude-mapping path="*/insertMember.do" />
-			<mvc:exclude-mapping path="*/idSearchForm.do" />
-			<mvc:exclude-mapping path="*/idSearch.do" />
-			<mvc:exclude-mapping path="*/pwSearchForm.do" />
-			<mvc:exclude-mapping path="*/pwSearch.do" />
-			<mvc:exclude-mapping path="*/idCheck.do" />
-			<mvc:exclude-mapping path="*/phoneCheck.do" />
+			<mvc:exclude-mapping path="/member/loginForm.do" />
+			<mvc:exclude-mapping path="/member/login.do" />
+			<mvc:exclude-mapping path="/member/apiLogin.do" />
+			<mvc:exclude-mapping path="/member/loginCheckMap.do" />
+			<mvc:exclude-mapping path="/member//naverCallback.do" />
+			<mvc:exclude-mapping path="/member/infoAgree.do" />
+			<mvc:exclude-mapping path="/member/signUpForm.do" />
+			<mvc:exclude-mapping path="/member/insertMember.do" />
+			<mvc:exclude-mapping path="/member/idSearchForm.do" />
+			<mvc:exclude-mapping path="/member/idSearch.do" />
+			<mvc:exclude-mapping path="/member/idSearchResult" />
+			<mvc:exclude-mapping path="/member/pwSearchForm.do" />
+			<mvc:exclude-mapping path="/member/pwSearch.do" />
+			<mvc:exclude-mapping path="/member/updatePwForm.do" />
+			<mvc:exclude-mapping path="/member/updatePw.do" />
+			<mvc:exclude-mapping path="/member/idCheck.do" />
+			<mvc:exclude-mapping path="/member/phoneCheck.do" />
 			<!-- 보관함 -->
-			<mvc:exclude-mapping path="*/selectStorageList.do" />
-			<mvc:exclude-mapping path="*/selectMap.do" />
-			<mvc:exclude-mapping path="*/ajaxCountStorage.do" />
+			<mvc:exclude-mapping path="/storage/selectStorageList.do" />
+			<mvc:exclude-mapping path="/storage/selectMap.do" />
+			<mvc:exclude-mapping path="/storage/ajaxCountStorage.do" />
 			
 		<!--3. interceptor가 동작 및 판단 할 클래스를 bean으로 등록 -->
 			<bean class="com.dev2.ylml.interceptor.AuthenticationInterceptor"></bean>

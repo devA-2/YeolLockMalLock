@@ -4,14 +4,14 @@
 
 	<!-- 회원가입 (임시 : id_num 가져올수 없어서 테스트용으로 씀) -->
 	<insert id="insertMember" parameterType="MemberDto">
-		INSERT INTO MEMBER(ID_NUM, EMAIL, PW, NAME, PHONE_NUM)
-		VALUES (#{idNum}, #{email}, #{pw}, #{name},#{phoneNum})
+		INSERT INTO MEMBER(ID_NUM, EMAIL, PW, NAME, PHONE_NUM, AUTH)
+		VALUES (#{idNum}, #{email}, #{pw}, #{name},#{phoneNum}, #{auth})
 	</insert>
 
 	<!-- 회원가입 (자동으로 id_num 가져 올때 -->
 	<!-- <insert id="insertMember" parameterType="com.dev2.ylml.dto.MemberDto"> -->
-	<!-- INSERT INTO MEMBER(ID_NUM, EMAIL, PW, NAME, PHONE_NUM) -->
-	<!-- VALUES ('#{id_num}',#{email}, #{pw}, #{name},#{phone_num}) -->
+	<!-- INSERT INTO MEMBER(ID_NUM, EMAIL, PW, NAME, PHONE_NUM, AUTH) -->
+	<!-- VALUES ('#{id_num}',#{email}, #{pw}, #{name},#{phone_num}, #{auth}) -->
 	<!-- </insert> -->
 
 	<!-- 권한변경 -->
@@ -120,16 +120,29 @@
 		WHERE EMAIL = #{email}
 	</update>
 	<!-- 회원전체조회 -->
-	<select id="selectAll" parameterType="java.lang.String"
-		resultType="MemberDto">
+	<select id="selectAll" parameterType="java.util.Map" resultType="MemberDto">
 		SELECT EMAIL, NAME, PHONE_NUM, AUTH,
 		TO_CHAR(reg_Date,'yyyy-mm-dd hh24:mi:ss') as reg_date,
-		TO_CHAR(LEV_DATE,'yyyy-mm-dd hh24:mi:ss') as LEV_DATE, DEL_FLAG FROM MEMBER m
-		where AUTH IN (10,19)
-		<if test="email != null">
-			AND EMAIL LIKE '%'||#{email}||'%'
-		</if>
-		ORDER BY REG_DATE DESC
+		TO_CHAR(LEV_DATE,'yyyy-mm-dd hh24:mi:ss') as LEV_DATE, DEL_FLAG  
+			FROM (
+				SELECT ROWNUM RN, A.* 
+					FROM (
+						SELECT * FROM MEMBER m
+						where AUTH IN (10,19)
+						<if test="email != null">
+							AND EMAIL LIKE '%'||#{email}||'%'
+						</if>
+						ORDER BY REG_DATE DESC
+						) A
+				)
+		WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+	
+	<select id="countMember" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM MEMBER where AUTH IN (10,19)
+			<if test="email != null">
+				AND EMAIL LIKE '%'||#{email}||'%'
+			</if>
 	</select>
 	<!-- 회원 아이디로 상세정보 검색 -->
 	<select id="memberIdSearch" resultType="java.lang.String">

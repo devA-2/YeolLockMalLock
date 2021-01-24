@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -159,15 +160,17 @@ public class StorageController {
 	 * @param boxSeq
 	 * @return
 	 */
+	@ResponseBody
 	@RequestMapping(value = "/updateExtend.do",method = RequestMethod.GET)
-	public String updateExtend(@RequestParam("storageId") String id, int boxSeq) {
+	public boolean updateExtend(String id, int boxSeq) {
 		log.info("boxSeq : "+boxSeq+",id : "+id);
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("boxSeq", boxSeq);
 		map.put("id", id);
 		boolean isc = service.updateExtend(map);
 		log.info("연장 결과 : "+isc);		
-		return "redirect:/storage/userStorageList.do";
+//		return "redirect:/storage/userStorageList.do";
+		return isc;
 	}
 	
 	/**
@@ -220,43 +223,52 @@ public class StorageController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/compareKey.do",method = RequestMethod.POST)
-	public String compareKey(int overCost,Model model) {
+	@RequestMapping(value = "/beforePay.do",method = RequestMethod.POST)
+	public String beforePay(int overCost,Model model) {
 		log.info("키 대조 화면으로 이동");
 		model.addAttribute("overCost",overCost);
 		return "storage/compareKey";
 	}
 	/**
-	 * 결제전 키 대조, 불일치시 페이지이동
-	 * 할증비용 있을때 결제전 할증비용 추가
+	 * ajax로 키 대조결과 확인하기 ->boolean 으로 리턴
+	 * 키 일치시 session에 결제코드, 금액 담기
 	 * @param key
+	 * @param session
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/compareKey.do",method = RequestMethod.POST)
+	public boolean compareKey(String key,HttpSession session) {
+		log.info("ajax로 키 확인하는 컨트롤러");
+		CostDto costDto = service.compareKey(key);
+		boolean result= false;
+		if(costDto==null) {
+			log.info("키 대조 실패");
+		}else {
+			result = true;
+			log.info("키 대조 성공 (결제코드,금액) : "+costDto);
+			session.setAttribute("costCode",costDto.getCostCode());
+			session.setAttribute("cost",costDto.getCost());
+		}
+		return result;
+	}
+	
+	/**
+	 * 할증비용 있을때 결제전 할증비용 추가
 	 * @param overCost
 	 * @return
 	 */
-	@RequestMapping(value = "/beforePay.do",method = {RequestMethod.POST,RequestMethod.GET})
-	public String beforePay(String key,int overCost,HttpSession session) {
-		log.info("받은 key : "+key + " overCost : "+overCost);
-		CostDto costDto = service.compareKey(key);
-		log.info("키 대조 결과 (결제코드,금액) : "+costDto);
-		
-		
-		if(costDto==null) {
-			log.info("해당 키가 없음 -> 키 대조 실패 -> 전단계?메인페이지?");
-			//TODO 키가 맞지 않는다고 alert 띄워주기->키 새로등록페이지로 ?
-			return "redirect:./userStorageList.do";
-		}
-		
-		if(overCost>0) {
+	@ResponseBody
+	@RequestMapping(value = "/updateOverCost.do",method = RequestMethod.GET)
+	public boolean updateOverCost(int overCost,HttpSession session) {
 			log.info("보관만료시간 초과");
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("overCost", overCost);
-			map.put("costCode", costDto.getCostCode());
+			map.put("costCode", session.getAttribute("costCode"));
 			boolean isc = service.updateExtraCost(map);
 			log.info("보관시간 만료 이후 할증 금액 수정 결과 : "+ isc);
-			session.setAttribute("cost",costDto.getCost()+overCost);
-		}
-		session.setAttribute("costCode",costDto.getCostCode());
-		return "storage/payment";
+			session.setAttribute("cost",((int)session.getAttribute("cost"))+overCost);
+		return isc;
 	}
 	/**
 	 * 결제후 반품여부 없으면 결제완료페이지로 이동
@@ -283,7 +295,7 @@ public class StorageController {
 			session.removeAttribute("costCode");
 			session.removeAttribute("cost");
 			log.info("보관함 사용가능처리 + 보관 정보 삭제 결과 : "+isc);
-			return "storage/map.do";
+			return "storage/userStorageList.do";
 		}
 	}
 	
@@ -292,20 +304,28 @@ public class StorageController {
 	 * @param map(costCode,message)
 	 * @return
 	 */
-	@RequestMapping(value = "/insertReturn.do",method = RequestMethod.POST)
-	public String insertReturn(String costCode, String message) {
-		log.info("반품 Controller - costCode : "+costCode + " message : "+message);
+	@ResponseBody
+	@RequestMapping(value = "/insertReturn.do",method = RequestMethod.GET)
+	public boolean insertReturn(String msg,HttpSession session) {
+		log.info("반품 Controller -  msg : "+msg);
 		Map<String, String> map = new HashMap<String, String>();
-		map.put("costCode",costCode );
-		map.put("message", message);
+		map.put("costCode",(String)session.getAttribute("costCode"));
+		map.put("message", msg);
 		boolean isc = service.insertReturn(map);
+		session.removeAttribute("costCode");
+		session.removeAttribute("cost");
 		log.info("반품 등록 service 결과 : "+isc);
-		return "redirect:/storage/userStorageList.do";
+		return isc;
 	}
 
 	//************************************************************************************************
 
-	
+	@RequestMapping(value = "/paymentPage.do", method = RequestMethod.GET)
+	public String paymentPage() {
+		log.info("Controller_paymentPage.do 실행");
+		return "storage/payment";
+	}
+
 	@RequestMapping(value = "/resultPayment.do", method = RequestMethod.GET)
 	public String afterPayment(String imp_success, HttpSession session) {
 //		String costCode = (String) session.getAttribute("costCode");
@@ -662,12 +682,6 @@ public class StorageController {
 		}
 		log.info("Controller_checkDeliveryInfo.do 실행");
 		return "delivery/deliveryList";
-	}
-
-	@RequestMapping(value = "/paymentPage.do", method = RequestMethod.GET)
-	public String paymentPage() {
-		log.info("Controller_paymentPage.do 실행");
-		return "storage/payment";
 	}
 
 

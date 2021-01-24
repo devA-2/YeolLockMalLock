@@ -113,7 +113,7 @@ $.get("./selectMap.do", function(markers) {
 
       //마커 클릭시 ajax로 정보 가져오기 
       function getInfo(id) {
-    	  console.log(id);
+//    	  console.log(id);
     	  $.ajax({
     		  url : './ajaxCountStorage.do',
     		  type : 'get',

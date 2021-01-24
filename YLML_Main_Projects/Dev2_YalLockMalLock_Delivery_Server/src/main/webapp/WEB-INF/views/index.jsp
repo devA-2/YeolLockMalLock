@@ -35,8 +35,6 @@
    </c:if>
    <a href="./member/infoAgree.do">회원가입</a><br>
    <hr>
-   <a href="#">게시판</a><br>
-   <hr>
    <a href="./storage/deliveryList.do">배송</a><br>
    <hr>
    <a href="#">RFID/NFC</a><br>

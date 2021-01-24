@@ -394,6 +394,11 @@ public interface Api_IService {
 	public Map<String, Object>/* List<LostPropertyDto> */ searchId2(
 			Map<String, Object> map/* String receipt_user_id */); // 유실물 검색
 
+	
+	//페이징 관련
+	public Map<String, Object> /* int */ countReport(Map<String, Object> map);
+	
+	public Map<String, Object> /* List<ReportDto> */ selectReport(Map<String, Object> map/*PagingVO vo*/);
 
 	/************************************관리자************************************/
 	/************************************재우************************************/
@@ -514,8 +519,16 @@ public interface Api_IService {
 	 * @param email
 	 * @return list
 	 */
-	public Map<String, Object>/* List<MemberDto> */ selectAll(Map<String, Object> map/* String email */);
+	public Map<String, Object>/* List<MemberDto> */ selectAll(Map<String, Object> map/* Map<String, Object> map */);
 
+	/**
+	 * 전체 회원 수 조회
+	 * @param 
+	 * @return int
+	 */
+	public Map<String, Object>/* int */ countMember(Map<String, Object> map/*String email*/);
+
+	
 	/**
 	 * 회원 아이디로 검색
 	 * 

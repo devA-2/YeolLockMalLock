@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.dev2.ylml.dto.MemberDto;
 import com.dev2.ylml.dto.StorageGoodsDto;
 import com.dev2.ylml.model.service.ManagerIService;
+import com.dev2.ylml.util.PagingVO;
 
 //로그인 세션 mem
 //마이페이지 접근 세션 : Allowed
@@ -113,19 +114,45 @@ public class MemberController {
 	 * @param email
 	 * @return
 	 */
-	@RequestMapping(value = "/allMember.do",method = RequestMethod.GET)
-	public String selectAll(Model model,@RequestParam(required=false) String email) {
-		List<MemberDto> list;
-		if(email==null || email.isBlank()) {
-			list = iService.selectAll(new String());
-		}else {
-			list = iService.selectAll(email);
+//	@RequestMapping(value = "/allMember.do",method = RequestMethod.GET)
+//	public String selectAll(Model model,@RequestParam(required=false) String email) {
+//		List<MemberDto> list;
+//		if(email==null || email.isBlank()) {
+//			list = iService.selectAll(new String());
+//		}else {
+//			list = iService.selectAll(email);
+//		}
+//		log.info(list+"");
+//		model.addAttribute("list",list);
+//		return "allMember";
+//	}
+	
+	@RequestMapping(value="/allMember.do")
+	public String pagingReportList(PagingVO vo, Model model
+			//email이 null일때 오류 -> 디폴트를 @로 
+			, @RequestParam(value="email",required=false,defaultValue = "@") String email
+			, @RequestParam(value="nowPage", required=false)String nowPage
+			, @RequestParam(value="cntPerPage", required=false)String cntPerPage) {
+
+		log.info("회원 조회 ");
+		int total = iService.countMember(email);
+		if (nowPage == null && cntPerPage == null) {
+			nowPage = "1";
+			cntPerPage = "5";
+		} else if (nowPage == null) {
+			nowPage = "1";
+		} else if (cntPerPage == null) { 
+			cntPerPage = "5";
 		}
-		log.info(list+"");
-		model.addAttribute("list",list);
+		vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+		model.addAttribute("paging", vo);
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("email", email);
+		map.put("start",vo.getStart());
+		map.put("end", vo.getEnd());
+		model.addAttribute("viewAll", iService.selectAll(map));
 		return "allMember";
 	}
-	
 	/**
 	 * 회원 상세정보
 	 * @param email

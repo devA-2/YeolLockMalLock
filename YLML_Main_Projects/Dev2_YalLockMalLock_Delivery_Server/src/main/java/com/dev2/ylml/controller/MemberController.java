@@ -213,6 +213,25 @@ public class MemberController {
 		}
 		return isc;
 	}
+	
+	/**
+	 * 마이페이지 진입전 패스워드 체크<br>
+	 * 
+	 * @param session
+	 * @param pw
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/pwChk.do", method = RequestMethod.POST)
+	public Boolean pwChk(HttpSession session, String pw) {
+		// loginCheckMap에서 비슷한 로직이 있어서 재활용함
+		boolean result = loginCheckMap(((MemberDto)session.getAttribute("mem")).getEmail(), pw);
+		
+		if(result) {
+			session.setAttribute("allowed", true);
+		}
+		return result;
+	}
 
 	/**
 	 * 로그아웃<br>
@@ -227,7 +246,7 @@ public class MemberController {
 			session.invalidate();
 
 		}
-		return "redirect:./index.do";
+		return "redirect:/index.do";
 	}
 
 	/**

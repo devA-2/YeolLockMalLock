@@ -12,8 +12,8 @@
 </head>
 <body>
 	<div>
-    	<input type="hidden" id="cost" value="1000">
-    	<input type="hidden" id="phoneNum" value="010-1111-1111">
+    	<input type="hidden" id="cost" value="${cost }">
+    	<input type="hidden" id="phoneNum" value="${mem.phoneNum}">
     	<input type="button" id="check_module" value="결제하기">
 	</div>
 </body>

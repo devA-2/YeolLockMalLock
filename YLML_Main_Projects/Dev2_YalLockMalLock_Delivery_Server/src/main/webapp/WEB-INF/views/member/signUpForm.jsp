@@ -5,8 +5,8 @@
 <head>
 <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Insert title here</title>
-<script type="text/javascript" src="./js/jquery-3.5.1.js"></script>
-<script type="text/javascript" src="./js/signUp.js"></script>
+<script type="text/javascript" src="../js/jquery-3.5.1.js"></script>
+<script type="text/javascript" src="../js/signUp.js"></script>
 </head>
 <style type="text/css">
 #container{
@@ -21,6 +21,7 @@
 	<div id="container">
 		<h1>회원가입</h1>
 		<form action="./insertMember.do" id="joinChkFrm" method="post">
+		<input type="hidden" name="auth" value="89">
 		테스트용 고유식별번호<input type="text" name="idNum" >
 			<label>아이디 : </label>
 				<input type="text" id="email" name="email" size="40" maxlength="40"><br>

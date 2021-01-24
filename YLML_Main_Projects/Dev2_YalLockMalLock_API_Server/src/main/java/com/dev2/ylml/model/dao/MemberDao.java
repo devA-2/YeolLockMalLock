@@ -131,10 +131,13 @@ public class MemberDao implements MemberIDao {
 	}
 	
 	@Override
-	public List<MemberDto> selectAll(String email) {
-		return sqlSession.selectList("member.selectAll",email);
+	public List<MemberDto> selectAll(Map<String, Object> map) {
+		return sqlSession.selectList("member.selectAll",map);
 	}
-
+	@Override
+	public int countMember(String email) {
+		return sqlSession.selectOne("member.countMember",email);
+	}
 	@Override
 	public List<String> memberIdSearch() {
 		return sqlSession.selectList("member.memberIdSearch");
@@ -148,6 +151,8 @@ public class MemberDao implements MemberIDao {
 	public List<StorageGoodsDto> memberUsing(String email) {
 		return sqlSession.selectList("member.memberUsing",email);
 	}
+
+	
 
 
 }
