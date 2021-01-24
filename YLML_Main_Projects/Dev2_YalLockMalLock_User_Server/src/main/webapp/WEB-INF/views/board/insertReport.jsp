@@ -32,9 +32,15 @@
 		//trim 어떻게 하는지 모르겠다 (공백 (&nbsp;)만 들어갈 때 유효성 검사)
 		//글등록때 뜨는 alert(사이트 나가시겠습니까?) 없애기: oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);를 적용하면 해결된다.
 		
-		if (email.value == "" || title.value == "" || content.value == "" || content.value == "<p><br></p>") { // 위치탐색 후 값을 넣어준뒤 비어있는 값인지 확인 (유효성 검사)
-			alert("필수 값을 입력해 주세요");
-		} else {
+// 		if (email.value == "" || title.value == "" || content.value == "" || content.value == "<p><br></p>") { // 위치탐색 후 값을 넣어준뒤 비어있는 값인지 확인 (유효성 검사)
+// 			alert("필수 값을 입력해 주세요");
+// 		} 
+		
+		if (title.value=="") {
+			alert("제목을 입력 해 주세요.");
+		}else if(content.value == "<p><br></p>"){
+			alert("내용을 입력 해 주세요.");
+		}else {
 // 				var str = content.value;
 // 				str = str.replace(/(?:\r\n|\r|\n)/g,"<br>");
 			//값 확인
@@ -42,7 +48,6 @@
 // 				document.getElementById("resultView").textContent = str;
 			isShow = false;
 			oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
-			alert("실행 완료했습니다."+content);
 			form.submit();
 		}
 	}
@@ -62,10 +67,10 @@
 </div>
 <div id="container" style="width: 360px; height: 600px; border: 1px solid black; margin:auto;">
 	<div>
-		<form action="./insert.do" method="post">
+		<form action="./insert.do" method="post" id="chk">
 					<br><br>
 					<span>아이디 : <input type="text" value="${mem.email}" name="email" id="email"></span><br>
-					<span>제목 : <input type="text" placeholder="제목" name="title" id="title"></span>
+					<span>제목 : <input type="text" placeholder="제목" name="title" id="title"><div id="chkTitle"></div></span>
 					
 						<textarea rows="10" cols="40" id="ir1" name="ir1"></textarea>
 <!-- 						<textarea rows="10" cols="40" id="content" name="content"></textarea> -->
