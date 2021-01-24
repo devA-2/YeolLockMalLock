@@ -182,8 +182,8 @@ public class ManagerService implements ManagerIService{
 
 	// 사용불가 보관함이 해결되었을때 관리자가 사용 가능 보관함으로 변경
 	@Override
-	public boolean activateStorage(String seq) {
-		return (boolean)helper.request("activateStorage.do", seq);
+	public boolean activateStorage(Manager_StorageDto dto) {
+		return (boolean)helper.request("activateStorage.do", dto);
 	}
 
 

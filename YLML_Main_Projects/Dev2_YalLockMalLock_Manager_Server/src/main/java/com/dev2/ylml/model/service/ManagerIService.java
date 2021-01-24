@@ -168,6 +168,6 @@ public interface ManagerIService {
 	 * @param seq
 	 * @return
 	 */
-	public boolean activateStorage(String seq);
+	public boolean activateStorage(Manager_StorageDto dto);
 	
 }

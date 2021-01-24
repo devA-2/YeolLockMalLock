@@ -2,6 +2,8 @@ package com.dev2.ylml.model.service;
 
 import java.util.Map;
 
+import com.dev2.ylml.dto.Manager_StorageDto;
+
 public interface Api_IService {
 	/**
 	 * Sample 참고용 method!!!
@@ -508,7 +510,7 @@ public interface Api_IService {
 	 * @param seq
 	 * @return
 	 */
-	public Map<String, Object>/* boolean */ activateStorage(Map<String, Object> map/* String seq */);
+	public Map<String, Object>/* boolean */ activateStorage(Map<String, Object> map/* Manager_StorageDto dto */);
 
 	// 기수
 	/**

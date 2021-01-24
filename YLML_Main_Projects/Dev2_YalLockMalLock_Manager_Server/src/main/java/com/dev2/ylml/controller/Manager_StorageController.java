@@ -101,20 +101,21 @@ public class Manager_StorageController {
 		
 		service.registStorage(dto);
 		
-		return "redirect:storageDetail.do?storageId="+dto.getStorageId();
+//		return "redirect:storageDetail.do?storageId="+dto.getStorageId();
+		return "storageList";
 	}
 	
 	//	사용불가 보관함이 해결되었을때 관리자가 사용 가능 보관함으로 변경
 	// ActivateStorage.do
 	@RequestMapping(value = "activateStorage.do", method = RequestMethod.GET)
-	public String ActivateStorage(Model model, @RequestParam String boxSeq, 
-			@RequestParam String storageId) {
-		logger.info("ActivateStorage.do 상태변경할 보관함번호 : " + boxSeq);
-		logger.info("ActivateStorage.do 상태변경되는 보관함 id  : " + storageId);
+	public String activateStorage(Model model,Manager_StorageDto dto ) {
+		logger.info("activateStorage.do 상태변경할 보관함번호 : " + dto.getBoxSeq());
+		logger.info("activateStorage.do 상태변경되는 보관함 id  : " + dto.getStorageId());
 		
-		service.activateStorage(boxSeq);
+		boolean isc = service.activateStorage(dto);
 		
-		return "redirect:storageDetail.do?storageId="+storageId;
+		logger.info("보관함 신규등록 결과 : "+isc);
+		return "redirect:storageDetail.do?storageId="+dto.getStorageId();
 	}
 	
 	// 지하철역으로 검색 viewSubway.do

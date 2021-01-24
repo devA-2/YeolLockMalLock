@@ -15,8 +15,7 @@
 	<!-- 보관함 ID로 검색하여 리스트 출력(보관함 ID, 이름, 지하철역, 좌표, 좌표) -->
 	<select id="selectIdStorage" parameterType="java.lang.String"
 	resultType="StorageDto">
-		SELECT STORAGE_ID , STORAGE_NAME , ADDRESS , SUBWAY , LAT , LNG , DETAIL, MANAGER, 
-                (SELECT COUNT(BOX_SEQ) FROM CITYHALL_A sc) AS BOX_AMOUNT
+		SELECT STORAGE_ID , STORAGE_NAME , ADDRESS , SUBWAY , LAT , LNG , DETAIL, MANAGER
         FROM STORAGEBOX_LIST sl 
                 WHERE STORAGE_ID = #{storageId}
 	</select>
@@ -27,7 +26,7 @@
 	resultType="StorageDto">
 		SELECT STORAGE_ID , STORAGE_NAME , ADDRESS , SUBWAY , LAT , LNG ,
 		DETAIL, MANAGER,
-		(SELECT COUNT(BOX_SEQ) FROM CITYHALL_A sc) AS BOX_AMOUNT
+		(SELECT COUNT(BOX_SEQ) FROM ${storageId}) AS BOX_AMOUNT
 		FROM STORAGEBOX_LIST sl
 		WHERE SUBWAY = #{subway}          
 	</select>
@@ -38,14 +37,20 @@
 	<select id="selectDetailStorage" parameterType="java.lang.String" 
 	resultType="StorageDto">
 		SELECT STORAGE_ID, STORAGE_NAME, ADDRESS, SUBWAY, DETAIL, MANAGER, LNG, LAT,
-		(SELECT COUNT(BOX_SEQ) FROM CITYHALL_A sc WHERE STORAGE_ID = #{storageId}) AS BOX_AMOUNT
+		(SELECT COUNT(BOX_SEQ) FROM 
+			${storageId}
+		WHERE STORAGE_ID = #{storageId}) AS BOX_AMOUNT
 		FROM STORAGEBOX_LIST sl
 		WHERE STORAGE_ID = #{storageId}
 	</select>
 	<!-- 보관함 상태조회 -->
 	<select id="selectBoxStatus" parameterType="java.lang.String"
 	resultType="StorageDto">
-		SELECT BOX_SEQ ,BOX_STATUS FROM CITYHALL_A WHERE STORAGE_ID = #{storageId}
+		
+			SELECT BOX_SEQ ,BOX_STATUS FROM 
+			${storageId}
+			WHERE STORAGE_ID = #{storageId}
+		
 	</select>
 	
 	<!-- 보관함 등록 -->
@@ -64,8 +69,8 @@
 	</select>
                
 	<!-- 사용불가 보관함이 해결되었을때 관리자가 사용 가능 보관함으로 변경 -->
-	<select id="activateStorage" parameterType="java.lang.String">
-		UPDATE CITYHALL_A SET BOX_STATUS = 'O'
+	<select id="activateStorage" parameterType="StorageDto">
+		UPDATE ${storageId} SET BOX_STATUS = 'O'
         WHERE BOX_SEQ = #{boxSeq}
 	</select>
 	
