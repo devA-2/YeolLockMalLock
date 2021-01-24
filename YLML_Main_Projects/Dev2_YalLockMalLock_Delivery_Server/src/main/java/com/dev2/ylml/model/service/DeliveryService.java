@@ -18,8 +18,6 @@ public class DeliveryService implements DeliveryIService{
 	@Autowired
 	ApiClientHelper helper;
 	
-	@Autowired
-	private PasswordEncoder pwEncoder;
 	
 	
 	@Override
@@ -74,7 +72,7 @@ public class DeliveryService implements DeliveryIService{
 	 * 아이디 찾기
 	 */
 	public String idSearch(Map<String, Object> map) {
-		return (String)helper.request("idSearch,do", map);
+		return (String)helper.request("idSearch.do", map);
 	}
 	
 	/*
