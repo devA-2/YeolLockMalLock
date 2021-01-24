@@ -32,24 +32,22 @@
 		<property name="redirectUri" value="http://localhost:8085/socialLoginAPI/googleCallback.do"/>
 	</bean> -->
 	
-	
-	
-	
-	
 	<tx:annotation-driven transaction-manager="transactionManager" />
-
-	<!-- IOC 에서 호출되는 mapping을 제어하기 위함 -->
+	
+		<!-- IOC 에서 호출되는 mapping을 제어하기 위함 -->
  	<mvc:interceptors>
 		<mvc:interceptor>
 		<!-- mvc:mapping + bean은 필수, mvc:exclude-mapping 선택 -->
 		<!--1. 인터셉터가 적용 될 url -->
-			<mvc:mapping path="/boardList.do"/>
+			<mvc:mapping path="/*.do"/>
 		<!--2. 인터셉터가 제외 될 url-->
-			<mvc:exclude-mapping path="/*.do" />
+			<mvc:exclude-mapping path="/index.do" />
+			<mvc:exclude-mapping path="/login.do" />
+			<mvc:exclude-mapping path="/loginCheckMap.do" />
 		<!--3. interceptor가 동작 및 판단 할 클래스를 bean으로 등록 -->
-			<bean class="com.dev2.ylml.interceptor.Interceptor"></bean>
+			<bean class="com.dev2.ylml.interceptor.AuthenticationInterceptor"></bean>
 		</mvc:interceptor>
-
+	<!-- IOC 에서 호출되는 mapping을 제어하기 위함 -->
 
 		<bean id="webContentInterceptor"
 			class="org.springframework.web.servlet.mvc.WebContentInterceptor">
