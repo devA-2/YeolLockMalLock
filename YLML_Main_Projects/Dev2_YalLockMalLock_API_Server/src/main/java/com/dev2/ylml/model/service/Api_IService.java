@@ -1,6 +1,9 @@
 package com.dev2.ylml.model.service;
 
+import java.util.List;
 import java.util.Map;
+
+import com.dev2.ylml.util.PagingVO;
 
 public interface Api_IService {
 	/**
@@ -392,6 +395,11 @@ public interface Api_IService {
 	public Map<String, Object>/* List<LostPropertyDto> */ searchId2(
 			Map<String, Object> map/* String receipt_user_id */); // 유실물 검색
 
+	
+	//페이징 관련
+	public Map<String, Object> /* int */ countReport(Map<String, Object> map);
+	
+	public Map<String, Object> /* List<ReportDto> */ selectReport(Map<String, Object> map/*PagingVO vo*/);
 
 	/************************************관리자************************************/
 	/************************************재우************************************/

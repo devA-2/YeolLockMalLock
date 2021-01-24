@@ -372,4 +372,16 @@ public class ApiController {
 	public Map<String, Object> memberUsing(@RequestBody Map<String, Object> map) {
 		return service.memberUsing(map);
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "countReport.do")
+	public Map<String, Object> countReport(@RequestBody Map<String, Object> map) {
+		return service.countReport(map);
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "selectReport.do")
+	public Map<String, Object> selectReport(@RequestBody Map<String, Object> map) {
+		return service.selectReport(map);
+	}
 }

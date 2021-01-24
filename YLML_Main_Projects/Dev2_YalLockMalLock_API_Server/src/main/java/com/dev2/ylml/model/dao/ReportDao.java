@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.dev2.ylml.dto.ReportDto;
+import com.dev2.ylml.util.PagingVO;
 
 
 @Repository
@@ -65,6 +66,18 @@ public class ReportDao implements ReportIDao {
 	public boolean reply(ReportDto dto) {
 		int cnt = sqlSession.insert(NS+"reply", dto);
 		return cnt>0?true:false;
+	}
+
+	//페이징 
+	
+	@Override
+	public int countReport() {
+		return sqlSession.selectOne(NS+"countReport");
+	}
+
+	@Override
+	public List<ReportDto> selectReport(PagingVO vo) {
+		return sqlSession.selectList(NS+"selectReport",vo);
 	}
 
 }

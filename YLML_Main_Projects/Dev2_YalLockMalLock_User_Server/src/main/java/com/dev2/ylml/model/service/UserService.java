@@ -19,6 +19,7 @@ import com.dev2.ylml.dto.StorageGoodsDto;
 import com.dev2.ylml.dto.StorageListDto;
 import com.dev2.ylml.dto.UserStorageListDto;
 import com.dev2.ylml.util.ApiClientHelper;
+import com.dev2.ylml.util.PagingVO;
 
 
 @Service
@@ -312,11 +313,13 @@ public class UserService implements UserIService{
 		return (ReportDto) helper.request("selectDetail.do", seq);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<ReportDto> searchId(String email) {
 		return (List<ReportDto>) helper.request("searchId.do", email);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<LostPropertyDto> searchId2(String receipt_user_id) {
 		return (List<LostPropertyDto>) helper.request("searchId2.do", receipt_user_id);
@@ -351,6 +354,18 @@ public class UserService implements UserIService{
 	public boolean insertGoods(RFIDDto dto) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	//페이징 
+	@Override
+	public int countReport() {
+		return (int) helper.request("countReport.do");
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ReportDto> selectReport(PagingVO vo) {
+		return (List<ReportDto>) helper.request("selectReport.do",vo);
 	}
 
 	
