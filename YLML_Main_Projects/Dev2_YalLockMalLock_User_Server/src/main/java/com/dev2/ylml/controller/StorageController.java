@@ -159,7 +159,7 @@ public class StorageController {
 	 * @param boxSeq
 	 * @return
 	 */
-	@RequestMapping(value = "/updateExtend.do",method = RequestMethod.POST)
+	@RequestMapping(value = "/updateExtend.do",method = RequestMethod.GET)
 	public String updateExtend(@RequestParam("storageId") String id, int boxSeq) {
 		log.info("boxSeq : "+boxSeq+",id : "+id);
 		Map<String,Object> map = new HashMap<String, Object>();
@@ -191,7 +191,7 @@ public class StorageController {
 	 * @param email
 	 * @return
 	 */
-	@RequestMapping(value = "/updateOutUser.do",method = RequestMethod.POST)
+	@RequestMapping(value = "/updateOutUser.do",method = RequestMethod.GET)
 	public String updateOutUser(Model model,@RequestParam("storageId") String id,
 			int boxSeq, @RequestParam(required=false) String email) {
 		log.info("받아온 id: "+id+" boxSeq: "+boxSeq+" outUSerEmail: "+email);
@@ -233,7 +233,7 @@ public class StorageController {
 	 * @param overCost
 	 * @return
 	 */
-	@RequestMapping(value = "/beforePay.do",method = RequestMethod.POST)
+	@RequestMapping(value = "/beforePay.do",method = {RequestMethod.POST,RequestMethod.GET})
 	public String beforePay(String key,int overCost,HttpSession session) {
 		log.info("받은 key : "+key + " overCost : "+overCost);
 		CostDto costDto = service.compareKey(key);
@@ -303,7 +303,7 @@ public class StorageController {
 		return "redirect:/storage/userStorageList.do";
 	}
 
-	//************************************************************************************************88
+	//************************************************************************************************
 
 	
 	@RequestMapping(value = "/resultPayment.do", method = RequestMethod.GET)
