@@ -30,21 +30,35 @@ public class Manager_StorageController {
 		return "storageList";
 	}
 	
-	// 보관함 전체 조회  storageList
-	// 전체조회에서 id로 담당자 및 배송원 조회 검색 결과를 list로 model객체에 담아서
+	// 보관함 ID검색, 전체 조회  storageList
+	// 전체조회에서 storageId로 검색 결과를 list로 model객체에 담아서
 	// storageViewList로 전달
 	@RequestMapping(value = "storageList.do", method = RequestMethod.GET)
-	public String storageList(Model model, String param) {
-		logger.info("storageList.do 보관함 전체 조회 : " + param);
+	public String storageList(Model model, String param, String schOpt) {
+		logger.info("storageList.do 보관함ID 조회 입력값: " + param);
+		logger.info("storageList.do 보관함ID 조회 식별값 : " + schOpt);
 		
 		if (param == null) {
 			List<Manager_StorageDto> lists = service.selectAllStorage();
 			model.addAttribute("lists", lists);
 	      }
 			else {
-				Manager_StorageDto list = service.selectIdStorage(param);
+			Manager_StorageDto list = service.selectIdStorage(param);
 	         model.addAttribute("list", list);
 	      }
+		return "storageViewList";
+	}
+	
+	
+	//  지하철역 조회 selectSubwayStorage
+	@RequestMapping(value = "selectSubwayStorage.do", method = RequestMethod.GET)
+	public String storageSearchList(Model model, String param, String schOpt) {
+		logger.info("selectSubwayStorage.do 보관함 지하철역 조회 입력값 : " + param);
+		logger.info("selectSubwayStorage.do 보관함 지하철역 조회 식별값 : " + schOpt);
+		
+			List<Manager_StorageDto> list = service.selectSubwayStorage(param);
+	        model.addAttribute("subwaylists", list);
+	         
 		return "storageViewList";
 	}
 	

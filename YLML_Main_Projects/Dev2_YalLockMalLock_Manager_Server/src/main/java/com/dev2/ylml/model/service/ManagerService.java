@@ -151,8 +151,8 @@ public class ManagerService implements ManagerIService{
 
 	// 보관함 지하철역으로 조회
 	@Override
-	public Manager_StorageDto selectSubwayStorage(String subway) {
-		return (Manager_StorageDto)helper.request("selectSubwayStorage.do", subway);
+	public List<Manager_StorageDto> selectSubwayStorage(String subway) {
+		return (List<Manager_StorageDto>)helper.request("selectSubwayStorage.do", subway);
 	}
 
 	// 보관함 상세정보 조회

@@ -23,9 +23,37 @@
          });
 	}
 	
+	// 선택옵션에 맞춰 검색하기
+	// 버튼을 클릭한다 -> 선택 옵션에 맞춰서 해당 컨트롤러를 작동
+		function storageSearch() {
+		var schOpt = $("#searchOption option:selected").val();
+		// 검색 옵션값 확인
+		console.log(schOpt);
+		
+		var schIp = $("#searchInput").val();
+		// 검색어 입력값 확인
+		console.log(schIp);
+		
+		// 검색 옵션값에 따라 컨트롤러 분기
+		if(schIp == ""){
+	  		  alert('검색어를 입력해 주세요');
+	  	  }else if(schOpt == "storageId"){
+	  		$.get("storageList.do?param="+schIp+"&schOpt=storageId", function(data) {
+				$("#list").html(data);
+			});
+	  	  }else if(schOpt == "subway"){
+	  		$.get("selectSubwayStorage.do?param="+schIp+"&schOpt=subway", function(data) {
+				$("#list").html(data);
+			}); 
+	  	  }
+		
+	}
+	
+	
+	
  // id 검색버튼 클릭시, 검색어 결과 호출
     function search() {
-  	  var searchID = $('#searchID').val();
+  	  var searchID = $('#searchID').text();
   	  if(searchID == ""){
   		  alert('검색어를 입력해 주세요');
   	  }else {
@@ -39,17 +67,11 @@
  // 일치검색어 없을시 에러메세지 출력
     function nullChk() {
 		var chk = $('#noResult').val();
-		if(chk == ""){
+		if(chk == "검색결과가 없습니다"){
 			alert("검색결과가 없습니다.");
 		}
 	}
  
- // 임시권한 회원 보기
-    function viewSubway() {
-  	  $.get("viewSubway.do", function(data) {
-            $('#list').html(data);
-         });
-	}
 	
 </script>
 </head>
@@ -59,9 +81,19 @@ storageList.do<br>
 
 
  <div id='container'>
-   <input id="searchID" type="text"  placeholder="검색어를 입력하세요"/>
-   <button onclick="search(),setTimeout(nullChk,1500);">확인</button>&nbsp;
-   <button onclick="viewAllList()">전체리스트</button>
+ 	<form>
+ 		<div>
+			<select id="searchOption">
+				<option value="storageId">보관함 ID</option>
+				<option value="subway">지하철역</option>
+			</select> 
+			<input id="searchInput" type="text"  placeholder="검색어를 입력하세요" />
+			<input  type="button" value="검색"  onclick="storageSearch(),setTimeout(nullChk,1000);"/>
+		</div>
+	</form>	
+<!-- 		<input id="searchID" type="text"  placeholder="검색어를 입력하세요" /> -->
+<!-- 	    <button onclick="search(),setTimeout(nullChk,1000);">확인</button>&nbsp; -->
+   		<button onclick="viewAllList()">전체리스트</button>
    <hr>
    <div id=list></div>
    </div>

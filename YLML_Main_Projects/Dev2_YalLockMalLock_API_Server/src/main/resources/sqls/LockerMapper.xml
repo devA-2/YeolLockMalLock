@@ -24,11 +24,9 @@
 	<!-- 보관함 지하철역 검색 리스트 출력(보관함 ID, 이름, 지하철역, 좌표, 좌표) -->
 	<select id="selectSubwayStorage" parameterType="java.lang.String"
 	resultType="StorageDto">
-		SELECT STORAGE_ID , STORAGE_NAME , ADDRESS , SUBWAY , LAT , LNG ,
-		DETAIL, MANAGER,
-		(SELECT COUNT(BOX_SEQ) FROM ${storageId}) AS BOX_AMOUNT
+		SELECT STORAGE_ID , STORAGE_NAME , ADDRESS , SUBWAY , LAT , LNG , DETAIL, MANAGER
 		FROM STORAGEBOX_LIST sl
-		WHERE SUBWAY = #{subway}          
+			WHERE SUBWAY = #{subway}          
 	</select>
 
 
@@ -41,16 +39,14 @@
 			${storageId}
 		WHERE STORAGE_ID = #{storageId}) AS BOX_AMOUNT
 		FROM STORAGEBOX_LIST sl
-		WHERE STORAGE_ID = #{storageId}
+			WHERE STORAGE_ID = #{storageId}
 	</select>
 	<!-- 보관함 상태조회 -->
 	<select id="selectBoxStatus" parameterType="java.lang.String"
 	resultType="StorageDto">
-		
-			SELECT BOX_SEQ ,BOX_STATUS FROM 
-			${storageId}
-			WHERE STORAGE_ID = #{storageId}
-		
+			SELECT BOX_SEQ ,BOX_STATUS 
+			FROM ${storageId}
+				WHERE STORAGE_ID = #{storageId}
 	</select>
 	
 	<!-- 보관함 등록 -->
