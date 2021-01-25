@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -99,7 +99,8 @@
 					<a href="./storage/deliveryListMain.do">배송</a>
 				</c:otherwise>
 			</c:choose>
-			<a href="./reportList.do">신고</a> 
+			<a href="./pagingReportList.do">신고 글 게시판</a> 
+			<a href="./lostPropertyList.do">유실물 게시판</a> 
 		</div>
 		<!-- 검색창 div -->
          <div class="input-group">

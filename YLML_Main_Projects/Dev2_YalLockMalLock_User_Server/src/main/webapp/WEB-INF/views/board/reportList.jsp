@@ -11,6 +11,8 @@
 
 <title>신고글 게시판 목록</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="./css/common.css">
+
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
 
 </head>
@@ -36,54 +38,31 @@
 
 <body>
 
-<div style="width: 360px; height: 600px; border: 1px solid black; margin:auto;">
-<div>${mem.email}, ${mem.auth }</div>
-<%-- 	<% --%>
+<div id="container">
+	<div id="content">
 	
-<!-- 	  	Object obj = session.getAttribute("mem");  -->
-<!-- 	 	MemberDto mem = (MemberDto)obj; -->
-	
+		<div class="header">
+			<form action="./searchIdReport.do" method="post">
+				<input class="inputForm" type="text" value="USER02@NAVER.COM" name="email">
+				<input class="inputForm" type="submit" value="검색">
+			</form>
+		</div>
 		
-<!-- 	 	if(Integer.parseInt(mem.getAuth()) == 30){ -->
-<!-- 	 		%>  -->
-<!-- 	 		<div>관리자 권한</div>  -->
-<%-- 			<%  --%>
-<!-- 		}else if(Integer.parseInt(mem.getAuth()) == 10){ -->
-<%-- 	  		%>  --%>
-<!-- 	 		<div>일반 사용자</div> -->
-<%-- 	 		<%  --%>
-<!-- 	  	}   -->
-<%-- 	%>  --%>
-
-	<table class="table table-hover">
-		<tr>
-			<th>SEQ</th>
-			<th>작성 일자</th>
-			<th>제목</th>
-			<th>작성자</th>
-		</tr>
-<%-- 		<c:forEach items="${lists}" var="vo" varStatus="vs"> --%>
-<%-- 			<tr onclick="chkAuth('${mem.email}', '${vo.email}', '${mem.auth}', '${vo.refer}')"> --%>
-<!-- <!-- 			<tr> -->
-<%-- 				<td>${vo.seq}</td> --%>
-<%-- 				<td>${vo.regdate}</td> --%>
-<%-- 				<td>${vo.title}</td> --%>
-<%-- 				<td>${vo.email}</td> --%>
-<!-- 			</tr>  -->
-<%-- 		</c:forEach> --%>
-		<tbody id="tbody">
-		</tbody>
-	</table>
-	
-	<div>
-		<button onclick="location.href = './insertReport.do'">신고 글 작성</button><br>
-	</div>
-	
-	<div>
-		<form action="./searchIdReport.do" method="post">
-			<input type="text" value="USER02@NAVER.COM" name="email">
-			<input type="submit" value="검색">
-		</form>
+		<table class="table table-hover" style="width: 97%; margin-left: 1.5%; margin-right: 1.5%;">
+			<tr>
+				<th>SEQ</th>
+				<th>작성 일자</th>
+				<th>제목</th>
+				<th>작성자</th>
+			</tr>
+			<tbody id="tbody">
+			</tbody>
+		</table>
+		
+		<div class="reportBtn">
+			<button onclick="location.href = './insertReport.do'">신고 글 작성</button>
+		</div>
+		
 	</div>
 </div>
 </body>
