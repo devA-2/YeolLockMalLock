@@ -161,10 +161,13 @@ public interface UserIService {
 	public boolean insertGoods(Map<String, Object> map);
 	/**
 	 * 0시 기준 모든 보관함 사용중,사용대기->사용가능,사용불가로 변경
+	 * 0시 기준 모든 보관물품 정보 삭제 
+	 * 
 	 * @param list
 	 * @return int
 	 */
-	public int updateAllStatus(List<String> list);
+	public  int scheduledForMidnight(List<String> list );
+
 	/**
 	 * 연장시간, 연장횟수 수정 + 연장 금액 수정
 	 * @param map

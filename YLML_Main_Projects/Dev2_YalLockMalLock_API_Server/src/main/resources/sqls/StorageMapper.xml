@@ -1,112 +1,139 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="storage">
-	
+
+	<!-- 지도에 마커표시 -->
 	<select id="selectMap" resultType="java.util.HashMap">
-		select storage_id as "id",lng as "lng",lat as "lat" from storagebox_list
+		select storage_id as "id",lng
+		as "lng",lat as "lat" from storagebox_list
 	</select>
-
+	<!-- 보관함 검색 자동완성 -->
 	<select id="selectStorageList" resultType="java.util.HashMap">
-		select storage_id AS "value" ,storage_name AS "label" ,address||' '||subway||' '||detail AS "desc" from storagebox_list
+		select storage_id AS
+		"value" ,storage_name AS "label" ,address||' '||subway||' '||detail AS
+		"desc" from storagebox_list
 	</select>
-
+	<!-- 보관함 정보 + 현재 사용가능 갯수 -->
 	<select id="ajaxCountStorage" resultType="StorageListDto">
-		SELECT l.storage_id,l.storage_name,l.subway,l.address,l.detail,e.cnt
-		FROM storagebox_list L,(SELECT COUNT(*) cnt FROM ${id} WHERE
+		SELECT
+		l.storage_id,l.storage_name,l.subway,l.address,l.detail,e.cnt
+		FROM
+		storagebox_list L,(SELECT COUNT(*) cnt FROM ${id} WHERE
 		box_status='O')e
 		WHERE l.storage_id = #{id}
 	</select>
-
-	<select id="selectStorageStatus" parameterType="java.lang.String" resultType="StorageBoxDto">
-		select box_seq , box_status from ${id} ORDER by box_seq
-<!-- 	select box_seq , trim(box_status) as box_status from ${id} ORDER by box_seq -->
+	<!-- 해당 보관함 현재 상태 조회 -->
+	<select id="selectStorageStatus"	parameterType="java.lang.String" resultType="StorageBoxDto">
+		select box_seq ,
+		box_status from ${id} ORDER by box_seq
 	</select>
-
+<!-- 	세션의 email과 tag/idNum이 일치하는지 확인 -->
+	<select id="tagNFC" parameterType="MemberDto" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM "MEMBER" m WHERE EMAIL =#{email} AND (TAG=#{tag} OR ID_NUM=#{idNum})
+	</select>
+	<!-- 보관 물품 테이블에 보관등록 -->
 	<insert id="insertGoods" parameterType="java.util.HashMap">
-		insert into storage_goods(box_seq,storage_id,in_user,out_user)
+		insert into
+		storage_goods(box_seq,storage_id,in_user,out_user)
 		VALUES(#{boxSeq},#{id},#{email},#{email})
 	</insert>
-
+	<!-- 해당보관함 사용중처리 -->
 	<update id="updateStatus" parameterType="java.util.HashMap">
-		update ${id} set box_status='I' where box_seq=#{boxSeq}
-	</update>	
-	
+		update ${id} set
+		box_status='I' where box_seq=#{boxSeq}
+	</update>
+	<!-- 결제코드 생성 -->
 	<insert id="insertCost" parameterType="java.util.HashMap">
 		INSERT INTO COST(COST_CODE)
 		VALUES('YMC'||TO_CHAR(COST_CODE_SEQ.NEXTVAL))
-		<selectKey resultType="string" keyProperty="costCode" order="AFTER">
-			select 'YMC'||TO_CHAR(COST_CODE_SEQ.currval) as cost_code from dual
-    	</selectKey> 
+		<selectKey resultType="string" keyProperty="costCode"	order="AFTER">
+			select 'YMC'||TO_CHAR(COST_CODE_SEQ.currval) as cost_code from
+			dual
+		</selectKey>
 	</insert>
-
+	<!-- 생성된 결제코드 수정 -->
 	<update id="updateCostCode" parameterType="java.util.HashMap">
-		UPDATE storage_goods SET cost_code=#{costCode}
+		UPDATE storage_goods
+		SET cost_code=#{costCode}
 		WHERE storage_id=#{id} AND box_seq=#{boxSeq}
 	</update>
-
+	<!-- 연장시간, 연장횟수 추가 -->
 	<update id="updateExtend" parameterType="java.util.HashMap">
-		UPDATE STORAGE_GOODS SET EX_TIME = EX_TIME + 2/24,EXTEND_CNT=EXTEND_CNT+1
-		WHERE storage_id=#{id} AND box_seq=#{boxSeq}
+		UPDATE STORAGE_GOODS SET
+		EX_TIME = EX_TIME + 2/24,EXTEND_CNT=EXTEND_CNT+1
+		WHERE storage_id=#{id}
+		AND box_seq=#{boxSeq}
 	</update>
-
+	<!-- 연장 금액 추가 -->
 	<update id="updateExtendCost" parameterType="java.util.HashMap">
-		UPDATE cost SET cost=COST+1500 WHERE cost_code = (SELECT COST_CODE
-		FROM storage_goods WHERE storage_id=#{id} AND box_seq=#{boxSeq})
+		UPDATE cost SET
+		cost=COST+1500 WHERE cost_code = (SELECT COST_CODE
+		FROM storage_goods
+		WHERE storage_id=#{id} AND box_seq=#{boxSeq})
 	</update>
-
+	<!-- 모든 보관함 12시 기준 사용중/대기 보관함 사용가능/사용불가 처리 -->
 	<update id="updateAllStatus" parameterType="java.util.List">
 		<foreach item="item" collection="list">
-		UPDATE ${item.id} SET 
-		BOX_STATUS = CASE WHEN BOX_STATUS = 'I' THEN 'O' 
-						WHEN BOX_STATUS = 'W' THEN 'X' END 
-		WHERE box_status IN ('I','W')
-	  </foreach>
+			UPDATE ${item.id} SET
+			BOX_STATUS = CASE WHEN BOX_STATUS = 'I' THEN 'O'
+			WHEN BOX_STATUS = 'W' THEN 'X' END
+			WHERE box_status IN ('I','W')
+		</foreach>
 	</update>
+		<!-- 모든 보관함 12시 기준 보관물품 유실물등록후 삭제 -->
+		<delete id="deleteAllGoods">
+			DELETE FROM STORAGE_GOODS sg 
+		</delete>
+		<!-- 결제전 키 대조해서 결제코드/금액 출력 -->
+		<select id="compareKey" resultType="CostDto" 	parameterType="java.lang.String">
+			SELECT c.cost_code ,c.cost FROM cost c,storage_goods g WHERE
+			c.cost_code=g.cost_code and key=#{key}
+		</select>
+		<!-- 초과금액 있을경우 결제전 금액 추가 -->
+		<update id="updateExtraCost" parameterType="java.util.HashMap">
+			UPDATE cost SET
+			cost=cost+#{overCost} WHERE cost_code=#{costCode}
+		</update>
+		<!-- 결제코드로 보관함 id 조회 -> 해당 보관함 사용가능/사용불가 처리 -->
+		<!-- 셀렉트키가 update에서 적용안돼서 insert로 -->
+		<insert id="updateStatusCheck"	parameterType="java.util.HashMap">
+			<selectKey keyProperty="id" resultType="java.lang.String" 	order="BEFORE">
+				SELECT STORAGE_ID FROM STORAGE_GOODS sg WHERE COST_CODE=#{costCode}
+			</selectKey>
+			UPDATE ${id} SET BOX_STATUS =
+			CASE WHEN BOX_STATUS = 'I' THEN 'O'
+			WHEN BOX_STATUS = 'W' THEN 'X' END
+			WHERE BOX_SEQ = (SELECT BOX_SEQ FROM STORAGE_GOODS sg WHERE
+			COST_CODE=#{costCode})
+		</insert>
+		<!-- 보관물품 테이블에 정보 삭제 -->
+		<delete id="deleteGoods" parameterType="java.lang.String">
+			DELETE FROM storage_goods WHERE cost_code=#{costCode}
+		</delete>
+		<!-- 수령 사용자 아이디 체크 -->
+		<select id="checkOutEmail" parameterType="java.lang.String" resultType="java.lang.String">
+			<!-- SELECT EMAIL FROM MEMBER WHERE email=#{email} -->
+			SELECT EMAIL FROM MEMBER WHERE email=#{email}
+		</select>
 
-	<select id="compareKey" resultType="CostDto" parameterType="java.lang.String">
-		SELECT c.cost_code ,c.cost FROM cost c,storage_goods g WHERE c.cost_code=g.cost_code and key=#{key}
-	</select>
+		<!-- 수령사용자 email 보관물품에 입력 -->
+		<update id="updateOutUser" parameterType="java.util.HashMap">
+			UPDATE STORAGE_GOODS SET OUT_USER =#{email}
+			WHERE BOX_SEQ =#{boxSeq} AND STORAGE_ID =#{id}
+		</update>
 
-	<update id="updateExtraCost" parameterType="java.util.HashMap">
-		UPDATE cost SET
-		cost=cost+#{overCost} WHERE cost_code=#{costCode}
-	</update>
+		<!-- 반품할때 결제코드로 정보 가져오기 -->
+		<select id="selectForReturn" parameterType="java.lang.String" resultType="StorageGoodsDto">
+			SELECT BOX_SEQ ,STORAGE_ID , IN_USER ,OUT_USER FROM STORAGE_GOODS sg WHERE
+			COST_CODE =#{costCode}
+		</select>
 
-	<!-- 셀렉트키가 update에서 적용안돼서 insert로 -->
-	<insert id="updateStatusCheck" parameterType="java.util.HashMap">
-		<selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
-			SELECT STORAGE_ID FROM STORAGE_GOODS sg WHERE COST_CODE=#{costCode}
-		</selectKey>
-		UPDATE ${id} SET BOX_STATUS = CASE WHEN BOX_STATUS = 'I' THEN 'O' WHEN
-		BOX_STATUS = 'W' THEN 'X' END WHERE BOX_SEQ = (SELECT BOX_SEQ FROM
-		STORAGE_GOODS sg WHERE COST_CODE=#{costCode})
-	</insert>
-
-	<delete id="deleteGoods" parameterType="java.lang.String">
-		DELETE FROM storage_goods WHERE cost_code=#{costCode}
-	</delete>
-	<!-- 수령 사용자 아이디 체크 -->
-	<select id="checkOutEmail" parameterType="java.lang.String" resultType="java.lang.String">
-<!-- 		SELECT EMAIL FROM MEMBER WHERE email=#{email} -->
-		SELECT EMAIL FROM MEMBER WHERE email=#{email}
-	</select>
-	
-<!-- 	수령사용자 email 보관물품에 입력 -->
-	<update id="updateOutUser" parameterType="java.util.HashMap">
-		UPDATE STORAGE_GOODS SET OUT_USER =#{email}  
-		WHERE BOX_SEQ =#{boxSeq} AND STORAGE_ID =#{id}
-	</update>
-	
-	<!-- 	반품할때 결제코드로 정보 가져오기  -->
-	<select id="selectForReturn" parameterType="java.lang.String" resultType="StorageGoodsDto">
-		SELECT BOX_SEQ ,STORAGE_ID , IN_USER ,OUT_USER FROM STORAGE_GOODS sg WHERE COST_CODE =#{costCode}
-	</select>
-	
-	<!-- 	반품 등록 -->
-	<insert id="insertReturn" parameterType="StorageGoodsDto">
-		insert into storage_goods(box_seq,storage_id,in_user,out_user,category_code,message)
-		VALUES(#{boxSeq},#{storageId},#{outUser},#{inUser},'R',#{message})
-	</insert>
+		<!-- 반품 등록 -->
+		<insert id="insertReturn" parameterType="StorageGoodsDto">
+			insert into
+			storage_goods(box_seq,storage_id,in_user,out_user,category_code,message)
+			VALUES(#{boxSeq},#{storageId},#{outUser},#{inUser},'R',#{message})
+		</insert>
 
 </mapper>
 

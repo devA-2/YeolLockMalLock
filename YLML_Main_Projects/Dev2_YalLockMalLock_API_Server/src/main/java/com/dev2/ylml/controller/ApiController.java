@@ -112,15 +112,21 @@ public class ApiController {
 		return service.selectStorageStatus(map);
 	}
 	@ResponseBody
+	@RequestMapping(value = "tagNFC.do")
+	public Map<String, Object> tagNFC(@RequestBody Map<String, Object> map) {
+		return service.tagNFC(map);
+	}
+	@ResponseBody
 	@RequestMapping(value = "insertGoods.do")
 	public Map<String, Object> insertGoods(@RequestBody Map<String, Object> map) {
 		return service.insertGoods(map);
 	}
 	@ResponseBody
-	@RequestMapping(value = "updateAllStatus.do")
-	public Map<String, Object> updateAllStatus(@RequestBody Map<String, Object> map) {
-		return service.updateAllStatus(map);
+	@RequestMapping(value = "scheduledForMidnight.do")
+	public Map<String, Object> scheduledForMidnight(@RequestBody Map<String, Object> map) {
+		return service.scheduledForMidnight(map);
 	}
+
 	@ResponseBody
 	@RequestMapping(value = "updateExtend.do")
 	public Map<String, Object> updateExtend(@RequestBody Map<String, Object> map) {
