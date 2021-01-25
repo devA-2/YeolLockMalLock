@@ -15,17 +15,17 @@
 	text-align: center;	
 }
 #storageInfo{
-	padding: 15px;
+	padding: 7%;
 }
 #storageTime{
-	padding: 15px;
+	padding: 7%;
 }
 #storageCost{
-	padding: 15px;
+	padding: 7%;
 }
 #storageBtn{
 	text-align: center;
- 	padding: 15px; 
+ 	padding: 7%; 
 }
 </style>
 </head>
@@ -48,22 +48,22 @@
 				var systime4 = date.getHours() + 4 + ' : ' + min;
 			}
 			document.getElementById('storageTime').innerHTML = 
-				sysdate + ' ' + systime + '&nbsp&nbsp -> <br><h3>' + sysdate + ' ' + systime4+'</h3>';
+				sysdate + ' ' + systime + '&nbsp&nbsp -> <br><h4>' + sysdate + ' ' + systime4+'</h4>';
 
 		}
 	</script>
 	<div id="container">
-		<div id="content">보관 내용을 확인해주세요</div>
+		<div id="content"><br>보관 내용을 확인해주세요</div>
 		<div id="storageInfo">
-			<h3>${storageInfo.label } ${map.boxSeq }번 보관함</h3>
-			<br> ${storageInfo.desc }<br> 
+			<h4>${storageInfo.label } ${map.boxSeq }번 보관함</h4>
+			<br> ${storageInfo.desc }
 		</div>
 		<hr>
 		<div id="storageTime"></div>
 		<hr>
 		<div id="storageCost">
 		기본 4시간
-		<h3>2000원</h3>
+		<h4>2000원</h4>
 		</div>
 		<hr>
 		<div id="storageBtn">

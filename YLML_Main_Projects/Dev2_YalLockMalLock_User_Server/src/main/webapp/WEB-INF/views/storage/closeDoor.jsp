@@ -14,7 +14,7 @@
 <style type="text/css">
 #content{
 	text-align: center;
-	padding : 30px;
+	padding : 10%;
 }
 </style>
 <meta charset="UTF-8">
@@ -24,9 +24,11 @@
 	<div id="container">
 		<div id="content">
 			<h1>
-				<br>문이 열렸습니다<br> <br>보관 후 문을 닫고<br> 버튼을 클릭해주세요<br>
+				<br><br><br>문이 열렸습니다<br> 
 			</h1>
-			클릭시 문이 잠깁니다 <br>
+			<hr>
+			보관 후 문을 닫고 버튼을 클릭해주세요<br>
+			클릭시 문이 잠깁니다 <br><br>
 			<input type="button" value="보관 완료"  class="btn btn-info"  onclick="location.href='../index.do'">
 
 		</div>

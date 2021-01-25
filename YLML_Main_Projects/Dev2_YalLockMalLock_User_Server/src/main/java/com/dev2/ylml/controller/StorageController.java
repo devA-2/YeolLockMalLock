@@ -296,7 +296,7 @@ public class StorageController {
 			session.removeAttribute("costCode");
 			session.removeAttribute("cost");
 			log.info("보관함 사용가능처리 + 보관 정보 삭제 결과 : "+isc);
-			return "storage/userStorageList.do";
+			return "redirect:/storage/userStorageList.do";
 		}
 	}
 	

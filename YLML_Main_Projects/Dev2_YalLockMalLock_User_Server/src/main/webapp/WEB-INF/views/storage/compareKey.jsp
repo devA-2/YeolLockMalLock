@@ -12,7 +12,7 @@
 <style type="text/css">
 #content{
 	text-align: center;
-	padding : 30px;
+	padding : 10%;
 }
 #btn{
 	width:50%;

@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="../css/common.css">
 <style type="text/css">
 #content{
-	padding: 10px;
+	padding: 5%;
 	text-align: center;
 }
 

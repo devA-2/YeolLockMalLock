@@ -25,11 +25,12 @@ div.btn {
 }
 
 .docu {
-	height: 500px;
+
+	height: 400px;
 	overflow: scroll;
 }
 #storageInfo{
-	padding: 10px;
+	padding: 5%;
 	margin: auto;
 }
 #nextBtn{
