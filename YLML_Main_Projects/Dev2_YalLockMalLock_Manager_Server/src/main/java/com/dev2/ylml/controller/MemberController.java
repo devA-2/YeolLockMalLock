@@ -146,11 +146,13 @@ public class MemberController {
 		}
 		vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
 		model.addAttribute("paging", vo);
+		
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("email", email);
 		map.put("start",vo.getStart());
 		map.put("end", vo.getEnd());
 		model.addAttribute("viewAll", iService.selectAll(map));
+		model.addAttribute("email",email);
 		return "allMember";
 	}
 	/**
