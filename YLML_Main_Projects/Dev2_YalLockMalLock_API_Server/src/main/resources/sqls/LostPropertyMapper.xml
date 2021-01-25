@@ -14,4 +14,8 @@
 	WHERE SEQ = #{seq}
 </select>
 
+<insert>
+
+</insert>
+
 </mapper>

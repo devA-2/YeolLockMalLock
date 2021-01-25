@@ -161,10 +161,13 @@ public interface UserIService {
 	public boolean insertGoods(Map<String, Object> map);
 	/**
 	 * 0시 기준 모든 보관함 사용중,사용대기->사용가능,사용불가로 변경
+	 * 0시 기준 모든 보관물품 정보 삭제 
+	 * 
 	 * @param list
 	 * @return int
 	 */
-	public int updateAllStatus(List<String> list);
+	public  int scheduledForMidnight(List<String> list );
+
 	/**
 	 * 연장시간, 연장횟수 수정 + 연장 금액 수정
 	 * @param map
@@ -345,13 +348,6 @@ public interface UserIService {
 	 */
 	public boolean insertLostProperty(ReportDto dto);
 	
-	// ------------------------------- 물품 보관 ----------------------------- 
-	/**
-	 * 키 제외하고 물품부터 등록
-	 * @param dto
-	 * @return
-	 */
-	public boolean insertGoods(RFIDDto dto);
 	
 	/**
 	 * 물품 보관함의 seq, 보관하는 사람의 email, 보관하는 사람의 TAG를 합쳐 키 생성하고 키 등록하기
@@ -359,15 +355,6 @@ public interface UserIService {
 	 * @return
 	 */
 	public boolean insertKey(RFIDDto dto);
-	
-// ----------------------------- 키 전송 -----------------------------
-	
-	/**
-	 * STORAGE_GOODS의 OUT_USER를 키의 수신자이자 보관함에서 물품을 꺼내는 사람의 email로 변경
-	 * @param dto
-	 * @return
-	 */
-	public boolean updateOutUser(RFIDDto dto);
 	
 	
 	/**

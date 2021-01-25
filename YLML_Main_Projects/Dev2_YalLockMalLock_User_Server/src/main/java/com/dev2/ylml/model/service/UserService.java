@@ -152,8 +152,8 @@ public class UserService implements UserIService{
 	}
 
 	@Override
-	public int updateAllStatus(List<String> list) {
-		return (int)helper.request("updateAllStatus.do", list);
+	public int scheduledForMidnight(List<String> list) {
+		return (int)helper.request("scheduledForMidnight.do", list);
 	}
 
 	@Override
@@ -335,31 +335,20 @@ public class UserService implements UserIService{
 
 	@Override
 	public boolean insertKey(RFIDDto dto) {
-		// TODO Auto-generated method stub
 		return (boolean) helper.request("insertKey.do", dto);
 	}
 
-	@Override
-	public boolean updateOutUser(RFIDDto dto) {
-		return (boolean) helper.request("updateOutUser.do", dto);
-	}
 
 	@Override
 	public boolean updateKey(RFIDDto dto) {
 		return (boolean) helper.request("updateKey.do", dto);
 	}
 
-	// 대기
-	@Override
-	public boolean insertGoods(RFIDDto dto) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 	//페이징 
 	@Override
 	public int countReport() {
-		return (int) helper.request("countReport.do");
+		return (int)helper.request("countReport.do");
 	}
 
 	@SuppressWarnings("unchecked")
@@ -367,6 +356,8 @@ public class UserService implements UserIService{
 	public List<ReportDto> selectReport(PagingVO vo) {
 		return (List<ReportDto>) helper.request("selectReport.do",vo);
 	}
+
+
 
 	
 }

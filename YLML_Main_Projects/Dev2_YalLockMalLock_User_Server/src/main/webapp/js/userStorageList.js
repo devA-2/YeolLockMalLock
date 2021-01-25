@@ -17,7 +17,7 @@ function deliveryBtn(num) {
    
 function extendBtn(num) {
 	//연장하기
-	var frm = document.getElementById("receiptForm"+num)
+	var frm = document.getElementById("storeForm"+num)
 	var id = frm.elements['storageId'].value
 	var boxSeq = frm.elements['boxSeq'].value
 	if(confirm('연장 비용은 2시간에 1500원 입니다. 연장하시겠습니까?')){

@@ -147,7 +147,7 @@ public class StorageController {
 	public String insertGoods(String NFC,HttpSession session) {
 		session.removeAttribute("storageInfo");
 		log.info("NFC태그값 : "+NFC);
-		//nfc 값 받아서 수정해야함
+		//nfc 값 받아서 수정해야함 --> RFIDDto dto = session.getAttribute("dto");
 		Map<String,Object> map = (Map<String, Object>) session.getAttribute("map");
 		log.info("세션에서 받은 map은 ? "+map);
 		boolean isc = service.insertGoods(map);
