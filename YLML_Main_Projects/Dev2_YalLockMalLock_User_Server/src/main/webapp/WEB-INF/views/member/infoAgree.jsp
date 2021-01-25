@@ -4,16 +4,28 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script type="text/javascript" src="../js/jquery-3.5.1.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" type="text/javascript"></script>
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+<!-- <link rel="stylesheet" href="../css/common.css"> -->
 <style type="text/css">
-#container{
-   width : 360px;
-   height: 600px;
-   border: 1px solid black;
-   margin: auto;
+#container {
+	width: 100%; 
+	border: 1px solid black;
+}
+
+#content {
+	width: 97%;
+ 	margin-left: 1.5%;
+	margin-right: 1.5%; 
+	text-align: center;
+}
+
+h1.info{
+	font-weight: 600;
 }
 </style>
 </head>
@@ -31,15 +43,16 @@
 </script>
 <body>
 	<div id="container">
-			<h1>회원가입</h1>
-			<p>열락말락 이용약관</p>
+		<div id="content">
+			<h1 class="info">회원가입</h1>
+			<h3>열락말락 이용약관</h3>
 			<textarea cols="46" rows="10" placeholder="Disabled" disabled style="resize: none;">
 			
 			</textarea><br>
 			
 			<input type="checkbox" name="agree">동의
 			
-			<p>개인정보 수집 및 이용에 동의</p>
+			<h3>개인정보 수집 및 이용에 동의</h3>
 			<textarea cols="46" rows="10" placeholder="Disabled" disabled style="resize: none;">
 1. 수집하는 개인정보 항목 및 수집목적
 ① 회사는 회원가입, 회원 관리, 결제 등 각종
@@ -96,7 +109,8 @@
 			<input type="checkbox" name="agree">동의
 			<br>
 			<br>
-			<input type="button" value="다음단계" onclick="AgreeChk()">
+			<input type="button" value="다음단계" class="btn btn-info" onclick="AgreeChk()">
+		</div>
 	</div>
 </body>
 </html>

@@ -90,8 +90,10 @@ public class MemberController {
 	 * @return
 	 */
 	@RequestMapping(value = "/loginForm.do", method = RequestMethod.GET)
-	public String loginForm(HttpServletRequest request){	
+	public String loginForm(HttpServletRequest request, Model model, HttpSession session){	
 		System.out.println("move to : loginForm");
+		String naverUrl = naverLoginBO.getAuthorizationUrl(session);
+		model.addAttribute("naverUrl", naverUrl);
 		return "member/loginForm";
 	}
 	//테스트완료
