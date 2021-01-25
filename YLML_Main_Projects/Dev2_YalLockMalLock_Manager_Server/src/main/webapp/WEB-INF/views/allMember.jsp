@@ -38,11 +38,15 @@ function selChange() {
 
 function searchUser(){
 	email = document.getElementById('emailSearch').value;
-	location.href='./allMember.do?nowPage=${paging.nowPage}&cntPerPage=${paging.cntPerPage}&email='+email;
+	location.href='./allMember.do?nowPage=1&cntPerPage=${paging.cntPerPage}&email='+email;
+}
+function allUser(){
+	location.href='./allMember.do?nowPage=1&cntPerPage=${paging.cntPerPage}';
 }
 </script>
 <input type="text" id="emailSearch">
 <input type="button" value="검색" onclick="searchUser()">
+<input type="button" value="전체보기" onclick="allUser()">
 <div style="float: right;">
 		<select id="cntPerPage" name="sel" onchange="selChange()">
 			<option value="5"
