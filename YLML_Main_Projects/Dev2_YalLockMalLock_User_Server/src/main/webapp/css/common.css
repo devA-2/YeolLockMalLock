@@ -1,3 +1,6 @@
+@import
+	url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap')	;
+
 html{
 	height: 100%;
 	width: 100%;
@@ -24,6 +27,7 @@ html{
 /* } */
 
 body{
+  font-family: 'Noto Sans KR', sans-serif;
 /* 	font-family:AppleSDGothicNeoB; */
 	font-size: 10px;
 }
@@ -48,3 +52,18 @@ body{
 /* .reportBtn{ */
 /* 	margin-bottom:20%; */
 /* } */
+
+
+/* #container { */
+/* 	width: 360px; */
+/* 	border: 1px solid black; */
+/* 	height: 600px; */
+/* 	margin: auto; */
+/* } */
+
+/* #content { */
+/* 	width: 97%; */
+/* 	margin-left: 1.5%; */
+/* 	margin-right: 1.5% */
+/* } */
+
