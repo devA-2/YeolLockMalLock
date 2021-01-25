@@ -1,9 +1,19 @@
-#container{
-	width : 100%;
-	border: 1px solid black;
-	
+@import
+	url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap')	;
+
+body {
+	font-family: 'Noto Sans KR', sans-serif;
 }
 
-#content{
-	width: 100%;
+#container {
+	width: 360px;
+	border: 1px solid black;
+	height: 600px;
+	margin: auto;
+}
+
+#content {
+	width: 97%;
+	margin-left: 1.5%;
+	margin-right: 1.5%
 }

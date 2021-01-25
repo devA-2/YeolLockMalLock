@@ -4,18 +4,16 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="../css/common.css">
 <style type="text/css">
-.container{
-   width : 360px;
-   height: 600px;
-   border: 1px solid black;
-   margin: auto;
+#content{
+	padding: 5%;
+	text-align: center;
 }
-
 </style>
 </head>
 <body>
@@ -48,10 +46,15 @@
 	
 	
 </script>
-<div class="container">
-	<h3>보관한 상대방에게 반품 처리됩니다.<br> 반품 메세지를 입력해주세요</h3>
+<div id="container">
+	<div id="content">
+	<h4><br><br><br><br>보관한 상대방에게 반품 처리됩니다.<br> 반품 메세지를 입력해주세요</h4>
+	<hr>
 		<textarea class="form-control" rows="5" id="message" placeholder="반품합니다"></textarea>
-		<input type="button" value="반품등록" onclick="insertReturn()">
+		<hr>
+		<input type="button" value="반품등록" class="btn btn-info"onclick="insertReturn()">
+	
+	</div>
 </div>
 </body>
 </html>
