@@ -9,6 +9,7 @@
 <title>신고글 게시판 목록</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+<link rel="stylesheet" href="./css/common.css">
 </head>
 <script>
 function chkAuth(memEmail, voEmail, auth, refer){
@@ -25,8 +26,13 @@ function chkAuth(memEmail, voEmail, auth, refer){
 	}
 </script>
 <body>
-<div style="width: 360px; height: 600px; border: 1px solid black; margin:auto;">
-<%-- <div>${mem.email}, ${mem.auth }</div> --%>
+<div class="container">
+		<div class="searchDiv">
+			<form action="./searchIdReport.do" method="post">
+				<input id="searchInput" class="inputForm" type="text" value="USER02@NAVER.COM" name="email">
+				<input id="searchBtn" class="inputForm" type="submit" value="검색">
+			</form>
+		</div>
 
 
 	<div style="float: right;">
@@ -76,16 +82,10 @@ function chkAuth(memEmail, voEmail, auth, refer){
 			<a href="./pagingReportList.do?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>
 		</c:if>
 	</div>
-	<div>
+	<div class="reportBtn">
 		<button onclick="location.href = './insertReport.do'">신고 글 작성</button><br>
 	</div>
 	
-	<div>
-		<form action="./searchIdReport.do" method="post">
-			<input type="text" value="USER02@NAVER.COM" name="email">
-			<input type="submit" value="검색">
-		</form>
-	</div>
 	
 </div>
 </body>

@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,6 +17,7 @@ import com.dev2.ylml.util.ApiServerHelper;
 import com.dev2.ylml.util.PagingVO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.dev2.ylml.dto.MemberDto;
+import com.dev2.ylml.dto.RFIDDto;
 import com.dev2.ylml.dto.ReportDto;
 import com.dev2.ylml.dto.LostPropertyDto;
 import com.dev2.ylml.dto.CostDto;
@@ -30,6 +32,7 @@ import com.dev2.ylml.dto.Manager_StorageDto;
 import com.dev2.ylml.model.dao.StorageDeliveryIDao;
 import com.dev2.ylml.model.dao.LostPropertyIDao;
 import com.dev2.ylml.model.dao.MemberIDao;
+import com.dev2.ylml.model.dao.RFIDIDao;
 import com.dev2.ylml.model.dao.ReportDao;
 import com.dev2.ylml.model.dao.ReportIDao;
 import com.dev2.ylml.model.dao.SearchIDao;
@@ -68,6 +71,8 @@ public class Api_Service implements Api_IService{
   
 	@Autowired
 	private MemberIDao memberDao;
+	
+	private RFIDIDao rfidDao;
 
 	//Certification -> 데이터의 0번째는 key 값 -> 틀리면 Certification:false로 return  한다
 	@Override
@@ -309,6 +314,7 @@ public class Api_Service implements Api_IService{
 
 	@SuppressWarnings("unchecked")
 	@Override
+	@Transactional
 	public Map<String, Object> insertGoods(Map<String, Object> map) {
 		if(!helper.checkKey(map)) {
 			return helper.keyFailed();
@@ -322,7 +328,13 @@ public class Api_Service implements Api_IService{
 		log.info("결제코드 생성 : "+isc3+" - map :"+ box);
 		boolean isc4 = storageDao.updateCostCode(box);
 		log.info("결제코드 수정 : "+isc4+" - map :"+ box);
-		boolean isc =  isc1 && isc2 && isc3 && isc4;
+		
+		RFIDDto dto = (RFIDDto) helper.getData(map);
+		boolean isc5 = rfidDao.insertKey(dto);
+		log.info("키 생성하여 입력 : "+isc5+" - dto :"+ dto);
+		
+		
+		boolean isc =  isc1 && isc2 && isc3 && isc4 && isc5;
 		return helper.generateData(isc);
 	}
 	
@@ -934,6 +946,24 @@ public class Api_Service implements Api_IService{
 		String email =  (String) helper.getData(map);
 		List<StorageGoodsDto> dto = memberDao.memberUsing(email);
 		return helper.generateData(dto);
+	}
+	
+	@Override
+	public Map<String, Object> insertKey(Map<String, Object> map) {
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		RFIDDto dto = (RFIDDto) helper.getData(map);
+		return helper.generateData(rfidDao.insertKey(dto));
+	}
+	
+	@Override
+	public Map<String, Object> updateKey(Map<String, Object> map) {
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		RFIDDto dto = (RFIDDto) helper.getData(map);
+		return helper.generateData(rfidDao.updateKey(dto));
 	}
 
 
