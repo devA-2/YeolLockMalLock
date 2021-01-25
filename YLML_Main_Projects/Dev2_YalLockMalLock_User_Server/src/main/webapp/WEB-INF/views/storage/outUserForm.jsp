@@ -9,13 +9,9 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="../css/common.css">
 <style type="text/css">
-.container{
-   width : 360px;
-   height: 600px;
-   border: 1px solid black;
-   margin: auto;
-}
+
 </style>
 </head>
 <body>
@@ -45,7 +41,7 @@ function checkEmail(){
 }
 
 </script>
-	<div class='container'>
+	<div id='container'>
 		<form method="post" action="./updateOutUser.do">
 			<h2>수령할 사용자를 이메일을 입력해주세요</h2>
 			<input type="hidden" name="storageId" value="${map.id }">

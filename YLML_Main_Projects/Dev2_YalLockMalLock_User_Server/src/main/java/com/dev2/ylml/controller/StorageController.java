@@ -97,7 +97,7 @@ public class StorageController {
 		for(int i=0;i<list.size();i++) {
 			if(id.equals(list.get(i).get("value"))){
 				//value는 id, label은 name, desc는 주소(jqueryUI autocomplete 사용 때문)
-				model.addAttribute("storageInfo",list.get(i));
+				session.setAttribute("storageInfo",list.get(i));
 				break;
 			}
 		}
@@ -145,6 +145,7 @@ public class StorageController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/insertGoods.do",method = RequestMethod.POST)
 	public String insertGoods(String NFC,HttpSession session) {
+		session.removeAttribute("storageInfo");
 		log.info("NFC태그값 : "+NFC);
 		//nfc 값 받아서 수정해야함
 		Map<String,Object> map = (Map<String, Object>) session.getAttribute("map");

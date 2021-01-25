@@ -4,20 +4,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-<style type="text/css">
-.container{
-   width : 360px;
-   height: 600px;
-   border: 1px solid black;
-   margin: auto;
-}
-
-</style>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="../css/common.css">
 </head>
 <body>
 <script type="text/javascript">
@@ -29,7 +20,7 @@
 	}
 
 </script>
-<div class="container">
+<div id="container">
 	<form action="./successPayment.do" method="post">
 		<input type="hidden" id="returnFlag" name="returnFlag" value="N">
 		<h1>결제가 완료되었습니다<br>

@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<title>Insert title here</title>
+<link rel="stylesheet" href="../css/common.css">
 </head>
 <body>
 	<script type="text/javascript">
@@ -63,7 +63,7 @@
 	}
 		
 	</script>
-	<div class="container">
+	<div id="container">
 		<h1>
 			결제전<br> 보관함 리더기에<br> NFC를 태그해주세요
 		</h1>
