@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
-@RequestMapping("/storage")
+@RequestMapping("/delivery")
 public class StorageController {
 
 	@Autowired
@@ -55,7 +55,7 @@ public class StorageController {
 	 * @param deliveryCode
 	 * @return
 	 */
-	@RequestMapping(value = "/receipt.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/pickUp.do", method = RequestMethod.POST)
 	@ResponseBody
 	public String receipt(@RequestParam("deliveryCode") String deliveryCode) {
 		service.updatedeliveryStrat(deliveryCode);
