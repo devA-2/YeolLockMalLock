@@ -4,8 +4,23 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="../css/common.css">
+<style type="text/css">
+#content{
+	text-align: center;
+	padding : 30px;
+}
+#btn{
+	width:50%;
+	text-align: center;
+	display: flex;
+	padding-left: 20%;
+}
+</style>
 </head>
 <body>
 	<script type="text/javascript">
@@ -64,13 +79,18 @@
 		
 	</script>
 	<div id="container">
-		<h1>
-			결제전<br> 보관함 리더기에<br> NFC를 태그해주세요
-		</h1>
+		<div id="content">
+		<h2>
+			<br><br>결제전<br> 보관함 리더기에<br> NFC를 태그해주세요<br>
+		</h2>
 		<h5>태그 일치시 결제화면으로 넘어갑니다</h5>
+		</div>
+		<div id="btn">
 		<input type="hidden" id="overCost" value="${overCost }"> 
 		<input type="text" id="key" placeholder="가상 키 대조"> 
-		<input type="button" value="태그" onclick="compareKey()">
+		<input type="button" value="태그" class="btn btn-info"  onclick="compareKey()">
+		
+		</div>
 
 
 	</div>
