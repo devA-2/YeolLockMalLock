@@ -3,15 +3,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Insert title here</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <script type="text/javascript" src="../js/jquery-3.5.1.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" type="text/javascript"></script>
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="../css/common.css">
 <style type="text/css">
-#container{
-   width : 360px;
-   height: 600px;
-   border: 1px solid black;
-   margin: auto;
+h1.info{
+	font-weight: 600;
+	text-align: center;
+}
+
+#myPageChk-Form{
+	width: 60%;
+	margin-left: 20%; 
+ 	margin-right: 15%; 	
+}
+
+#btn-group {
+	width: 100%;
+	text-align: center;
 }
 </style>
 <script type="text/javascript">
@@ -46,9 +59,14 @@ function myPageChk(){
 </head>
 <body>
 	<div id="container">
-		<h1>마이페이지</h1>
-			<div>비밀번호: </div><input type="password" id="pw" name="pw" maxlength="20" size="20" value="User010101"><br><br>
-			<input type="button" id="myPageChk" name="myPageChk" value="확인" onclick="myPageChk()">
+		<h1 class="info">마이페이지</h1><br><br>
+		<div id="myPageChk-Form">
+			<label>비밀번호</label>
+			<input type="password" id="pw" class="form-control" name="pw" maxlength="20" size="20" value="User010101"><br><br>
+		</div>
+		<div id="btn-group">
+			<input type="button" id="myPageChk" class="btn btn-info" name="myPageChk" value="확인" onclick="myPageChk()">
+		</div>
 	</div>	
 </body>
 </html>

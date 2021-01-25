@@ -34,6 +34,12 @@ public interface StorageIDao {
 	 */
 	public List<StorageBoxDto> selectStorageStatus(String id);
 	/**
+	 * 세션의 이메일과 태그/고유번호 일치하는지 확인
+	 * @param mem(emai,tag,idNum)
+	 * @return
+	 */
+	public int tagNFC(MemberDto mem);
+	/**
 	 * seq, id, email로 보관 등록
 	 * @param map(boxSeq, id, email)
 	 */
@@ -59,6 +65,11 @@ public interface StorageIDao {
 	 * @return int
 	 */
 	public int updateAllStatus(List<String> list);
+	/**
+	 * 0시 기준 모든 보관물품 정보 삭제 
+	 * @return
+	 */
+	public int deleteAllGoods();
 	/**
 	 * 연장시간, 연장횟수 수정
 	 * @param map(storageId, boxSeq)

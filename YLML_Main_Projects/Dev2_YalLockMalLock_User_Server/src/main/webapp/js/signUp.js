@@ -25,6 +25,7 @@ $(document).ready(function(){
 	            let phoneNumber = $('#phone_num').val();
 	            alert('인증번호 발송 완료!');
 	        	$("#phone_num").attr("readonly",true);
+	        	$("#checkSMS").show();
 	            var display = $('.time');
 	        	var leftSec = 120;
 	        	// 남은 시간
@@ -51,7 +52,7 @@ $(document).ready(function(){
 	                    		alert('휴대폰 인증이 정상적으로 완료되었습니다.');
 								clearInterval(timer);
 				        		display.html("");
-//				        		signUpBtn.disabled=false;
+				        		signUpBtn.disabled=false;
 				        		
 	                        }else{
 	                        	if(isRunning) {
