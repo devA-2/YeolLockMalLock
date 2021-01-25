@@ -4,6 +4,11 @@ package com.dev2.ylml.dto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+//@Getter
+//@Setter
+//@ToString
+//@NoArgsConstructor
+
 @Data
 @NoArgsConstructor
 public class ReportDto {
@@ -16,7 +21,7 @@ public class ReportDto {
 	private String category;
 	private String image="";
 	private String delflag;
-	private String processStatus;
+	private String process_status;
 	private String refer;
 	private String step;
 	private String depth;

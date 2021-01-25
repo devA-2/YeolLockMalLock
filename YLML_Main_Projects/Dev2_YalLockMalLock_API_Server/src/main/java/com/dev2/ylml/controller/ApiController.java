@@ -389,4 +389,17 @@ public class ApiController {
 	public Map<String, Object> selectReport(@RequestBody Map<String, Object> map) {
 		return service.selectReport(map);
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "insertKey.do")
+	public Map<String, Object> insertKey(@RequestBody Map<String, Object> map) {
+		return service.insertKey(map);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "updateKey.do")
+	public Map<String, Object> updateKey(@RequestBody Map<String, Object> map) {
+		return service.updateKey(map);
+	}
+	
 }

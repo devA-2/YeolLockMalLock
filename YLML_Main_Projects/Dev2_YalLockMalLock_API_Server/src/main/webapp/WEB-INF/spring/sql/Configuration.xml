@@ -10,7 +10,7 @@
 		<typeAlias type="com.dev2.ylml.dto.ReportDto" alias="ReportDto"/>
 		<typeAlias type="com.dev2.ylml.dto.LostPropertyDto" alias="LostPropertyDto"/>
 		<typeAlias type="com.dev2.ylml.dto.MemberDto" alias="MemberDto"/>
-		<!-- <typeAlias type="com.dev2.ylml.dto.RFIDDto" alias="RFIDDto"/> -->
+		<typeAlias type="com.dev2.ylml.dto.RFIDDto" alias="RFIDDto"/>
 		<typeAlias type="com.dev2.ylml.dto.UserStorageListDto" alias="UserStorageListDto"/>
 		<typeAlias type="com.dev2.ylml.dto.StorageListDto" alias="StorageListDto"/>
 		<typeAlias type="com.dev2.ylml.dto.StorageBoxDto" alias="StorageBoxDto"/>
@@ -30,7 +30,7 @@
 		<!-- <mapper resource="/sqls/StorageBox.xml"/> -->
 		<mapper resource="/sqls/StorageMapper.xml"/>
 		<mapper resource="/sqls/DeliveryMapper.xml"/>
-		<!-- <mapper resource="/sqls/RFIDMapper.xml"/> -->
+		<mapper resource="/sqls/RFIDMapper.xml"/>
 	</mappers>
 
 </configuration>

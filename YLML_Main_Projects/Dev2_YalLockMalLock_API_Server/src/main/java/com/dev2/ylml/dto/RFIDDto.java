@@ -7,4 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RFIDDto {
 
+	private String boxSeq  ;
+	private String inUser  ;
+	private String outUser ;
 }
