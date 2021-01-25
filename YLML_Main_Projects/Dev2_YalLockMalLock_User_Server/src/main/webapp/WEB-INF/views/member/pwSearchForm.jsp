@@ -23,20 +23,19 @@
 		<h1>비밀번호 찾기</h1>
 		<form action="./updatePwForm.do" id="pwSearchForm" method="post">
 			<div>이름</div>
-				<input type="text" id="name" name="name" required="required" value="admin" size="10"/>
+				<input type="text" id="name" name="name" required="required" value="admin" maxlength="6" size="10">
 			<div>아이디</div>
 				<input type="text" id="email" name="email" size="30" maxlength="40" value="admin@naver.com"><br>
 				<div class="checkFont" id="mailChk"></div><br>
 			<input type="button" id="pwSearchBtn" name="pwSearchBtn" class="btn btn-success" value="정보확인">&nbsp;&nbsp;
 			<div id="sendSMS">
-				<label>핸드폰 번호 : </label>
-				<input type="text" name="phoneNum" id="phone_num" maxlength="11" size="15">
-					<div class="check_font" id="phoneChk"></div>
+				<label>휴대폰 번호 : </label>
+				<input type="text" name="phoneNum" id="phone_num" maxlength="11" size="11">
 				<input type="button" id="sendPhone_num" value="인증번호 전송"><br>
 			</div>
 			<div id="checkSMS">
-				<input type="text" id="certified_num" size="5">
-				<input type="button" id="checkBtn" value="확인">
+				<input type="text" id="certified_num" size="5"><br>
+				<input type="button" id="checkBtn" value="확인"><br>
 				<div class="time"></div>
 			<input type="submit" id="pwResetBtn" value="비밀번호 초기화">	
 			</div>
