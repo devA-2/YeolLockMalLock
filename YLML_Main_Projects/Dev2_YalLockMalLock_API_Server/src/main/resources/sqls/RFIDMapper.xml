@@ -2,39 +2,39 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.dev2.ylml.dao.RFIDIDao">
 	
-	<insert id="insertGoods" parameterType="RFIDDto">
-		INSERT INTO STORAGE_GOODS
-		VALUES(#{box_seq}, #{storage_id},
-		NULL, #{in_user}, #{out_user},
-		SYSDATE, SYSDATE+2/24,
-		NULL, 'S', 'YMC002', NULL, 1)
-	</insert>
+<!-- 	<insert id="insertGoods" parameterType="RFIDDto"> -->
+<!-- 		INSERT INTO STORAGE_GOODS -->
+<!-- 		VALUES(#{box_seq}, #{storage_id}, -->
+<!-- 		NULL, #{in_user}, #{out_user}, -->
+<!-- 		SYSDATE, SYSDATE+2/24, -->
+<!-- 		NULL, 'S', 'YMC002', NULL, 1) -->
+<!-- 	</insert> -->
 
-	<update id="insertKey" parameterType="RFIDDto">
+	<update id="insertKey" parameterType="java.util.HashMap">
 		UPDATE STORAGE_GOODS
 		SET "KEY" = (
-		#{box_seq} || 
-		#{in_user} ||
+		#{boxSeq} || 
+		#{email} ||
 		(SELECT TAG FROM "MEMBER"
-		m2 WHERE EMAIL = #{in_user})
+		m2 WHERE EMAIL = #{email})
 		)
-		WHERE IN_USER = #{in_user}
+		WHERE storage_id=#{id} AND box_seq=#{boxSeq}
 	</update>
 
-	<update id="updateOutUser" parameterType="RFIDDto">
-		UPDATE STORAGE_GOODS
-		SET OUT_USER = #{out_user} 
-		WHERE BOX_SEQ = #{box_seq} AND STORAGE_ID = #{storage_id} 
-	</update>
+<!-- 	<update id="updateOutUser" parameterType="RFIDDto"> -->
+<!-- 		UPDATE STORAGE_GOODS -->
+<!-- 		SET OUT_USER = #{out_user}  -->
+<!-- 		WHERE BOX_SEQ = #{box_seq} AND STORAGE_ID = #{storage_id}  -->
+<!-- 	</update> -->
 
-	<update id="updateKey" parameterType="RFIDDto">
+	<update id="updateKey" parameterType="java.util.HashMap">
 		UPDATE STORAGE_GOODS
 		SET "KEY" = (
-		#{box_seq} || 
-		#{out_user} ||
-		(SELECT TAG FROM "MEMBER" m2 WHERE EMAIL = #{out_user})
+		#{boxSeq} || 
+		#{email} ||
+		(SELECT TAG FROM "MEMBER" m2 WHERE EMAIL = #{email})
 		)
-		WHERE OUT_USER = #{out_user}
+		WHERE storage_id=#{id} AND box_seq=#{boxSeq}
 	</update>
 
 </mapper>

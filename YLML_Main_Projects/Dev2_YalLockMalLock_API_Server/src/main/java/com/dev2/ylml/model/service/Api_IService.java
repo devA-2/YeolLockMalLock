@@ -3,6 +3,7 @@ package com.dev2.ylml.model.service;
 import java.util.Map;
 
 import com.dev2.ylml.dto.Manager_StorageDto;
+import com.dev2.ylml.dto.MemberDto;
 
 public interface Api_IService {
 	/**
@@ -161,14 +162,26 @@ public interface Api_IService {
 	 * @return box_seq , box_status
 	 */
 	public Map<String, Object>/* List<StorageBoxDto> */ selectStorageStatus(Map<String, Object> map/* String id */);
-
+	/**
+	 * 세션의 이메일과 태그/고유번호 일치하는지 확인
+	 * @param mem(emai,tag,idNum)
+	 * @return
+	 */
+	public Map<String, Object>/*int*/ tagNFC(Map<String, Object> map/*MemberDto mem*/);
+	/**
+	 * seq, id, email로 보관 등록
+	 * @param map(boxSeq, id, email)
+	 * @return
+	 */
+	public Map<String, Object>/* int */ insertGoods(Map<String, Object> map/* Map<String, Object> map */);
 	/**
 	 * 0시 기준 모든 보관함 사용중,사용대기->사용가능,사용불가로 변경
+	 * 0시 기준 모든 보관물품 정보 삭제 
 	 * 
 	 * @param list
 	 * @return int
 	 */
-	public Map<String, Object>/* int */ updateAllStatus(Map<String, Object> map/* List<String> list */);
+	public Map<String, Object>/* boolean */ scheduledForMidnight(Map<String, Object> map/* List<String> list */);
 
 	/**
 	 * 연장시간, 연장횟수 수정 + 연장 금액 수정
@@ -553,10 +566,4 @@ public interface Api_IService {
 	public Map<String, Object>/* List<StorageGoodsDto> */ memberUsing(Map<String, Object> map/* String email */);
 
 	
-	/**
-	 * 물품 등록
-	 * @param map
-	 * @return
-	 */
-	public Map<String, Object> insertGoods(Map<String, Object> map);
 }

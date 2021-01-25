@@ -152,8 +152,8 @@ public class UserService implements UserIService{
 	}
 
 	@Override
-	public int updateAllStatus(List<String> list) {
-		return (int)helper.request("updateAllStatus.do", list);
+	public int scheduledForMidnight(List<String> list) {
+		return (int)helper.request("scheduledForMidnight.do", list);
 	}
 
 	@Override
@@ -367,6 +367,8 @@ public class UserService implements UserIService{
 	public List<ReportDto> selectReport(PagingVO vo) {
 		return (List<ReportDto>) helper.request("selectReport.do",vo);
 	}
+
+
 
 	
 }

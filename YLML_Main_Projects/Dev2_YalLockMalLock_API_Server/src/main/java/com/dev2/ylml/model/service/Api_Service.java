@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -306,7 +307,16 @@ public class Api_Service implements Api_IService{
 		List<StorageBoxDto> list =storageDao.selectStorageStatus(id);
 		return helper.generateData(list);
 	}
-
+	@Override
+	public Map<String, Object> tagNFC(Map<String, Object> map) {
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		MemberDto mem = (MemberDto) helper.getData(map);
+		int cnt =storageDao.tagNFC(mem);
+		return helper.generateData(cnt);
+	}
+	@Transactional
 	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Object> insertGoods(Map<String, Object> map) {
@@ -328,14 +338,19 @@ public class Api_Service implements Api_IService{
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public Map<String, Object> updateAllStatus(Map<String, Object> map) {
+	public Map<String, Object> scheduledForMidnight(Map<String, Object> map) {
 		if(!helper.checkKey(map)) {
 			return helper.keyFailed();
 		}
 		List<String> list = (List<String>) helper.getData(map);
-		int result = storageDao.updateAllStatus(list);
-		return helper.generateData(result);
+		int cnt1 = storageDao.updateAllStatus(list);
+		log.info("사용중/대기 보관함 사용가능/불과 처리 갯수 : "+ cnt1);
+		int cnt2 = storageDao.deleteAllGoods();
+		log.info("보관물품 전체삭제 갯수 : "+cnt2);
+		int cnt = cnt1 + cnt2;
+		return helper.generateData(cnt);
 	}
+	@Transactional
 	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Object> updateExtend(Map<String, Object> map) {
@@ -370,6 +385,7 @@ public class Api_Service implements Api_IService{
 		boolean isc = storageDao.updateExtraCost(box);
 		return helper.generateData(isc);
 	}
+	@Transactional
 	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Object> afterPayment(Map<String, Object> map) {
@@ -405,7 +421,7 @@ public class Api_Service implements Api_IService{
 		boolean isc = storageDao.updateOutUser(box);
 		return helper.generateData(isc);
 	}
-	
+	@Transactional
 	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Object> insertReturn(Map<String, Object> map) {
@@ -935,10 +951,6 @@ public class Api_Service implements Api_IService{
 		List<StorageGoodsDto> dto = memberDao.memberUsing(email);
 		return helper.generateData(dto);
 	}
-
-
-
-	
 
 	
 	
