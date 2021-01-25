@@ -9,13 +9,8 @@
 <link rel="stylesheet"  href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="../css/common.css">
 <style type="text/css">
-.container {
-	width: 360px;
-	height: 600px;
-	border: 1px solid black;
-	margin: auto;
-}
 
 div.btn {
 	width: 90px;
@@ -24,13 +19,22 @@ div.btn {
 }
 
 .storageBox {
-	width: 360px;
+	width: 100%;
 	height: 360px;
+	padding: 10px;
 }
 
 .docu {
-	height: 500px;
+
+	height: 400px;
 	overflow: scroll;
+}
+#storageInfo{
+	padding: 5%;
+	margin: auto;
+}
+#nextBtn{
+	text-align: center;
 }
 </style>
 </head>
@@ -60,17 +64,21 @@ div.btn {
 			$('#myModal').modal();
 		}
 	}	
-	
 
 	function insertGoods(form){
 		form.submit();
 	}
 	
 </script>
-<div class="container">
-	<h1>${storageInfo.label }</h1>
-	<h4>${storageInfo.desc }</h4>
+<div id="container">
+
+	<div id="storageInfo">
+		<h2>${storageInfo.label }</h2>
+		<h5>${storageInfo.desc }</h5>
+	</div>
+	
 	<hr>
+	
 	<form action="./storageInfoCheck.do" method="post">
 		<div class="storageBox">
 			<c:forEach var="box" items="${statusList}">
@@ -84,11 +92,13 @@ div.btn {
 				</c:choose>
 			</c:forEach>
 		</div>
-		<input type="hidden" name="email" value="${mem.email}">
-<!-- 		<input type="hidden" name="email" value="user01@naver.com"> -->
-		<input type="hidden" id='id' name="id" value="${storageInfo.value}">
-		<input type="hidden" name="boxSeq" id="boxSeq" value="0">
-		<input type="button" class="btn btn-info btn-lg" onclick="clickCheck()" value="다음">
+		<div id="nextBtn">
+			<input type="hidden" name="email" value="${mem.email}">
+			<input type="hidden" id='id' name="id" value="${storageInfo.value}">
+			<input type="hidden" name="boxSeq" id="boxSeq" value="0">
+			<input type="button" class="btn btn-default" onclick="clickCheck()" value="다음">
+		</div>
+
 <!-- 모달시작 -->
   <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
@@ -99,7 +109,7 @@ div.btn {
           <h5 class="modal-title">보관 이용 약관</h5>
         </div>
         <div class="modal-body">
-        <pre class="docu">제1조(목적) 이 약관은 서울도시철도엔지니어링 주식회사(이하 “당사”라 합니다)와
+        <pre class="docu">	제1조(목적) 이 약관은 서울도시철도엔지니어링 주식회사(이하 “당사”라 합니다)와
 물품보관함을 이용하는 개인 또는 법인 간에 물품의 보관・전달 및 이에 따르는 책
 임에 관한 사항을 정하는 것을 목적으로 합니다.
 
@@ -222,32 +232,23 @@ div.btn {
 부 칙
 
 (시행일) 이 약관은 당사의 설립등기일부터 
-                           </pre>
+        
+        </pre>
         </div>
         <div class="modal-footer">
           <input type="button" class="btn btn-success" data-dismiss="modal" value="동의" onclick="insertGoods(this.form)">
         </div>
       </div>
-      
     </div>
   </div>
 <!--   모달끝 -->
+	
+
 	</form>
-	
-
 </div>
-
-	
-	
 	
 
 </body>
 </html>
-<!-- [StorageBoxDto(boxSeq=1, storageId=null, boxStatus=O),  -->
-<!-- StorageBoxDto(boxSeq=2, storageId=null, boxStatus=O),  -->
-<!-- StorageBoxDto(boxSeq=3, storageId=null, boxStatus=O)] -->
-<!-- 하나만 체크되어야함 -->
-<!-- O 일때만 클릭할수 있고 I,X,W일때는 클릭못함 -->
-<!-- 클릭시 boxSeq, storageId, email 가지고 jsp 두개 거친뒤 보관 ! -->
 
 
