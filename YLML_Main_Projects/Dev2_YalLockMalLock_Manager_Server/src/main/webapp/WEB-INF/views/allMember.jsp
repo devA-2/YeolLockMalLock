@@ -33,7 +33,7 @@ $( function() {
 
 function selChange() {
 	var sel = document.getElementById('cntPerPage').value;
-	location.href="./allMember.do?nowPage=${paging.nowPage}&cntPerPage="+sel;
+	location.href="./allMember.do?nowPage=${paging.nowPage}&email=${email}&cntPerPage="+sel;
 }
 
 function searchUser(){
@@ -46,13 +46,13 @@ function searchUser(){
 <div style="float: right;">
 		<select id="cntPerPage" name="sel" onchange="selChange()">
 			<option value="5"
-				<c:if test="${paging.cntPerPage == 5}">selected</c:if>>5줄 보기</option>
+				<c:if test="${paging.cntPerPage == 5}">selected</c:if>>5명씩 보기</option>
 			<option value="10"
-				<c:if test="${paging.cntPerPage == 10}">selected</c:if>>10줄 보기</option>
+				<c:if test="${paging.cntPerPage == 10}">selected</c:if>>10명씩 보기</option>
 			<option value="15"
-				<c:if test="${paging.cntPerPage == 15}">selected</c:if>>15줄 보기</option>
+				<c:if test="${paging.cntPerPage == 15}">selected</c:if>>15명씩 보기</option>
 			<option value="20"
-				<c:if test="${paging.cntPerPage == 20}">selected</c:if>>20줄 보기</option>
+				<c:if test="${paging.cntPerPage == 20}">selected</c:if>>20명씩 보기</option>
 		</select>
 	</div> <!-- 옵션선택 끝 -->
 <table class="table table-hover">
@@ -86,7 +86,7 @@ function searchUser(){
 </table>
 	<div style="display: block; text-align: center;">		
 		<c:if test="${paging.startPage != 1 }">
-			<a href="./allMember.do?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>
+			<a href="./allMember.do?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}&email=${email}">&lt;</a>
 		</c:if>
 		<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
 			<c:choose>
@@ -94,12 +94,12 @@ function searchUser(){
 					<b>${p }</b>
 				</c:when>
 				<c:when test="${p != paging.nowPage }">
-					<a href="./allMember.do?nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a>
+					<a href="./allMember.do?nowPage=${p }&cntPerPage=${paging.cntPerPage}&email=${email}">${p }</a>
 				</c:when>
 			</c:choose>
 		</c:forEach>
 		<c:if test="${paging.endPage != paging.lastPage}">
-			<a href="./allMember.do?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>
+			<a href="./allMember.do?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}&email=${email}">&gt;</a>
 		</c:if>
 	</div>
 </body>
