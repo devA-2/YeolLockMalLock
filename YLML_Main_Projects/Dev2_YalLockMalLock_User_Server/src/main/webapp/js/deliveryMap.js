@@ -15,7 +15,7 @@ $( function() {
 				},
 				select: function( event, ui ) {
 					$( "#search" ).val( ui.item.label );
-					location.href='./selectStorageStatus.do?id='+ui.item.value;
+					location.href='https://map.kakao.com/link/search/'+ui.item.value;
 					return false;
 				}
 			})
