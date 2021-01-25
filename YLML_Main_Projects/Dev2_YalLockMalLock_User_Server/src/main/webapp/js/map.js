@@ -1,7 +1,18 @@
+
+
+function openNav() {
+  document.getElementById("mySidepanel").style.width = "200px";
+}
+
+function closeNav() {
+  document.getElementById("mySidepanel").style.width = "0";
+}
+
+
 //검색창 자동완성
 $( function() {
 	$.ajax({
-		url : './selectStorageList.do',
+		url : './storage/selectStorageList.do',
 		type : 'get',
 		dataType : 'json',
 		success : function(storages) {
@@ -15,7 +26,7 @@ $( function() {
 				},
 				select: function( event, ui ) {
 					$( "#search" ).val( ui.item.label );
-					location.href='./selectStorageStatus.do?id='+ui.item.value;
+					location.href='./storage/selectStorageStatus.do?id='+ui.item.value;
 					return false;
 					}
 			})
@@ -32,7 +43,7 @@ $( function() {
 }); 
 
 //지도에 마커표시
-$.get("./selectMap.do", function(markers) {
+$.get("./storage/selectMap.do", function(markers) {
 //			console.log(markers);
     	  addMarker(markers);
       });
@@ -115,7 +126,7 @@ $.get("./selectMap.do", function(markers) {
       function getInfo(id) {
 //    	  console.log(id);
     	  $.ajax({
-    		  url : './ajaxCountStorage.do',
+    		  url : './storage/ajaxCountStorage.do',
     		  type : 'get',
     		  data : { "id" : id },
     		  success : function(LDto) {
@@ -123,7 +134,7 @@ $.get("./selectMap.do", function(markers) {
     			  msg = LDto.subway+"  <br><strong>"+LDto.storageName+"</strong><br>사용가능 갯수 : "+ LDto.cnt ;
     			  document.getElementById('info').innerHTML = msg;
     			  document.getElementById('info').onclick=function(){
-    				  location.href='./selectStorageStatus.do?id='+LDto.storageId;
+    				  location.href='./storage/selectStorageStatus.do?id='+LDto.storageId;
     			  }
     		  },
     		  error : function() {
