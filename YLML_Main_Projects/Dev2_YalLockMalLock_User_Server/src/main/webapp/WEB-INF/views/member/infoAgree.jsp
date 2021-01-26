@@ -45,6 +45,7 @@ h1.info{
 </script>
 <body>
 	<div id="container">
+	<jsp:include page="../menu.jsp"/>
 		<div id="content">
 			<h1 class="info">회원가입</h1>
 		<div id="agree-form">
