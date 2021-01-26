@@ -320,7 +320,6 @@ public class Api_Service implements Api_IService{
 		int cnt =storageDao.tagNFC(mem);
 		return helper.generateData(cnt);
 	}
-	@Transactional
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
@@ -347,6 +346,7 @@ public class Api_Service implements Api_IService{
 		return helper.generateData(isc);
 	}
 	
+	@Transactional
 	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Object> scheduledForMidnight(Map<String, Object> map) {
@@ -359,6 +359,8 @@ public class Api_Service implements Api_IService{
 		int cnt2 = storageDao.deleteAllGoods();
 		log.info("보관물품 전체삭제 갯수 : "+cnt2);
 		int cnt = cnt1 + cnt2;
+		
+		//지훈아 여기에 유실물로 insert 넣어야되고
 		return helper.generateData(cnt);
 	}
 	@Transactional
@@ -422,6 +424,7 @@ public class Api_Service implements Api_IService{
 		return helper.generateData(chkEmail);
 	}
 	
+	@Transactional
 	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Object> updateOutUser(Map<String, Object> map) {
@@ -430,6 +433,7 @@ public class Api_Service implements Api_IService{
 		}
 		Map<String, Object> box = (Map<String, Object>) helper.getData(map);
 		boolean isc = storageDao.updateOutUser(box);
+		//지훈아 여기에 key update 넣어야함
 		return helper.generateData(isc);
 	}
 	@Transactional
