@@ -7,18 +7,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RFIDDto {
 
-	// STORAGE_GOODS
-	private String storageId    ;
-	private String outUser      ;
-	private String message       ;
-	private String key           ;
-	private String inUser       ;
-	private String inTime       ;
-	private String extendCnt    ;
-	private String exTime       ;
-	private String deliveryCode ;
-	private String costCode     ;
-	private String categoryCode ;
-	private String boxSeq       ;
+	private String boxSeq  ;
+	private String inUser  ;
+	private String outUser ;
 
 }

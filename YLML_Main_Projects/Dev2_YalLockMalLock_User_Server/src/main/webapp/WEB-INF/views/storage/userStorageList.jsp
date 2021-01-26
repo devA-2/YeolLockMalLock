@@ -5,75 +5,114 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>보관 내역</title>
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script type="text/javascript" src="../js/userStorageList.js"></script>
+<link rel="stylesheet" href="../css/common.css">
+<style type="text/css">
+	.panel-group{
+		width: 100%;
+		height: 520px;
+		overflow-y: auto;
+	}
+	.form{
+		margin-top: 5%;
+	}
+	#panel-left span{
+		font-size: 10px;
+	}
+	#panel-right{
+		float: right;
+		width: 100px;
+	}
+</style>
 </head>
 <body>
-	<c:forEach var="list" items="${list}" varStatus="vs">
-			<c:if test="${list.inUser eq mem.email}">
-				<form id="storeForm${vs.count}" method="get">
-					<div>
-						<span>보관</span><br>
-						<input type="hidden" name="boxSeq" value="${list.boxSeq}">
-						<input type="hidden" name="storageId" value="${list.storageId}">
-						<span>${list.storageName}-${list.boxSeq}</span>
-						<span>${list.subway} ${list.detail}</span><br>
-						<span>보관 시작 시간 ${list.inTime}</span><br>
-						<span>수령 사용자 ${list.outUser}</span><br>
-						<span>배송 여부
-							<span id="OX${vs.count}">
-								<c:choose>
-									<c:when test="${list.categoryCode eq 'D' || list.categoryCode eq 'RD'}">O</c:when>
-									<c:when test="${list.categoryCode eq 'S' || list.categoryCode eq 'R'}">X</c:when>
-								</c:choose>
-							</span>
-						</span>
-					</div>
-					<div>
-						<button onclick="exchangeBtn(this.form)">교환</button>
-						<button onclick="deliveryBtn(${vs.count})">배송</button>
-					</div>
-					<hr>
-				</form>
-			</c:if>
-			<c:if test="${list.outUser eq mem.email}">
-				<form id="receiptForm${vs.count}" method="post">
-					<div>
-						<span>수령</span><br>
-						<input type="hidden" name="boxSeq" value="${list.boxSeq}">
-						<input type="hidden" name="storageId" value="${list.storageId}">
-						<span>${list.storageName}-${list.boxSeq}</span>
-						<span>${list.subway} ${list.detail}</span><br>
-						<span>보관 사용자 ${list.inUser}</span>
-						<span>수령 사용자 ${list.outUser}</span><br>
-						<span>보관 비용 ${list.cost}원</span><br>
-						<span>배송 여부 
-							<c:choose>
-								<c:when test="${list.categoryCode eq 'D' || list.categoryCode eq 'RD'}">O</c:when>
-								<c:when test="${list.categoryCode eq 'S' || list.categoryCode eq 'R'}">X</c:when>
-							</c:choose>
-						</span><br>
-						<span>보관 만료 시간 ${list.exTime}</span>
-						<span>연장 횟수 ${list.extendCnt}</span><br>
-						<span>
-							<c:choose>
-								<c:when test="${list.overTime eq 0}"></c:when>
-								<c:when test="${list.overTime ne 0}">${list.overH}시간 ${list.overM}분 초과(결제시 ${list.overCost}원 추가 결제)</c:when>
-							</c:choose>
-							<input type="hidden" name="overCost" value="${list.overCost}">
-						</span>
-					</div>
-					<div>
-						<c:if test="${list.extendCnt<2}">
-<!-- 						버튼 태그가 폼전체를 넘어가게 하는듯 -> input으로 수정함  -->
-							<input type="button" value="연장" onclick="extendBtn(${vs.count})">
-						</c:if>
-						<button onclick="paymentBtn(this.form)">결제</button>
-					</div>
-					<hr>
-				</form>
-			</c:if>
-	</c:forEach>
+	<div id="container" class="container">
+		<jsp:include page="../menu.jsp"/>
+		<div id="content">
+			<div class="panel-group">
+			<c:forEach var="list" items="${list}" varStatus="vs">
+				<c:if test="${list.inUser eq mem.email}">
+					<form id="storeForm${vs.count}" class="form" method="post">
+						<div class="panel panel-success">
+							<div class="panel-heading">
+								<span>보관</span>
+								<input type="hidden" name="boxSeq" value="${list.boxSeq}">
+								<input type="hidden" name="storageId" value="${list.storageId}">
+							</div>
+			      			<div class="panel-body">
+			      				<div id="panel-left">
+				      				<span>${list.storageName}(${list.subway} ${list.detail})  ${list.boxSeq}번 보관함</span><br>
+									<span>보관 시작 시간 : ${list.inTime}</span><br>
+									<span>수령 사용자 : ${list.outUser}</span><br>
+									<span>배송 여부 : 
+										<span id="OX${vs.count}">
+											<c:choose>
+												<c:when test="${list.categoryCode eq 'D' || list.categoryCode eq 'RD'}">O</c:when>
+												<c:when test="${list.categoryCode eq 'S' || list.categoryCode eq 'R'}">X</c:when>
+											</c:choose>
+										</span>
+									</span>
+								</div>
+								<div id="panel-right">
+									<button class="btn btn-info" onclick="exchangeBtn(this.form)">교환</button>
+									<button class="btn btn-info" onclick="deliveryBtn(${vs.count})">배송</button>
+								</div>
+			      			</div>
+						</div>
+					</form>
+				</c:if>
+				<c:if test="${list.inUser eq mem.email}">
+					<form id="storeForm${vs.count}" class="form" method="post">
+						<div class="panel panel-info">
+							<div class="panel-heading">
+								<span>수령</span>
+								<input type="hidden" name="boxSeq" value="${list.boxSeq}">
+								<input type="hidden" name="storageId" value="${list.storageId}">
+							</div>
+			      			<div class="panel-body">
+			      				<div id="panel-left">
+				      				<span>${list.storageName}(${list.subway} ${list.detail})  ${list.boxSeq}번 보관함</span><br>
+									<span>보관 사용자 : ${list.inUser}</span><br>
+									<span>수령 사용자 : ${list.outUser}</span><br>
+									<span>배송 여부 : 
+										<span id="OX${vs.count}">
+											<c:choose>
+												<c:when test="${list.categoryCode eq 'D' || list.categoryCode eq 'RD'}">O</c:when>
+												<c:when test="${list.categoryCode eq 'S' || list.categoryCode eq 'R'}">X</c:when>
+											</c:choose>
+										</span>
+									</span><br>
+									<span>연장 횟수 : ${list.extendCnt}</span><br>
+									<span>보관 비용 : ${list.cost}원</span><br>
+									<span>보관 만료 시간 : ${list.exTime}</span><br>
+									<span>
+										<c:choose>
+											<c:when test="${list.overTime eq 0}"></c:when>
+											<c:when test="${list.overTime ne 0}">${list.overH}시간 ${list.overM}분 초과(결제시 ${list.overCost}원 추가 결제)</c:when>
+										</c:choose>
+										<input type="hidden" name="overCost" value="${list.overCost}">
+									</span>
+								</div>
+								<div id="panel-right">
+									<c:if test="${list.extendCnt<2}">
+			<!-- 						버튼 태그가 폼전체를 넘어가게 하는듯 -> input으로 수정함  -->
+										<input type="button" class="btn btn-info" value="연장" onclick="extendBtn(${vs.count})">
+									</c:if>
+									<button class="btn btn-info" onclick="paymentBtn(this.form)">결제</button>
+								</div>
+			      			</div>
+						</div>
+					</form>
+				</c:if>
+			</c:forEach>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

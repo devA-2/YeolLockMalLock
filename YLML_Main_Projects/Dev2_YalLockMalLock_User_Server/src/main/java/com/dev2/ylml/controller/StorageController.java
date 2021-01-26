@@ -97,7 +97,7 @@ public class StorageController {
 		for(int i=0;i<list.size();i++) {
 			if(id.equals(list.get(i).get("value"))){
 				//value는 id, label은 name, desc는 주소(jqueryUI autocomplete 사용 때문)
-				model.addAttribute("storageInfo",list.get(i));
+				session.setAttribute("storageInfo",list.get(i));
 				break;
 			}
 		}
@@ -145,8 +145,9 @@ public class StorageController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/insertGoods.do",method = RequestMethod.POST)
 	public String insertGoods(String NFC,HttpSession session) {
+		session.removeAttribute("storageInfo");
 		log.info("NFC태그값 : "+NFC);
-		//nfc 값 받아서 수정해야함
+		//nfc 값 받아서 수정해야함 --> RFIDDto dto = session.getAttribute("dto");
 		Map<String,Object> map = (Map<String, Object>) session.getAttribute("map");
 		log.info("세션에서 받은 map은 ? "+map);
 		boolean isc = service.insertGoods(map);
@@ -295,7 +296,7 @@ public class StorageController {
 			session.removeAttribute("costCode");
 			session.removeAttribute("cost");
 			log.info("보관함 사용가능처리 + 보관 정보 삭제 결과 : "+isc);
-			return "storage/userStorageList.do";
+			return "redirect:/storage/userStorageList.do";
 		}
 	}
 	

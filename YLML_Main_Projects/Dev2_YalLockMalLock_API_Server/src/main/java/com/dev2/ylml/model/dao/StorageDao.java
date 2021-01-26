@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.dev2.ylml.dto.CostDto;
+import com.dev2.ylml.dto.MemberDto;
 import com.dev2.ylml.dto.StorageBoxDto;
 import com.dev2.ylml.dto.StorageGoodsDto;
 import com.dev2.ylml.dto.StorageListDto;
@@ -37,7 +38,10 @@ public class StorageDao implements StorageIDao {
 	public List<StorageBoxDto> selectStorageStatus(String id) {
 		return sqlSession.selectList("storage.selectStorageStatus",id);
 	}
-
+	@Override
+	public int tagNFC(MemberDto mem) {
+		return sqlSession.selectOne("storage.tagNFC",mem);
+	}
 	@Override
 	public boolean insertGoods(Map<String, Object> map) {
 		return sqlSession.insert("storage.insertGoods",map)>0?true:false;
@@ -60,7 +64,10 @@ public class StorageDao implements StorageIDao {
 	public int updateAllStatus(List<String> list) {
 		return sqlSession.update("storage.updateAllStatus",list);
 	}
-
+	@Override
+	public int deleteAllGoods() {
+		return sqlSession.delete("storage.deleteAllGoods");
+	}
 	@Override
 	public boolean updateExtend(Map<String, Object> map) {
 		return sqlSession.update("storage.updateExtend",map)>0?true:false;
@@ -106,6 +113,10 @@ public class StorageDao implements StorageIDao {
 	public boolean insertReturn(StorageGoodsDto goodsDto) {
 		return sqlSession.insert("storage.insertReturn",goodsDto)>0?true:false;
 	}
+
+
+
+
 
 		
 	
