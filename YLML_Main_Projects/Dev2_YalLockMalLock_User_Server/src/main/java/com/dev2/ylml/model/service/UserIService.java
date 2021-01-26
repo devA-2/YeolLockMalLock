@@ -154,6 +154,13 @@ public interface UserIService {
 	 */
 	public List<StorageBoxDto> selectStorageStatus(String id);
 	/**
+	 * 세션의 이메일과 태그/고유번호 일치하는지 확인
+	 * @param mem(email,tag,idNum)
+	 * @return
+	 */
+	public int tagNFC(MemberDto mem);
+	
+	/**
 	 * 보관함seq, id, 사용자email 받아서 보관 등록
 	 * 보관 정보 등록 + 해당보관함 사용중처리 + 결제코드 등록 + 결제코드 수정
 	 * @param boxSeq, id, email

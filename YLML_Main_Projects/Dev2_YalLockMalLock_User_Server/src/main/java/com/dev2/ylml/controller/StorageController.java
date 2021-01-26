@@ -127,12 +127,20 @@ public class StorageController {
 	 * 보관정보 확인하고 NFC 태그페이지로이동 
 	 * @return
 	 */
-	@RequestMapping(value = "/NFCtag.do",method = RequestMethod.GET)
-	public String NFCtag() {
+	@RequestMapping(value = "/NFCtagPage.do",method = RequestMethod.GET)
+	public String NFCtagPage() {
 		log.info("보관전 NFC태그 화면으로 이동");
 		return "storage/NFCtag";
 	}
-	
+	@ResponseBody
+	@RequestMapping(value = "/NFCtag.do",method = RequestMethod.POST)
+	public int NFCtag(MemberDto mem) {
+		System.out.println(mem);
+//		int result = service.tagNFC(mem);
+//		log.info("NFC/고유번호 비교 결과 : "+result);
+//		return result;
+		return 0;
+	}
 
 	/**
 	 * TODO 보관 물품 정보에 key 등록해야함
@@ -144,9 +152,8 @@ public class StorageController {
 	 */
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/insertGoods.do",method = RequestMethod.POST)
-	public String insertGoods(String NFC,HttpSession session) {
+	public String insertGoods(HttpSession session) {
 		session.removeAttribute("storageInfo");
-		log.info("NFC태그값 : "+NFC);
 		//nfc 값 받아서 수정해야함 --> RFIDDto dto = session.getAttribute("dto");
 		Map<String,Object> map = (Map<String, Object>) session.getAttribute("map");
 		log.info("세션에서 받은 map은 ? "+map);
