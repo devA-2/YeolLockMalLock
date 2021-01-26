@@ -22,6 +22,7 @@ $(document).ready(function(){
 	$("#sendPhone_num").attr("disabled",true);
 	
 	        $('#sendPhone_num').click(function(){
+//	        	alert('ddddd');
 	            let phoneNumber = $('#phone_num').val();
 	            alert('인증번호 발송 완료!');
 	        	$("#phone_num").attr("readonly",true);
@@ -37,12 +38,11 @@ $(document).ready(function(){
 	        		startTimer(leftSec, display);
 	        	}else{
 	        		startTimer(leftSec, display);
-	        		
 	        	}
 
 	            $.ajax({
 	                type: "POST",
-	                url: "./sendSMS.do",
+	                url: "./member/sendSMS.do",
 	                data: {"phoneNumber" : phoneNumber}, // 핸드폰 값이 넘어감
 	                success: function(res){ // 인증번호 값이 넘어옴
 	                    $('#checkBtn').click(function(){
@@ -68,7 +68,7 @@ $(document).ready(function(){
 	                        }
 	                    })
 	                }
-	            })
+	            })//ajax
 	        });
 	//--------------------타이머
 	            
