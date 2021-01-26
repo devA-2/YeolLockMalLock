@@ -132,16 +132,19 @@ public class StorageController {
 		log.info("보관전 NFC태그 화면으로 이동");
 		return "storage/NFCtag";
 	}
+	/**
+	 * ajax로 nfc나 고유번호 확인하기
+	 * @param mem
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value = "/NFCtag.do",method = RequestMethod.POST)
 	public int NFCtag(MemberDto mem) {
 		System.out.println(mem);
-//		int result = service.tagNFC(mem);
-//		log.info("NFC/고유번호 비교 결과 : "+result);
-//		return result;
-		return 0;
+		int result = service.tagNFC(mem);
+		log.info("NFC/고유번호 비교 결과 : "+result);
+		return result;
 	}
-
 	/**
 	 * TODO 보관 물품 정보에 key 등록해야함
 	 * 보관물품 등록
@@ -151,7 +154,7 @@ public class StorageController {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value = "/insertGoods.do",method = RequestMethod.POST)
+	@RequestMapping(value = "/insertGoods.do",method = {RequestMethod.GET,RequestMethod.POST})
 	public String insertGoods(HttpSession session) {
 		session.removeAttribute("storageInfo");
 		//nfc 값 받아서 수정해야함 --> RFIDDto dto = session.getAttribute("dto");

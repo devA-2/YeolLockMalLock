@@ -21,13 +21,13 @@
 </head>
 <body>
 <script type="text/javascript">
-function tag(){
+function chkTag(){
 	var email = document.getElementById('email').value;
 	var tag = document.getElementById('tag').value;
 	var idNum = document.getElementById('idNum').value;
 
 		$.ajax({
-			url : './storage/NFCtag.do',
+			url : './NFCtag.do',
 			type : 'post',
 			data : {
 				'email' : email,
@@ -35,7 +35,11 @@ function tag(){
 				'idNum' : idNum
 			},
 			success : function(result) {
-				console.log(result);
+				if(result==0){
+					alert('등록된 정보와 일치하지 않습니다.');	
+				}else{
+					location.href='./insertGoods.do';
+				}
 			},
 			error : function() {
 				console.log("ajax 오류");
@@ -50,12 +54,10 @@ function tag(){
 			<h1>
 				<br><br>보관함 리더기에<br> NFC를 <br>태그해주세요
 			</h1>
-		<form method="post" action="./insertGoods.do">
-			<input type="text" name="email" value="${mem.email }">
-			<input type="text" name="idNum"  placeholder="가상의 idNum값">
-			<input type="text" name="tag"  placeholder="가상의 NFC값"> 
-			<input type="button" class="btn btn-info"  value="태그" onclick="tag()">
-		</form>
+			<input type="text" name="email"  id="email" value="${mem.email }">
+			<input type="text" name="idNum"  id="idNum" placeholder="가상의 idNum값">
+			<input type="text" name="tag"  id="tag" placeholder="가상의 NFC값"> 
+			<input type="button" class="btn btn-info"  value="태그" onclick="chkTag()">
 		</div>
 	</div>
 </body>
