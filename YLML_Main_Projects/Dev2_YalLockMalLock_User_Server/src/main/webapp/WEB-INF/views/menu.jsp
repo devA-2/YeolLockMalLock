@@ -6,6 +6,7 @@
 	width:100%;
 	display: flex;
 	z-index: 1;
+	position: relative;
 }
 
 .sidepanel  {
@@ -78,8 +79,8 @@
 			<a>${mem.name }님 안녕하세요.</a>
 			<a href="./member/logout.do">로그아웃</a>
 			<a href="./member/myPage.do">마이페이지</a>
-			<a href="./storage/userStorageList.do">보관 조회</a>
-			<a href="./storage/deliveryListMain.do">배송</a>
+			<a href="http://localhost:8095/Dev2_YalLockMalLock_User_Server/storage/userStorageList.do">보관 조회</a>
+			<a href="http://localhost:8095/Dev2_YalLockMalLock_User_Server/storage/deliveryListMain.do">배송</a>
 		</c:otherwise>
 	</c:choose>
 	<a href="./reportList.do">신고</a>

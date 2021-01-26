@@ -4,8 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
 <title>보관 내역</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -21,13 +20,27 @@
 	}
 	.form{
 		margin-top: 5%;
+		position: relative;
 	}
-	#panel-left span{
+	.panel-body{
+		position: relative;
+	}
+	.panel-left{
+		width: 80%;
+	}
+	.panel-left span{
 		font-size: 10px;
 	}
-	#panel-right{
-		float: right;
-		width: 100px;
+	.panel-right{
+		width: 60px;
+		position: absolute;
+		top: 50%;
+		right: 2%;
+		margin-top: -14%;
+	}
+	.panel-right button{
+		margin-top: 7%;
+		margin-bottom: 7%;
 	}
 </style>
 </head>
@@ -46,7 +59,7 @@
 								<input type="hidden" name="storageId" value="${list.storageId}">
 							</div>
 			      			<div class="panel-body">
-			      				<div id="panel-left">
+			      				<div class="panel-left">
 				      				<span>${list.storageName}(${list.subway} ${list.detail})  ${list.boxSeq}번 보관함</span><br>
 									<span>보관 시작 시간 : ${list.inTime}</span><br>
 									<span>수령 사용자 : ${list.outUser}</span><br>
@@ -59,7 +72,7 @@
 										</span>
 									</span>
 								</div>
-								<div id="panel-right">
+								<div class="panel-right">
 									<button class="btn btn-info" onclick="exchangeBtn(this.form)">교환</button>
 									<button class="btn btn-info" onclick="deliveryBtn(${vs.count})">배송</button>
 								</div>
@@ -76,7 +89,7 @@
 								<input type="hidden" name="storageId" value="${list.storageId}">
 							</div>
 			      			<div class="panel-body">
-			      				<div id="panel-left">
+			      				<div class="panel-left">
 				      				<span>${list.storageName}(${list.subway} ${list.detail})  ${list.boxSeq}번 보관함</span><br>
 									<span>보관 사용자 : ${list.inUser}</span><br>
 									<span>수령 사용자 : ${list.outUser}</span><br>
@@ -99,7 +112,7 @@
 										<input type="hidden" name="overCost" value="${list.overCost}">
 									</span>
 								</div>
-								<div id="panel-right">
+								<div class="panel-right">
 									<c:if test="${list.extendCnt<2}">
 			<!-- 						버튼 태그가 폼전체를 넘어가게 하는듯 -> input으로 수정함  -->
 										<input type="button" class="btn btn-info" value="연장" onclick="extendBtn(${vs.count})">
