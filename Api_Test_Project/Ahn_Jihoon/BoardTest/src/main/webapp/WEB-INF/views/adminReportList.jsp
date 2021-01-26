@@ -53,16 +53,18 @@ $(document).ready(function(){
                           'seq',
                           '아이디',
                           '작성일',
-                          '제목'
+                          '제목',
+                          'refer'
                      ],
           colModel : [
                     { name : 'seq', index: 'seq', width:40,  align:'center'},
                     { name : 'email', index: 'email', width:80,  align:'center'  },
                     { name : 'regdate', index: 'regdate', width:80,  align:'center'  },
                     { name : 'title', index: 'title', width:80,  align:'center' },
+                    { name : 'refer', index: 'refer', width:80,  align:'center' }
             ],
             onCellSelect :function(rowId) {
-            	var seq = $("#jqGrid").getCell(rowId, 'seq');
+            	var refer = $("#jqGrid").getCell(rowId, 'refer');
             	
                 $.get("selectDetailReport.do?refer="+refer, function(data) {
                     console.log(data);
@@ -108,8 +110,8 @@ $(document).ready(function(){
 
 	
 	<div>
-		<form action="./searchId.do" method="post">
-			<input type="text" value="USER02@NAVER.COM" name="email">
+		<form action="./searchIdReport.do" method="post">
+			<input type="text" value="user02@naver.com" name="email">
 			<input type="submit" value="검색">
 		</form>
 	</div>
@@ -126,6 +128,7 @@ $(document).ready(function(){
 			<th>제목</th>
 			<th>작성일자</th>
 			<th>내용</th>
+			<th>refer</th>
 		</tr>
 		<tr>
 			<td>${dto.seq }</td>
@@ -133,6 +136,7 @@ $(document).ready(function(){
 			<td>${dto.title }</td>
 			<td>${dto.regdate }</td>
 			<td>${dto.content }</td>
+			<td>${dto.refer }</td>
 		</tr>
 		<tr>
 			<td colspan="5">

@@ -396,16 +396,16 @@ public class ApiController {
 		return service.selectReport(map);
 	}
 	
-	@ResponseBody
-	@RequestMapping(value = "insertKey.do")
-	public Map<String, Object> insertKey(@RequestBody Map<String, Object> map) {
-		return service.insertKey(map);
-	}
-	
-	@ResponseBody
-	@RequestMapping(value = "updateKey.do")
-	public Map<String, Object> updateKey(@RequestBody Map<String, Object> map) {
-		return service.updateKey(map);
-	}
+//	@ResponseBody
+//	@RequestMapping(value = "insertKey.do")
+//	public Map<String, Object> insertKey(@RequestBody Map<String, Object> map) {
+//		return service.insertKey(map);
+//	}
+//	
+//	@ResponseBody
+//	@RequestMapping(value = "updateKey.do")
+//	public Map<String, Object> updateKey(@RequestBody Map<String, Object> map) {
+//		return service.updateKey(map);
+//	}
 	
 }
