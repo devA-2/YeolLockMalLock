@@ -21,6 +21,10 @@
 	width: 300px;
 	height:300px; 
 	}
+	
+	#headLine{
+		
+	}
 
 </style>
 <meta charset="UTF-8">
@@ -70,22 +74,22 @@ function loginChk(frm){
 <body>
 	<div id="container">
 	<div id="loginBox">
-    	<p id="head">열락말락 관리자 로그인</p>
+    	<p id="headLine">열락말락 관리자 로그인</p>
 	<form method="post" name="loginFrm">
     <div class="input-group">
       <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-      <input type="text" id="email" name="email" class="form-control"  placeholder="Email" value="admin@naver.com">
+      <input type="text" id="email" name="email" class="form-control"  placeholder="Email" value="admin@naver.com" required="required">
     </div>
     <div class="input-group">
       <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-      <input type="password"  id="pw" name="password" class="form-control"  placeholder="Password" value="Admin0101"><br>
-      <input type="button" id="login" name="login"  value="로그인" onclick="loginChk(this.form)">
+      <input type="password"  id="pw" name="pw" class="form-control"  placeholder="Password" value="Admin0101" required="required"><br>
     </div>
+      <input type="button" id="login" name="login"  value="로그인" onclick="loginChk(this.form)">
   </form>
   </div>
   </div>
 
-
+<hr>
 
 	<!-- 정보를 수정 할 수 있는 건 현재 휴대폰 번호 뿐이지만, 추 후에 추가 될 수 있음 -->
 <!-- 	<div id="container"> -->
