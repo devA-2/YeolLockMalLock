@@ -9,21 +9,29 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <style type="text/css">
 	#container{
-	width: 1280px;
-	height: 720px;
-	border: 1px solid gray; 
+		width: 1280px;
+		height: 720px;
+		border: 1px solid gray; 
 	}
 	
 	#loginBox{
-	margin-top: 10%;	
-	margin-left: 489px;
-	border: 1px solid black;
-	width: 300px;
-	height:300px; 
+		margin-top: 10%;	
+		margin-left: 489px;
+		border: 1px solid black;
+		width: 300px;
+		height:300px; 
 	}
 	
 	#headLine{
-		
+		font-size: large;
+		font-weight: bold;
+		padding-left: 34px;
+		padding-top: 10px;
+	}
+	
+	#login{
+		width: 100px;
+		margin-left: 100px;
 	}
 
 </style>
@@ -84,7 +92,8 @@ function loginChk(frm){
       <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
       <input type="password"  id="pw" name="pw" class="form-control"  placeholder="Password" value="Admin0101" required="required"><br>
     </div>
-      <input type="button" id="login" name="login"  value="로그인" onclick="loginChk(this.form)">
+    <br>
+      <input type="button" id="login" name="login" class="btn btn-success" value="로그인" onclick="loginChk(this.form)">
   </form>
   </div>
   </div>

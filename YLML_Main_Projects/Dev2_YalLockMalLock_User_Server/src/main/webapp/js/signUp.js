@@ -18,7 +18,7 @@ var isRunning = false;
 
 $(document).ready(function(){
 	$("#checkSMS").hide();
-//	$("#signUpBtn").attr("disabled",true); // 회원가입 테스트 용이하게 하기 위함
+	$("#signUpBtn").attr("disabled",true); // 회원가입 테스트 용이하게 하기 위함
 	$("#sendPhone_num").attr("disabled",true);
 	
 	        $('#sendPhone_num').click(function(){
@@ -26,6 +26,7 @@ $(document).ready(function(){
 	            let phoneNumber = $('#phone_num').val();
 	            alert('인증번호 발송 완료!');
 	        	$("#phone_num").attr("readonly",true);
+	        	$("#sendPhone_num").attr("disabled",true);
 	        	$("#checkSMS").show();
 	            var display = $('.time');
 	        	var leftSec = 120;
@@ -44,30 +45,28 @@ $(document).ready(function(){
 	                url: "./member/sendSMS.do",
 	                data: {"phoneNumber" : phoneNumber}, // 핸드폰 값이 넘어감
 	                success: function(res){ // 인증번호 값이 넘어옴
-	                	
-	                	console.log(res);
-//	                    $('#checkBtn').click(function(){
-//	                    	if($('#certified_num').val()=='') {
-//	                    		alert('값을 입력하세요.');
-//	                    	} else if(isRunning && $.trim(res) ==$('#certified_num').val()){
-//	                            // 타이머가 활성화 되어있고 값이 정확히 입력되었을 때
-//	                    		alert('휴대폰 인증이 정상적으로 완료되었습니다.');
-//								clearInterval(timer);
-//				        		display.html("");
-//				        		signUpBtn.disabled=false;
-//				        		
-//	                        }else{
-//	                        	if(isRunning) {
-//	                        		// 타이머가 활성화 되어있고 인증번호가 틀렸을때
-//		                        	alert('인증번호가 맞지 않습니다.');
-//	                        	} else {
-//	                        		// 타이머가 활성화 되어 있지 않을때
-//		                        	alert('시간이 초과되었습니다.');
-//	                        	}
-//	                        }
-//	                    })
-	                },error:function(){
-	                	alert('ajax 에러 ');
+	                    $('#checkBtn').click(function(){
+	                    	if($('#inputCertified_num').val()=='') {
+	                    		alert('값을 입력하세요.');
+	                    	} else if(isRunning && $.trim(res) ==$('#inputCertified_num').val()){
+	                            // 타이머가 활성화 되어있고 값이 정확히 입력되었을 때
+	                    		alert('휴대폰 인증이 정상적으로 완료되었습니다.');
+								clearInterval(timer);
+				        		display.html("");
+				        		signUpBtn.disabled=false;
+				        		
+	                        }else{
+	                        	if(isRunning) {
+	                        		// 타이머가 활성화 되어있고 인증번호가 틀렸을때
+		                        	alert('인증번호가 맞지 않습니다.');
+		                        	$("#phone_num").removeAttr("readonly");
+	                        	} else {
+	                        		// 타이머가 활성화 되어 있지 않을때
+		                        	alert('시간이 초과되었습니다.');
+		                        	$("#phone_num").removeAttr("readonly");
+	                        	}
+	                        }
+	                    })
 	                }
 	            })//ajax
 	        });
@@ -91,6 +90,8 @@ $(document).ready(function(){
 	            	     alert("시간초과");
 	            	     display.html("시간초과");
 	            	     $('#checkBtn').attr("disabled","disabled");
+	            	     $("#phone_num").removeAttr("readonly");
+	            	     $("#signUpBtn").attr("disabled",true);
 	            	     isRunning = false;
 	                    }
 	                }, 1000);

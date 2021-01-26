@@ -14,11 +14,6 @@
 </head>
 <style type="text/css">
 
-#header {
- 	width: 100%; 
- 	text-align: center;
-}
-
 #signUp-form{
 	width: 80%;
 	margin-left: 10%; 
@@ -32,18 +27,20 @@
 
 }
 
-#btnArea{
+#btn-group{
 	text-align: center;
 }
 
 h1.info{
 	font-weight: 600;
+	text-align: center;
 }
 
 </style>
 <body>
 	<div id="container">
-		<div id="header"><h1 class="info">회원가입</h1></div>
+	<jsp:include page="../menu.jsp"/>
+		<h1 class="info">회원가입</h1>
 		<div id="content">
 			<div id="signUp-form">
 				<form action="./insertMember.do" id="joinChkFrm" method="post">
@@ -81,12 +78,12 @@ h1.info{
 					</div>
 					
 					</div><br>
-					<div id="btnArea">
+					<div id="btn-group">
 					<input type="submit" value="회원가입" id="signUpBtn" class="btn btn-info">	
 					</div>
 				</form>
 			</div>
 		</div>
-	</div>
+	</div>	
 </body>
 </html>
