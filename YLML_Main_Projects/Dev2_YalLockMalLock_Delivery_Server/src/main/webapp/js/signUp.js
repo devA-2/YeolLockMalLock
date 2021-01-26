@@ -18,7 +18,7 @@ var isRunning = false;
 
 $(document).ready(function(){
 	$("#checkSMS").hide();
-//	$("#signUpBtn").attr("disabled",true); // 회원가입 테스트 용이하게 하기 위함
+	$("#signUpBtn").attr("disabled",true); // 회원가입 테스트 용이하게 하기 위함
 	$("#sendPhone_num").attr("disabled",true);
 	
 	        $('#sendPhone_num').click(function(){
@@ -45,9 +45,9 @@ $(document).ready(function(){
 	                data: {"phoneNumber" : phoneNumber}, // 핸드폰 값이 넘어감
 	                success: function(res){ // 인증번호 값이 넘어옴
 	                    $('#checkBtn').click(function(){
-	                    	if($('#certified_num').val()=='') {
+	                    	if($('#inputCertified_num').val()=='') {
 	                    		alert('값을 입력하세요.');
-	                    	} else if(isRunning && $.trim(res) ==$('#certified_num').val()){
+	                    	} else if(isRunning && $.trim(res) ==$('#inputCertified_num').val()){
 	                            // 타이머가 활성화 되어있고 값이 정확히 입력되었을 때
 	                    		alert('휴대폰 인증이 정상적으로 완료되었습니다.');
 								clearInterval(timer);

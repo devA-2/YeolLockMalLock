@@ -4,14 +4,34 @@
 <html>
 <head>
 <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Insert title here</title>
 <script type="text/javascript" src="../js/jquery-3.5.1.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" type="text/javascript"></script>
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="../css/common.css">
 <style type="text/css">
-#container{
-   width : 360px;
-   height: 600px;
-   border: 1px solid black;
-   margin: auto;
+
+#short-input{
+	width: 80%;
+	margin-right: 30%
+
+}
+
+#update-form{
+	width: 80%;
+	margin-left: 20%; 
+	
+}
+
+#btn-group{
+	text-align: center;
+	margin-right: 10%;
+}
+
+h1.info{
+	font-weight: 600;
+	text-align: center;
 }
 </style>
 <script type="text/javascript">
@@ -68,15 +88,23 @@ var pwChk2 = false;
 <body>
 	<!-- 이미 마이페이지 진입시 패스워드 일치여부 확인 했으므로, 현재 비밀번호는 입력하지 않음 -->
 	<div id="container">
-		<h1>비밀번호 변경</h1>
-		<form action="./updatePw.do" id="updatePwFrm" method="post">
-			<input type="hidden" value="${email }" name="email">
-			<div>변경 할 비밀번호: </div><input type="password" id="pw" name="pw" maxlength="20" size="20"><br>
-			<div class="check_font" id="pwChk"></div>
-			<div>비밀번호 확인: </div><input type="password" id="pw2" name="pw2" maxlength="20" size="20"><br>
-			<div class="check_font" id="pw2Chk"></div>
-			<input type="submit" id="updatePwBtn" value="확인">
-		</form>
+		<h1 class="info">비밀번호 변경</h1><br><br>
+		<div id="content">
+			<div id="update-form">
+				<form action="./updatePw.do" id="updatePwFrm" method="post">
+					<div id="short-input">
+						<input type="hidden" value="${email }" name="email">
+						<div>변경 할 비밀번호 </div><input type="password" id="pw" name="pw" maxlength="20" size="20"><br>
+						<div class="check_font" id="pwChk"></div><br>
+						<div>비밀번호 확인 </div><input type="password" id="pw2" name="pw2" maxlength="20" size="20"><br>
+						<div class="check_font" id="pw2Chk"></div><br>
+						<div id="btn-group">
+							<input type="submit" id="updatePwBtn" class="btn btn-info" value="확인">
+						</div>
+					</div>	
+				</form>
+			</div>
+		</div>
 	</div>	
 </body>
 </html>

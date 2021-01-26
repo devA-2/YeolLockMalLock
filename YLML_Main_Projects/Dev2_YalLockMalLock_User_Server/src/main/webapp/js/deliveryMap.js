@@ -105,8 +105,8 @@ function istStation(storageId){
 		data: {"arriveStation":storageId},
 		success : function(info){
 			if(info.isc == "success"){
-				console.log(typeof info.boxSeq)
-				console.log(typeof info.deliveryCost)
+				var deliveryArrive = new Date()
+				deliveryArrive.setMinutes(deliveryArrive.getMinutes()+info.deliveryTime)
 				html = "<div>"
 				html += "<input type='hidden' name='boxSeq' value='"+info.boxSeq+"'>"
 				html += "<input type='hidden' name='storageId' value='"+info.storageId+"'>"
@@ -123,6 +123,7 @@ function istStation(storageId){
 				html += "<div>"
 				html += "<label for='deliveryTime'>소요 시간</label>"
 				html += "<span id='deliveryTime'>"+info.deliveryTime+"분</span>"
+				html += "<input type='hidden' name='deliveryArrive' value='"+deliveryArrive+"'>"
 				html += "</div>"
 				html += "<div>"
 				html += "<label for='deliveryCost'>배송 비용</label>"

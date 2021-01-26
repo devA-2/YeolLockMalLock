@@ -464,6 +464,7 @@ public class Api_Service implements Api_IService{
 		return helper.generateData(isc);
 	}
 
+	@Transactional
 	@Override
 	public Map<String, Object> selectUserStorageList(Map<String, Object> map) {
 		if(!helper.checkKey(map)) {
@@ -569,6 +570,7 @@ public class Api_Service implements Api_IService{
 		return helper.generateData(time);
 	}
 	
+	@Transactional
 	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Object> insertDelivery(Map<String, Object> map) {
@@ -591,6 +593,7 @@ public class Api_Service implements Api_IService{
 		return helper.generateData((isc1 || isc2 || isc3)? true:false);
 	}
 
+	@Transactional
 	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Object> selectDeliveryList(Map<String, Object> map) {
@@ -602,17 +605,10 @@ public class Api_Service implements Api_IService{
 		String email = info.get("email");
 		String auth = info.get("auth");
 		List<DeliveryDto> deliveryDto = new ArrayList<DeliveryDto>();
-//		StorageListDto storageListDto = new StorageListDto();
 		if(auth.equals("10")) {
 			deliveryDto = StorageDeliveryDao.selectUserDeliveryList(email);
 		}else if(auth.equals("80")) {
 			deliveryDto = StorageDeliveryDao.selectDelmanDeliveryList(email);
-//			for (int i = 0; i < deliveryDto.size(); i++) {
-//				String station = deliveryDto.get(i).getOutboxId();
-//				storageListDto = StorageDeliveryDao.selectStorageBoxList(station);
-//				station = storageListDto.getSubway();
-//				deliveryDto.get(i).setOutboxId(station);
-//			}
 		}
 		return helper.generateData(deliveryDto);
 	}
