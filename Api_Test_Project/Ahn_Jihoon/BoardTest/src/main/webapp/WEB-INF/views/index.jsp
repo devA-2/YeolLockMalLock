@@ -30,8 +30,8 @@
 		</form>
 			   <h2>신고게시판 Admin 테스트용</h2>
 	   <form action="./adminLogin.do" method="post" name="frm">
-			<input type="text" value="ADMIN02" name="email">
-			<input type="password" value="PW1234" name="pw">
+			<input type="text" value="admin@naver.com" name="email">
+			<input type="password" value="admin" name="pw">
 			<input type="submit" value="확인" >
 		</form>
 		<h2>유실물게시판 테스트용</h2>
