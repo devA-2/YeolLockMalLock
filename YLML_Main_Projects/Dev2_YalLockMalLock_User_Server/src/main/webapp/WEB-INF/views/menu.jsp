@@ -38,17 +38,16 @@
 .sidepanel .closebtn {
   position: absolute;
   top: 0;
-  right: 25px;
-  font-size: 36px;
+  right: 10px;
+  font-size: 30px;
 }
 
 .openbtn {
-  width:13.4%;
-  font-size: 20px;
+  width: 15%;
+  font-size: 30px;
   cursor: pointer;
-  background-color: #5a5a5a;
-  color: white;
-  padding: 10px 15px;
+  background-color: white;
+  color: #5a5a5a;
   border: none;
 }
 
@@ -76,14 +75,15 @@
 			<a href="./member/infoAgree.do">회원가입</a>
 		</c:when>
 		<c:otherwise>
-			<a>${mem.name }님 안녕하세요.</a>
-			<a href="./member/logout.do">로그아웃</a>
-			<a href="./member/myPage.do">마이페이지</a>
-			<a href="http://localhost:8095/Dev2_YalLockMalLock_User_Server/storage/userStorageList.do">보관 조회</a>
-			<a href="http://localhost:8095/Dev2_YalLockMalLock_User_Server/storage/deliveryListMain.do">배송</a>
+			<a>${mem.name}님 안녕하세요.</a>
+			<a href="http://localhost:8095/Dev2_YalLockMalLock_User_Server/">홈</a>
+			<a href="../member/logout.do">로그아웃</a>
+			<a href="../member/myPage.do">마이페이지</a>
+			<a href="../storage/userStorageList.do">보관 조회</a>
+			<a href="../storage/deliveryListMain.do">배송</a>
 		</c:otherwise>
 	</c:choose>
-	<a href="./reportList.do">신고</a>
+	<a href="../reportList.do">신고</a>
 </div>
 <div class="input-group">
 	<button class="openbtn" onclick="openNav()">☰</button>
