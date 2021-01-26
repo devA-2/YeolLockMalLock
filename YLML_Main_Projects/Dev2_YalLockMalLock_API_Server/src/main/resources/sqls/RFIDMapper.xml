@@ -13,12 +13,7 @@
 
 	<update id="insertKey" parameterType="java.util.HashMap">
 		UPDATE STORAGE_GOODS
-		SET "KEY" = (
-		#{boxSeq} || 
-		#{email} ||
-		(SELECT TAG FROM "MEMBER"
-		m2 WHERE EMAIL = #{email})
-		)
+		SET KEY = (#{boxSeq} || #{email} || (SELECT TAG FROM MEMBER m2 WHERE EMAIL = #{email} ))
 		WHERE storage_id=#{id} AND box_seq=#{boxSeq}
 	</update>
 
@@ -29,14 +24,9 @@
 <!-- 		WHERE BOX_SEQ = #{box_seq} AND STORAGE_ID = #{storage_id}  -->
 <!-- 	</update> -->
 
-	<update id="updateKey" parameterType="java.util.HashMap">
-
+	<update id="updateKey" parameterType="java.util.HashMap"> 
 		UPDATE STORAGE_GOODS
-		SET "KEY" = (
-		#{boxSeq} || 
-		#{email} ||
-		(SELECT TAG FROM "MEMBER" m2 WHERE EMAIL = #{email})
-		)
+		SET KEY = ( #{boxSeq} || #{email} || (SELECT TAG FROM MEMBER m2 WHERE EMAIL = #{email} ))
 		WHERE storage_id=#{id} AND box_seq=#{boxSeq}
 	</update>
 

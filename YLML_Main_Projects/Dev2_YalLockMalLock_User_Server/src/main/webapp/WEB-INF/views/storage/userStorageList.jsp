@@ -80,7 +80,7 @@
 						</div>
 					</form>
 				</c:if>
-				<c:if test="${list.inUser eq mem.email}">
+				<c:if test="${list.outUser eq mem.email}">
 					<form id="storeForm${vs.count}" class="form" method="post">
 						<div class="panel panel-info">
 							<div class="panel-heading">
