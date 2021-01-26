@@ -429,6 +429,7 @@ public class Api_Service implements Api_IService{
 			return helper.keyFailed();
 		}
 		Map<String, Object> box = (Map<String, Object>) helper.getData(map);
+
 		boolean isc1 = storageDao.updateOutUser(box);
 		log.info("수령사용자 update :" + isc1);
 		boolean isc2 = rfidDao.updateKey(box);
