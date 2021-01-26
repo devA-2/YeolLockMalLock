@@ -95,27 +95,10 @@ public class ReportController {
 		model.addAttribute("lists", lists);
 		session.setAttribute("mem", mem);
 		
-//		List<ReportDto> list = service.selectAllReport();
-//		JSONArray jsonArray = null;
-//		ObjectMapper mapper = new ObjectMapper();
-//		try {
-//			String jsonArrayStr = mapper.writeValueAsString(list);
-//			System.out.println(jsonArrayStr);
-//			JSONParser parser = new JSONParser();
-//			jsonArray = (JSONArray) parser.parse(jsonArrayStr);
-//			model.addAttribute("model", jsonArray);
-//		} catch (JsonProcessingException e) {
-//			// TODO error page 처리
-//			e.printStackTrace();
-//		}
-// catch (ParseException e) {
-//			// TODO error page 처리
-//			e.printStackTrace();
-//		}
-		
-		
-//		for (ReportDto dto : list) {
-//		jsonObject = new JSONObject();
+//		JSONObject jsonObject = new JSONObject();
+//		JSONArray jsonArray = new JSONArray();
+//		
+//		for (ReportDto dto : lists) {
 //		jsonObject.put("seq", dto.getSeq());
 //		jsonObject.put("email", dto.getEmail());
 //		jsonObject.put("title", dto.getTitle());
@@ -130,20 +113,6 @@ public class ReportController {
 //		jsonArray.add(jsonObject);
 //		}
 		
-//			 ObjectMapper mapper = new ObjectMapper();
-//			 String jsonStr = null;
-//			try {
-//				jsonStr = mapper.writeValueAsString(dto);
-//				System.out.println(jsonStr);
-//				 JSONParser parser = new JSONParser();
-//				 jsonObject = (JSONObject)parser.parse(jsonStr);
-//			} catch (JsonProcessingException e) {
-//				e.printStackTrace();
-//			} catch (ParseException e) {
-//				e.printStackTrace();
-//			}
-
-//			jsonArray.add(jsonObject);
 		return "viewReportList";
 	}
 	
@@ -165,7 +134,7 @@ public class ReportController {
 		ReportDto rDto = service.selectDetail(seq);
 		MemberDto mDto = (MemberDto)session.getAttribute("mem");
 		
-		model.addAttribute("dto", rDto);
+		model.addAttribute("dto", rDto); // 답변 달려고상세글에 대한 dto정보
 		session.setAttribute("mem", mDto);
 		
 		return "reply";
@@ -181,10 +150,10 @@ public class ReportController {
 		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+content);
 		
 		// Map으로 이메일에 들어갈 정보 보낼때 사용할수있음
-//		Map<String, String> map = new HashMap<String, String>();
-//		map.put("email", email);
-//		map.put("title", email);
-//		map.put("content", email);
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("email", email);
+		map.put("title", email);
+		map.put("content", email);
 		
 		service.reply(dto);
 

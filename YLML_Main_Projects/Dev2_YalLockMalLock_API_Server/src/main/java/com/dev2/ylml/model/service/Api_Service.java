@@ -72,6 +72,7 @@ public class Api_Service implements Api_IService{
 	@Autowired
 	private MemberIDao memberDao;
 	
+	@Autowired
 	private RFIDIDao rfidDao;
 
 	//Certification -> 데이터의 0번째는 key 값 -> 틀리면 Certification:false로 return  한다
@@ -336,12 +337,8 @@ public class Api_Service implements Api_IService{
 		log.info("결제코드 생성 : "+isc3+" - map :"+ box);
 		boolean isc4 = storageDao.updateCostCode(box);
 		log.info("결제코드 수정 : "+isc4+" - map :"+ box);
-		
-		RFIDDto dto = (RFIDDto) helper.getData(map);
-		boolean isc5 = rfidDao.insertKey(dto);
-		log.info("키 생성하여 입력 : "+isc5+" - dto :"+ dto);
-		
-		
+		boolean isc5 = rfidDao.insertKey(box);
+		log.info("키 생성하여 입력 : "+isc5+" - map :"+ box);
 		boolean isc =  isc1 && isc2 && isc3 && isc4 && isc5;
 		return helper.generateData(isc);
 	}
@@ -432,9 +429,11 @@ public class Api_Service implements Api_IService{
 			return helper.keyFailed();
 		}
 		Map<String, Object> box = (Map<String, Object>) helper.getData(map);
-		boolean isc = storageDao.updateOutUser(box);
-		//지훈아 여기에 key update 넣어야함
-		return helper.generateData(isc);
+		boolean isc1 = storageDao.updateOutUser(box);
+		log.info("수령사용자 update :" + isc1);
+		boolean isc2 = rfidDao.updateKey(box);
+		log.info("수령사용자 key update :"+isc2);
+		return helper.generateData(isc1&&isc2);
 	}
 	@Transactional
 	@SuppressWarnings("unchecked")
@@ -458,7 +457,9 @@ public class Api_Service implements Api_IService{
 		log.info("반품 결제코드 생성 : "+isc3);
 		boolean isc4 = storageDao.updateCostCode(box2);
 		log.info("반품 결제코드 수정 : "+isc4);
-		boolean isc =  isc1 && isc2 && isc3 && isc4;
+		boolean isc5 = rfidDao.insertKey(box2);
+		log.info("키 생성하여 입력 : "+isc5+" - map :"+ box);
+		boolean isc =  isc1 && isc2 && isc3 && isc4 && isc5;
 		return helper.generateData(isc);
 	}
 
@@ -963,23 +964,23 @@ public class Api_Service implements Api_IService{
 		return helper.generateData(dto);
 	}
 	
-	@Override
-	public Map<String, Object> insertKey(Map<String, Object> map) {
-		if(!helper.checkKey(map)) {
-			return helper.keyFailed();
-		}
-		RFIDDto dto = (RFIDDto) helper.getData(map);
-		return helper.generateData(rfidDao.insertKey(dto));
-	}
+//	@Override
+//	public Map<String, Object> insertKey(Map<String, Object> map) {
+//		if(!helper.checkKey(map)) {
+//			return helper.keyFailed();
+//		}
+//		RFIDDto dto = (RFIDDto) helper.getData(map);
+//		return helper.generateData(rfidDao.insertKey(dto));
+//	}
 	
-	@Override
-	public Map<String, Object> updateKey(Map<String, Object> map) {
-		if(!helper.checkKey(map)) {
-			return helper.keyFailed();
-		}
-		RFIDDto dto = (RFIDDto) helper.getData(map);
-		return helper.generateData(rfidDao.updateKey(dto));
-	}
+//	@Override
+//	public Map<String, Object> updateKey(Map<String, Object> map) {
+//		if(!helper.checkKey(map)) {
+//			return helper.keyFailed();
+//		}
+//		RFIDDto dto = (RFIDDto) helper.getData(map);
+//		return helper.generateData(rfidDao.updateKey(dto));
+//	}
 
 	
 	

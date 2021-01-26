@@ -66,7 +66,7 @@
 		</div>
 		<hr>
 		<div id="storageBtn">
-			<input type="button" value="보관"  class="btn btn-info" onclick="location.href='./NFCtag.do'">
+			<input type="button" value="보관"  class="btn btn-info" onclick="location.href='./NFCtagPage.do'">
 			<input type="button" value="메인"  class="btn btn-default" onclick="location.href='../index.do'">
 		</div>
 	</div>
