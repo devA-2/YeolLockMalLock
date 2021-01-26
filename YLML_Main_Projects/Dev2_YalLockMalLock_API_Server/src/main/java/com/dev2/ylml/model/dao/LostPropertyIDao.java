@@ -10,4 +10,6 @@ public interface LostPropertyIDao {
 	public List<LostPropertyDto> selectAllLostProperty();
 	
 	public LostPropertyDto selectOneLostProperty(String seq);
+	
+	public boolean insertLostProperty(LostPropertyDto dto);
 }

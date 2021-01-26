@@ -27,4 +27,10 @@ public class LostPropertyDao implements LostPropertyIDao {
 		return sqlSession.selectOne(NS+"selectOneLostProperty", seq);
 	}
 
+	@Override
+	public boolean insertLostProperty(LostPropertyDto dto) {
+		int cnt = sqlSession.insert(NS+"insertLostProperty", dto);
+		return cnt>0?true:false;
+	}
+
 }

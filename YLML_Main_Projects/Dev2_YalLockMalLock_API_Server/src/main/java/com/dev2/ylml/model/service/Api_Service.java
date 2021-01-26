@@ -1,6 +1,12 @@
 package com.dev2.ylml.model.service;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,7 +80,7 @@ public class Api_Service implements Api_IService{
 	
 	@Autowired
 	private RFIDIDao rfidDao;
-
+	
 	//Certification -> 데이터의 0번째는 key 값 -> 틀리면 Certification:false로 return  한다
 	@Override
 	@SuppressWarnings("unchecked")
@@ -357,7 +363,38 @@ public class Api_Service implements Api_IService{
 		log.info("보관물품 전체삭제 갯수 : "+cnt2);
 		int cnt = cnt1 + cnt2;
 		
-		//지훈아 여기에 유실물로 insert 넣어야되고
+		// ------------------------------------
+		
+		Calendar calendar = new GregorianCalendar();
+		
+		// Date 입력할거 예제
+		String testDate = "2021-01-27 00:00:00";
+		SimpleDateFormat test = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			Date transFormat = test.parse(testDate);
+			System.out.println(transFormat);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		MemberDto mDto = (MemberDto) helper.getData(map);
+		LostPropertyDto lDto = (LostPropertyDto)helper.getData(map);
+		
+		// 보류
+		
+		String email = mDto.getEmail();
+		String cost_code = (String) map.get("cost_code");
+		String lost_regdate = lDto.getLostRegdate();
+		String lost_keep_location = "";
+		String lost_status = "";
+		String and_date = lost_regdate+3;
+		String disposal_date = and_date;
+		
+		// 유실물 입력시 dto에 담겨있어야 함, 전달받아야 할 것들 : email, cost_code, lost_regdate(유실물 접수 일자, 직접입력),
+		// lost_keep_location, lost_status, and_date(등록일자 + 3일), disposal_date(and_date와 같음)
+		lostPropertyDao.insertLostProperty(lDto);
+		
 		return helper.generateData(cnt);
 	}
 	@Transactional
@@ -967,6 +1004,15 @@ public class Api_Service implements Api_IService{
 		List<StorageGoodsDto> dto = memberDao.memberUsing(email);
 		return helper.generateData(dto);
 	}
+	
+//	@Override
+//	public Map<String, Object> insertLostProperty(Map<String, Object> map) {
+//		if(!helper.checkKey(map)) {
+//			return helper.keyFailed();
+//		}
+//		LostPropertyDto dto = (LostPropertyDto) helper.getData(map);
+//		return helper.generateData();
+//	}
 	
 //	@Override
 //	public Map<String, Object> insertKey(Map<String, Object> map) {

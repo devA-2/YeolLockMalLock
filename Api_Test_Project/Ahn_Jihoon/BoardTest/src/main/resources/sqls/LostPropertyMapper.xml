@@ -14,4 +14,12 @@
 	WHERE SEQ = #{seq}
 </select>
 
+<insert id="insertLostProperty" parameterType="LostPropertyDto">
+	INSERT INTO LOSTPROPERTY
+	(SEQ, RECEIPT_USER_ID, COST_CODE, LOST_REGDATE, LOST_KEEP_LOCATION, LOST_STATUS, AND_DATE, DISPOSAL_DATE)
+	VALUES(LOSTPROPERTY_SEQ.NEXTVAL, #{email}, #{cost_code}, TO_DATE(#{lost_regdate}, 'YYYY-MM-DD HH24:MI:SS'), #{lost_keep_location},
+	#{lost_status}, TO_DATE(#{and_date}, 'YYYY-MM-DD HH24:MI:SS'),
+	TO_DATE(#{disposal_date}, 'YYYY-MM-DD HH24:MI:SS'))
+</insert>
+
 </mapper>

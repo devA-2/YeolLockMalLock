@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.dev2.ylml.dto.LostPropertyDto;
 import com.dev2.ylml.dto.Manager_MemberDto;
 import com.dev2.ylml.dto.Manager_StorageDto;
 import com.dev2.ylml.dto.MemberDto;
+import com.dev2.ylml.dto.ReportDto;
 import com.dev2.ylml.dto.StorageGoodsDto;
 import com.dev2.ylml.util.ApiClientHelper;
 
@@ -98,6 +100,7 @@ public class ManagerService implements ManagerIService{
 	
 	// 담당자 및 배송원 전체 정보조회
 	//TODO : 담당자 및 배송원 전체 정보조회, 파라미터 없음
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Manager_MemberDto> selectAllDelivery() {
 		return (List<Manager_MemberDto>)helper.request("selectAllDelivery.do");
@@ -117,6 +120,7 @@ public class ManagerService implements ManagerIService{
 
 	// 임시권한 담당자 및 배송원 정보조회
 	//TODO : 임시권한 담당자 및 배송원 정보조회, 파라미터 없음
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Manager_MemberDto> selectTempDelivery() {
 		return (List<Manager_MemberDto>)helper.request("selectTempDelivery.do");
@@ -138,6 +142,7 @@ public class ManagerService implements ManagerIService{
 	
 	// 보관함 전체조회
 	//TODO : 보관함 전체조회, 파라미터 없음
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Manager_StorageDto> selectAllStorage() {
 		return (List<Manager_StorageDto>)helper.request("selectAllStorage.do");
@@ -150,6 +155,7 @@ public class ManagerService implements ManagerIService{
 	}
 
 	// 보관함 지하철역으로 조회
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Manager_StorageDto> selectSubwayStorage(String subway) {
 		return (List<Manager_StorageDto>)helper.request("selectSubwayStorage.do", subway);
@@ -186,6 +192,73 @@ public class ManagerService implements ManagerIService{
 		return (boolean)helper.request("activateStorage.do", dto);
 	}
 
+	// AJH
+	
+	@Override
+	public boolean insertReport(ReportDto dto) {
+		return (boolean) helper.request("insertReport.do", dto);
+	}
 
+	@Override
+	public boolean replyReport(ReportDto dto) {
+		return (boolean) helper.request("replyReport.do", dto);
+	}
+
+	@Override
+	public boolean reply(ReportDto dto) {
+		return (boolean) helper.request("reply.do", dto);
+	}
+
+	@Override
+	public boolean modifyReport(ReportDto dto) {
+		return (boolean) helper.request("modifyReport.do", dto);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ReportDto> selectAllReport() {
+		return (List<ReportDto>) helper.request("selectAllReport.do");
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ReportDto> selectDetailReport(String refer) {
+		return (List<ReportDto>) helper.request("selectDetailReport.do", refer);
+	}
+
+	@Override
+	public boolean updateProcessStatus(ReportDto dto) {
+		return (boolean) helper.request("updateProcessStatus.do", dto);
+	}
+
+	@Override
+	public ReportDto selectDetailReportGo(String seq) {
+		return (ReportDto) helper.request("selectDetailReportGo.do", seq);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<LostPropertyDto> selectAllLostProperty() {
+		return (List<LostPropertyDto>) helper.request("selectAllLostProperty.do");
+	}
+
+	@Override
+	public LostPropertyDto selectOneLostProperty(String seq) {
+		return (LostPropertyDto) helper.request("selectOneLostProperty.do", seq);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ReportDto> searchId(String email) {
+		return (List<ReportDto>) helper.request("searchId", email);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<LostPropertyDto> searchId2(String receipt_user_id) {
+		return (List<LostPropertyDto>) helper.request("", receipt_user_id);
+	}
+
+	
 
 }

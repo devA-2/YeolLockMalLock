@@ -1,4 +1,3 @@
-<%@page import="com.min.edu.dto.MemberDto"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -23,16 +22,13 @@
 <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript" src="./js/jquery.jqGrid.min.js"></script>
 
-</head>
-<script type="text/javascript">
-function chkAuth(memEmail, voEmail, auth, refer){
-	if (memEmail == voEmail || auth == 30 || auth == 20) {
-		location.href="./selectDetailReport.do?refer="+refer;
-	}else{
-		alert("자신의 게시물만 확인할 수 있습니다.");
+<style type="text/css">
+	div > div{
+		margin:auto;
 	}
-}
-</script>
+</style>
+
+</head>
 
 <!-- jqGrid 테스트 스크립트 -->
 <script type="text/javascript">
@@ -104,7 +100,7 @@ $(document).ready(function(){
 <body>
 
 
-<div id="listAjax" style="width: 1000px; border: 1px solid black; text-align: center; margin: auto;">
+<div id="listAjax" style="text-align: center; margin: auto;">
 
 	<div>사용중인 계정 : ${mem.email }</div>
 
@@ -118,30 +114,6 @@ $(document).ready(function(){
 
 
 	
-	<table style="text-align: center; margin: auto;">
-		<tr>
-			<th colspan="5">상세 보기 테이블</th>
-		</tr>
-		<tr>
-			<th>seq</th>
-			<th>작성자</th>
-			<th>제목</th>
-			<th>작성일자</th>
-			<th>내용</th>
-		</tr>
-		<tr>
-			<td>${dto.seq }</td>
-			<td>${dto.email }</td>
-			<td>${dto.title }</td>
-			<td>${dto.regdate }</td>
-			<td>${dto.content }</td>
-		</tr>
-		<tr>
-			<td colspan="5">
-				<button onclick="replyGo(${dto.seq})">답변 글 작성</button>
-			</td>
-		</tr>
-	</table>
 	
 		<div style="margin: auto;">
 			<table id="jqGrid" style="margin: auto;"></table>
