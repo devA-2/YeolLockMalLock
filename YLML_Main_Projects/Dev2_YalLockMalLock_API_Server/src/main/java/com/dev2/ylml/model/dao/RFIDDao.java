@@ -1,6 +1,8 @@
 package com.dev2.ylml.model.dao;
 
 
+import java.util.Map;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -18,14 +20,14 @@ public class RFIDDao implements RFIDIDao {
 	private SqlSessionTemplate sqlSession;
 	
 	@Override
-	public boolean insertKey(RFIDDto dto) {
-		int cnt = sqlSession.update(NS+"insertKey", dto);
+	public boolean insertKey(Map<String, Object> map) {
+		int cnt = sqlSession.update(NS+"insertKey", map);
 		return cnt>0?true:false;
 	}
 
 	@Override
-	public boolean updateKey(RFIDDto dto) {
-		int cnt = sqlSession.update(NS+"updateKey", dto);
+	public boolean updateKey(Map<String, Object> map) {
+		int cnt = sqlSession.update(NS+"updateKey", map);
 		return cnt>0?true:false;
 	}
 
