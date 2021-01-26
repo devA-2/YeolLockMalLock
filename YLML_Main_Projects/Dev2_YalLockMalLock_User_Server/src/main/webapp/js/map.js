@@ -1,14 +1,3 @@
-
-
-function openNav() {
-  document.getElementById("mySidepanel").style.width = "200px";
-}
-
-function closeNav() {
-  document.getElementById("mySidepanel").style.width = "0";
-}
-
-
 //검색창 자동완성
 $( function() {
 	$.ajax({

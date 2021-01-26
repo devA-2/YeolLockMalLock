@@ -20,6 +20,30 @@
 </style>
 </head>
 <body>
+<script type="text/javascript">
+function tag(){
+	var email = document.getElementById('email').value;
+	var tag = document.getElementById('tag').value;
+	var idNum = document.getElementById('idNum').value;
+
+		$.ajax({
+			url : './storage/NFCtag.do',
+			type : 'post',
+			data : {
+				'email' : email,
+				'tag' : tag,
+				'idNum' : idNum
+			},
+			success : function(result) {
+				console.log(result);
+			},
+			error : function() {
+				console.log("ajax 오류");
+			}
+		});//ajax
+
+	}
+</script>
 	<!-- 	태그 절차 수정해야함  -->
 	<div id="container">
 		<div id="content">
@@ -27,8 +51,10 @@
 				<br><br>보관함 리더기에<br> NFC를 <br>태그해주세요
 			</h1>
 		<form method="post" action="./insertGoods.do">
-			<input type="text" name="NFC"  placeholder="가상의 NFC값"> 
-			<input type="submit" class="btn btn-info"  value="태그">
+			<input type="text" name="email" value="${mem.email }">
+			<input type="text" name="idNum"  placeholder="가상의 idNum값">
+			<input type="text" name="tag"  placeholder="가상의 NFC값"> 
+			<input type="button" class="btn btn-info"  value="태그" onclick="tag()">
 		</form>
 		</div>
 	</div>
