@@ -96,6 +96,7 @@
    		<button onclick="viewAllList()">전체리스트</button>
    <hr>
    <div id=list></div>
+   <%@include file="./footer.jsp" %>
    </div>
 <hr>
 <input style="font-size: large;" type="button" value="메인으로" onclick="location.href='managerMain.do'">  

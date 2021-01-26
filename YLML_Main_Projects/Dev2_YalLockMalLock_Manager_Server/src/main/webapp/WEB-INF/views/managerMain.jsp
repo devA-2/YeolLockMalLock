@@ -7,17 +7,15 @@
 <link type="text/css" rel="stylesheet" href="./css/header.css">
 <title>관리자메인페이지</title>
 <script type="text/javascript" src="./js/managerAuth.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   
 </head>
 <body>
 <div id="container">
 <%@include file="./header.jsp" %>
-<!-- 	현재페이지 : managerMain.jsp<br> -->
-<%-- 	접속ID : ${mem.email}<br> --%>
-<%--         접속비번 : ${mem.pw}<br> --%>
-<%-- 	접속권한 : ${mem.auth}<br>  --%>
 
-  <h1>관리자메인페이지 입니다.</h1>
+  <p><h1>관리자메인페이지 입니다.</h1></p>
+  <%@include file="./footer.jsp" %>
 </div>
 
 </body>

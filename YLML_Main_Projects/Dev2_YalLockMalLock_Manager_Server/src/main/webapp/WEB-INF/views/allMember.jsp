@@ -5,13 +5,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<title>전체 회원 보기</title>
+
+<link type="text/css" rel="stylesheet" href="./css/header.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript" src="./js/managerAuth.js"></script>
 </head>
 <body>
+<div id="container">
+<%@include file="./header.jsp" %>
 <script type="text/javascript">
 $( function() {
 	//자동완성 ajax
@@ -59,7 +64,7 @@ function allUser(){
 				<c:if test="${paging.cntPerPage == 20}">selected</c:if>>20명씩 보기</option>
 		</select>
 	</div> <!-- 옵션선택 끝 -->
-<table class="table table-hover">
+<table border="1" class="table table-hover">
 	<tr>
 		<td>이메일</td>
 		<td>이름</td>
@@ -106,5 +111,8 @@ function allUser(){
 			<a href="./allMember.do?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}&email=${email}">&gt;</a>
 		</c:if>
 	</div>
+<%@include file="./footer.jsp" %>	
+	</div>
+	
 </body>
 </html>
