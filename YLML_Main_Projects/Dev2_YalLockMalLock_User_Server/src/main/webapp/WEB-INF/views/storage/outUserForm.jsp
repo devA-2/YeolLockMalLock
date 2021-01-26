@@ -69,7 +69,7 @@ function chkSubmit(){
 
 </script>
 	<div id='container'>
-		<form method="get" action="./updateOutUser.do" onsubmit="return chkSubmit()">
+		<form method="post" action="./updateOutUser.do" onsubmit="return chkSubmit()">
 			<div id="info">
 			
 			<h3><br><br><br>수령할 사용자의<br> 이메일을 입력해주세요</h3>
