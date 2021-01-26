@@ -205,7 +205,7 @@ public class StorageController {
 	 * @param email
 	 * @return
 	 */
-	@RequestMapping(value = "/updateOutUser.do",method = RequestMethod.GET)
+	@RequestMapping(value = "/updateOutUser.do",method = RequestMethod.POST)
 	public String updateOutUser(Model model,@RequestParam("storageId") String id,
 			int boxSeq, @RequestParam(required=false) String email) {
 		log.info("받아온 id: "+id+" boxSeq: "+boxSeq+" outUSerEmail: "+email);

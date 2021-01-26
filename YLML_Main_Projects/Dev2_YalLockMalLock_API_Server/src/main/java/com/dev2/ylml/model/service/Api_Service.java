@@ -72,6 +72,7 @@ public class Api_Service implements Api_IService{
 	@Autowired
 	private MemberIDao memberDao;
 	
+	@Autowired
 	private RFIDIDao rfidDao;
 
 	//Certification -> 데이터의 0번째는 key 값 -> 틀리면 Certification:false로 return  한다

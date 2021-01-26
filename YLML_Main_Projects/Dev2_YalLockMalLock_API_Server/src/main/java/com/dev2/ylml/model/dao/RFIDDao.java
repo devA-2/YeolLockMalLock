@@ -14,7 +14,7 @@ import com.dev2.ylml.dto.RFIDDto;
 @Repository
 public class RFIDDao implements RFIDIDao {
 	
-	private final String NS="com.dev2.ylml.model.dao.RFIDIDao.";
+	private final String NS="com.dev2.ylml.dao.RFIDIDao.";
 
 	@Autowired
 	private SqlSessionTemplate sqlSession;
