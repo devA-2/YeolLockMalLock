@@ -77,6 +77,9 @@ public class MemberController {
 	@RequestMapping(value = "/loginCheckMap.do", method = RequestMethod.POST)
 	@ResponseBody
 	public boolean loginCheckMap(String email, String pw) {
+		log.info("로그인 입력 값 -> email :"+ email );
+		log.info("로그인 입력 값 -> password :"+ pw );
+		
 		Map<String,Object> iMap = new HashMap<String, Object>();
 		iMap.put("email", email);
 		iMap.put("pw", pw);
