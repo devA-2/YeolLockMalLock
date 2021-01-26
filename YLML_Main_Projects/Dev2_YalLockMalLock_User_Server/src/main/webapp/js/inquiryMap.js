@@ -15,7 +15,7 @@ $( function() {
 				},
 				select: function( event, ui ) {
 					$( "#search" ).val( ui.item.label );
-					location.href='./selectStorageStatus.do?id='+ui.item.value;
+					location.href='https://map.kakao.com/link/search/'+ui.item.value;
 					return false;
 				}
 			})
@@ -135,16 +135,15 @@ function calTime() {
 		data:{"startStation":startStatin, "arriveStation":arriveStatin},
 		success: function(info){
 			html = "<div>"
-			html += "<label for='deliveryTime'>소요 시간 : </label>"
+			html += "<label for='deliveryTime'>소요 시간</label>"
 			html += "<span id='deliveryTime'>"+info.deliveryTime+"분</span>"
 			html += "</div>"
 			html += "<div>"
-			html += "<label for='deliveryCost'>배송 비용 : </label>"
+			html += "<label for='deliveryCost'>배송 비용</label>"
 			html += "<span id='deliveryCost'>"+info.deliveryCost+"원</span>"
 			html += "</div>"
 			html += "<div>"
-			html += "<label for='msg'></label>"
-			html += "<span>소요 시간은 보관함 간의 거리만은 산정한 시간입니다.<br>"
+			html += "<span id='msg'>소요 시간은 보관함 간의 거리만은 산정한 시간입니다.<br>"
 			html += "추후 배송 이용시에는 배송원의 사정에 따라 변경될 수 있습니다.</span>"
 			html += "</div>"
 			$('#result').html(html)	

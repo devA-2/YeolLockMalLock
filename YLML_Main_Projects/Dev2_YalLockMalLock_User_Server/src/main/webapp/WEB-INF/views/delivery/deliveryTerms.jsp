@@ -4,8 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
 <title>배송 이용 약관</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -29,6 +28,9 @@
 	    margin: auto;
 	    margin-top: 10%;
 	}
+	#deliveryTerm p, li{
+		font-size: 10px;
+	}
 	#btn{
 		margin-top: 10%;
 		text-align: center;
@@ -40,7 +42,7 @@
 		<jsp:include page="../menu.jsp"/>
 		<div id="content">
 			<div id="deliveryTerm">
-				<h3>[제 1 장 총칙]</h3>
+				<h5>[제 1 장 총칙]</h5>
 
 				<p>제1조(목적)</p>
 				<p>이 약관은 서비스 제공자 열락말락과 사용자 간의 공정한 택배거래를 위하여 그 계약 조건을 정함을 목적으로
@@ -55,7 +57,7 @@
 					‘인도’라 함은 사업자가 운송물을 사용자 지정 보관함에 보관하는 것을 말합니다.<br>
 				</p>
 
-				<h3>[제 2 장 운송물의 수탁]</h3>
+				<h5>[제 2 장 운송물의 수탁]</h5>
 
 				<p>제3조 (운송정보)</p>
 				<p>
@@ -102,7 +104,7 @@
 					<li>운송이 천재, 지변 기타 불가항력적인 사유로 불가능한 경우</li>
 				</ul>
 
-				<h3>[제 3 장 운송물의 인도]</h3>
+				<h5>[제 3 장 운송물의 인도]</h5>
 
 				<p>제7조 (공동운송 또는 타운송수단의 이용)</p>
 				<p>사업자는 고객의 이익을 해치지 않는 범위 내에서 수탁한 운송물을 다른 운송사업자와 협정을 체결하여 공동으로
@@ -116,7 +118,7 @@
 					없는 경우에는 운송장에 기재된 운송물의 수탁일로부터 인도예정장소에 따라 다음 일수에 해당하는 날
 				</p>
 
-				<h3>[제 4 장 운송물의 처분]</h3>
+				<h5>[제 4 장 운송물의 처분]</h5>
 
 				<p>제9조 (인도할 수 없는 운송물의 처분)</p>
 				<p>
@@ -152,7 +154,7 @@
 					규정에 의한 고객의 청구권은 수하인에게 운송물을 인도한 때에 소멸합니다.
 				</p>
 
-				<h3>[제 5 장 운송물의 사고]</h3>
+				<h5>[제 5 장 운송물의 사고]</h5>
 
 				<p>제11조 (사고발생시의 조치)</p>
 
@@ -172,7 +174,7 @@
 				<p>사업자는 운송 중에 발생한 운송물의 멸실, 훼손 또는 연착에 대하여 고객의 청구가 있으면 그 발생한 날로부터
 					1년에 한하여 사고증명서를 발행합니다.</p>
 
-				<h3>[제 6 장 사업자의 책임]</h3>
+				<h5>[제 6 장 사업자의 책임]</h5>
 
 				<p>제13조 (책임의 시작)</p>
 
