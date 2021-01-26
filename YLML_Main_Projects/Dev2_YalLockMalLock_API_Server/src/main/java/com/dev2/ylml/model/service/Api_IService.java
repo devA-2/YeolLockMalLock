@@ -565,19 +565,19 @@ public interface Api_IService {
 	 */
 	public Map<String, Object>/* List<StorageGoodsDto> */ memberUsing(Map<String, Object> map/* String email */);
 
-	/**
-	 * 물품 보관함의 seq, 보관하는 사람의 email, 보관하는 사람의 TAG를 합쳐 키 생성하고 키 등록하기
-	 * @param dto
-	 * @return
-	 */
-	public Map<String, Object> insertKey(Map<String, Object> map);
-	
-	/**
-	 * STORAGE_GOODS의 KEY를 보관함에서 물품을 꺼내는 사람의 KEY로 재설정해주기
-	 * -> 보관함 seq + 보관함에서 물품 꺼내는 사람의 email + 보관함에서 물품 꺼내는 사람의 tag로 키 생성해서 update.
-	 * @param dto
-	 * @return
-	 */
-	public Map<String, Object> updateKey(Map<String, Object> map);
+//	/**
+//	 * 물품 보관함의 seq, 보관하는 사람의 email, 보관하는 사람의 TAG를 합쳐 키 생성하고 키 등록하기
+//	 * @param dto
+//	 * @return
+//	 */
+//	public Map<String, Object> insertKey(Map<String, Object> map);
+//	
+//	/**
+//	 * STORAGE_GOODS의 KEY를 보관함에서 물품을 꺼내는 사람의 KEY로 재설정해주기
+//	 * -> 보관함 seq + 보관함에서 물품 꺼내는 사람의 email + 보관함에서 물품 꺼내는 사람의 tag로 키 생성해서 update.
+//	 * @param dto
+//	 * @return
+//	 */
+//	public Map<String, Object> updateKey(Map<String, Object> map);
 
 }

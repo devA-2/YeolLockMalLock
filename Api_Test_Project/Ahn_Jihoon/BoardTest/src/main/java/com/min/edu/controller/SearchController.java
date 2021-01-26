@@ -28,7 +28,7 @@ public class SearchController {
 		List<ReportDto> lists = service.searchId(email);
 		model.addAttribute("list", lists);
 		
-		return "searchIdReport";
+		return "adminSearchIdReport";
 	}
 	
 	@RequestMapping(value = "/searchIdLostProperty.do", method = RequestMethod.POST)
