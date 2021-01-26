@@ -64,7 +64,7 @@ $(document).ready(function(){
             onCellSelect :function(rowId) {
             	var seq = $("#jqGrid").getCell(rowId, 'seq');
             	
-                $.get("selectOneReportAjax.do?seq="+seq, function(data) {
+                $.get("selectDetailReport.do?refer="+refer, function(data) {
                     console.log(data);
                     $('#listAjax').html(data);
                  });
@@ -105,23 +105,6 @@ $(document).ready(function(){
 <div id = "listAjax" style="width: 1000px; border: 1px solid black; text-align: center; margin: auto;">
 
 	<div>사용중인 계정 : ${mem.email }</div>
-	<%
-	
-	  	Object obj = session.getAttribute("mem"); 
-	 	MemberDto mem = (MemberDto)obj;
-	
-		
-		
-	 	if(Integer.parseInt(mem.getAuth()) == 30){
-	 		%> 
-	 		<div>관리자 권한</div> 
-			<% 
-		}else if(Integer.parseInt(mem.getAuth()) == 10){
-	  		%> 
-	 		<div>일반 사용자</div>
-	 		<% 
-	  	}  
-	%> 
 
 	
 	<div>
