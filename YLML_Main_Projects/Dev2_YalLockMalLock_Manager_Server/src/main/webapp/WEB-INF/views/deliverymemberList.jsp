@@ -6,7 +6,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <style type="text/css">
 	#table{
 		width: 1200px;
@@ -39,9 +38,11 @@
 	}
 	
 </style>
-<link type="text/css" rel="stylesheet" href="./css/header.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link type="text/css" rel="stylesheet" href="./css/common.css">
 <script type="text/javascript" src="./js/managerAuth.js"></script>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <meta charset="UTF-8">
 
 <title>담당자 및 배송원 전체 정보조회</title>
@@ -93,10 +94,10 @@
            });
 	}
     </script>
+
 <body>
 <div id="container">
 <%@include file="./header.jsp" %>
-
     <div id="table">
    <button id="btnTmpAuth" class="btn btn-info" onclick="viewTempAuth()">임시권한회원보기</button>&nbsp;
    <input id="searchID" class="form-control" type="text"  placeholder="검색어를 입력하세요"/>

@@ -19,9 +19,10 @@
 	}
 </style>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<link type="text/css" rel="stylesheet" href="./css/header.css">
+<link type="text/css" rel="stylesheet" href="./css/common.css">
 <script type="text/javascript" src="./js/managerAuth.js"></script>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <title>담당자 및 배송원 상세 페이지</title>
 <script type="text/javascript">
 

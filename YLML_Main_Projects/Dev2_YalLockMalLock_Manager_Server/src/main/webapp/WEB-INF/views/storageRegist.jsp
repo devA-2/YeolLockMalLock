@@ -24,13 +24,14 @@
 		text-align: center;
 	}
 </style>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <meta charset="UTF-8">
 <title>보관함 등록</title>
-<link type="text/css" rel="stylesheet" href="./css/header.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link type="text/css" rel="stylesheet" href="./css/common.css">
 </head>
-<script type="text/javascript" src="./js/managerAuth.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="./js/managerAuth.js"></script>
 <body>
 <div id="container">
 <%@include file="./header.jsp" %>
