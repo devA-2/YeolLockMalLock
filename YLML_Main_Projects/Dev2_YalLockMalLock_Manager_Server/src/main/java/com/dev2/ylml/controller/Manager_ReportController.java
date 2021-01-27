@@ -113,6 +113,7 @@ public class Manager_ReportController {
 		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 동작 되는지 테스해본다 ~");
 		MemberDto mDto = (MemberDto)session.getAttribute("mem");
 		
+		
 		model.addAttribute("dto", rDto); // 답변 달려고상세글에 대한 dto정보
 		session.setAttribute("mem", mDto);
 		

@@ -40,7 +40,7 @@
 	 		WHERE REFER = #{refer}
 </select>
 
-<select id="selectDetail" parameterType="java.lang.String" resultType="ReportDto">
+<select id="selectDetailGoReply" parameterType="java.lang.String" resultType="ReportDto">
 	SELECT *
 		FROM REPORT r
 			WHERE SEQ = #{seq}

@@ -38,8 +38,8 @@
        </li>
         <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">게시판 관리 <span class="caret"></span></a>
         <ul class="dropdown-menu">
-         <li><a href="#">게시판1</a></li>
-         <li><a href="#">게시판2</a></li>
+         <li><a href="./adminReportList.do">신고글 게시판</a></li>
+         <li><a href="./lostPropertyList.do">유실물 게시판</a></li>
          </ul>
        </li>
     </ul>
