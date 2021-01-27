@@ -109,7 +109,7 @@ public class Manager_ReportController {
 	@RequestMapping(value = "/replyReport.do", method=RequestMethod.GET)
 	public String replyReport(String seq, HttpSession session, Model model) {
 		log.info("------------------ 답변 글 작성 페이지 이동 ------------------");
-		ReportDto rDto = service.selectDetailReportGo(seq);
+		ReportDto rDto = service.selectDetailGoReply(seq);
 		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 동작 되는지 테스해본다 ~");
 		MemberDto mDto = (MemberDto)session.getAttribute("mem");
 		
@@ -145,7 +145,7 @@ public class Manager_ReportController {
 	public String selectDetail(String seq, HttpSession session, Model model) {
 		log.info("------------------ 답글 입력에서 상세글로 뒤로가기 ------------------");
 		MemberDto mem = (MemberDto)session.getAttribute("mem");
-		ReportDto dto = service.selectDetailReportGo(seq);
+		ReportDto dto = service.selectDetailGoReply(seq);
 		
 		session.setAttribute("dto", dto);
 		session.setAttribute("mem", mem);
