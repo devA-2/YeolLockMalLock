@@ -6,20 +6,23 @@
 <head>
 <meta charset="UTF-8">
 <title>전체 회원 보기</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link type="text/css" rel="stylesheet" href="./css/common.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+ <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript" src="./js/managerAuth.js"></script>
   <style type="text/css">
 #table{
   	width:70%;
   	margin: auto;
   }
  #searchBar{
- width:70%;
- display: flex;
-text-align: center;
+	width:70%;
+	display: flex;
+	text-align: center;
+	margin-left:20%;
  }
  #container{
  	padding : 30px;
@@ -30,8 +33,6 @@ text-align: center;
 	float: left;
 }
 </style>
-<link type="text/css" rel="stylesheet" href="./css/header.css">
-<script type="text/javascript" src="./js/managerAuth.js"></script>
 </head>
 <body>
 <script type="text/javascript">
@@ -66,14 +67,13 @@ function allUser(){
 	location.href='./allMember.do?nowPage=1&cntPerPage=${paging.cntPerPage}';
 }
 </script>
-
 <%@include file="./header.jsp" %>
 <div id="container">
 <div id="searchBar">
-<input type="text" id="emailSearch" class="form-control" placeholder="검색어 입력">
-<input type="button" value="검색" onclick="searchUser()" class="btn btn-info">
-<input type="button" value="전체보기" onclick="allUser()" class="btn btn-default">
-<div style="float: right;">
+	<input type="text" id="emailSearch" class="form-control" placeholder="검색어 입력">
+	<input type="button" value="검색" onclick="searchUser()" class="btn btn-info">
+	<input type="button" value="전체보기" onclick="allUser()" class="btn btn-default">
+	<div style="float: right;">
 		<select id="cntPerPage" name="sel" onchange="selChange()">
 			<option value="5"
 				<c:if test="${paging.cntPerPage == 5}">selected</c:if>>5명씩 보기</option>
