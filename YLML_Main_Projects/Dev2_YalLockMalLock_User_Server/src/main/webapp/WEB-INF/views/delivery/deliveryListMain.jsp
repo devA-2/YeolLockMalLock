@@ -11,18 +11,18 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="../css/common.css">
 <style type="text/css">
-	#container{
+	.content{
 		position: relative;
 	}
 	#pageBtn{
 		position: absolute;
-		top: 50%;
+		top: 45%;
 		left: 25%;
 	}
 </style>
 </head>
 <body>
-	<div id="container">
+	<div class="container">
 		<jsp:include page="../menu.jsp"/>
 		<div id="content">
 			<div id="pageBtn">

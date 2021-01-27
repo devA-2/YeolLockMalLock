@@ -1,5 +1,6 @@
 package com.dev2.ylml.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -677,8 +678,6 @@ public class StorageController {
 		MemberDto mDto = (MemberDto) session.getAttribute("mem");
 		String email = mDto.getEmail();
 		String auth = Integer.toString(mDto.getAuth());
-//		String email = "deli@naver.com";
-//		String auth = "80";
 		if(mDto.getAuth() == 10 || mDto.getAuth() == 80) {
 			Map<String, String> map = new HashMap<String, String>();
 			map.put("email", email);
@@ -694,6 +693,5 @@ public class StorageController {
 		log.info("Controller_checkDeliveryInfo.do 실행");
 		return "delivery/deliveryList";
 	}
-
 
 }

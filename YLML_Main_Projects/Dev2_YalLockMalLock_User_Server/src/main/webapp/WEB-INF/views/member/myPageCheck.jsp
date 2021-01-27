@@ -59,6 +59,7 @@ function myPageChk(){
 </head>
 <body>
 	<div id="container">
+	<jsp:include page="../menu.jsp"/>
 		<h1 class="info">마이페이지</h1><br><br>
 		<div id="myPageChk-Form">
 			<label>비밀번호</label>
