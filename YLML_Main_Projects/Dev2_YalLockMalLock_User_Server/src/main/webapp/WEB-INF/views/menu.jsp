@@ -81,10 +81,10 @@
 			<a href="./member/myPage.do">마이페이지</a>
 			<a href="http://localhost:8095/Dev2_YalLockMalLock_User_Server/storage/userStorageList.do">보관 조회</a>
 			<a href="http://localhost:8095/Dev2_YalLockMalLock_User_Server/storage/deliveryListMain.do">배송</a>
+			<a href="./reportList.do">신고글 게시판</a>
+			<a href="./lostPropertyReport.do">유실물 게시판</a>
 		</c:otherwise>
-	</c:choose>
-	<a href="../reportList.do">신고</a>
-</div>
+	</c:choose></div>
 <div class="input-group">
 	<button class="openbtn" onclick="openNav()">☰</button>
 </div>
