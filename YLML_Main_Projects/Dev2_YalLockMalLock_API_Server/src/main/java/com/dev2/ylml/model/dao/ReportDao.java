@@ -59,7 +59,7 @@ public class ReportDao implements ReportIDao {
 
 	@Override
 	public ReportDto selectDetailGoReply(String seq) {
-		return sqlSession.selectOne(NS+"selectDetail", seq);
+		return sqlSession.selectOne(NS+"selectDetailGoReply", seq);
 	}
 
 	@Override

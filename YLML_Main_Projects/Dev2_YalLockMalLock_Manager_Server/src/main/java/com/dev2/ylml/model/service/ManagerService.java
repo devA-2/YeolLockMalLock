@@ -233,7 +233,7 @@ public class ManagerService implements ManagerIService{
 
 	@Override
 	public ReportDto selectDetailGoReply(String seq) {
-		return (ReportDto) helper.request("selectDetailReportGo.do", seq);
+		return (ReportDto) helper.request("selectDetailReplyGo.do", seq);
 	}
 
 	@SuppressWarnings("unchecked")
