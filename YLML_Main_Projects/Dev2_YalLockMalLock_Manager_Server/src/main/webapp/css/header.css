@@ -3,7 +3,7 @@
 #container{
 		width: 1280px;
 		height: 720px;
-		border: 1px solid gray;
+		border: 1px solid #D8D8D8;
 	}
 	
 	#logOutBtn, #acsDvBtn,
@@ -21,3 +21,4 @@
 		color: white;
 		font-size: medium;
 	}
+	

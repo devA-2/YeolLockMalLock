@@ -16,9 +16,6 @@
 <div id="container">
 <%@include file="./header.jsp" %>
 
-
-	<hr>
-	
 	<script type="text/javascript">
       
       // 익명함수, 페이지 로드될 때 실행됨 -> 전체리스트 호출
@@ -80,9 +77,8 @@
    </div>
    
    
-   
-   <hr>
-<input style="font-size: large;" type="button" value="돌아가기" onclick="history.back(-1)">    
+   <%@include file="./footer.jsp" %>
+<!-- <input style="font-size: large;" type="button" value="돌아가기" onclick="history.back(-1)">     -->
 </div>
 </body>
 </html>
