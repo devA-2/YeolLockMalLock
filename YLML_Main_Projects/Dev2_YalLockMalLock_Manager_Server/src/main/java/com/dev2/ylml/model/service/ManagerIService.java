@@ -172,6 +172,8 @@ public interface ManagerIService {
 	 */
 	public boolean activateStorage(Manager_StorageDto dto);
 	
+	// -------------------------------------------------------- 게시판
+	
 	/** 신고 글 작성
 	 * @param dto
 	 * @return
@@ -217,7 +219,7 @@ public interface ManagerIService {
 	 * @param seq
 	 * @return
 	 */
-	public ReportDto selectDetailReportGo(String seq);
+	public ReportDto selectDetailGoReply(String seq);
 	
 	/** 유실물 전체 리스트 조회
 	 * @return
