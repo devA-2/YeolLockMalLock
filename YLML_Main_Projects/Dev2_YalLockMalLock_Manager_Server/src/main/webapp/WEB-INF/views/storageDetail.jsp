@@ -25,8 +25,9 @@
 	}
 </style>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link type="text/css" rel="stylesheet" href="./css/common.css">
 <script src="http://code.jquery.com/jquery-latest.js"></script>
-<link type="text/css" rel="stylesheet" href="./css/header.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="./js/managerAuth.js"></script>
 <title>보관함 상세조회</title>
 <script type="text/javascript">
