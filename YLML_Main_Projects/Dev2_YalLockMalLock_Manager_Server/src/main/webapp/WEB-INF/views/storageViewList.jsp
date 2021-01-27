@@ -7,7 +7,7 @@
 	<c:if test="${!empty lists}">
 <%-- 	${lists} --%>
 	<table border="1" class="table table-hover">
-		<tr>
+		<tr id="th">
 			<th>보관함 ID</th>
 			<th>보관함 이름</th>
 			<th>주 소</th>
@@ -36,7 +36,7 @@
 	<c:if test="${!empty subwaylists}">
 <%-- 	${lists} --%>
 	<table border="1" class="table table-hover">
-		<tr>
+		<tr id="th">
 			<th>보관함 ID</th>
 			<th>보관함 이름</th>
 			<th>주 소</th>
@@ -76,7 +76,7 @@
 	<c:if test="${!empty list}">
 <%-- 	${list} --%>
 	<table border="1" class="table table-hover">
-		<tr>
+		<tr id="th">
 			<th>보관함 ID</th>
 			<th>보관함 이름</th>
 			<th>주 소</th>

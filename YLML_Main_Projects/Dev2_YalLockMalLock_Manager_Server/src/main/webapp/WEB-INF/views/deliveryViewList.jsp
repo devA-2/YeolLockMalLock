@@ -7,7 +7,7 @@
 	<c:if test="${!empty lists}">
 <%-- 	${lists} --%>
 	<table border="1" class="table table-hover">
-		<tr>
+		<tr id="th">
 			<th>이메일</th>
 			<th>이름</th>
 			<th>전화번호</th>
@@ -27,7 +27,7 @@
 	<c:set var="TempList" value="${TempList}"/>
 	<c:if test="${!empty TempList}">
 	<table border="1" class="table table-hover">
-		<tr>
+		<tr id="th">
 			<th>이메일</th>
 			<th>이름</th>
 			<th>전화번호</th>
@@ -51,7 +51,7 @@
 	
 	<c:if test="${!empty list}">
 	<table border="1" class="table table-hover">
-		<tr>
+		<tr id="th">
 			<th>이메일</th>
 			<th>이름</th>
 			<th>전화번호</th>

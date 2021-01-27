@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>전체 회원 보기</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -24,8 +24,14 @@ text-align: center;
  #container{
  	padding : 30px;
  }
-  
+
+    
+#etc{
+	float: left;
+}
 </style>
+<link type="text/css" rel="stylesheet" href="./css/header.css">
+<script type="text/javascript" src="./js/managerAuth.js"></script>
 </head>
 <body>
 <script type="text/javascript">
@@ -61,9 +67,10 @@ function allUser(){
 }
 </script>
 
+<%@include file="./header.jsp" %>
 <div id="container">
 <div id="searchBar">
-<input type="text" id="emailSearch" class="form-control">
+<input type="text" id="emailSearch" class="form-control" placeholder="검색어 입력">
 <input type="button" value="검색" onclick="searchUser()" class="btn btn-info">
 <input type="button" value="전체보기" onclick="allUser()" class="btn btn-default">
 <div style="float: right;">
@@ -111,7 +118,7 @@ function allUser(){
 	</c:forEach>
 </table>
 	</div>
-
+	
 	<div style="display: block; text-align: center;">		
 		<c:if test="${paging.startPage != 1 }">
 			<a href="./allMember.do?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}&email=${email}">&lt;</a>
@@ -131,5 +138,6 @@ function allUser(){
 		</c:if>
 	</div>
 </div>
+<%@include file="./footer.jsp" %>
 </body>
 </html>
