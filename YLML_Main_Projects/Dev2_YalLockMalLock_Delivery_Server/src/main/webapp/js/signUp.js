@@ -18,14 +18,18 @@ var isRunning = false;
 
 $(document).ready(function(){
 	$("#checkSMS").hide();
-	$("#signUpBtn").attr("disabled",true); // 회원가입 테스트 용이하게 하기 위함
+	$("#signUpBtn").hide();
+//	$("#signUpBtn").attr("disabled",true); // 회원가입 테스트 용이하게 하기 위함
 	$("#sendPhone_num").attr("disabled",true);
 	
 	        $('#sendPhone_num').click(function(){
+//	        	alert('ddddd');
 	            let phoneNumber = $('#phone_num').val();
 	            alert('인증번호 발송 완료!');
 	        	$("#phone_num").attr("readonly",true);
+	        	$("#sendPhone_num").attr("disabled",true);
 	        	$("#checkSMS").show();
+	        	
 	            var display = $('.time');
 	        	var leftSec = 120;
 	        	// 남은 시간
@@ -36,7 +40,6 @@ $(document).ready(function(){
 	        		startTimer(leftSec, display);
 	        	}else{
 	        		startTimer(leftSec, display);
-	        		
 	        	}
 
 	            $.ajax({
@@ -52,20 +55,27 @@ $(document).ready(function(){
 	                    		alert('휴대폰 인증이 정상적으로 완료되었습니다.');
 								clearInterval(timer);
 				        		display.html("");
-				        		signUpBtn.disabled=false;
+				        		$("#sendSMS").hide();
+				        		$("#signUpBtn").show();
 				        		
 	                        }else{
 	                        	if(isRunning) {
 	                        		// 타이머가 활성화 되어있고 인증번호가 틀렸을때
 		                        	alert('인증번호가 맞지 않습니다.');
+		                        	$("#phone_num").removeAttr("readonly");
+		                        	$("#signUpBtn").hide();
+		                        	$("#checkSMS").hide();
 	                        	} else {
 	                        		// 타이머가 활성화 되어 있지 않을때
 		                        	alert('시간이 초과되었습니다.');
+		                        	$("#phone_num").removeAttr("readonly");
+		                        	$("#signUpBtn").hide();
+		                        	$("#checkSMS").hide();
 	                        	}
 	                        }
 	                    })
 	                }
-	            })
+	            })//ajax
 	        });
 	//--------------------타이머
 	            
@@ -87,6 +97,7 @@ $(document).ready(function(){
 	            	     alert("시간초과");
 	            	     display.html("시간초과");
 	            	     $('#checkBtn').attr("disabled","disabled");
+	            	     $("#phone_num").removeAttr("readonly");
 	            	     isRunning = false;
 	                    }
 	                }, 1000);
