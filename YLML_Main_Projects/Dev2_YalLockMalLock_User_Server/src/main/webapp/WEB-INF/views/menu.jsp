@@ -76,13 +76,21 @@
 		</c:when>
 		<c:otherwise>
 			<a>${mem.name}님 안녕하세요.</a>
-			<a href="/Dev2_YalLockMalLock_User_Server/">홈</a>
-			<a href="/Dev2_YalLockMalLock_User_Server/member/logout.do">로그아웃</a>
+			<a href="http://localhost:8095/Dev2_YalLockMalLock_User_Server/">홈</a>
+			<a href="./member/logout.do">로그아웃</a>
 			<a href="./member/myPage.do">마이페이지</a>
+<<<<<<< HEAD
+			<a href="./storage/userStorageList.do">보관 조회</a>
+			<a href="./storage/deliveryListMain.do">배송</a>
+			<a href="./reportList.do">신고글 게시판</a>
+			<a href="./lostPropertyReport.do">유실물 게시판</a>
+			
+=======
 			<a href="http://localhost:8095/Dev2_YalLockMalLock_User_Server/storage/userStorageList.do">보관 조회</a>
 			<a href="http://localhost:8095/Dev2_YalLockMalLock_User_Server/storage/deliveryListMain.do">배송</a>
 			<a href="./reportList.do">신고글 게시판</a>
 			<a href="./lostPropertyReport.do">유실물 게시판</a>
+>>>>>>> branch 'main' of https://github.com/devA-2/YeolLockMalLock.git
 		</c:otherwise>
 	</c:choose></div>
 <div class="input-group">
