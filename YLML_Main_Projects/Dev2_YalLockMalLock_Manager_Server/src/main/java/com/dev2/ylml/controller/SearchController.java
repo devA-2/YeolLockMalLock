@@ -33,9 +33,10 @@ public class SearchController {
 	}
 	
 	@RequestMapping(value = "/searchIdLostProperty.do", method = RequestMethod.POST)
-	public String searchId2(String receipt_user_id, Model model) {
+	public String searchId2(String receiptUserId, Model model) {
 		log.info("------------------ 유실물 email 검색 실행 ------------------");
-		List<LostPropertyDto> lists = service.searchId2(receipt_user_id);
+		
+		List<LostPropertyDto> lists = service.searchId2(receiptUserId);
 		model.addAttribute("list2", lists);
 		
 		return "board/searchIdLostProperty";

@@ -1,9 +1,12 @@
 package com.dev2.ylml.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
@@ -12,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -106,11 +110,10 @@ public class Manager_ReportController {
 //		return jsonArray;
 //	}
 	
-	@RequestMapping(value = "/replyReport.do", method=RequestMethod.GET)
+	@RequestMapping(value = "/selectDetailGoReply.do", method=RequestMethod.GET)
 	public String replyReport(String seq, HttpSession session, Model model) {
 		log.info("------------------ 답변 글 작성 페이지 이동 ------------------");
 		ReportDto rDto = service.selectDetailGoReply(seq);
-		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 동작 되는지 테스해본다 ~");
 		MemberDto mDto = (MemberDto)session.getAttribute("mem");
 		
 		
@@ -121,25 +124,27 @@ public class Manager_ReportController {
 	}
 	
 	@RequestMapping(value = "/replyDo.do", method=RequestMethod.GET)
-	public String reply(ReportDto dto, HttpSession session, Model model) {
-		log.info("------------------ 답변 글 작성 후 신고 글 목록으로 이동 ------------------");		
-		String email = service.selectDetail(dto.getSeq()).getEmail();
+	public String reply(ReportDto dto, HttpSession session, Model model, String getEmail, HttpServletResponse response) throws IOException {
+		log.info("------------------ 답변 글 작성 후 신고 글 목록으로 이동 ------------------");	
+		String email = getEmail;
 		String title = dto.getTitle();
 		String content = dto.getContent();
 		service.reply(dto);
 		
-		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+content);
-		
-		// Map으로 이메일에 들어갈 정보 보낼때 사용할수있음
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("email", email);
 		map.put("title", email);
 		map.put("content", email);
 		
-
 		mailService.sendMail(email, title, content); 
 		
-		return "redirect:board/adminReportList.do";
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		out.println("<script>alert('답변글 작성 성공, 메일 전송 성공');</script>");
+		out.flush();
+		
+//		return "board/adminReportList";
+		return "board/successPage";
 	}
 	
 	@RequestMapping(value = "/selectDetail.do", method=RequestMethod.GET)
@@ -195,6 +200,7 @@ public class Manager_ReportController {
 	@RequestMapping(value = "/jqGrid.do")
 	@ResponseBody
 	public JSONArray jqGrid() {
+		log.info("------------------ jqGrid 값 뿌려주기 ------------------");
 		
 		List<ReportDto> list = service.selectAllReport();
 		

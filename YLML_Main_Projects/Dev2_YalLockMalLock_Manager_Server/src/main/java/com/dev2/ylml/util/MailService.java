@@ -21,7 +21,7 @@ public class MailService {
    
    MailFormVo mailVo = new MailFormVo() ;
    
-   // 메일발송
+   // 인증 메일
    public boolean sendMail(String email, int code) {
    MimeMessage mail = mailSender.createMimeMessage();
    String msg = mailVo.getMessage(email, code);
@@ -42,11 +42,11 @@ public class MailService {
    }
 }
    
-   // 메일발송
+   // 답변 처리 알림 메일
    public boolean sendMail(String email, String title, String content) {
    MimeMessage mail = mailSender.createMimeMessage();
    String msg = mailVo.getMessage(email, title, content);
-   String subject = mailVo.getSubject();
+   String subject = mailVo.getReportSubject();
    String encodingType = mailVo.getEncodingType();
    String contextType = mailVo.getContextType();
    System.out.println(mailVo.toString());

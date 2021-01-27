@@ -24,8 +24,8 @@ public class SearchDao implements SearchIDao {
 	}
 
 	@Override
-	public List<LostPropertyDto> searchId2(String receipt_user_id) {
-		return sqlSession.selectList(NS+"searchId2", receipt_user_id);
+	public List<LostPropertyDto> searchId2(String receiptUserId) {
+		return sqlSession.selectList(NS+"searchId2", receiptUserId);
 	}
 	
 	@Override

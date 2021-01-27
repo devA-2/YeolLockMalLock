@@ -95,6 +95,10 @@ $(document).ready(function(){
 		location.href='./replyReport.do?seq='+seq;
 	}
 
+	function historys(){
+		location.href="./managerMain.do";
+	}
+	
 </script>
 
 <body>
@@ -118,6 +122,10 @@ $(document).ready(function(){
 		<div style="margin: auto;">
 			<table id="jqGrid" style="margin: auto;"></table>
 			<div id="pager2" style="margin: auto;"></div>
+		</div>
+		
+		<div>
+			<button onclick="historys()">메인으로</button>
 		</div>
         
 </div>
