@@ -30,8 +30,6 @@
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_weight="7"
-                android:inputType="number"
-                android:digits="1234567890."
                 android:id="@+id/ev_ipAddress"
                 />
         </LinearLayout>
