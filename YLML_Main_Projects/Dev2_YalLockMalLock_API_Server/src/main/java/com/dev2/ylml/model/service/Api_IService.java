@@ -579,5 +579,13 @@ public interface Api_IService {
 //	 * @return
 //	 */
 //	public Map<String, Object> updateKey(Map<String, Object> map);
+	
+//	/**
+//	 * 유실물 입력
+//	 * 
+//	 * @param dto
+//	 * @return
+//	 */
+//	public Map<String, Object>/* boolean */ insertLostProperty(Map<String, Object> map/* LostProperty dto */);
 
 }

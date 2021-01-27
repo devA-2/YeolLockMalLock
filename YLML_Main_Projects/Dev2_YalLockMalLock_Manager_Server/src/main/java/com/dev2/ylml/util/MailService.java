@@ -41,5 +41,27 @@ public class MailService {
       return false;
    }
 }
+   
+   // 메일발송
+   public boolean sendMail(String email, String title, String content) {
+   MimeMessage mail = mailSender.createMimeMessage();
+   String msg = mailVo.getMessage(email, title, content);
+   String subject = mailVo.getSubject();
+   String encodingType = mailVo.getEncodingType();
+   String contextType = mailVo.getContextType();
+   System.out.println(mailVo.toString());
+   try {
+      mail.setSubject(subject, encodingType);
+      mail.setText(msg, encodingType, contextType);
+      mail.addRecipient(RecipientType.TO, new InternetAddress(email));
+      mailSender.send(mail);
+      return true;
+      
+   }catch (MessagingException e) {
+      e.printStackTrace();
+      return false;
+   }
+}
+   
 
 }

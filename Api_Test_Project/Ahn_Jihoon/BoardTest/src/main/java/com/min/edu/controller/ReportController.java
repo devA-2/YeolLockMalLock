@@ -116,7 +116,6 @@ public class ReportController {
 		return "viewReportList";
 	}
 	
-//	수정 예정
 	@RequestMapping(value="/selectDetailReport.do", method=RequestMethod.GET)
 	public String selectOneReport(String refer, Model model, HttpSession session) {
 		log.info("------------------ 상세글 ------------------");
@@ -127,6 +126,49 @@ public class ReportController {
 		return "selectDetailReport";
 	}
 	
+	@RequestMapping(value="/adminSelectDetailReport.do", method=RequestMethod.GET)
+	public String adminSelectOneReport(String refer, Model model, HttpSession session) {
+		log.info("------------------ admin 상세글 ------------------");
+		MemberDto mem = (MemberDto)session.getAttribute("mem"); //
+		List<ReportDto> dto = service.selectDetailReport(refer);
+		model.addAttribute("dto", dto);
+		session.setAttribute("mem", mem);
+		session.setAttribute("dto", dto);
+		return "adminSelectDetailReport";
+	}
+	
+//	@SuppressWarnings("unchecked")
+//	@RequestMapping(value="/selectDetailReportAjax.do", method=RequestMethod.GET)
+//	public JSONArray selectDetailReportAjax(String refer, Model model, HttpSession session) {
+//		log.info("------------------ 상세글 ------------------");
+//		
+//		MemberDto mem = (MemberDto)session.getAttribute("mem"); 
+//		List<ReportDto> lists = service.selectDetailReport(refer);
+//		
+//		model.addAttribute("dto", lists);
+//		session.setAttribute("mem", mem);
+//		
+//		JSONArray jsonArray = new JSONArray();
+//		JSONObject jsonObject = null;
+//		
+//		for (ReportDto dto : lists) {
+//		jsonObject = new JSONObject();
+//		jsonObject.put("seq", dto.getSeq());
+//		jsonObject.put("email", dto.getEmail());
+//		jsonObject.put("title", dto.getTitle());
+//		jsonObject.put("content", dto.getContent());
+//		jsonObject.put("regdate", dto.getRegdate());
+//		jsonObject.put("category", dto.getCategory());
+//		jsonObject.put("image", dto.getImage());
+//		jsonObject.put("delflag", dto.getDelflag());
+//		jsonObject.put("process_status", dto.getProcess_status());
+//		jsonObject.put("refer", dto.getRefer());
+//		jsonObject.put("step", dto.getStep());
+//		jsonArray.add(jsonObject);
+//		}
+//		
+//		return jsonArray;
+//	}
 	
 	@RequestMapping(value = "/replyReport.do", method=RequestMethod.GET)
 	public String replyReport(String seq, HttpSession session, Model model) {
@@ -244,6 +286,7 @@ public class ReportController {
 		return "adminReportList";
 	}
 	
+	
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/jqGrid.do")
 	@ResponseBody
@@ -260,6 +303,7 @@ public class ReportController {
 			jsonObject.put("seq", dto.getSeq());
 			jsonObject.put("title", dto.getTitle());
 			jsonObject.put("regdate", dto.getRegdate());
+			jsonObject.put("refer", dto.getRefer());
 			jsonArray.add(jsonObject);
 		}
 		
