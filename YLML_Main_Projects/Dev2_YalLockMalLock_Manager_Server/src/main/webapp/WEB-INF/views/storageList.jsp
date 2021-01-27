@@ -4,11 +4,49 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<style type="text/css">
+	#th{
+		font-weight:bold;
+		font-size:medium;
+		text-align: center;
+		background-color: #F2F2F2;
+	}
+	
+	#searchOption{
+		width: 110px;
+	}
+	
+	#searchInput{
+		width: 200px;
+	}
+	
+	#selectOp{
+		width: 150px;
+		float:left; 
+		
+	}
+	
+	#input{
+		width: 200px;
+		float: left;
+	}
+	
+	#etc{
+		width:300px;
+		float: left;
+	}
+	
+	#allListBtn{
+	}
+</style>
 <link type="text/css" rel="stylesheet" href="./css/header.css">
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script type="text/javascript" src="./js/managerAuth.js"></script>
 <meta charset="UTF-8">
 <title>보관함 전체 조회</title>
+
+</head>
 <script type="text/javascript">
 
 	// 익명함수, 페이지 로드될 때 실행됨 -> 전체리스트 호출
@@ -48,10 +86,7 @@
 				$("#list").html(data);
 			}); 
 	  	  }
-		
 	}
-	
-	
 	
  // id 검색버튼 클릭시, 검색어 결과 호출
     function search() {
@@ -62,7 +97,6 @@
         $.get("storageList.do?param="+searchID, function(data) {
            $('#list').html(data);
         });
-        
   	  }
      }
  
@@ -73,31 +107,31 @@
 			alert("검색결과가 없습니다.");
 		}
 	}
- 
 	
 </script>
-</head>
 <body>
 
  <div id='container'>
  <%@include file="./header.jsp" %>
+ <div id="table">
  	<form>
- 		<div>
-			<select id="searchOption">
-				<option value="storageId">보관함 ID</option>
-				<option value="subway">지하철역</option>
-			</select> 
-			<input id="searchInput" type="text"  placeholder="검색어를 입력하세요" />
-			<input  type="button" value="검색"  onclick="storageSearch(),setTimeout(nullChk,1000);"/>
-		</div>
+ 			<div id="selectOp">
+				<select id="searchOption" class="form-control" >
+					<option value="storageId">보관함 ID</option>
+					<option value="subway">지하철역</option>
+				</select>
+			</div>
+			<div id="input"> 
+				<input id="searchInput" class="form-control" type="text"  placeholder="검색어를 입력하세요" />
+			</div>
+			<div id="etc">
+				<input class="btn btn-primary" type="button" value="검색"  onclick="storageSearch(),setTimeout(nullChk,1000);"/>
+   				<button id="allListBtn" class="btn btn-info" onclick="viewAllList()">전체리스트</button>
+			</div>
 	</form>	
-<!-- 		<input id="searchID" type="text"  placeholder="검색어를 입력하세요" /> -->
-<!-- 	    <button onclick="search(),setTimeout(nullChk,1000);">확인</button>&nbsp; -->
-   		<button onclick="viewAllList()">전체리스트</button>
-   <hr>
    <div id=list></div>
    </div>
-<hr>
-<input style="font-size: large;" type="button" value="메인으로" onclick="location.href='managerMain.do'">  
+   <%@include file="./footer.jsp" %>
+   </div>
 </body>
 </html>

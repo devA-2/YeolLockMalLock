@@ -2,14 +2,12 @@
    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
    
-   
-   검색어 예시 : mana01@naver.com<br>
 
 	<c:set var="lists" value="${lists}"/>
 	<c:if test="${!empty lists}">
 <%-- 	${lists} --%>
-	<table border="1">
-		<tr>
+	<table border="1" class="table table-hover">
+		<tr id="th">
 			<th>이메일</th>
 			<th>이름</th>
 			<th>전화번호</th>
@@ -28,8 +26,8 @@
 	
 	<c:set var="TempList" value="${TempList}"/>
 	<c:if test="${!empty TempList}">
-	<table border="1">
-		<tr>
+	<table border="1" class="table table-hover">
+		<tr id="th">
 			<th>이메일</th>
 			<th>이름</th>
 			<th>전화번호</th>
@@ -52,8 +50,8 @@
 	</c:if>
 	
 	<c:if test="${!empty list}">
-	<table border="1">
-		<tr>
+	<table border="1" class="table table-hover">
+		<tr id="th">
 			<th>이메일</th>
 			<th>이름</th>
 			<th>전화번호</th>

@@ -232,7 +232,7 @@ public class ManagerService implements ManagerIService{
 	}
 
 	@Override
-	public ReportDto selectDetailReportGo(String seq) {
+	public ReportDto selectDetailGoReply(String seq) {
 		return (ReportDto) helper.request("selectDetailReportGo.do", seq);
 	}
 

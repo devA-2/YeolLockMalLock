@@ -407,12 +407,13 @@ public class MemberController {
 
 	// TODO : 리턴값 써야댐
 	// 이메일 인증 전송
+	@ResponseBody
 	@RequestMapping(value = "/sendCodeToMail.do", method = RequestMethod.GET)
-	public String sendCodeToMail(String email, HttpSession session) {
+	public void sendCodeToMail(String email, HttpSession session) {
 		String mail = ((MemberDto) session.getAttribute("mem")).getEmail();
 		log.info("세션에서 가져온 이메일 값 :" + mail);
 		mailHelper.sendCode4Prove(mail);	// 메일보내기, 인증번호 기억해두는거 // java.lang.NullPointerException 클래스에서 먼가 잘못된듯?
-		return "redirect:./emailAuthForm.do";
+//		return "redirect:./emailAuthForm.do";
 	}
 
 	/**
@@ -424,20 +425,20 @@ public class MemberController {
 	 * @return
 	 */
 	@RequestMapping(value = "/checkCode.do", method = RequestMethod.POST)
-	public String checkCode(MemberDto dto, int code, HttpSession session) {
-		String email = ((MemberDto) session.getAttribute("mem")).getEmail();
-		if(mailHelper.checkCode4Prove(email, code) == MailSenderHelper.SUCCESS) {
-			log.info("인증번호 전송 :" + dto.getEmail(),code);
-			boolean emailAuth = iService.authUpdate((MemberDto)session.getAttribute("mem"));
-			return "redirect:/index.do";
+	public String checkCode(int code, HttpSession session) {
+	      MemberDto dto = ((MemberDto) session.getAttribute("mem"));
+	      if(mailHelper.checkCode4Prove(dto.getEmail(), code) == MailSenderHelper.SUCCESS) {
+	         log.info("인증번호 전송 :" + dto.getEmail(),code);
+	         boolean emailAuth = iService.authUpdate(dto);
+	         return "redirect:/index.do";
 
-		}else if (mailHelper.checkCode4Reset(email, code) == MailSenderHelper.FAILED) {
-			return "redirect:/memailAuthForm.do";
-		}else {
-			return "member/error";
-		}
-	}
-
+	      }else if (mailHelper.checkCode4Reset(dto.getEmail(), code) == MailSenderHelper.FAILED) {
+	         return "redirect:/memailAuthForm.do";
+	      }else {
+	         return "member/error";
+	      }
+	   }
+	
 	//TODO : 인증번호를 세션에 태워서 회원가입 확인 버튼을 누르더라도 서버단에서 체크할 것 (로직수정 필요)
 	/**
 	 * SMS인증 폰 번호를 입력받아 난수를 생성해서, 인증번호로 전송<br>

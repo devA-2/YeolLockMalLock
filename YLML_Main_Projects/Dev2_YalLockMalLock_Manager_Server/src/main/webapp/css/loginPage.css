@@ -1,0 +1,42 @@
+@charset "UTF-8";
+#container{
+		margin:0 auto;
+		width: 1280px;
+		height: 720px;
+		border: 1px solid #D8D8D8;
+	}
+	
+	#loginBox{
+		background-color: #CEF6F5;
+		margin-top: 10%;	
+		margin-left: 474px;
+/* 		border: 1px solid gray; */
+		border-radius:10px;
+		width: 300px;
+		height:220px; 
+	}
+	
+	#headLine{
+		font-size: large;
+		font-weight: bold;
+		padding-left: 32px;
+		padding-top: 10px;
+	}
+	
+	#login{
+		font-size:large;
+		width: 100px;
+		margin-left: 100px;
+	}
+	
+	#email, #pw{
+		height: 40px;
+		width: 210px;
+		margin-left: 25px;
+	}
+	
+	.input-group-addon{
+		position: relative;
+		left: 25px;
+ 		
+	}
