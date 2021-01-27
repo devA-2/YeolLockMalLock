@@ -114,7 +114,7 @@
  <div id='container'>
  <%@include file="./header.jsp" %>
  <div id="table">
- 	<form>
+ 	
  			<div id="selectOp">
 				<select id="searchOption" class="form-control" >
 					<option value="storageId">보관함 ID</option>
@@ -128,7 +128,8 @@
 				<input class="btn btn-primary" type="button" value="검색"  onclick="storageSearch(),setTimeout(nullChk,1000);"/>
    				<button id="allListBtn" class="btn btn-info" onclick="viewAllList()">전체리스트</button>
 			</div>
-	</form>	
+	
+		
    <div id=list></div>
    </div>
    <%@include file="./footer.jsp" %>
