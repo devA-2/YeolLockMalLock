@@ -92,6 +92,7 @@ function loginChk(frm){
 <body>
 	<!-- 정보를 수정 할 수 있는 건 현재 휴대폰 번호 뿐이지만, 추 후에 추가 될 수 있음 -->
 	<div id="container">
+	<jsp:include page="../menu.jsp"/>
 		<div id="header">
 			<img src="../img/logoSmall.png" width="200px" height="150px">
 		</div><br><br>

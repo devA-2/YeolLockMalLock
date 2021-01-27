@@ -23,7 +23,6 @@ h1.info{
   	margin-left: 19%;
   	margin-right: 16%; 
 }
-}
 
 #btn-group {
 	width: 100%;
@@ -61,10 +60,16 @@ $(document).ready(function(){
 		location.href='./updateInfoForm.do'
 		
 	};
+	
+	function updatePw(){
+		location.href='./updatePwForm.do'
+		
+	}
 </script>
 </head>
 <body>
 	<div id="container">
+	<jsp:include page="../menu.jsp"/>
 	<h1 class="info">마이페이지</h1><br><br>
 		<div id="content">
 			<form>
@@ -78,13 +83,14 @@ $(document).ready(function(){
 					<label>가입일</label><br>
 						<div>${mem.regDate }</div><br>
 				</div><br><br>
-				<div id="btn-group">
-					<input type="button" class="btn btn-info" value="개인정보 수정" onclick="updateInfo()">
-					<input type="button" class="btn btn-danger" value="회원탈퇴" id="quitMember">
-				</div>
 			</form>
 		</div>
-		<!-- 보관함 페이지의 보관내역 여기에 인클루드 할 예정 -->
+			<div id="btn-group">
+			<input type="button" class="btn btn-info" value="개인정보 수정" onclick="updateInfo()">
+			<input type="button" class="btn btn-info" value="비밀번호 변경" onclick="updatePw()">
+			<input type="button" class="btn btn-danger" value="회원탈퇴" id="quitMember">
+		</div>
 	</div>
+		<!-- 보관함 페이지의 보관내역 여기에 인클루드 할 예정 -->
 </body>
 </html>

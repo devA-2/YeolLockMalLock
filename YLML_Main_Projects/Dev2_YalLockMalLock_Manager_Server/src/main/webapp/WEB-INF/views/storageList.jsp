@@ -4,7 +4,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link type="text/css" rel="stylesheet" href="./css/header.css">
 <script src="http://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript" src="./js/managerAuth.js"></script>
 <meta charset="UTF-8">
 <title>보관함 전체 조회</title>
 <script type="text/javascript">
@@ -76,11 +78,9 @@
 </script>
 </head>
 <body>
-storageList.do<br>
-보관함 전체 조회
-
 
  <div id='container'>
+ <%@include file="./header.jsp" %>
  	<form>
  		<div>
 			<select id="searchOption">
