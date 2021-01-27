@@ -11,7 +11,7 @@
 <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="../css/common.css">
 <style type="text/css">
-
+ 
 #short-input{
 	width: 80%;
 	margin-right: 30%

@@ -101,9 +101,9 @@ function loginChk(frm){
 				<form method="post" name="loginFrm">
 					<div id="login-group">
 					<label>아이디</label>
-						<input type="text" name="email" id="email" class="form-control" required="required" value="user03@naver.com" maxlength="40" size="20"/><br>
+						<input type="text" name="email" id="email" class="form-control" required="required" maxlength="40" size="20"/><br>
 					<label>비밀번호</label>
-						<input type="password" name="pw" id="pw" class="form-control" required="required" value="User0303" maxlength="20" size="20"><br>
+						<input type="password" name="pw" id="pw" class="form-control" required="required" maxlength="20" size="20"><br>
 					</div>
 					<div id="text-group">
 						<a href="./idSearchForm.do">아이디 찾기</a> &nbsp;&nbsp;
