@@ -120,6 +120,14 @@ public class MemberDao implements MemberIDao {
 
 	@Override
 	public boolean authUpdate(MemberDto dto) {
+		switch (dto.getAuth()) {
+		case 19 : dto.setAuth(10); 
+			break;
+		case 89 : dto.setAuth(80); 
+			break;
+		case 99 : dto.setAuth(90); 
+			break;
+		}
 		int result = sqlSession.update("member.authUpdate", dto);
 		return result>0?true:false;
 	}
