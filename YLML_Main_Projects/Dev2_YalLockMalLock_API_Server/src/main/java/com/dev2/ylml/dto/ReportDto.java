@@ -24,5 +24,4 @@ public class ReportDto {
 	private String processStatus;
 	private String refer;
 	private String step;
-	private String depth;
 }
