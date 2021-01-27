@@ -11,7 +11,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script type="text/javascript" src="../js/userStorageList.js"></script>
-<link rel="stylesheet" href="../css/common.css">
 <style type="text/css">
 	.panel-group{
 		width: 100%;
@@ -80,7 +79,7 @@
 						</div>
 					</form>
 				</c:if>
-				<c:if test="${list.inUser eq mem.email}">
+				<c:if test="${list.outUser eq mem.email}">
 					<form id="storeForm${vs.count}" class="form" method="post">
 						<div class="panel panel-info">
 							<div class="panel-heading">
@@ -101,7 +100,7 @@
 											</c:choose>
 										</span>
 									</span><br>
-									<span>연장 횟수 : ${list.extendCnt}</span><br>
+									<span>연장 횟수 : ${list.extendCnt}회</span><br>
 									<span>보관 비용 : ${list.cost}원</span><br>
 									<span>보관 만료 시간 : ${list.exTime}</span><br>
 									<span>
@@ -114,7 +113,6 @@
 								</div>
 								<div class="panel-right">
 									<c:if test="${list.extendCnt<2}">
-			<!-- 						버튼 태그가 폼전체를 넘어가게 하는듯 -> input으로 수정함  -->
 										<input type="button" class="btn btn-info" value="연장" onclick="extendBtn(${vs.count})">
 									</c:if>
 									<button class="btn btn-info" onclick="paymentBtn(this.form)">결제</button>

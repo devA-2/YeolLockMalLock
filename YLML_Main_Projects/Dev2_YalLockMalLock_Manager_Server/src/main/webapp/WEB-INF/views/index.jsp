@@ -9,17 +9,29 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <style type="text/css">
 	#container{
-	width: 1280px;
-	height: 720px;
-	border: 1px solid gray; 
+		width: 1280px;
+		height: 720px;
+		border: 1px solid gray; 
 	}
 	
 	#loginBox{
-	margin-top: 10%;	
-	margin-left: 489px;
-	border: 1px solid black;
-	width: 300px;
-	height:300px; 
+		margin-top: 10%;	
+		margin-left: 489px;
+		border: 1px solid black;
+		width: 300px;
+		height:300px; 
+	}
+	
+	#headLine{
+		font-size: large;
+		font-weight: bold;
+		padding-left: 34px;
+		padding-top: 10px;
+	}
+	
+	#login{
+		width: 100px;
+		margin-left: 100px;
 	}
 
 </style>
@@ -70,22 +82,23 @@ function loginChk(frm){
 <body>
 	<div id="container">
 	<div id="loginBox">
-    	<p id="head">열락말락 관리자 로그인</p>
+    	<p id="headLine">열락말락 관리자 로그인</p>
 	<form method="post" name="loginFrm">
     <div class="input-group">
       <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-      <input type="text" id="email" name="email" class="form-control"  placeholder="Email" value="admin@naver.com">
+      <input type="text" id="email" name="email" class="form-control"  placeholder="Email" value="admin@naver.com" required="required">
     </div>
     <div class="input-group">
       <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-      <input type="password"  id="pw" name="password" class="form-control"  placeholder="Password" value="Admin0101"><br>
-      <input type="button" id="login" name="login"  value="로그인" onclick="loginChk(this.form)">
+      <input type="password"  id="pw" name="pw" class="form-control"  placeholder="Password" value="Admin0101" required="required"><br>
     </div>
+    <br>
+      <input type="button" id="login" name="login" class="btn btn-success" value="로그인" onclick="loginChk(this.form)">
   </form>
   </div>
   </div>
 
-
+<hr>
 
 	<!-- 정보를 수정 할 수 있는 건 현재 휴대폰 번호 뿐이지만, 추 후에 추가 될 수 있음 -->
 <!-- 	<div id="container"> -->

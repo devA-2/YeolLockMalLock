@@ -4,57 +4,19 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  <script type="text/javascript">
-	
-  	// 로그아웃
-  	function logOut() {
-  		sessionStorage.clear();
-  		location.href="index.do"
-	}
+<link type="text/css" rel="stylesheet" href="./css/header.css">
+<title>관리자메인페이지</title>
+<script type="text/javascript" src="./js/managerAuth.js"></script>
   
-//   	var auth = "${mem.auth}";
-  	var auth = "100";
-		
-      function accessDeliveryList() {
-		console.log(auth);
-		if(auth != "100"){
-			alert("해당 메뉴의 접근권한이 없습니다.");
-		}
-		else {
-			location.href="allDeleveryList.do";
-		}
-	} 
-      
-      function accessStorageList() {
-    	  console.log(auth);
-  		if(auth != "100"){
-  			alert("해당 메뉴의 접근권한이 없습니다.");
-  		}
-  		else {
-  			location.href="allStorageList.do";
-  		}
-	}
-      
-      function accessStorageRegist() {
-    	  console.log(auth);
-  		if(auth != "100"){
-  			alert("해당 메뉴의 접근권한이 없습니다.");
-  		}
-  		else {
-  			location.href="registStorage.do";
-  		}
-	}
-  </script>
 </head>
 <body>
-	현재페이지 : managerMain.jsp<br>
-	접속ID : ${mem.email}<br>
-        접속비번 : ${mem.pw}<br>
-	접속권한 : ${mem.auth}<br> 
+<div id="container">
+<%@include file="./header.jsp" %>
+<!-- 	현재페이지 : managerMain.jsp<br> -->
+<%-- 	접속ID : ${mem.email}<br> --%>
+<%--         접속비번 : ${mem.pw}<br> --%>
+<%-- 	접속권한 : ${mem.auth}<br>  --%>
+
 
 	<div id="container">
 <!-- 	<a href="./index.do">로그아웃</a><br><br> -->
@@ -90,8 +52,8 @@
        </li>
         <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">게시판 관리 <span class="caret"></span></a>
         <ul class="dropdown-menu">
-         <li><a href="#">게시판1</a></li>
-         <li><a href="#">게시판2</a></li>
+         <li><a href="./adminReportList.do">신고글 게시판</a></li>
+         <li><a href="./lostPropertyReportList.do">유실물 게시판</a></li>
          </ul>
        </li>
     </ul>
@@ -103,5 +65,6 @@
 </div>
 	
 </div>
+
 </body>
 </html>

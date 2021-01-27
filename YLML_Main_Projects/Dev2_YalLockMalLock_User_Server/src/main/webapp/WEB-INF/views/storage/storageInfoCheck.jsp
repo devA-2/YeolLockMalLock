@@ -9,7 +9,6 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="../css/common.css">
 <style type="text/css">
 #container{
 	text-align: center;	
@@ -67,7 +66,7 @@
 		</div>
 		<hr>
 		<div id="storageBtn">
-			<input type="button" value="보관"  class="btn btn-info" onclick="location.href='./NFCtag.do'">
+			<input type="button" value="보관"  class="btn btn-info" onclick="location.href='./NFCtagPage.do'">
 			<input type="button" value="메인"  class="btn btn-default" onclick="location.href='../index.do'">
 		</div>
 	</div>

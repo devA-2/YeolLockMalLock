@@ -10,23 +10,9 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" type="text/javascript"></script>
 <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css" rel="stylesheet" type="text/css" />
-<!-- <link rel="stylesheet" href="../css/common.css"> -->
+<link rel="stylesheet" href="../css/common.css">
 </head>
 <style type="text/css">
-html{
-	width: 100%;
-	height:100%;
-	border: 1px solid black;
-}
-#container {
-	width: 100%;
-}
-
-#content {
-	width: 90%;
-	margin-left: 5%; 
- 	margin-right: 5%; 
-}
 
 #header {
  	width: 100%; 

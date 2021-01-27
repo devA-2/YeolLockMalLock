@@ -145,7 +145,10 @@ public class UserService implements UserIService{
 	public List<StorageBoxDto> selectStorageStatus(String id) {
 		return (List<StorageBoxDto>)helper.request("selectStorageStatus.do", id);
 	}
-
+	@Override
+	public int tagNFC(MemberDto mem) {
+		return (int)helper.request("tagNFC.do",mem);
+	}
 	@Override
 	public boolean insertGoods(Map<String, Object> map) {
 		return (boolean)helper.request("insertGoods.do", map);

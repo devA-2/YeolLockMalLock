@@ -21,9 +21,8 @@ public class ReportDto {
 	private String category;
 	private String image="";
 	private String delflag;
-	private String process_status;
+	private String processStatus;
 	private String refer;
 	private String step;
 	private String depth;
-
 }

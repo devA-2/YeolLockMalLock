@@ -9,7 +9,7 @@ $(document).ready(function() {
 	$("#sendPhone_num").attr("disabled",true);
 	$("#sendSMS").hide(); // 인증번호 보내기 버튼 숨기기
 	$("#checkSMS").hide(); // 휴대폰 인증번호 숨기기
-//	$("#updateInfoBtn").hide(); // 업데이트 번호 버튼 숨기기
+	$("#updateInfoBtn").hide(); // 업데이트 번호 버튼 숨기기
 
 	$("#phone_num").blur(function(){ 
 
@@ -99,12 +99,15 @@ $(document).ready(function() {
 					}else{
 						if(isRunning) {
 							// 타이머가 활성화 되어있고 인증번호가 틀렸을때
-							alert('인증번호가 맞지 않습니다.');
+							alert('인증번호가 맞지 않습니다.다시 시도해주세요.');
 							$("#updateInfoBtn").hide();
+							$("#phone_num").removeAttr("readonly");
+							
 						} else {
 							// 타이머가 활성화 되어 있지 않을때
-							alert('시간이 초과되었습니다.');
+							alert('시간이 초과되었습니다. 다시 시도해주세요.');
 							$("#updateInfoBtn").hide();
+							$("#phone_num").removeAttr("readonly");
 						}
 					}
 				})
@@ -128,9 +131,10 @@ $(document).ready(function() {
 					// 타이머 끝
 					if (--count < 0) {
 						clearInterval(timer);
-						alert("시간초과");
+						alert("시간이 초과되었습니다. 다시시도 해주세요.");
 						display.html("시간초과");
 						$('#checkBtn').attr("disabled","disabled");
+						$("#phone_num").removeAttr("readonly");
 						$("#updateInfoBtn").hide();
 						isRunning = false;
 					}

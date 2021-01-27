@@ -53,18 +53,20 @@ $(document).ready(function(){
                           'seq',
                           '아이디',
                           '작성일',
-                          '제목'
+                          '제목',
+                          'refer'
                      ],
           colModel : [
                     { name : 'seq', index: 'seq', width:40,  align:'center'},
                     { name : 'email', index: 'email', width:80,  align:'center'  },
                     { name : 'regdate', index: 'regdate', width:80,  align:'center'  },
                     { name : 'title', index: 'title', width:80,  align:'center' },
+                    { name : 'refer', index: 'refer', width:80,  align:'center' }
             ],
             onCellSelect :function(rowId) {
-            	var seq = $("#jqGrid").getCell(rowId, 'seq');
+            	var refer = $("#jqGrid").getCell(rowId, 'refer');
             	
-                $.get("selectOneReportAjax.do?seq="+seq, function(data) {
+                $.get("adminSelectDetailReport.do?refer="+refer, function(data) {
                     console.log(data);
                     $('#listAjax').html(data);
                  });
@@ -102,31 +104,14 @@ $(document).ready(function(){
 <body>
 
 
-<div id = "listAjax" style="width: 1000px; border: 1px solid black; text-align: center; margin: auto;">
+<div id="listAjax" style="width: 1000px; border: 1px solid black; text-align: center; margin: auto;">
 
 	<div>사용중인 계정 : ${mem.email }</div>
-	<%
-	
-	  	Object obj = session.getAttribute("mem"); 
-	 	MemberDto mem = (MemberDto)obj;
-	
-		
-		
-	 	if(Integer.parseInt(mem.getAuth()) == 30){
-	 		%> 
-	 		<div>관리자 권한</div> 
-			<% 
-		}else if(Integer.parseInt(mem.getAuth()) == 10){
-	  		%> 
-	 		<div>일반 사용자</div>
-	 		<% 
-	  	}  
-	%> 
 
 	
 	<div>
-		<form action="./searchId.do" method="post">
-			<input type="text" value="USER02@NAVER.COM" name="email">
+		<form action="./searchIdReport.do" method="post">
+			<input type="text" value="user02@naver.com" name="email">
 			<input type="submit" value="검색">
 		</form>
 	</div>

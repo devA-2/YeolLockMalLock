@@ -1,6 +1,12 @@
 package com.dev2.ylml.model.service;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,8 +78,9 @@ public class Api_Service implements Api_IService{
 	@Autowired
 	private MemberIDao memberDao;
 	
+	@Autowired
 	private RFIDIDao rfidDao;
-
+	
 	//Certification -> 데이터의 0번째는 key 값 -> 틀리면 Certification:false로 return  한다
 	@Override
 	@SuppressWarnings("unchecked")
@@ -336,12 +343,8 @@ public class Api_Service implements Api_IService{
 		log.info("결제코드 생성 : "+isc3+" - map :"+ box);
 		boolean isc4 = storageDao.updateCostCode(box);
 		log.info("결제코드 수정 : "+isc4+" - map :"+ box);
-		
-		RFIDDto dto = (RFIDDto) helper.getData(map);
-		boolean isc5 = rfidDao.insertKey(dto);
-		log.info("키 생성하여 입력 : "+isc5+" - dto :"+ dto);
-		
-		
+		boolean isc5 = rfidDao.insertKey(box);
+		log.info("키 생성하여 입력 : "+isc5+" - map :"+ box);
 		boolean isc =  isc1 && isc2 && isc3 && isc4 && isc5;
 		return helper.generateData(isc);
 	}
@@ -360,7 +363,38 @@ public class Api_Service implements Api_IService{
 		log.info("보관물품 전체삭제 갯수 : "+cnt2);
 		int cnt = cnt1 + cnt2;
 		
-		//지훈아 여기에 유실물로 insert 넣어야되고
+		// ------------------------------------
+		
+		Calendar calendar = new GregorianCalendar();
+		
+		// Date 입력할거 예제
+		String testDate = "2021-01-27 00:00:00";
+		SimpleDateFormat test = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			Date transFormat = test.parse(testDate);
+			System.out.println(transFormat);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		MemberDto mDto = (MemberDto) helper.getData(map);
+		LostPropertyDto lDto = (LostPropertyDto)helper.getData(map);
+		
+		// 보류
+		
+		String email = mDto.getEmail();
+		String cost_code = (String) map.get("cost_code");
+		String lost_regdate = lDto.getLostRegdate();
+		String lost_keep_location = "";
+		String lost_status = "";
+		String and_date = lost_regdate+3;
+		String disposal_date = and_date;
+		
+		// 유실물 입력시 dto에 담겨있어야 함, 전달받아야 할 것들 : email, cost_code, lost_regdate(유실물 접수 일자, 직접입력),
+		// lost_keep_location, lost_status, and_date(등록일자 + 3일), disposal_date(and_date와 같음)
+		lostPropertyDao.insertLostProperty(lDto);
+		
 		return helper.generateData(cnt);
 	}
 	@Transactional
@@ -432,9 +466,12 @@ public class Api_Service implements Api_IService{
 			return helper.keyFailed();
 		}
 		Map<String, Object> box = (Map<String, Object>) helper.getData(map);
-		boolean isc = storageDao.updateOutUser(box);
-		//지훈아 여기에 key update 넣어야함
-		return helper.generateData(isc);
+
+		boolean isc1 = storageDao.updateOutUser(box);
+		log.info("수령사용자 update :" + isc1);
+		boolean isc2 = rfidDao.updateKey(box);
+		log.info("수령사용자 key update :"+isc2);
+		return helper.generateData(isc1&&isc2);
 	}
 	@Transactional
 	@SuppressWarnings("unchecked")
@@ -458,10 +495,13 @@ public class Api_Service implements Api_IService{
 		log.info("반품 결제코드 생성 : "+isc3);
 		boolean isc4 = storageDao.updateCostCode(box2);
 		log.info("반품 결제코드 수정 : "+isc4);
-		boolean isc =  isc1 && isc2 && isc3 && isc4;
+		boolean isc5 = rfidDao.insertKey(box2);
+		log.info("키 생성하여 입력 : "+isc5+" - map :"+ box);
+		boolean isc =  isc1 && isc2 && isc3 && isc4 && isc5;
 		return helper.generateData(isc);
 	}
 
+	@Transactional
 	@Override
 	public Map<String, Object> selectUserStorageList(Map<String, Object> map) {
 		if(!helper.checkKey(map)) {
@@ -567,6 +607,7 @@ public class Api_Service implements Api_IService{
 		return helper.generateData(time);
 	}
 	
+	@Transactional
 	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Object> insertDelivery(Map<String, Object> map) {
@@ -589,6 +630,7 @@ public class Api_Service implements Api_IService{
 		return helper.generateData((isc1 || isc2 || isc3)? true:false);
 	}
 
+	@Transactional
 	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Object> selectDeliveryList(Map<String, Object> map) {
@@ -600,17 +642,10 @@ public class Api_Service implements Api_IService{
 		String email = info.get("email");
 		String auth = info.get("auth");
 		List<DeliveryDto> deliveryDto = new ArrayList<DeliveryDto>();
-//		StorageListDto storageListDto = new StorageListDto();
 		if(auth.equals("10")) {
 			deliveryDto = StorageDeliveryDao.selectUserDeliveryList(email);
 		}else if(auth.equals("80")) {
 			deliveryDto = StorageDeliveryDao.selectDelmanDeliveryList(email);
-//			for (int i = 0; i < deliveryDto.size(); i++) {
-//				String station = deliveryDto.get(i).getOutboxId();
-//				storageListDto = StorageDeliveryDao.selectStorageBoxList(station);
-//				station = storageListDto.getSubway();
-//				deliveryDto.get(i).setOutboxId(station);
-//			}
 		}
 		return helper.generateData(deliveryDto);
 	}
@@ -967,23 +1002,32 @@ public class Api_Service implements Api_IService{
 		return helper.generateData(dto);
 	}
 	
-	@Override
-	public Map<String, Object> insertKey(Map<String, Object> map) {
-		if(!helper.checkKey(map)) {
-			return helper.keyFailed();
-		}
-		RFIDDto dto = (RFIDDto) helper.getData(map);
-		return helper.generateData(rfidDao.insertKey(dto));
-	}
+//	@Override
+//	public Map<String, Object> insertLostProperty(Map<String, Object> map) {
+//		if(!helper.checkKey(map)) {
+//			return helper.keyFailed();
+//		}
+//		LostPropertyDto dto = (LostPropertyDto) helper.getData(map);
+//		return helper.generateData();
+//	}
 	
-	@Override
-	public Map<String, Object> updateKey(Map<String, Object> map) {
-		if(!helper.checkKey(map)) {
-			return helper.keyFailed();
-		}
-		RFIDDto dto = (RFIDDto) helper.getData(map);
-		return helper.generateData(rfidDao.updateKey(dto));
-	}
+//	@Override
+//	public Map<String, Object> insertKey(Map<String, Object> map) {
+//		if(!helper.checkKey(map)) {
+//			return helper.keyFailed();
+//		}
+//		RFIDDto dto = (RFIDDto) helper.getData(map);
+//		return helper.generateData(rfidDao.insertKey(dto));
+//	}
+	
+//	@Override
+//	public Map<String, Object> updateKey(Map<String, Object> map) {
+//		if(!helper.checkKey(map)) {
+//			return helper.keyFailed();
+//		}
+//		RFIDDto dto = (RFIDDto) helper.getData(map);
+//		return helper.generateData(rfidDao.updateKey(dto));
+//	}
 
 	
 	
