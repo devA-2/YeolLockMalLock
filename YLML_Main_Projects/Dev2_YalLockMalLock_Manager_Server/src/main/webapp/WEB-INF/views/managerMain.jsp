@@ -3,6 +3,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style type="text/css">
+	#mainP{
+		text-align: center;
+	}
+</style>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <meta charset="UTF-8">
 <link type="text/css" rel="stylesheet" href="./css/header.css">
@@ -14,8 +19,11 @@
 <body>
 <div id="container">
 <%@include file="./header.jsp" %>
-
-  <p><h1>관리자메인페이지 입니다.</h1></p>
+	<br><br><br>
+  <div id="mainP"><h1>관리자메인페이지 입니다.</h1>
+  	<br>
+  	<h1>상단의 메뉴를 이용해주세요.</h1>
+  </div>	
   <%@include file="./footer.jsp" %>
 </div>
 
