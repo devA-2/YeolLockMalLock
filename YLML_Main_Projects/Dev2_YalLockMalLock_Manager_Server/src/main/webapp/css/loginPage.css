@@ -1,8 +1,9 @@
 @charset "UTF-8";
 #container{
+		margin:0 auto;
 		width: 1280px;
 		height: 720px;
-		border: 1px solid gray; 
+		border: 1px solid #D8D8D8;
 	}
 	
 	#loginBox{
