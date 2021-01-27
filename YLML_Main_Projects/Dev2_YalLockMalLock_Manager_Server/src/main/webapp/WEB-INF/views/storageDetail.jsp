@@ -55,7 +55,7 @@
 <div>
 <h1>보관함 상세조회</h1>
 <input class="btn btn-success" type="button" value="수정하기" onclick="location.href='./storageModify.do?storageId=${list.storageId}'">
-<input class="btn btn-primary" type="button" value="전체리스트" onclick="location.href='./allStorageList.do'">
+<input class="btn btn-info" type="button" value="전체리스트" onclick="location.href='./allStorageList.do'">
 </div>
 <hr>
 <div id="storageDetail">
