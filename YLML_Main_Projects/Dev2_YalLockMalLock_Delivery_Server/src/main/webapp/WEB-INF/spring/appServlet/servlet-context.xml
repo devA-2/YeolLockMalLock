@@ -63,6 +63,7 @@
 			<mvc:exclude-mapping path="/member/updatePw.do" />
 			<mvc:exclude-mapping path="/member/idCheck.do" />
 			<mvc:exclude-mapping path="/member/phoneCheck.do" />
+			<mvc:exclude-mapping path="/member/sendSMS.do" />
 			
 		<!--3. interceptor가 동작 및 판단 할 클래스를 bean으로 등록 -->
 			<bean class="com.dev2.ylml.interceptor.AuthenticationInterceptor"></bean>
