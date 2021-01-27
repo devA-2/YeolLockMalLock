@@ -4,16 +4,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
-<title>마이페이지</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <script type="text/javascript" src="../js/jquery-3.5.1.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" type="text/javascript"></script>
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="../css/common.css">
 <style type="text/css">
-#container{
-   width : 360px;
-   height: 600px;
-   border: 1px solid black;
-   margin: auto;
+h1.info{
+	font-weight: 600;
+	text-align: center;
 }
+
+#myPage-form{
+  	width: 100%;  
+  	margin-left: 19%;
+  	margin-right: 16%; 
+}
+
+#btn-group {
+	width: 100%;
+ 	text-align: center; 
+}
+
+
 </style>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -53,31 +69,28 @@ $(document).ready(function(){
 </head>
 <body>
 	<div id="container">
-	<h1>마이페이지</h1>
-		<form>
-			<table border="1">
-				<tr>
-					<td>아이디 :</td>
-					<td><div class="email">${mem.email } <input type="hidden" name="email" id="email" value="${mem.email}"/></div></td>
-				</tr>	
-				<tr>
-					<td>이름 :</td>
-					<td><div class="email">${mem.name }</div></td>
-				</tr>	
-				<tr>
-					<td>핸드폰번호 :</td>
-					<td><div class="email">${mem.phoneNum }</div></td>
-				</tr>	
-				<tr>
-					<td>가입일 :</td>
-					<td><div class="email">${mem.regDate }</div></td>
-				</tr>	
-			</table>
-			<input type="button" value="개인정보 수정" onclick="updateInfo()">
-			<input type="button" value="비밀번호 변경" onclick="updatePw()">
-			<input type="button" value="회원탈퇴" id="quitMember">
-		</form>
-		<!-- 보관함 페이지의 보관내역 여기에 인클루드 할 예정 -->
+	<jsp:include page="../menu.jsp"/>
+	<h1 class="info">마이페이지</h1><br><br>
+		<div id="content">
+			<form>
+				<div id="myPage-form">
+					<label>아이디</label><br>
+						<div>${mem.email }<input type="hidden" name="email" id="email" value="${mem.email}"/></div><br>
+					<label>이름</label><br>
+						<div>${mem.name }</div><br>
+					<label>휴대폰번호</label><br>
+						<div>${mem.phoneNum }</div><br>
+					<label>가입일</label><br>
+						<div>${mem.regDate }</div><br>
+				</div><br><br>
+			</form>
+		</div>
+			<div id="btn-group">
+			<input type="button" class="btn btn-info" value="개인정보 수정" onclick="updateInfo()">
+			<input type="button" class="btn btn-info" value="비밀번호 변경" onclick="updatePw()">
+			<input type="button" class="btn btn-danger" value="회원탈퇴" id="quitMember">
+		</div>
 	</div>
+		<!-- 보관함 페이지의 보관내역 여기에 인클루드 할 예정 -->
 </body>
 </html>

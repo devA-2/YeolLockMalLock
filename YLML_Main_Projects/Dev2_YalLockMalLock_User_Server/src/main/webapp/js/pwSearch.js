@@ -8,7 +8,7 @@ var timer = null;
 var isRunning = false;
 
 $(document).ready(function() {
-//	$("#pwResetBtn").attr("disabled", true);
+	$("#pwResetBtn").hide(); 
 	$("#sendSMS").hide();
 	$("#checkSMS").hide();
 	$('#pwSearchBtn').click(function(){
@@ -21,17 +21,15 @@ $(document).ready(function() {
 				success: function(data){
 					console.log('Ajax for pwSearch : ' + data);
 					if(data > 0){
-						$("#pwSearchBtn").hide();
-//						$("#pwSearchBtn").attr("disabled", true);
 						$("#sendPhone_num").removeAttr("disabled");
 						$("#email").attr("readonly",true);
 						$("#name").attr("readonly",true);
 						$("#sendSMS").show();
+						$('#pwSearchBtn').hide();
 					}else if(mailJ.test(email)){
 						alert('유효하지 않은 이메일 입니다. 다시 시도해주세요.')
 					}else{
 						alert('해당하는 정보의 회원이 없습니다.')
-						$("#pwResetBtn").attr("disabled", true);
 					}
 				}
 
@@ -51,6 +49,7 @@ $(document).ready(function() {
 		alert('인증번호 발송 완료!');
 		$("#phone_num").attr("readonly",true);
 		$("#checkSMS").show();
+		$("#pwSearchBtn").hide();
 		
 		var display = $('.time');
 		var leftSec = 120;
@@ -79,14 +78,21 @@ $(document).ready(function() {
 						clearInterval(timer);
 						display.html("");
 						$("#sendSMS").hide();
+						$("#pwSearchBtn").hide();
 
 					}else{
 						if(isRunning) {
 							// 타이머가 활성화 되어있고 인증번호가 틀렸을때
 							alert('인증번호가 맞지 않습니다.');
+							$("#pwSearchBtn").hide();
+							$("#phone_num").removeAttr("readonly");
+							$("#checkSMS").hide();
 						} else {
 							// 타이머가 활성화 되어 있지 않을때
 							alert('시간이 초과되었습니다.');
+							$("#pwSearchBtn").hide();
+							$("#phone_num").removeAttr("readonly");
+							$("#checkSMS").hide();
 						}
 					}
 				})

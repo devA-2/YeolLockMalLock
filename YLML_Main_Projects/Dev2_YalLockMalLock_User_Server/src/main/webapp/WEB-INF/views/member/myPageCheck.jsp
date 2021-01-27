@@ -63,7 +63,7 @@ function myPageChk(){
 		<h1 class="info">마이페이지</h1><br><br>
 		<div id="myPageChk-Form">
 			<label>비밀번호</label>
-			<input type="password" id="pw" class="form-control" name="pw" maxlength="20" size="20" value="User010101"><br><br>
+			<input type="password" id="pw" class="form-control" name="pw" maxlength="20" size="20"><br><br>
 		</div>
 		<div id="btn-group">
 			<input type="button" id="myPageChk" class="btn btn-info" name="myPageChk" value="확인" onclick="myPageChk()">

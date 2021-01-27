@@ -6,7 +6,6 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script type="text/javascript" src="../js/jquery-3.5.1.js"></script>
-<!-- <script type="text/javascript" src="../js/signUp.js"></script> -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" type="text/javascript"></script>
@@ -52,6 +51,7 @@ function sendCodeToMail(){
 </head>
 <body>
 	<div id="container">
+	<jsp:include page="../menu.jsp"/>
 	<h1 class="info"><br><br>이메일 인증폼<br><br></h1>
 		<div id="content">
 			<input type="button" class="btn btn-default" name="sendMailBtn" onclick='sendCodeToMail()' value="${mem.email }로 인증 메일 보내기">
