@@ -11,7 +11,7 @@
 <insert id="reply" parameterType="ReportDto">
 	INSERT INTO REPORT (SEQ, EMAIL, TITLE, CONTENT, REGDATE, CATEGORY, IMAGE, DELFLAG, PROCESS_STATUS, REFER, STEP)
 	VALUES(
-	#{seq}, #{email}, #{title}, #{content}, SYSDATE, '1', '', 'N', 'Y', 
+	REPORT_SEQ.NEXTVAL, #{email}, #{title}, #{content}, SYSDATE, '1', '', 'N', 'Y', 
 	(SELECT REFER FROM REPORT r WHERE SEQ=#{seq}),
 	(SELECT STEP FROM REPORT r WHERE SEQ=#{seq})+1
 	)
