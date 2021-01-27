@@ -25,6 +25,12 @@ public class MailFormVo {
             + "]";
    }
    
+	public String getMessage(String email, String title, String content) {
+		return 	"<h2>안녕하세요"+ email +" 님 열락말락 입니다.</h2><br><br>"
+				+ "<h2>문의하신 글의 제목입니다. : "+title+"</h2>"
+				+ "<h2>문의하신 글의 답변 입니다. : " + content + "</h2>";
+	}
+   
    
    
    

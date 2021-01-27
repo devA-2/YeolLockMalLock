@@ -1,0 +1,24 @@
+@charset "UTF-8";
+
+#container{
+		width: 1280px;
+		height: 720px;
+		border: 1px solid #D8D8D8;
+	}
+	
+	#logOutBtn, #acsDvBtn,
+	#acsSlBtn, #acsSlRBtn
+	{
+		cursor: pointer;
+	}
+	
+	#logOutBtn{
+		margin-left: 550px;
+	}
+	
+	#cntUser{
+		margin-left: 950px;
+		color: white;
+		font-size: medium;
+	}
+	

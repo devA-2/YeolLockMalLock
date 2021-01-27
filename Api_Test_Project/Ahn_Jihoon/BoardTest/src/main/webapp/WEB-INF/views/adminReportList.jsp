@@ -66,7 +66,7 @@ $(document).ready(function(){
             onCellSelect :function(rowId) {
             	var refer = $("#jqGrid").getCell(rowId, 'refer');
             	
-                $.get("selectDetailReport.do?refer="+refer, function(data) {
+                $.get("adminSelectDetailReport.do?refer="+refer, function(data) {
                     console.log(data);
                     $('#listAjax').html(data);
                  });
@@ -104,7 +104,7 @@ $(document).ready(function(){
 <body>
 
 
-<div id = "listAjax" style="width: 1000px; border: 1px solid black; text-align: center; margin: auto;">
+<div id="listAjax" style="width: 1000px; border: 1px solid black; text-align: center; margin: auto;">
 
 	<div>사용중인 계정 : ${mem.email }</div>
 
@@ -128,7 +128,6 @@ $(document).ready(function(){
 			<th>제목</th>
 			<th>작성일자</th>
 			<th>내용</th>
-			<th>refer</th>
 		</tr>
 		<tr>
 			<td>${dto.seq }</td>
@@ -136,7 +135,6 @@ $(document).ready(function(){
 			<td>${dto.title }</td>
 			<td>${dto.regdate }</td>
 			<td>${dto.content }</td>
-			<td>${dto.refer }</td>
 		</tr>
 		<tr>
 			<td colspan="5">

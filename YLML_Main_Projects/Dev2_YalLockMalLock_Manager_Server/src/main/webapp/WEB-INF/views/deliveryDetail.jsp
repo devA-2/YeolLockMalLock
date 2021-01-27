@@ -11,10 +11,6 @@
 <title>담당자 및 배송원 상세 페이지</title>
 <script type="text/javascript">
 
-
-
-	
-	
 	function authCheck() {
 		var chk = "<c:out value='${list1.auth}'/>";
 		
@@ -32,13 +28,6 @@
 </script>
 </head>
 <body>
-deliveryDetail.jsp<br>
-
-값 넘어오는지 확인
-${ischeck}
-${isc}
-<%-- ${list1}<br> --%>
-<%-- ${list2} --%>
 
 <div id="container">
 <hr>

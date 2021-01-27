@@ -6,7 +6,7 @@
 	<c:set var="lists" value="${lists}"/>
 	<c:if test="${!empty lists}">
 <%-- 	${lists} --%>
-	<table border="1">
+	<table border="1" class="table table-hover">
 		<tr>
 			<th>보관함 ID</th>
 			<th>보관함 이름</th>
@@ -35,7 +35,7 @@
 	<c:set var="subwaylists" value="${subwaylists}"/>
 	<c:if test="${!empty subwaylists}">
 <%-- 	${lists} --%>
-	<table border="1">
+	<table border="1" class="table table-hover">
 		<tr>
 			<th>보관함 ID</th>
 			<th>보관함 이름</th>
@@ -61,19 +61,21 @@
 	</table>
 	</c:if>
 	
-<%-- 	<c:set var="subwaylists" value="${subwaylists}"/> --%>
-<%-- 	<c:if test="${empty subwaylists}"> --%>
-<!-- 	<div id="noResult"></div> -->
-<%-- 	</c:if> --%>
+	<c:set var="subwaylists" value="${subwaylists}"/>
+	<c:if test="${empty subwaylists}">
+	<div id="noResult"></div>
+	</c:if>
 	
 	<c:set var="list" value="${list}"/>
 	<c:if test="${list == null}">
-	<div id="noResult">검색결과가 없습니다</div>
+	<div>
+		<input id="noResult" type="hidden" value="검색결과가 없습니다">
+	</div>
 	</c:if>
 	
 	<c:if test="${!empty list}">
 <%-- 	${list} --%>
-	<table border="1">
+	<table border="1" class="table table-hover">
 		<tr>
 			<th>보관함 ID</th>
 			<th>보관함 이름</th>
