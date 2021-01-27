@@ -407,12 +407,13 @@ public class MemberController {
 
 	// TODO : 리턴값 써야댐
 	// 이메일 인증 전송
+	@ResponseBody
 	@RequestMapping(value = "/sendCodeToMail.do", method = RequestMethod.GET)
-	public String sendCodeToMail(String email, HttpSession session) {
+	public void sendCodeToMail(String email, HttpSession session) {
 		String mail = ((MemberDto) session.getAttribute("mem")).getEmail();
 		log.info("세션에서 가져온 이메일 값 :" + mail);
 		mailHelper.sendCode4Prove(mail);	// 메일보내기, 인증번호 기억해두는거 // java.lang.NullPointerException 클래스에서 먼가 잘못된듯?
-		return "redirect:./emailAuthForm.do";
+//		return "redirect:./emailAuthForm.do";
 	}
 
 	/**
