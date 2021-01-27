@@ -72,7 +72,7 @@ h1.info{
 						<input type="button" id="sendPhone_num" class="btn btn-primary" value="인증하기"><br>
 						
 					<div id="checkSMS"><br>
-						<input type="text" id="certified_num" class="form-control" size="5">
+						<input type="text" id="inputCertified_num" class="form-control" size="5">
 						<div class="time"></div>
 						<input type="button" id="checkBtn" class="btn btn-primary" value="확인">
 					</div>

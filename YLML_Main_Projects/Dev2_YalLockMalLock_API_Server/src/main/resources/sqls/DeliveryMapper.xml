@@ -117,7 +117,7 @@
 	
 	<!-- 결제 상태 업데이트 -->
 	<update id="updateCostStatus" parameterType="java.lang.String">
-		UPDATE COST SET COST_STATUS = 'Y' WHERE DELIVERY_CODE = #{costCode}
+		UPDATE COST SET COST_STATUS = 'Y' WHERE COST_CODE = #{costCode}
 	</update>
 
 	<!-- 지도 -->

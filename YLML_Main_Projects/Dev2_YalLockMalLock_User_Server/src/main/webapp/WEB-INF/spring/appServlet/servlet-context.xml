@@ -59,6 +59,11 @@
 			<mvc:exclude-mapping path="/member/updatePw.do" />
 			<mvc:exclude-mapping path="/member/idCheck.do" />
 			<mvc:exclude-mapping path="/member/phoneCheck.do" />
+			<mvc:exclude-mapping path="/member/emailAuthForm.do" />
+			<mvc:exclude-mapping path="/member/sendCodeToMail.do" />
+			<mvc:exclude-mapping path="/member/checkCode.do" />
+			<mvc:exclude-mapping path="/member/sendSMS.do" />
+			
 			<!-- 보관함 -->
 			<mvc:exclude-mapping path="/storage/selectStorageList.do" />
 			<mvc:exclude-mapping path="/storage/selectMap.do" />

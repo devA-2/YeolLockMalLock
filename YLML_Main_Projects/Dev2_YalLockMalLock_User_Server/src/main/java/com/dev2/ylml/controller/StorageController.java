@@ -340,11 +340,10 @@ public class StorageController {
 
 	@RequestMapping(value = "/resultPayment.do", method = RequestMethod.GET)
 	public String afterPayment(String imp_success, HttpSession session) {
-//		String costCode = (String) session.getAttribute("costCode");
+		String costCode = (String) session.getAttribute("costCode");
 		String result;
 		if(imp_success.equals("true")) {
-//			service.updateCostStatus(costCode);
-
+			service.updateCostStatus(costCode);
 			result = "redirect:./successPayment.do";
 		}else {
 			result = "redirect:./falsePayment.do";
