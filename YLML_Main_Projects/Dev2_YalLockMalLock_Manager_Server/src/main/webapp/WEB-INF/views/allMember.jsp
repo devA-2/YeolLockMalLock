@@ -13,7 +13,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript" src="./js/managerAuth.js"></script>
-  <style type="text/css">
+ <style type="text/css">
 #table{
   	width:70%;
   	margin: auto;
@@ -72,7 +72,7 @@ function allUser(){
 <div id="searchBar">
 	<input type="text" id="emailSearch" class="form-control" placeholder="검색어 입력">
 	<input type="button" value="검색" onclick="searchUser()" class="btn btn-info">
-	<input type="button" value="전체보기" onclick="allUser()" class="btn btn-default">
+	<input type="button" value="전체보기" onclick="allUser()" class="btn btn-default">&nbsp;&nbsp;
 	<div style="float: right;">
 		<select id="cntPerPage" name="sel" onchange="selChange()">
 			<option value="5"

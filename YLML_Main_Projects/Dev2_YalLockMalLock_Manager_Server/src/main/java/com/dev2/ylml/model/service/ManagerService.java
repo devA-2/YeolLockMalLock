@@ -75,7 +75,7 @@ public class ManagerService implements ManagerIService{
 	 */
 	@Override
 	public MemberDto detailMember(String email) {
-		return (MemberDto)helper.request("detail.do", email);
+		return (MemberDto)helper.request("detailMember.do", email);
 	}
 	
 	/*
