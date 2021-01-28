@@ -43,12 +43,14 @@
 }
 
 .openbtn {
-  width: 15%;
-  font-size: 30px;
+/	width: 15%;
+/*   width: 5%; */
+  font-size: 25px;
   cursor: pointer;
   background-color: white;
   color: #5a5a5a;
   border: none;
+  margin-left: 6%;
 }
 
 .openbtn:hover {
@@ -71,6 +73,7 @@
 	<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
 	<c:choose>
 		<c:when test="${mem == null}">
+			<a href="<%=request.getContextPath() %>">홈</a>
 			<a href="<%=request.getContextPath() %>/member/loginForm.do">로그인</a>
 			<a href="<%=request.getContextPath() %>/member/infoAgree.do">회원가입</a>
 		</c:when>
@@ -81,11 +84,12 @@
 			<a href="<%=request.getContextPath() %>/member/myPage.do">마이페이지</a>
 			<a href="<%=request.getContextPath() %>/storage/userStorageList.do">보관 조회</a>
 			<a href="<%=request.getContextPath() %>/storage/deliveryListMain.do">배송</a>
-			<a href="<%=request.getContextPath() %>/reportList.do">신고글 게시판</a>
-			<a href="<%=request.getContextPath() %>/lostPropertyList.do">유실물 게시판</a>
+			<a href="<%=request.getContextPath() %>/pagingReportList.do">신고글 게시판</a>
+			<a href="<%=request.getContextPath() %>/lostPropertyReport.do">유실물 게시판</a>
+
 		</c:otherwise>
 	</c:choose>
 </div>
 <div class="input-group">
-	<button class="openbtn" onclick="openNav()">☰</button>
+	<div class="openbtn" onclick="openNav()"><img src="<%=request.getContextPath() %>/img/menuBtn.png"></div>
 </div>

@@ -9,8 +9,9 @@
 	</select>
 	<!-- 보관함 검색 자동완성 -->
 	<select id="selectStorageList" resultType="java.util.HashMap">
-		select storage_id AS
-		"value" ,storage_name AS "label" ,address||' '||subway||' '||detail AS
+		select storage_id AS "value" ,
+		storage_name AS "label" ,
+		address||' '||subway||' '||detail AS
 		"desc" from storagebox_list
 	</select>
 	<!-- 보관함 정보 + 현재 사용가능 갯수 -->

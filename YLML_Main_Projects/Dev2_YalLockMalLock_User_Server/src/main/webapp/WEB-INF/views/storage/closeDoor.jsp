@@ -22,6 +22,7 @@
 </head>
 <body>
 	<div id="container">
+		<jsp:include page="../menu.jsp"/>
 		<div id="content">
 			<h1>
 				<br><br><br>문이 열렸습니다<br> 
