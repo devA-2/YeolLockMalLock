@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link type="text/css" rel="stylesheet" href="./css/common.css">
 <title>상세 글</title>
 <script type="text/javascript">
 	function historys(){
@@ -17,12 +18,7 @@
 		location.href='./selectDetailGoReply.do?seq='+seq;
 	}
 </script>
-<style type="text/css">
-	#tableArea{
-		width: 70%;
-		margin:auto;
-	}
-</style>
+
 </head>
 <body>
 <!-- 	<div id="container"> -->
@@ -44,15 +40,16 @@
 <%-- 		<button onclick="replyGo(${vo.seq})">답변 글 작성</button> --%>
 <%-- 		<button onclick="replyGo(${rDto.seq})">답변 글 작성</button> --%>
 <!-- 	</div> -->
-<div>
-	<div id="tableArea">
+<div id="container">
+	<div>
 		<table class="table table-hover">
 			<c:forEach items="${dto}" var="vo" varStatus="vs">
 				<c:choose>
 					<c:when test="${vo.step eq 0}">
-						<button id="replyBtn" onclick="replyGo(${vo.seq})">답변 글 작성</button>
+						<button id="replyBtn" class="btn btn-primary" onclick="replyGo(${vo.seq})">답변 글 작성</button>
 					</c:when>
 				</c:choose>
+				<br><br>
 				<tr>
 					<td>작성일 : ${vo.regdate}</td>
 					<td>작성자 : ${vo.email}</td>
@@ -62,7 +59,7 @@
 			</c:forEach>
 		</table>
 		<div>
-			<button onclick="historys()">뒤로 가기</button>
+			<button class="btn btn-primary" onclick="historys()">뒤로 가기</button>
 		</div>
 	</div>
 </div>

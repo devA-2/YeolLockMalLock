@@ -22,11 +22,14 @@
 <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript" src="./js/jquery.jqGrid.min.js"></script>
 
+
 <style type="text/css">
 	div > div{
 		margin:auto;
 	}
 </style>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link type="text/css" rel="stylesheet" href="./css/common.css">
 
 </head>
 
@@ -103,31 +106,25 @@ $(document).ready(function(){
 
 <body>
 
-
-<div id="listAjax" style="text-align: center; margin: auto;">
-
-	<div>사용중인 계정 : ${mem.email }</div>
-
-	
-	<div>
-		<form action="./searchIdReport.do" method="post">
-			<input type="text" value="user02@naver.com" name="email">
-			<input type="submit" value="검색">
-		</form>
-	</div>
-
-
-	
-	
-		<div style="margin: auto;">
-			<table id="jqGrid" style="margin: auto;"></table>
-			<div id="pager2" style="margin: auto;"></div>
-		</div>
-		
+<div id="container">
+ <%@include file="../header.jsp" %>
+	<div id="listAjax" style="text-align: center; margin: auto;">
 		<div>
-			<button onclick="historys()">메인으로</button>
-		</div>
-        
+			<form action="./searchIdReport.do" method="post">
+				<input type="text" placeholder="검색할 ID 입력" name="email">
+				<input type="submit" class="btn btn-primary" value="검색">
+			</form>
+		</div><br><br>
+			<div style="margin: auto;">
+				<table id="jqGrid" style="margin: auto;"></table>
+				<div id="pager2" style="margin: auto;"></div>
+			</div>
+			<br>
+			<div>
+				<button class="btn btn-primary" onclick="historys()">메인으로</button>
+			</div>
+	</div>
+	<%@include file="../footer.jsp" %>
 </div>
 
 </body>

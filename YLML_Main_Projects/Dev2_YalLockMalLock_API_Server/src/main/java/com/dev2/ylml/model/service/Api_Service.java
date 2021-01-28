@@ -1027,6 +1027,7 @@ public class Api_Service implements Api_IService{
 		List<LostPropertyDto> dto = lostPropertyDao.selectInsertLostPropertyList(storage_id);
 		return helper.generateData(dto);
 	}
+
 	
 //	@Override
 //	public Map<String, Object> insertKey(Map<String, Object> map) {
@@ -1047,5 +1048,23 @@ public class Api_Service implements Api_IService{
 //	}
 
 	
+	@Override
+	public Map<String, Object> selectAllPagingLostProperty(Map<String, Object> map) {
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		PagingVO vo = (PagingVO)helper.getData(map);
+		List<LostPropertyDto> list = lostPropertyDao.selectAllPagingLostProperty(vo);
+		return helper.generateData(list);
+	}
+
 	
+	@Override
+	public Map<String, Object> countLostProperty(Map<String, Object> map) {
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		int cnt = lostPropertyDao.countLostProperty();
+		return helper.generateData(cnt);
+	}
 }

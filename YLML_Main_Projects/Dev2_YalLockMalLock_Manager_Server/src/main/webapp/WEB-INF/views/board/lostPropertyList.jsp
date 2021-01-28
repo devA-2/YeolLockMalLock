@@ -25,6 +25,8 @@
 		margin:auto;
 	}
 </style>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link type="text/css" rel="stylesheet" href="./css/common.css">
 
 </head>
 <script type="text/javascript">
@@ -76,21 +78,25 @@ function historys(){
 	
 </script>
 <body>
-<div id="listAjax" style="text-align: center; margin: auto;">
-	<div style="border: 1px solid black; margin:auto;">
+<div id="container">
+ <%@include file="../header.jsp" %>
+	<div id="listAjax" style="text-align: center;">
 		<div>
-			<button onclick="historys()">메인으로</button>
-			<form action="./searchIdLostProperty.do" method="post">
-				<input type="text" value="user01@naver.com" name="receiptUserId">
-				<input type="submit" value="검색">
-			</form>
-		</div>
-	
-		<div style="margin: auto;">
-			<table id="jqGrid" style="margin: auto;"></table>
-			<div id="pager2" style="margin: auto;"></div>
+			<div>
+				<button onclick="historys()" class="btn btn-primary">메인으로</button><br><br>
+				<form action="./searchIdLostProperty.do" method="post">
+					<input type="text" placeholder="검색할 ID 입력" name="receiptUserId">
+					<input type="submit" class="btn btn-primary" value="검색">
+				</form>
+			</div>
+			<br>
+			<div style="margin: auto;">
+				<table id="jqGrid" style="margin: auto;"></table>
+				<div id="pager2" style="margin: auto;"></div>
+			</div>
 		</div>
 	</div>
+	<%@include file="../footer.jsp" %>
 </div>
 </body>
 </html>

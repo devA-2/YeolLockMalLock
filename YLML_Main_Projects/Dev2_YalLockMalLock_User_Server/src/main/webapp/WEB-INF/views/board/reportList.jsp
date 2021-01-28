@@ -34,6 +34,19 @@
          });
       });
       
+      window.onload = function(){
+    	  document.getElementById("goSearch").onclick = function(){
+    		  var doc = document.getElementById("searchId").value;
+    		  if (doc=="") {
+				alert("검색하실 아이디를 입력 해 주세요.");
+			}else{
+				document.getElementById("frm").submit();
+			}
+    		  
+    	  };
+    	  
+      };
+      
 </script>
 
 <body>
@@ -41,10 +54,17 @@
 <div id="container">
 	<div id="content">
 	
+<!-- 		<div class="header"> -->
+<!-- 			<form action="./searchIdReport.do" id="frm" method="post"> -->
+<!-- 				<input class="inputForm" type="text" placeholder="검색할 ID를 입력하세요" name="email"> -->
+<!-- 				<input class="inputForm" type="submit" value="검색"> -->
+<!-- 			</form> -->
+<!-- 		</div> -->
+		
 		<div class="header">
-			<form action="./searchIdReport.do" method="post">
-				<input class="inputForm" type="text" value="USER02@NAVER.COM" name="email">
-				<input class="inputForm" type="submit" value="검색">
+			<form action="chkVal()" method="post">
+				<input class="inputForm" type="text" id="searchId" placeholder="검색할 ID를 입력하세요" name="email">
+				<input class="inputForm" type="submit" id="goSearch" value="검색">
 			</form>
 		</div>
 		

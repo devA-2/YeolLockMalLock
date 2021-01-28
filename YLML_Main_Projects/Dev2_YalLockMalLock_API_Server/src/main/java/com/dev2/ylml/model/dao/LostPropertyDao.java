@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.dev2.ylml.dto.LostPropertyDto;
+import com.dev2.ylml.util.PagingVO;
 
 
 @Repository
@@ -36,6 +37,16 @@ public class LostPropertyDao implements LostPropertyIDao {
 	@Override
 	public List<LostPropertyDto> selectInsertLostPropertyList(String storage_id) {
 		return sqlSession.selectList(NS+"selectInsertLostPropertyList", storage_id);
+	}
+
+	@Override
+	public List<LostPropertyDto> selectAllPagingLostProperty(PagingVO vo) {
+		return sqlSession.selectList(NS+"selectAllPagingLostProperty", vo);
+	}
+
+	@Override
+	public int countLostProperty() {
+		return sqlSession.selectOne(NS+"countLostProperty");
 	}
 
 }

@@ -1,6 +1,10 @@
 package com.dev2.ylml.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,16 +27,22 @@ public class SearchController {
 	Logger log = LoggerFactory.getLogger(this.getClass());
 	
 	@RequestMapping(value = "/searchIdReport.do", method = RequestMethod.POST)
-	public String searchId(String email, Model model) {
+	public String searchId(String email, Model model, HttpServletResponse response) throws IOException {
 		log.info("------------------ 신고글 email 검색 실행 ------------------");
 		List<ReportDto> lists = iService.searchId(email);
+		
+		if (lists.isEmpty()) { // 이부분 왜 안먹힐까 ? API서버에서 리턴받을때 실행 결과 ROW의 개수로 판단하면 되지않을까 ?
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('검색 결과가 없습니다.');</script>");
+			out.flush();
+			
+			return "board/pagingReportList.do";
+		}
+		
 		model.addAttribute("lists", lists);
-		
-//		if (lists == null) {
-//			
-//		}
-		
 		return "board/searchIdReport";
+		
 	}
 	
 	@RequestMapping(value = "/searchIdLostProperty.do", method = RequestMethod.POST)

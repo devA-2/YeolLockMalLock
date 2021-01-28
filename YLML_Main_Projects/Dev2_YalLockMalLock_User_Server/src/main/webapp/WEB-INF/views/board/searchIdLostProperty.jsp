@@ -7,12 +7,12 @@
 <meta charset="UTF-8" name="viewport"
 	content="width=device-width, initial-scale=1.0">
 <title>ID 검색 페이지</title>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="./css/common.css">
+<link rel="stylesheet" href="./css/boardCss.css">
 </head>
 <body>
-	<div
-		style="width: 360px; height: 600px; border: 1px solid black; margin: auto;">
+	<div class="container">
 		<table class="table table-hover">
 			<tr>
 				<th>번호</th>
@@ -22,12 +22,14 @@
 			<c:forEach items="${list2}" var="vo" varStatus="vs">
 				<tr onclick="location.href='./selectOneLostProperty.do?seq=${vo.seq}'">
 					<td>${vo.seq}</td>
-					<td>${vo.receipt_user_id}</td>
-					<td>${vo.lost_regdate}</td>
+					<td>${vo.receiptUserId}</td>
+					<td>${vo.lostRegdate}</td>
 				</tr>
 			</c:forEach>
 		</table>
-		<button onclick="location.href='./lostPropertyList.do'">전체 목록으로</button>
+		<div class="divCentering">
+			<button class="btn btn-info" onclick="location.href='./lostPropertyList.do'">전체 목록</button>
+		</div>
 	</div>
 </body>
 </html>

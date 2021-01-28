@@ -377,10 +377,24 @@ public interface UserIService {
 	 * @return
 	 */
 	public int countReport();
+	
 	/**
 	 * 페이징 - begin~end 만큼의 VO 가져오기
 	 * @param vo
 	 * @return
 	 */
 	public List<ReportDto> selectReport(PagingVO vo);
+	
+	/**
+	 * VO 가져오기
+	 * @param vo
+	 * @return
+	 */
+	public List<LostPropertyDto> selectAllPagingLostProperty(PagingVO vo);
+	
+	/**
+	 * 페이징 - 유실물 게시판 전체 글 개수 가져오기
+	 * @return
+	 */
+	public int countLostProperty();
 }
