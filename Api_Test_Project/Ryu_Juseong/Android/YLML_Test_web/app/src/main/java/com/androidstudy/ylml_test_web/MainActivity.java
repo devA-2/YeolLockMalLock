@@ -18,6 +18,7 @@ import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -127,14 +128,24 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void setUrlText() {
-        tv_urlBox.setText(
-                new StringBuilder().append("http://")
-                        .append(ev_ipAddress.getText().toString())
-                        .append(":")
-                        .append(ev_port.getText().toString())
-                        .append("/")
-                        .append(ev_projectName.getText().toString()
-                        ).toString());
+        if(ev_port.getText().toString().equals("")){
+            tv_urlBox.setText(
+                    new StringBuilder().append("http://")
+                            .append(ev_ipAddress.getText().toString())
+                            .append("/")
+                            .append(ev_projectName.getText().toString()
+                            ).toString());
+        }else{
+            tv_urlBox.setText(
+                    new StringBuilder().append("http://")
+                            .append(ev_ipAddress.getText().toString())
+                            .append(":")
+                            .append(ev_port.getText().toString())
+                            .append("/")
+                            .append(ev_projectName.getText().toString()
+                            ).toString());
+        }
+
     }
 
     //View 불러오기
