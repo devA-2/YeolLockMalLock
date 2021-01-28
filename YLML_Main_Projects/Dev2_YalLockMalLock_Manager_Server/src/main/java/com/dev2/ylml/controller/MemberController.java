@@ -112,24 +112,14 @@ public class MemberController {
 	}
 	
 	/**
-	 * 회원 전체리스트
+	 * 회원 전체조회
+	 * @param vo
 	 * @param model
 	 * @param email
+	 * @param nowPage
+	 * @param cntPerPage
 	 * @return
 	 */
-//	@RequestMapping(value = "/allMember.do",method = RequestMethod.GET)
-//	public String selectAll(Model model,@RequestParam(required=false) String email) {
-//		List<MemberDto> list;
-//		if(email==null || email.isBlank()) {
-//			list = iService.selectAll(new String());
-//		}else {
-//			list = iService.selectAll(email);
-//		}
-//		log.info(list+"");
-//		model.addAttribute("list",list);
-//		return "allMember";
-//	}
-	
 	@RequestMapping(value="/allMember.do")
 	public String pagingReportList(PagingVO vo, Model model
 			//email이 null일때 오류 -> 디폴트를 @로 
