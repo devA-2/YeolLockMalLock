@@ -54,7 +54,7 @@
 
 <!-- 페이징 : 총 게시글 갯수 출력 -->
 <select id="countReport" resultType="java.lang.Integer">
-	SELECT COUNT(*) FROM REPORT
+	SELECT COUNT(*) FROM REPORT WHERE DELFLAG = 'N' AND STEP = 0
 </select>
 
 <!-- 페이징 : 페이징 처리 후 게시글 조회 -->

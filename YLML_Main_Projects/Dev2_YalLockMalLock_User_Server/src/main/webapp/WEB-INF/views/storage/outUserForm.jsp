@@ -69,6 +69,7 @@ function chkSubmit(){
 
 </script>
 	<div id='container'>
+		<jsp:include page="../menu.jsp"/>
 		<form method="post" action="./updateOutUser.do" onsubmit="return chkSubmit()">
 			<div id="info">
 			

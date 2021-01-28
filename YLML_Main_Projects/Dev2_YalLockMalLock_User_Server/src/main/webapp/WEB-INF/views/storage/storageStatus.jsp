@@ -71,10 +71,10 @@ div.btn {
 	
 </script>
 <div id="container">
-
+	<jsp:include page="../menu.jsp"/>
 	<div id="storageInfo">
 		<h2>${storageInfo.label }</h2>
-		<h5>${storageInfo.desc }</h5>
+		${storageInfo.desc }
 	</div>
 	
 	<hr>
