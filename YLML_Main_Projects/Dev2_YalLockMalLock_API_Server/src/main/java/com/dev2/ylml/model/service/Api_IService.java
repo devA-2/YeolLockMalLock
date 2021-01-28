@@ -1,7 +1,9 @@
 package com.dev2.ylml.model.service;
 
+import java.util.List;
 import java.util.Map;
 
+import com.dev2.ylml.dto.LostPropertyDto;
 import com.dev2.ylml.dto.Manager_StorageDto;
 import com.dev2.ylml.dto.MemberDto;
 
@@ -580,12 +582,18 @@ public interface Api_IService {
 //	 */
 //	public Map<String, Object> updateKey(Map<String, Object> map);
 	
-//	/**
-//	 * 유실물 입력
-//	 * 
-//	 * @param dto
-//	 * @return
-//	 */
-//	public Map<String, Object>/* boolean */ insertLostProperty(Map<String, Object> map/* LostProperty dto */);
+	/**
+	 * 유실물 입력
+	 * 
+	 * @param dto
+	 * @return
+	 */
+	public Map<String, Object>/* boolean */ insertLostProperty(Map<String, Object> map/* LostProperty dto */);
 
+	/**
+	 * 조건 부합 유실물 목록 검색 -> 보관함 상태가 I인 애들을 찾아냄
+	 * @param storage_id
+	 * @return
+	 */
+	public Map<String, Object>/* List<LostPropertyDto> */ selectInsertLostPropertyList(Map<String, Object> map/* String storage_id */);
 }

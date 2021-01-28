@@ -356,27 +356,38 @@ public class Api_Service implements Api_IService{
 		if(!helper.checkKey(map)) {
 			return helper.keyFailed();
 		}
-		List<String> list = (List<String>) helper.getData(map);
-		int cnt1 = storageDao.updateAllStatus(list);
-		log.info("사용중/대기 보관함 사용가능/불과 처리 갯수 : "+ cnt1);
+		List<String> list = (List<String>) helper.getData(map); // storage_id 담겨있음
+		
+		// 그러면 내가 이 list를 for문돌려서 쿼리 존나게 실행시키면 됨
+		
+//		for (int i = 0; i < list.size(); i++) {
+//			lostPropertyDao.selectInsertLostPropertyList(list);
+//		}
+		
+		int cnt1 = storageDao.updateAllStatus(list); // 보관함 사용 가능 여부 상태변경
+		log.info("사용중/대기 보관함 사용가능/불가 처리 갯수 : "+ cnt1);
+		
+		
+		
 		int cnt2 = storageDao.deleteAllGoods();
 		log.info("보관물품 전체삭제 갯수 : "+cnt2);
 		int cnt = cnt1 + cnt2;
 		
 		// ------------------------------------
 		
-		Calendar calendar = new GregorianCalendar();
+//		Calendar calendar = new GregorianCalendar();
 		
-		// Date 입력할거 예제
-		String testDate = "2021-01-27 00:00:00";
-		SimpleDateFormat test = new SimpleDateFormat("yyyy-MM-dd");
-		try {
-			Date transFormat = test.parse(testDate);
-			System.out.println(transFormat);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		// Date 입력할거 예제
+//		String testDate = "2021-01-27 00:00:00";
+//		SimpleDateFormat test = new SimpleDateFormat("yyyy-MM-dd");
+//		try {
+//			Date transFormat = test.parse(testDate);
+//			System.out.println(transFormat);
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
 		
 		MemberDto mDto = (MemberDto) helper.getData(map);
 		LostPropertyDto lDto = (LostPropertyDto)helper.getData(map);
@@ -385,11 +396,7 @@ public class Api_Service implements Api_IService{
 		
 		String email = mDto.getEmail();
 		String cost_code = (String) map.get("cost_code");
-		String lost_regdate = lDto.getLostRegdate();
 		String lost_keep_location = "";
-		String lost_status = "";
-		String and_date = lost_regdate+3;
-		String disposal_date = and_date;
 		
 		// 유실물 입력시 dto에 담겨있어야 함, 전달받아야 할 것들 : email, cost_code, lost_regdate(유실물 접수 일자, 직접입력),
 		// lost_keep_location, lost_status, and_date(등록일자 + 3일), disposal_date(and_date와 같음)
@@ -1002,14 +1009,24 @@ public class Api_Service implements Api_IService{
 		return helper.generateData(dto);
 	}
 	
-//	@Override
-//	public Map<String, Object> insertLostProperty(Map<String, Object> map) {
-//		if(!helper.checkKey(map)) {
-//			return helper.keyFailed();
-//		}
-//		LostPropertyDto dto = (LostPropertyDto) helper.getData(map);
-//		return helper.generateData();
-//	}
+	@Override
+	public Map<String, Object> insertLostProperty(Map<String, Object> map) {
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		LostPropertyDto dto = (LostPropertyDto) helper.getData(map);
+		boolean isc = lostPropertyDao.insertLostProperty(dto);
+		return helper.generateData(isc);
+	}
+	@Override
+	public Map<String, Object> selectInsertLostPropertyList(Map<String, Object> map) {
+		if(!helper.checkKey(map)) {
+			return helper.keyFailed();
+		}
+		String storage_id = (String) helper.getData(map);
+		List<LostPropertyDto> dto = lostPropertyDao.selectInsertLostPropertyList(storage_id);
+		return helper.generateData(dto);
+	}
 	
 //	@Override
 //	public Map<String, Object> insertKey(Map<String, Object> map) {

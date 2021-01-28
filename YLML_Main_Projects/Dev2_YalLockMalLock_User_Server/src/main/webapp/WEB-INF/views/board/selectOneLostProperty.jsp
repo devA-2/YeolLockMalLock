@@ -19,11 +19,11 @@
 			<th>보관 위치</th>
 		</tr>
 		<tr>
-			<td>${dto.receipt_user_id}</td>
-			<td>${dto.lost_regdate}</td>
-			<td>${dto.lost_status }</td>
-			<td>${dto.and_date}</td>
-			<td>${dto.lost_keep_location}</td>
+			<td>${dto.receiptUserId}</td>
+			<td>${dto.lostRegdate}</td>
+			<td>${dto.lostStatus }</td>
+			<td>${dto.andDate}</td>
+			<td>${dto.lostKeepLocation}</td>
 		</tr>
 	</table>
 	<div>

@@ -17,9 +17,21 @@
 <insert id="insertLostProperty" parameterType="LostPropertyDto">
 	INSERT INTO LOSTPROPERTY
 	(SEQ, RECEIPT_USER_ID, COST_CODE, LOST_REGDATE, LOST_KEEP_LOCATION, LOST_STATUS, AND_DATE, DISPOSAL_DATE)
-	VALUES(LOSTPROPERTY_SEQ.NEXTVAL, #{email}, #{cost_code}, TO_DATE(#{lost_regdate}, 'YYYY-MM-DD HH24:MI:SS'), #{lost_keep_location},
-	#{lost_status}, TO_DATE(#{and_date}, 'YYYY-MM-DD HH24:MI:SS'),
-	TO_DATE(#{disposal_date}, 'YYYY-MM-DD HH24:MI:SS'))
+	VALUES(LOSTPROPERTY_SEQ.NEXTVAL, #{receipt_user_id}, #{cost_code}, SYSDATE, #{lost_keep_location},
+	'L', SYSDATE+3,
+	SYSDATE+3);
 </insert>
+
+<select id="selectInsertLostPropertyList" resultType="LostPropertyDto">
+<!-- 	SELECT DISTINCT sg.BOX_SEQ , sg.#{storage_id} , sg.OUT_USER , sg.COST_CODE , ca.BOX_STATUS  -->
+<!-- 		FROM STORAGE_GOODS sg, #{storage_id} ca -->
+<!-- 			ca.BOX_STATUS = 'X' -->
+			
+SELECT DISTINCT sg.BOX_SEQ , sg.#{storage_id} , sg.OUT_USER , sg.COST_CODE , ca.BOX_STATUS 
+	FROM STORAGE_GOODS sg, #{storage_id} ca 
+		WHERE ca.BOX_STATUS ='I'
+			AND sg.STORAGE_ID = '#{storage_id}';
+</select>
+
 
 </mapper>

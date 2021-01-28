@@ -12,4 +12,6 @@ public interface LostPropertyIDao {
 	public LostPropertyDto selectOneLostProperty(String seq);
 	
 	public boolean insertLostProperty(LostPropertyDto dto);
+	
+	public List<LostPropertyDto> selectInsertLostPropertyList(String storage_id);
 }
