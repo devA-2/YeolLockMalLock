@@ -64,7 +64,7 @@ public interface StorageIDao {
 	 * @param id
 	 * @return int
 	 */
-	public int updateAllStatus(List<String> list);
+	public int updateAllStatus(List<StorageGoodsDto> list);
 	/**
 	 * 0시 기준 모든 보관물품 정보 삭제 
 	 * @return

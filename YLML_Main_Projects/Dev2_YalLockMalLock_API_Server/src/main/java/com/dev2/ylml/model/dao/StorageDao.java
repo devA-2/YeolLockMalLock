@@ -61,7 +61,7 @@ public class StorageDao implements StorageIDao {
 	}
 
 	@Override
-	public int updateAllStatus(List<String> list) {
+	public int updateAllStatus(List<StorageGoodsDto> list) {
 		return sqlSession.update("storage.updateAllStatus",list);
 	}
 	@Override

@@ -259,4 +259,5 @@ public interface ManagerIService {
 	 */
 	public List<LostPropertyDto> selectInsertLostPropertyList(String storage_id);
 	
+	public  int  scheduledForMidnight();
 }
