@@ -22,10 +22,7 @@
 	width:70%;
 	display: flex;
 	text-align: center;
-	margin-left:20%;
- }
- #container{
- 	padding : 30px;
+ 	margin-left:20%; 
  }
 
     
@@ -67,8 +64,9 @@ function allUser(){
 	location.href='./allMember.do?nowPage=1&cntPerPage=${paging.cntPerPage}';
 }
 </script>
-<%@include file="./header.jsp" %>
 <div id="container">
+<%@include file="./header.jsp" %>
+<h1>회원 전체조회</h1>
 <div id="searchBar">
 	<input type="text" id="emailSearch" class="form-control" placeholder="검색어 입력">
 	<input type="button" value="검색" onclick="searchUser()" class="btn btn-info">
@@ -104,8 +102,8 @@ function allUser(){
 			<td>${mem.phoneNum }</td>
 			<td>
 				<c:choose>
-					<c:when test="${mem.auth==10 }">회원</c:when>
-					<c:otherwise>대기</c:otherwise>
+					<c:when test="${mem.auth==10 }">일반회원</c:when>
+					<c:otherwise>임시회원</c:otherwise>
 				</c:choose>
 			</td>
 			<td>${mem.regDate }</td>
@@ -137,7 +135,7 @@ function allUser(){
 			<a href="./allMember.do?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}&email=${email}">&gt;</a>
 		</c:if>
 	</div>
-</div>
 <%@include file="./footer.jsp" %>
+</div>
 </body>
 </html>
