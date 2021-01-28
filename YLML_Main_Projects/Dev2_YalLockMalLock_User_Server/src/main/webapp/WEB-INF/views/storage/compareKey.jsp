@@ -79,6 +79,7 @@
 		
 	</script>
 	<div id="container">
+		<jsp:include page="../menu.jsp"/>
 		<div id="content">
 		<h2>
 			<br><br>결제전<br> 보관함 리더기에<br> NFC를 태그해주세요<br>

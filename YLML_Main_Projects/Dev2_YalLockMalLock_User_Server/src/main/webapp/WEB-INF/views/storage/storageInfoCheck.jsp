@@ -52,6 +52,7 @@
 		}
 	</script>
 	<div id="container">
+	<jsp:include page="../menu.jsp"/>
 		<div id="content"><br>보관 내용을 확인해주세요</div>
 		<div id="storageInfo">
 			<h4>${storageInfo.label } ${map.boxSeq }번 보관함</h4>

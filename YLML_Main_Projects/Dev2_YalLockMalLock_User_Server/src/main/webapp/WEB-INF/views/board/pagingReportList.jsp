@@ -30,7 +30,7 @@ function chkAuth(memEmail, voEmail, auth, refer){
 		<div class="searchDiv">
 			<form action="./searchIdReport.do" method="post">
 				<input id="searchInput" class="inputForm" type="text" value="USER02@NAVER.COM" name="email">
-				<input id="searchBtn" class="inputForm" type="submit" value="검색">
+				<input id="searchBtn" class="btn btn-info"" type="submit" value="검색">
 			</form>
 		</div>
 
@@ -83,7 +83,7 @@ function chkAuth(memEmail, voEmail, auth, refer){
 		</c:if>
 	</div>
 	<div class="reportBtn">
-		<button onclick="location.href = './insertReport.do'">신고 글 작성</button><br>
+		<button class="btn btn-info" onclick="location.href = './insertReport.do'">신고 글 작성</button><br>
 	</div>
 	
 	
