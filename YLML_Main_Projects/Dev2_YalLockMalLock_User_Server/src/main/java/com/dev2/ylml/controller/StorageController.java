@@ -291,14 +291,16 @@ public class StorageController {
 	 */
 	@RequestMapping(value = "/successPayment.do",method = {RequestMethod.GET, RequestMethod.POST})
 	public String successPayment(String returnFlag, HttpSession session) {
-	
+		log.info(returnFlag);
 		if(returnFlag==null ||returnFlag.isBlank()) {
 			//반품여부 없으면 결제 완료 페이지로(회수완료)->반품여부 받기 
+			log.info("1111");
 			return "storage/successPayment";
 		}else if(returnFlag.equals("Y")) {
 			//반품여부 확인-> 결제코드 담고 반품페이지로
 			return "storage/returnPage";
 		}else {
+			log.info("111122222");
 			//반품여부 N 이면 사용끝!->보관함 사용가능처리, 삭제후 메인으로 
 			//TODO alert 띄워주기
 			Map<String,String> map = new HashMap<String, String>();
