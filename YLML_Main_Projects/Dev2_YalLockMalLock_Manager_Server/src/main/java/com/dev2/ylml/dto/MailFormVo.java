@@ -3,12 +3,18 @@ package com.dev2.ylml.dto;
 public class MailFormVo {
    
    private String subject = "열락말락 인증 메일입니다.";
+   private String reportSubject ="열락말락 신고 글 답변입니다.";
    private String encodingType ="UTF-8";
    private String contextType = "html";
    
    public String getSubject() {
       return subject;
    }
+   
+   public String getReportSubject() {
+	   return reportSubject;
+   }
+   
    public String getEncodingType() {
       return encodingType;
    }

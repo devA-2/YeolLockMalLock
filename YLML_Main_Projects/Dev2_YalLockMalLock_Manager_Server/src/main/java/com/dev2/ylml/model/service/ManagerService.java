@@ -233,7 +233,7 @@ public class ManagerService implements ManagerIService{
 
 	@Override
 	public ReportDto selectDetailGoReply(String seq) {
-		return (ReportDto) helper.request("selectDetailReplyGo.do", seq);
+		return (ReportDto) helper.request("selectDetailGoReply.do", seq);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -250,13 +250,13 @@ public class ManagerService implements ManagerIService{
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<ReportDto> searchId(String email) {
-		return (List<ReportDto>) helper.request("searchId", email);
+		return (List<ReportDto>) helper.request("searchId.do", email);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<LostPropertyDto> searchId2(String receipt_user_id) {
-		return (List<LostPropertyDto>) helper.request("", receipt_user_id);
+	public List<LostPropertyDto> searchId2(String receiptUserId) {
+		return (List<LostPropertyDto>) helper.request("searchId2.do", receiptUserId);
 	}
 
 	

@@ -14,12 +14,13 @@
 <body>
 	<form action="./replyDo.do">
 		<input type="hidden" name="seq" value="${dto.seq}">
+		<input type="hidden" name="getEmail" value="${dto.email}">
 		
 		<div>
 			<input type="text" style="width:500px;" name="title" value="'${dto.email}'님이 문의하신 '${dto.title}'글의 답변입니다." readonly="readonly">
 		</div>
 		<div>
-		<input type="text" name="email" value="asd" readonly="readonly">
+		<input type="text" name="email" value="${mem.email}" readonly="readonly">
 			<select name='process' size='3' name="category">
 			  <option selected>-- 처리 상태 변경 --</option>
 			  <option value='complete'>처리 완료</option>

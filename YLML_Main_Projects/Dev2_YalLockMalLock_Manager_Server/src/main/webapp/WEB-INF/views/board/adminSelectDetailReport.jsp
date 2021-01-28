@@ -14,7 +14,7 @@
 	}
 	
 	function replyGo(seq){
-		location.href='./replyReport.do?seq='+seq;
+		location.href='./selectDetailGoReply.do?seq='+seq;
 	}
 </script>
 <style type="text/css">
