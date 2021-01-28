@@ -28,5 +28,6 @@ public class StorageGoodsDto implements Serializable {
 	String message;
 	int extendCnt;
 	String overTime;
+	int cost;
 	
 }
