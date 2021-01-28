@@ -259,6 +259,18 @@ public class ManagerService implements ManagerIService{
 		return (List<LostPropertyDto>) helper.request("searchId2.do", receiptUserId);
 	}
 
+	@Override
+	public boolean insertLostProperty(LostPropertyDto dto) {
+		return (boolean) helper.request("insertLostProperty.do", dto);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<LostPropertyDto> selectInsertLostPropertyList(String storage_id) {
+		return (List<LostPropertyDto>) helper.request("selectInsertLostPropertyList.do", storage_id);
+	}
+
+
 	
 
 }

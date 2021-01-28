@@ -19,8 +19,8 @@
 		<c:forEach items="${lists}" var="vo" varStatus="vs">
 			<tr onclick="location.href='./selectOneLostProperty.do?seq=${vo.seq}'">
 				<td>${vo.seq}</td>
-				<td>${vo.receipt_user_id}</td>
-				<td>${vo.lost_regdate}</td>
+				<td>${vo.receiptUserId}</td>
+				<td>${vo.lostRegdate}</td>
 			</tr>
 		</c:forEach>
 	</table>

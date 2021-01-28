@@ -33,4 +33,9 @@ public class LostPropertyDao implements LostPropertyIDao {
 		return cnt>0?true:false;
 	}
 
+	@Override
+	public List<LostPropertyDto> selectInsertLostPropertyList(String storage_id) {
+		return sqlSession.selectList(NS+"selectInsertLostPropertyList", storage_id);
+	}
+
 }

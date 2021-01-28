@@ -244,4 +244,19 @@ public interface ManagerIService {
 	 */
 	public List<LostPropertyDto> searchId2(String receiptUserId); // 유실물 검색
 	
+	/**
+	 * 유실물 입력
+	 * 
+	 * @param dto
+	 * @return
+	 */
+	public boolean insertLostProperty(LostPropertyDto dto);
+	
+	/**
+	 * 조건 부합 유실물 목록 검색 -> 보관함 상태가 I인 애들을 찾아냄
+	 * @param storage_id
+	 * @return
+	 */
+	public List<LostPropertyDto> selectInsertLostPropertyList(String storage_id);
+	
 }

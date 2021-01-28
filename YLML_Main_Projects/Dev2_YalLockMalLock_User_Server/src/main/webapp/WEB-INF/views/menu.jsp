@@ -86,6 +86,7 @@
 			<a href="<%=request.getContextPath() %>/storage/deliveryListMain.do">배송</a>
 			<a href="<%=request.getContextPath() %>/pagingReportList.do">신고글 게시판</a>
 			<a href="<%=request.getContextPath() %>/lostPropertyReport.do">유실물 게시판</a>
+
 		</c:otherwise>
 	</c:choose>
 </div>

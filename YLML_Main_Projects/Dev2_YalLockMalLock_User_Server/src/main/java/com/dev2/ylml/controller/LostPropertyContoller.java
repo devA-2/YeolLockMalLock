@@ -26,7 +26,7 @@ public class LostPropertyContoller {
 		log.info("------------------ 유실물 목록 ------------------");
 		List<LostPropertyDto> lists = iService.selectAllLostProperty();
 		model.addAttribute("lists", lists);
-		return "lostPropertyList";
+		return "board/lostPropertyList";
 	}
 	
 	@RequestMapping(value = "selectOneLostProperty.do", method=RequestMethod.GET)
@@ -34,7 +34,7 @@ public class LostPropertyContoller {
 		log.info("------------------ 유실물 상세 목록 ------------------");
 		LostPropertyDto dto = iService.selectOneLostProperty(seq);
 		model.addAttribute("dto", dto);
-		return "selectOneLostProperty";
+		return "board/selectOneLostProperty";
 	}
 	
 }

@@ -14,4 +14,5 @@ public class LostPropertyDto {
 	private String lostStatus;
 	private String andDate;
 	private String disposalDate;
+	private String storageId;
 }
