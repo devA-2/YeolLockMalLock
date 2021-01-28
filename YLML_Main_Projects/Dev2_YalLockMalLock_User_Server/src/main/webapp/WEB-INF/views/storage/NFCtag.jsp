@@ -50,6 +50,7 @@ function chkTag(){
 </script>
 	<!-- 	태그 절차 수정해야함  -->
 	<div id="container">
+		<jsp:include page="../menu.jsp"/>
 		<div id="content">
 			<h1>
 				<br><br>보관함 리더기에<br> NFC를 <br>태그해주세요

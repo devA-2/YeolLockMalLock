@@ -23,12 +23,11 @@
 <body>
 	<script type="text/javascript">
 		function pickUp(form) {
-			if (confirm('회수가 완료 되었습니다. 반품하시겠습니까 ? 페이지 이동시 반품은 불가합니다.')) {
+				form.submit();
+		}
+		function returnForm(form){
 				document.getElementById('returnFlag').value = 'Y';
 				form.submit();
-			}else{
-				form.submit();
-			}
 		}
 	</script>
 	<div id="container">
@@ -37,7 +36,9 @@
 				<input type="hidden" id="returnFlag" name="returnFlag" value="N">
 				<h2>
 					<br><br><br><br>결제가 완료되었습니다<br></h2>
-					 물건을 회수 후 '회수완료'를 클릭해야<br> 사용완료 처리가 됩니다<hr>
+					 물건을 회수 후 '회수완료'를 클릭해야<br> 사용완료 처리가 됩니다<br>
+					 반품을 원하시면 반품버튼을 눌러주세요<hr>
+					<input	type="button" class="btn btn-success" value="반품"	onclick="returnForm(this.form)">
 					<input	type="button" class="btn btn-info" value="회수 완료"	onclick="pickUp(this.form)"> <br> 
 			</form>
 		</div>
