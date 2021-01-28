@@ -43,12 +43,14 @@
 }
 
 .openbtn {
-  width: 15%;
-  font-size: 30px;
+/	width: 15%;
+/*   width: 5%; */
+  font-size: 25px;
   cursor: pointer;
   background-color: white;
   color: #5a5a5a;
   border: none;
+  margin-left: 6%;
 }
 
 .openbtn:hover {
@@ -71,6 +73,7 @@
 	<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
 	<c:choose>
 		<c:when test="${mem == null}">
+			<a href="<%=request.getContextPath() %>">홈</a>
 			<a href="<%=request.getContextPath() %>/member/loginForm.do">로그인</a>
 			<a href="<%=request.getContextPath() %>/member/infoAgree.do">회원가입</a>
 		</c:when>
@@ -87,5 +90,5 @@
 	</c:choose>
 </div>
 <div class="input-group">
-	<button class="openbtn" onclick="openNav()">☰</button>
+	<div class="openbtn" onclick="openNav()"><img src="<%=request.getContextPath() %>/img/menuBtn.png"></div>
 </div>
