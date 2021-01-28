@@ -54,9 +54,10 @@ function chkTag(){
 			<h1>
 				<br><br>보관함 리더기에<br> NFC를 <br>태그해주세요
 			</h1>
-			<input type="text" name="email"  id="email" value="${mem.email }">
-			<input type="text" name="idNum"  id="idNum" placeholder="가상의 idNum값">
-			<input type="text" name="tag"  id="tag" placeholder="가상의 NFC값"> 
+			<hr>
+			<input type="hidden" name="email"  id="email" value="${mem.email }">
+			<input type="text" name="idNum"  id="idNum" placeholder="가상의 idNum값"><br>
+			<input type="text" name="tag"  id="tag" placeholder="가상의 NFC값"> <br>
 			<input type="button" class="btn btn-info"  value="태그" onclick="chkTag()">
 		</div>
 	</div>
