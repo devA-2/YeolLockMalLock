@@ -73,13 +73,11 @@
 		WHERE storage_id=#{id} AND box_seq=#{boxSeq})
 	</update>
 	<!-- 모든 보관함 12시 기준 사용중/대기 보관함 사용가능/사용불가 처리 -->
-	<update id="updateAllStatus" parameterType="java.util.List">
-		<foreach item="item" collection="list" separator=";" open="DECLARE BEGIN" close="; END;">
-			UPDATE ${item.storageId} SET
+	<update id="updateAllStatus" parameterType="java.lang.String">
+			UPDATE ${storageId} SET
 			BOX_STATUS = CASE WHEN BOX_STATUS = 'I' THEN 'O'
 			WHEN BOX_STATUS = 'W' THEN 'X' END
 			WHERE box_status IN ('I','W')
-		</foreach>
 	</update>
 		<!-- 모든 보관함 12시 기준 보관물품 유실물등록후 삭제 -->
 		<delete id="deleteAllGoods">

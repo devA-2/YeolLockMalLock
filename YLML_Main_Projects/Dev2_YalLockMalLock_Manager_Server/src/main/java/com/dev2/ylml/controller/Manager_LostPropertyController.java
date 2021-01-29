@@ -74,9 +74,9 @@ public class Manager_LostPropertyController {
 	
 	@RequestMapping(value="/testMidnight.do", method=RequestMethod.GET)
 	public String testMidnight() {
-		System.out.println("test");
+		System.out.println("test1");
 		int result = service.scheduledForMidnight();
-		System.out.println("test");
+		System.out.println("test2");
 		return "board/scheduleTest";
 	}
 	
