@@ -270,6 +270,11 @@ public class ManagerService implements ManagerIService{
 		return (List<LostPropertyDto>) helper.request("selectInsertLostPropertyList.do", storage_id);
 	}
 
+	@Override
+	public int scheduledForMidnight() {
+		return (int)helper.request("scheduledForMidnight.do");
+	}
+
 
 	
 

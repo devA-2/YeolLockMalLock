@@ -14,23 +14,34 @@
 	WHERE SEQ = #{seq}
 </select>
 
-<insert id="insertLostProperty" parameterType="LostPropertyDto">
+<insert id="insertLostProperty" parameterType="java.util.List">
 	INSERT INTO LOSTPROPERTY
-	(SEQ, RECEIPT_USER_ID, COST_CODE, LOST_REGDATE, LOST_KEEP_LOCATION, LOST_STATUS, AND_DATE, DISPOSAL_DATE)
-	VALUES(LOSTPROPERTY_SEQ.NEXTVAL, #{receipt_user_id}, #{cost_code}, SYSDATE, #{lost_keep_location},
-	'L', SYSDATE+3,
-	SYSDATE+3);
+	(SEQ, RECEIPT_USER_ID, COST_CODE, LOST_REGDATE, 
+	LOST_KEEP_LOCATION, LOST_STATUS, AND_DATE, DISPOSAL_DATE)
+	SELECT LOSTPROPERTY_SEQ.NEXTVAL, A.* FROM(
+	<foreach collection="list" item="item" separator="UNION ALL">
+	SELECT  #{item.outUser} AS RECEIPT_USER_ID,
+				 #{item.costCode} AS COST_CODE,
+				 SYSDATE AS LOST_REGDATE,
+	 			#{item.storageId} AS LOST_KEEP_LOCATION,
+	 			'L' AS LOST_STATUS, 
+	 			SYSDATE+3 AS AND_DATE,
+	 			SYSDATE+3 AS DISPOSAL_DATE 
+	 FROM DUAL
+	</foreach>)A
 </insert>
 
-<select id="selectInsertLostPropertyList" resultType="LostPropertyDto">
+<select id="selectInsertLostPropertyList" resultType="StorageGoodsDto">
 <!-- 	SELECT DISTINCT sg.BOX_SEQ , sg.#{storage_id} , sg.OUT_USER , sg.COST_CODE , ca.BOX_STATUS  -->
 <!-- 		FROM STORAGE_GOODS sg, #{storage_id} ca -->
 <!-- 			ca.BOX_STATUS = 'X' -->
 			
-SELECT DISTINCT sg.BOX_SEQ , sg.#{storage_id} , sg.OUT_USER , sg.COST_CODE , ca.BOX_STATUS 
-	FROM STORAGE_GOODS sg, #{storage_id} ca 
-		WHERE ca.BOX_STATUS ='I'
-			AND sg.STORAGE_ID = '#{storage_id}';
+<!-- SELECT DISTINCT sg.BOX_SEQ , sg.#{storage_id} , sg.OUT_USER , sg.COST_CODE , ca.BOX_STATUS  -->
+<!-- 	FROM STORAGE_GOODS sg, #{storage_id} ca  -->
+<!-- 		WHERE ca.BOX_STATUS ='I' -->
+<!-- 			AND sg.STORAGE_ID = '#{storage_id}'; -->
+
+	SELECT STORAGE_ID ,OUT_USER ,COST_CODE FROM STORAGE_GOODS
 </select>
 
 
