@@ -17,9 +17,10 @@
 		position: relative;
 	}
 	#search{
-		width: 60%;
+		width: 80%;
 		position: absolute;
-		left: 30%;
+		left: 15%;
+		top: 20%;
 	}
 	#map {
 		width: 100%;
