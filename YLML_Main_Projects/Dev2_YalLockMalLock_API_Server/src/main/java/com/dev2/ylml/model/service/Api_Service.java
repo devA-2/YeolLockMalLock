@@ -350,31 +350,30 @@ public class Api_Service implements Api_IService{
 	}
 	
 	@Transactional
-	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Object> scheduledForMidnight(Map<String, Object> map) {
 		if(!helper.checkKey(map)) {
 			return helper.keyFailed();
 		}
-		List<String> list = (List<String>) helper.getData(map); // storage_id 담겨있음
+//		List<String> list = (List<String>) helper.getData(map); // storage_id 담겨있음
+		List<StorageGoodsDto> list = lostPropertyDao.selectInsertLostPropertyList();
+//		List<StorageGoodsDto> list = (List<StorageGoodsDto>) helper.getData(map);
+		log.info(list.size()+"");
+		int cnt1 = lostPropertyDao.insertLostProperty(list);
+		log.info("보관물품->유실물으로 등록 갯수 : "+cnt1);
+		int cnt2 = storageDao.updateAllStatus(list); // 보관함 사용 가능 여부 상태변경
+		log.info("사용중/대기 보관함 사용가능/불가 처리 갯수 : "+ cnt2);
+		int cnt3 = storageDao.deleteAllGoods();
+//		int cnt3=0;
+		log.info("보관물품 전체삭제 갯수 : "+cnt3);
+		int cnt = cnt1 + cnt2+cnt3;
 		
+		// ------------------------------------
 		// 그러면 내가 이 list를 for문돌려서 쿼리 존나게 실행시키면 됨
 		
 //		for (int i = 0; i < list.size(); i++) {
 //			lostPropertyDao.selectInsertLostPropertyList(list);
 //		}
-		
-		int cnt1 = storageDao.updateAllStatus(list); // 보관함 사용 가능 여부 상태변경
-		log.info("사용중/대기 보관함 사용가능/불가 처리 갯수 : "+ cnt1);
-		
-		
-		
-		int cnt2 = storageDao.deleteAllGoods();
-		log.info("보관물품 전체삭제 갯수 : "+cnt2);
-		int cnt = cnt1 + cnt2;
-		
-		// ------------------------------------
-		
 //		Calendar calendar = new GregorianCalendar();
 		
 //		// Date 입력할거 예제
@@ -388,20 +387,15 @@ public class Api_Service implements Api_IService{
 //			e.printStackTrace();
 //		}
 //		
-		
-		MemberDto mDto = (MemberDto) helper.getData(map);
-		LostPropertyDto lDto = (LostPropertyDto)helper.getData(map);
-		
+//		MemberDto mDto = (MemberDto) helper.getData(map);
+//		LostPropertyDto lDto = (LostPropertyDto)helper.getData(map);
 		// 보류
-		
-		String email = mDto.getEmail();
-		String cost_code = (String) map.get("cost_code");
-		String lost_keep_location = "";
-		
+//		String email = mDto.getEmail();
+//		String cost_code = (String) map.get("cost_code");
+//		String lost_keep_location = "";
 		// 유실물 입력시 dto에 담겨있어야 함, 전달받아야 할 것들 : email, cost_code, lost_regdate(유실물 접수 일자, 직접입력),
 		// lost_keep_location, lost_status, and_date(등록일자 + 3일), disposal_date(and_date와 같음)
-		lostPropertyDao.insertLostProperty(lDto);
-		
+//		lostPropertyDao.insertLostProperty(lDto);
 		return helper.generateData(cnt);
 	}
 	@Transactional
@@ -1009,24 +1003,25 @@ public class Api_Service implements Api_IService{
 		return helper.generateData(dto);
 	}
 	
-	@Override
-	public Map<String, Object> insertLostProperty(Map<String, Object> map) {
-		if(!helper.checkKey(map)) {
-			return helper.keyFailed();
-		}
-		LostPropertyDto dto = (LostPropertyDto) helper.getData(map);
-		boolean isc = lostPropertyDao.insertLostProperty(dto);
-		return helper.generateData(isc);
-	}
-	@Override
-	public Map<String, Object> selectInsertLostPropertyList(Map<String, Object> map) {
-		if(!helper.checkKey(map)) {
-			return helper.keyFailed();
-		}
-		String storage_id = (String) helper.getData(map);
-		List<LostPropertyDto> dto = lostPropertyDao.selectInsertLostPropertyList(storage_id);
-		return helper.generateData(dto);
-	}
+
+//	@SuppressWarnings("unchecked")
+//	@Override
+//	public Map<String, Object> insertLostProperty(Map<String, Object> map) {
+//		if(!helper.checkKey(map)) {
+//			return helper.keyFailed();
+//		}
+//		List<StorageGoodsDto> list = (List<StorageGoodsDto>) helper.getData(map);
+//		int cnt = lostPropertyDao.insertLostProperty(list);
+//		return helper.generateData(cnt);
+//	}
+//	@Override
+//	public Map<String, Object> selectInsertLostPropertyList(Map<String, Object> map) {
+//		if(!helper.checkKey(map)) {
+//			return helper.keyFailed();
+//		}
+//		List<StorageGoodsDto> list = lostPropertyDao.selectInsertLostPropertyList();
+//		return helper.generateData(list);
+//	}
 
 	
 //	@Override

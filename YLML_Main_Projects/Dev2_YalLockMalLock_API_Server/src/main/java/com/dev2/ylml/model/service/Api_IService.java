@@ -6,6 +6,7 @@ import java.util.Map;
 import com.dev2.ylml.dto.LostPropertyDto;
 import com.dev2.ylml.dto.Manager_StorageDto;
 import com.dev2.ylml.dto.MemberDto;
+import com.dev2.ylml.dto.StorageGoodsDto;
 
 public interface Api_IService {
 	/**
@@ -183,7 +184,7 @@ public interface Api_IService {
 	 * @param list
 	 * @return int
 	 */
-	public Map<String, Object>/* boolean */ scheduledForMidnight(Map<String, Object> map/* List<String> list */);
+	public Map<String, Object>/* int */ scheduledForMidnight(Map<String, Object> map);
 
 	/**
 	 * 연장시간, 연장횟수 수정 + 연장 금액 수정
@@ -588,15 +589,15 @@ public interface Api_IService {
 	 * @param dto
 	 * @return
 	 */
-	public Map<String, Object>/* boolean */ insertLostProperty(Map<String, Object> map/* LostProperty dto */);
+//	public Map<String, Object>/* int */ insertLostProperty(Map<String, Object> map/* List<StorageGoodsDto> list */);
 
 	/**
 	 * 조건 부합 유실물 목록 검색 -> 보관함 상태가 I인 애들을 찾아냄
 	 * @param storage_id
 	 * @return
 	 */
-	public Map<String, Object>/* List<LostPropertyDto> */ selectInsertLostPropertyList(Map<String, Object> map/* String storage_id */);
-
+//	public Map<String, Object>/* List<StorageGoodsDto> */ selectInsertLostPropertyList(Map<String, Object> map);
+  
 	/**
 	 * 유실물 Paging
 	 * @param map
@@ -605,4 +606,5 @@ public interface Api_IService {
 	public Map<String, Object> /* List<LostPropertyDto> */ selectAllPagingLostProperty(Map<String, Object> map/*PagingVO vo*/);
 	
 	public Map<String, Object> /* int */ countLostProperty(Map<String, Object> map);
+
 }

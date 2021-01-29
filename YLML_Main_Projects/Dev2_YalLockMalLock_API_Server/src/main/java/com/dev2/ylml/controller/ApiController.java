@@ -408,17 +408,7 @@ public class ApiController {
 //		return service.updateKey(map);
 //	}
 	
-	@ResponseBody
-	@RequestMapping(value = "selectInsertLostPropertyList.do")
-	public Map<String, Object> selectInsertLostPropertyList(@RequestBody Map<String, Object> map) {
-		return service.selectInsertLostPropertyList(map);
-	}
-	
-	@ResponseBody
-	@RequestMapping(value = "insertLostProperty.do")
-	public Map<String, Object> insertLostProperty(@RequestBody Map<String, Object> map) {
-		return service.insertLostProperty(map);
-	}
+
 	
 	@ResponseBody
 	@RequestMapping(value = "selectAllPagingLostProperty.do")
