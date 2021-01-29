@@ -410,4 +410,16 @@ public class ApiController {
 	
 
 	
+	@ResponseBody
+	@RequestMapping(value = "selectAllPagingLostProperty.do")
+	public Map<String, Object> selectAllPagingLostProperty(@RequestBody Map<String, Object> map) {
+		return service.selectAllPagingLostProperty(map);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "countLostProperty.do")
+	public Map<String, Object> countLostProperty(@RequestBody Map<String, Object> map) {
+		return service.countLostProperty(map);
+	}
+	
 }

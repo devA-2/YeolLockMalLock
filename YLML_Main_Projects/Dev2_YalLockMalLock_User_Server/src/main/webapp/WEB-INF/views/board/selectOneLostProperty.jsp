@@ -5,29 +5,23 @@
 <head>
 <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
 <title>유실물 상세 조회</title>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="./css/common.css">
+<link rel="stylesheet" href="./css/boardCss.css">
 </head>
 <body>
-<div style="width: 360px; height: 600px; border: 1px solid black; margin: auto;">
-	<table class="table table-hover">
-		<tr>
-			<th>소유자</th>
-			<th>접수 일자</th>
-			<th>처리 상태</th>
-			<th>만기일</th>
-			<th>보관 위치</th>
-		</tr>
-		<tr>
-			<td>${dto.receiptUserId}</td>
-			<td>${dto.lostRegdate}</td>
-			<td>${dto.lostStatus }</td>
-			<td>${dto.andDate}</td>
-			<td>${dto.lostKeepLocation}</td>
-		</tr>
-	</table>
-	<div>
-		<button onclick="location.href='./lostPropertyList.do'">뒤로가기</button>
+	<div class="container">
+		<div>
+			<span>소유자 : ${dto.receiptUserId}</span><br>
+			<span>접수 일자 : ${dto.lostRegdate}</span><br>
+			<span>처리 상태 : ${dto.lostStatus }</span><br>
+			<span>만기일 : ${dto.andDate}</span><br>
+			<span>보관 위치 : ${dto.lostKeepLocation}</span>
+		</div>
+		
+		
+	<div class="reportBtn">
+		<button class="btn btn-info" onclick="location.href='./lostPropertyList.do'">Home</button>
 	</div>
 </div>
 </body>

@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
 <link rel="stylesheet" href="./css/common.css">
+<link rel="stylesheet" href="./css/boardCss.css">
 </head>
 <script>
 function chkAuth(memEmail, voEmail, auth, refer){
@@ -24,13 +25,34 @@ function chkAuth(memEmail, voEmail, auth, refer){
 		var sel = document.getElementById('cntPerPage').value;
 		location.href="./pagingReportList.do?nowPage=${paging.nowPage}&cntPerPage="+sel;
 	}
+	
+    window.onload = function(){
+  	  document.getElementById("goSearch").onclick = function(){
+  		  var doc = document.getElementById("searchId").value;
+  		 	 if (doc=="") {
+				alert("검색하실 아이디를 입력 해 주세요.");
+				return false;
+			}else{
+				document.getElementById("frm").submit();
+			}
+  		  
+  	  };
+  	  
+    };
 </script>
 <body>
 <div class="container">
+<!-- 		<div class="searchDiv"> -->
+<!-- 			<form action="./searchIdReport.do" method="post"> -->
+<!-- 				<input id="searchInput" class="inputForm" type="text" placeholder="검색할 ID를 입력하세요" name="email"> -->
+<!-- 				<input id="searchBtn" class="btn btn-info"" type="submit" value="검색"> -->
+<!-- 			</form> -->
+<!-- 		</div> -->
+		
 		<div class="searchDiv">
 			<form action="./searchIdReport.do" method="post">
-				<input id="searchInput" class="inputForm" type="text" value="USER02@NAVER.COM" name="email">
-				<input id="searchBtn" class="btn btn-info"" type="submit" value="검색">
+				<input class="inputForm" type="text" id="searchId" placeholder="검색할 ID를 입력하세요" name="email">
+				<input class="btn btn-info" type="submit" id="goSearch" value="검색">
 			</form>
 		</div>
 
@@ -61,7 +83,7 @@ function chkAuth(memEmail, voEmail, auth, refer){
 		<td>${list.title}</td>
 		<td>${list.email}</td>
 	</tr>
-</c:forEach>
+	</c:forEach>
 	</table>
 	
 	<div style="display: block; text-align: center;">		
@@ -82,8 +104,10 @@ function chkAuth(memEmail, voEmail, auth, refer){
 			<a href="./pagingReportList.do?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>
 		</c:if>
 	</div>
+	
 	<div class="reportBtn">
-		<button class="btn btn-info" onclick="location.href = './insertReport.do'">신고 글 작성</button><br>
+		<button class="btn btn-info" onclick="location.href = './insertReport.do'">신고 글 작성</button>
+		<button class="btn btn-info" onclick="location.href='./goMainPage.do'">메인</button>
 	</div>
 	
 	

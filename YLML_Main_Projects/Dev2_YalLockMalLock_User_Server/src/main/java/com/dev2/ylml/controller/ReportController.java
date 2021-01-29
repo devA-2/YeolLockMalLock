@@ -1,16 +1,9 @@
 package com.dev2.ylml.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,17 +12,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
-import com.dev2.ylml.dto.LostPropertyDto;
 import com.dev2.ylml.dto.MemberDto;
 import com.dev2.ylml.dto.ReportDto;
 import com.dev2.ylml.model.service.UserIService;
-import com.dev2.ylml.util.MailService;
 import com.dev2.ylml.util.PagingVO;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 public class ReportController {
@@ -39,6 +26,12 @@ public class ReportController {
 	
 	Logger log = LoggerFactory.getLogger(this.getClass());
 
+	@RequestMapping(value="/goMainPage.do", method=RequestMethod.GET)
+	public String goMainPage() {
+		log.info("------------------ 메인으로 이동 ------------------");
+		return "index";
+	}
+	
 	@RequestMapping(value="/goReportList.do", method=RequestMethod.GET)
 	public String goReportList() {
 		log.info("------------------ 신고글 목록 ------------------");
@@ -184,11 +177,11 @@ public class ReportController {
 	@RequestMapping(value = "/replyDo.do", method=RequestMethod.GET)
 	public String reply(ReportDto dto, HttpSession session, Model model) {
 		log.info("------------------ 답변 글 작성 후 신고 글 목록으로 이동 ------------------");		
-		String email = iService.selectDetail(dto.getSeq()).getEmail();
-		String title = dto.getTitle();
-		String content = dto.getContent();
+//		String email = iService.selectDetail(dto.getSeq()).getEmail();
+//		String title = dto.getTitle();
+//		String content = dto.getContent();
 		
-		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+content);
+//		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+content);
 		
 		// Map으로 이메일에 들어갈 정보 보낼때 사용할수있음
 //		Map<String, String> map = new HashMap<String, String>();

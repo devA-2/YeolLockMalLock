@@ -597,4 +597,14 @@ public interface Api_IService {
 	 * @return
 	 */
 //	public Map<String, Object>/* List<StorageGoodsDto> */ selectInsertLostPropertyList(Map<String, Object> map);
+  
+	/**
+	 * 유실물 Paging
+	 * @param map
+	 * @return
+	 */
+	public Map<String, Object> /* List<LostPropertyDto> */ selectAllPagingLostProperty(Map<String, Object> map/*PagingVO vo*/);
+	
+	public Map<String, Object> /* int */ countLostProperty(Map<String, Object> map);
+
 }

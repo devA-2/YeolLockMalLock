@@ -360,6 +360,17 @@ public class UserService implements UserIService{
 		return (List<ReportDto>) helper.request("selectReport.do",vo);
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<LostPropertyDto> selectAllPagingLostProperty(PagingVO vo) {
+		return (List<LostPropertyDto>) helper.request("selectAllPagingLostProperty.do",vo);
+	}
+
+	@Override
+	public int countLostProperty() {
+		return (int)helper.request("countLostProperty.do");
+	}
+
 
 
 	

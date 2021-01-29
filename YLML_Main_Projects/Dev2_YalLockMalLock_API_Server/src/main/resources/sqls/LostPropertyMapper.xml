@@ -30,18 +30,35 @@
 	 FROM DUAL
 	</foreach>)A
 </insert>
+  
+<select id="selectAllPagingLostProperty" parameterType="com.dev2.ylml.util.PagingVO" resultType="LostPropertyDto">
+		SELECT * 
+		FROM (
+			SELECT ROWNUM RN, A.* 
+				FROM (
+						SELECT * 
+						FROM LOSTPROPERTY
+						ORDER BY SEQ
+						) A
+				)
+	WHERE RN BETWEEN #{start} AND #{end}
+</select>
+
+<select id="countLostProperty" resultType="java.lang.Integer">
+	SELECT COUNT(*) FROM LOSTPROPERTY
+  </select>
 
 <select id="selectInsertLostPropertyList" resultType="StorageGoodsDto">
+  SELECT STORAGE_ID ,OUT_USER ,COST_CODE FROM STORAGE_GOODS
+  
 <!-- 	SELECT DISTINCT sg.BOX_SEQ , sg.#{storage_id} , sg.OUT_USER , sg.COST_CODE , ca.BOX_STATUS  -->
 <!-- 		FROM STORAGE_GOODS sg, #{storage_id} ca -->
 <!-- 			ca.BOX_STATUS = 'X' -->
-			
+
 <!-- SELECT DISTINCT sg.BOX_SEQ , sg.#{storage_id} , sg.OUT_USER , sg.COST_CODE , ca.BOX_STATUS  -->
 <!-- 	FROM STORAGE_GOODS sg, #{storage_id} ca  -->
 <!-- 		WHERE ca.BOX_STATUS ='I' -->
 <!-- 			AND sg.STORAGE_ID = '#{storage_id}'; -->
-
-	SELECT STORAGE_ID ,OUT_USER ,COST_CODE FROM STORAGE_GOODS
 </select>
 
 

@@ -10,12 +10,15 @@
 <html>
 <head>
 <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="./css/common.css">
+<link rel="stylesheet" href="./css/boardCss.css">
 <title>신고 글 작성</title>
 <script type="text/javascript" src="<%=ctx %>/SE2/js/HuskyEZCreator.js" charset="utf-8"></script>
 <script type="text/javascript">
 	function goBack(){
 		if (confirm("글을 입력하지 않고 돌아가시겠습니까?")==true) {
-			location.href="./reportList.do?";
+			location.href="./pagingReportList.do";
 		}else{
 			return;
 		}
@@ -38,8 +41,10 @@
 		
 		if (title.value=="") {
 			alert("제목을 입력 해 주세요.");
+			document.getElementById("title").focus()
 		}else if(content.value == "<p><br></p>"){
 			alert("내용을 입력 해 주세요.");
+			document.getElementById("ir1").focus()
 		}else {
 // 				var str = content.value;
 // 				str = str.replace(/(?:\r\n|\r|\n)/g,"<br>");
@@ -63,14 +68,12 @@
 </script>
 </head>
 <body>
-<div id="resultView">
-</div>
-<div id="container" style="width: 360px; height: 600px; border: 1px solid black; margin:auto;">
+<div class="container">
 	<div>
 		<form action="./insert.do" method="post" id="chk">
 					<br><br>
 					<span>아이디 : <input type="text" value="${mem.email}" name="email" id="email"></span><br>
-					<span>제목 : <input type="text" placeholder="제목" name="title" id="title"><div id="chkTitle"></div></span>
+					<span>제목    :   <input type="text" placeholder="제목" name="title" id="title"><div id="chkTitle"></div></span>
 					
 						<textarea rows="10" cols="40" id="ir1" name="ir1"></textarea>
 <!-- 						<textarea rows="10" cols="40" id="content" name="content"></textarea> -->
@@ -82,13 +85,10 @@
 <!-- 					<td><input type="text" value="1" name="image" id="image"></td> -->
 <!-- 					</tr> -->
 					<br><br>
-					
-
-					
-					
-					
-					<input type="button" value="확인" onclick="validateForm()">
-					<input type="button" onclick="goBack()" value="뒤로가기">
+					<div class="reportBtn">
+						<input type="button" class="btn btn-info" value="확인" onclick="validateForm()">
+						<input type="button" class="btn btn-info" onclick="goBack()" value="돌아가기">
+					</div>
 		</form>
 	</div>
 </div>
