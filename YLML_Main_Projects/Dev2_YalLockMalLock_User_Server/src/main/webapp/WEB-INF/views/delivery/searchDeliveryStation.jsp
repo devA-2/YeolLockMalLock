@@ -13,14 +13,19 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="../css/common.css">
 <style type="text/css">
-	#header{
+	.menu {
+		width: 100%;
+		display: flex;
 		position: relative;
+	}
+	#header{
+		
 	}
 	#search{
 		width: 80%;
 		position: absolute;
-		left: 15%;
-		top: 20%;
+		left: 20%;
+		top: 15%;
 	}
 	#map {
 		width: 100%;
@@ -55,15 +60,12 @@
 </style>
 </head>
 <body>
-	<div id="container">
-		<div id="header">
+	<div class="container">
+		<div class="menu">
 			<jsp:include page="../menu.jsp"/>
-			<!-- 검색창 div -->
-			<div>
-				<input type="text" id="search" class="form-control" placeholder="보관함 검색">
-			</div>
+			<input type="text" id="search" class="form-control" placeholder="보관함 검색">
 		</div>
-		<div id="content">
+		<div class="content">
 			<!-- kakaoMap API 고유키 설정 -->
 			<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=17fa16b302b947b735f86c5f96eb39b1"></script>
 			<!-- 지도 표시하는 div  -->

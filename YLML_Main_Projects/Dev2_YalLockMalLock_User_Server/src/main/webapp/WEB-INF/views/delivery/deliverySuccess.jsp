@@ -12,22 +12,28 @@
 <script type="text/javascript" src="../js/userStorageList.js"></script>
 <link rel="stylesheet" href="../css/common.css">
 <style type="text/css">
-	#content{
-		position: absolute;
-		left: 30%;
-		top: 35%;
+	.container{
+		position: relative;
 	}
-	#btn{
-		position: absolute;
-		left: 10%;
-		top: 250%;
+
+	.menu {
+		width: 100%;
+		display: flex;
+	}
+	
+	.content{
+		width: 100%;
+		text-align: center;
+		padding-top: 70%;
 	}
 </style>
 </head>
 <body>
-	<div id="container" class="container">
-		<jsp:include page="../menu.jsp" />
-		<div id="content">
+	<div class="container">
+		<div class="menu">
+			<jsp:include page="../menu.jsp"/>
+		</div>
+		<div class="content">
 			<p>배송이 완료되었습니다.</p>
 			<button class="btn btn-info" id="btn" onclick="location.href='http://localhost:8095/Dev2_YalLockMalLock_User_Server/index.do'">홈으로</button>
 		</div>

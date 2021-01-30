@@ -49,9 +49,11 @@
 </style>
 </head>
 <body>
-	<div id="container">
-		<jsp:include page="../menu.jsp"/>
-		<div id="content">
+	<div class="container">
+		<div class="menu">
+			<jsp:include page="../menu.jsp"/>
+		</div>
+		<div class="content">
 			<div id="deliveryTerm">
 				<h5>[제 1 장 총칙]</h5>
 

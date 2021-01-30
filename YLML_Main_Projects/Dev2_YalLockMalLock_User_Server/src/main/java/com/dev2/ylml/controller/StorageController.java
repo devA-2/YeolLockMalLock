@@ -381,7 +381,8 @@ public class StorageController {
 	
 	/**
 	 * 보관 정보 > 배송 이용 약관
-	 * StorageGoodsDto 세션 생성
+	 * @param dto
+	 * @param session
 	 * @return
 	 */
 	@RequestMapping(value = "/deliveryForm.do", method = RequestMethod.POST)
@@ -566,8 +567,9 @@ public class StorageController {
 	
 	/**
 	 * 배송 등록
-	 * @param delDto
-	 * @param goodsDto
+	 * @param deliveryDto
+	 * @param message
+	 * @param session
 	 * @return
 	 */
 	@RequestMapping(value = "/delivery.do", method = RequestMethod.POST)
@@ -633,7 +635,8 @@ public class StorageController {
 	 */
 	@RequestMapping(value = "/inquiryDelivery.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> inquiryDelivery(@RequestParam("startStation") String startStation, @RequestParam("arriveStation") String arriveStation) {
+	public Map<String, Object> inquiryDelivery(@RequestParam("startStation") String startStation, 
+			@RequestParam("arriveStation") String arriveStation) {
 		// 역 SEQ
 		int startSeq = service.selectTimeTableSeq(startStation);
 		int arriveSeq = service.selectTimeTableSeq(arriveStation);
@@ -675,9 +678,9 @@ public class StorageController {
 	}
 	
 	/**
-	 * 배송 메인 > 배송 조회(사용자)
-	 * @param email
+	 * 배송 메인 > 배송 조회(사용자, 배송원)
 	 * @param model
+	 * @param session
 	 * @return
 	 */
 	@RequestMapping(value = "/deliveryList.do", method = RequestMethod.GET)
