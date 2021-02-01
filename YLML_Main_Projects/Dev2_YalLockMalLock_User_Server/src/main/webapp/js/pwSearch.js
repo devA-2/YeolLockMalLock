@@ -79,6 +79,7 @@ $(document).ready(function() {
 						display.html("");
 						$("#sendSMS").hide();
 						$("#pwSearchBtn").hide();
+						$("#pwResetBtn").show(); 
 
 					}else{
 						if(isRunning) {

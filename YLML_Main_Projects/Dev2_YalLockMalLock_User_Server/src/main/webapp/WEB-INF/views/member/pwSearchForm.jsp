@@ -64,7 +64,7 @@ h1.info{
 						</div>
 					</div>
 					<div id="btn-group">
-						<input type="submit" id="pwResetBtn" value="비밀번호 초기화">	
+						<input type="submit" id="pwResetBtn" class="btn btn-info" value="비밀번호 초기화">	
 					</div>
 				</form>
 			</div>
