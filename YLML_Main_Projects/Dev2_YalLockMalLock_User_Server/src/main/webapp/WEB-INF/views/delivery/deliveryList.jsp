@@ -11,6 +11,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="../css/common.css">
 <script type="text/javascript" src="../js/userStorageList.js"></script>
 <script type="text/javascript">
 	function receiptBtn(deliveryCode) {
@@ -28,15 +29,26 @@
 	}
 </script>
 <style type="text/css">
-	.panel-body{
+	.menu {
+		width: 100%;
+		display: flex;
+	}
+	
+	.panel-group {
+		width: 100%;
+		height: 520px;
+		overflow-y: auto;
 		font-size: 10px;
+		margin-top: 5%;
 	}
 </style>
 </head>
 <body>
-	<div id="container" class="container">
-		<jsp:include page="../menu.jsp"/>
-		<div id="content">
+	<div class="container">
+		<div class="menu">
+			<jsp:include page="../menu.jsp"/>
+		</div>
+		<div class="content">
 			<div class="panel-group">
 				<c:choose>
 					<c:when test="${auth eq '10'}">

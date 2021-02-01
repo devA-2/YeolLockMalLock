@@ -381,7 +381,8 @@ public class StorageController {
 	
 	/**
 	 * 보관 정보 > 배송 이용 약관
-	 * StorageGoodsDto 세션 생성
+	 * @param dto
+	 * @param session
 	 * @return
 	 */
 	@RequestMapping(value = "/deliveryForm.do", method = RequestMethod.POST)
@@ -391,7 +392,9 @@ public class StorageController {
 		seqId.put("storageId", dto.getStorageId());
 		StorageGoodsDto storageGoodsDto = service.selectStorageGoods(seqId);
 		System.out.println("storageGoodsDto확인!!  "+storageGoodsDto);
+		session.removeAttribute("storageGoodsDto");
 		session.setAttribute("storageGoodsDto", storageGoodsDto);
+		System.out.println("storageGoodsDto확인!!  "+session.getAttribute("storageGoodsDto"));
 		log.info("Controller_deliveryForm.do 실행");
 		return "delivery/deliveryTerms";
 	}
@@ -408,19 +411,23 @@ public class StorageController {
 	
 	/**
 	 * 배송 거리/비용 조회를 위한 Ajax
-	 * @param start
-	 * @param arrive
+	 * @param arriveStation
+	 * @param session
 	 * @return
 	 */
 	@RequestMapping(value = "/checkDeliveryInfo.do", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> checkDeliveryInfo(@RequestParam("arriveStation") String arriveStation, HttpSession session) {
+		try {
 		// 사용자 현재 보관함 정보
 		StorageGoodsDto storageGoodsDto = (StorageGoodsDto) session.getAttribute("storageGoodsDto");
+		System.out.println("storageGoodsDto 확인!! "+storageGoodsDto);
 		String userStorageId = storageGoodsDto.getStorageId();
 		StorageListDto userSBListDto = service.selectStorageBoxList(userStorageId);
+		System.out.println("storageListDto 확인!! "+userSBListDto);
 		String userStorageSubway = userSBListDto.getSubway();
-		int userLocSeq = storageGoodsDto.getBoxSeq();
+		int userLocSeq = service.selectTimeTableSeq(userStorageSubway);
+		System.out.println("사용자 시퀀스 확인!! "+userLocSeq);
 		
 		// 배송역 정보
 		StorageListDto deliverySBListDto = service.selectStorageBoxList(arriveStation);
@@ -449,10 +456,6 @@ public class StorageController {
 				// 2-2) 배송원 위치 탐색
 				String deliverymanSubway = service.selectDeliveryLoc(deliverymanId);
 				int deliverymanLocSeq = service.selectTimeTableSeq(deliverymanSubway);
-				System.out.println("########################################################");
-				System.out.println(deliverymanSubway);
-				System.out.println(deliverymanLocSeq);
-				System.out.println(deliverymanId);
 				// 2-3) 사용자 위치와 배송원 위치 비교 후 가장 가까운 위치의 배송원 찾기
 				if(userLocSeq != deliverymanLocSeq) {
 					if(userLocSeq > deliverymanLocSeq) {		
@@ -529,7 +532,7 @@ public class StorageController {
 				userDelLoc1.put("startSeq", 1);
 				userDelLoc1.put("arriveSeq", deliveryLocSeq);
 				int arroundTime2 = service.selectDeliveryTime(userDelLoc1);	// 처음 seq > 배송 보관함 seq 이동 시간
-				int arroundCost2 = (deliveryLocSeq - 1) * 200;				// 처음 seq > 배송 보관함 seq 이동 비용
+				int arroundCost2 = deliveryLocSeq * 200;					// 처음 seq > 배송 보관함 seq 이동 비용
 				userDelTime = arroundTime1+arroundTime2;
 				deliveryCost = arroundCost1 + arroundCost2;
 				System.out.println("배송 시간 확인!! "+userDelTime);
@@ -556,12 +559,17 @@ public class StorageController {
 		}
 		log.info("Controller_checkDeliveryInfo.do 실행");
 		return info;
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	/**
 	 * 배송 등록
-	 * @param delDto
-	 * @param goodsDto
+	 * @param deliveryDto
+	 * @param message
+	 * @param session
 	 * @return
 	 */
 	@RequestMapping(value = "/delivery.do", method = RequestMethod.POST)
@@ -627,7 +635,8 @@ public class StorageController {
 	 */
 	@RequestMapping(value = "/inquiryDelivery.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> inquiryDelivery(@RequestParam("startStation") String startStation, @RequestParam("arriveStation") String arriveStation) {
+	public Map<String, Object> inquiryDelivery(@RequestParam("startStation") String startStation, 
+			@RequestParam("arriveStation") String arriveStation) {
 		// 역 SEQ
 		int startSeq = service.selectTimeTableSeq(startStation);
 		int arriveSeq = service.selectTimeTableSeq(arriveStation);
@@ -669,9 +678,9 @@ public class StorageController {
 	}
 	
 	/**
-	 * 배송 메인 > 배송 조회(사용자)
-	 * @param email
+	 * 배송 메인 > 배송 조회(사용자, 배송원)
 	 * @param model
+	 * @param session
 	 * @return
 	 */
 	@RequestMapping(value = "/deliveryList.do", method = RequestMethod.GET)
