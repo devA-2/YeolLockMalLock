@@ -91,6 +91,7 @@ var addMarker = function(markers) {
 			// 마커에 mouseover 이벤트를 등록하고 마우스 오버 시 인포윈도우를 표시합니다 
 			kakao.maps.event.addListener(marker, 'click', function() {
 				istStation(marker.Fb);
+				console.log(marker.Fb)
 			});
 		})(marker);
 	}//FOR문
