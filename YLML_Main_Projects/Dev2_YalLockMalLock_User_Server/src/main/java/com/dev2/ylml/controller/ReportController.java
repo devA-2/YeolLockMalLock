@@ -253,7 +253,7 @@ public class ReportController {
 		
 		boolean isc = iService.insertReport(dto);
 		
-		return isc?"redirect:reportList.do":"redirect:insertReport.do";
+		return isc?"redirect:pagingReportList.do":"redirect:insertReport.do";
 	}
 	
 	// ---------------------------------- 테스트용 샘플 ----------------------------------

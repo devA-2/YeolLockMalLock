@@ -31,7 +31,7 @@ public class SearchController {
 		log.info("------------------ 신고글 email 검색 실행 ------------------");
 		List<ReportDto> lists = iService.searchId(email);
 		
-		if (lists.isEmpty()) { // 이부분 왜 안먹힐까 ? API서버에서 리턴받을때 실행 결과 ROW의 개수로 판단하면 되지않을까 ?
+		if (lists.isEmpty()) { 
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = response.getWriter();
 			out.println("<script>alert('검색 결과가 없습니다.');</script>");
