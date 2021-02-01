@@ -12,11 +12,22 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="../css/common.css">
 <script type="text/javascript">
-	function agree() {
-		var result = confirm("배송 하시겠습니까?")
-		if(result == true){
-			location.href="./searchDeliveryStation.do"
-		}
+// 	function agree() {
+// 		var result = confirm("배송 하시겠습니까?")
+// 		if(result == true){
+// 			location.href="./searchDeliveryStation.do"
+// 		}
+// 	}
+	function agree(){
+		$('#modalBox').modal('show');
+	}
+	
+	function confirm() {
+		location.href="./searchDeliveryStation.do"
+	}
+	
+	function close() {
+		location.href="./index.do"
 	}
 </script>
 <style type="text/css">
@@ -38,9 +49,11 @@
 </style>
 </head>
 <body>
-	<div id="container">
-		<jsp:include page="../menu.jsp"/>
-		<div id="content">
+	<div class="container">
+		<div class="menu">
+			<jsp:include page="../menu.jsp"/>
+		</div>
+		<div class="content">
 			<div id="deliveryTerm">
 				<h5>[제 1 장 총칙]</h5>
 
@@ -277,6 +290,25 @@
 			</div>
 			<div id="btn">
 				<button class="btn btn-info" onclick="agree()">이용약관 동의</button>
+			</div>
+			<!-- 모달 영역 -->
+			<div id="modalBox" class="modal fade" id="myModal" tabindex="-1"
+				role="dialog" aria-labelledby="myModalLabel">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">×</span>
+							</button>
+							<h4 class="modal-title" id="myModalLabel">배송 이용 약관</h4>
+						</div>
+						<div class="modal-body">배송 신청하시겠습니까?</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-primary" onclick="confirm()">확인</button>
+							<button type="button" class="btn btn-default" onclick="close()">취소</button>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
