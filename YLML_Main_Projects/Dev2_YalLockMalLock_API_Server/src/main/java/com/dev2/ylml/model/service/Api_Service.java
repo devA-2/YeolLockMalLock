@@ -1,12 +1,6 @@
 package com.dev2.ylml.model.service;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +17,6 @@ import com.dev2.ylml.util.ApiServerHelper;
 import com.dev2.ylml.util.PagingVO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.dev2.ylml.dto.MemberDto;
-import com.dev2.ylml.dto.RFIDDto;
 import com.dev2.ylml.dto.ReportDto;
 import com.dev2.ylml.dto.LostPropertyDto;
 import com.dev2.ylml.dto.CostDto;
@@ -39,7 +32,6 @@ import com.dev2.ylml.model.dao.StorageDeliveryIDao;
 import com.dev2.ylml.model.dao.LostPropertyIDao;
 import com.dev2.ylml.model.dao.MemberIDao;
 import com.dev2.ylml.model.dao.RFIDIDao;
-import com.dev2.ylml.model.dao.ReportDao;
 import com.dev2.ylml.model.dao.ReportIDao;
 import com.dev2.ylml.model.dao.SearchIDao;
 import com.dev2.ylml.model.dao.StorageIDao;
@@ -368,8 +360,10 @@ public class Api_Service implements Api_IService{
 		log.info("보관물품 전체삭제 갯수 : "+cnt3);
 		int cnt = cnt1 + cnt2+cnt3;
 		
+		
+		
+		
 		// ------------------------------------
-		// 그러면 내가 이 list를 for문돌려서 쿼리 존나게 실행시키면 됨
 		
 //		for (int i = 0; i < list.size(); i++) {
 //			lostPropertyDao.selectInsertLostPropertyList(list);
@@ -1062,4 +1056,6 @@ public class Api_Service implements Api_IService{
 		int cnt = lostPropertyDao.countLostProperty();
 		return helper.generateData(cnt);
 	}
+	
+
 }

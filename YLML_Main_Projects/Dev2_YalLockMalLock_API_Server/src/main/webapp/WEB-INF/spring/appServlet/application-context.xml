@@ -94,5 +94,8 @@
 	<aop:config>
 		<aop:advisor advice-ref="txAdvice"
 			pointcut="execution(* com.dev2.ylml.model.service.*Service*.*(..))" />
+			<aop:advisor advice-ref="txAdvice"
+			pointcut="execution(* com.dev2.ylml.scheduler.*Service*.*(..))"/>
 	</aop:config>
+	
 </beans>
